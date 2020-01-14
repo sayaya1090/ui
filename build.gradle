@@ -5,6 +5,7 @@ plugins {
 apply plugin: "java"
 apply plugin: "war"
 apply plugin: "gwt"
+apply plugin: 'gwt-base'
 
 group "net.sayaya"
 version "3.0"
@@ -16,11 +17,16 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jboss.gwt.elemento:elemento-core:${elementoVersion}"
-    implementation "org.jboss.gwt.elemento:elemento-template-api:${elementoVersion}"
-    implementation "org.jboss.gwt.elemento:elemento-template-processor:${elementoVersion}"
-    compileOnly "com.google.gwt:gwt-user:${gwtVersion}"
-    compileOnly "com.google.gwt:gwt-dev:${gwtVersion}"
+    implementation("org.jboss.gwt.elemento:elemento-core:${elementoVersion}")
+    implementation("org.jboss.gwt.elemento:elemento-template-api:${elementoVersion}")
+    implementation("org.jboss.gwt.elemento:elemento-template-processor:${elementoVersion}")
+    compileOnly("com.google.gwt:gwt-user:${gwtVersion}")
+    compileOnly("com.google.gwt:gwt-dev:${gwtVersion}")
+    compileOnly("org.projectlombok:lombok:1.18.10")
+}
+
+compileJava {
+    options.incremental = true
 }
 
 gwt {
@@ -37,6 +43,38 @@ compileGwt {
     gwtVersion = "${gwtVersion}"
     minHeapSize = "2048M"
     maxHeapSize = "4096M"
+    jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+}
+
+gwtDev {
+    jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from tasks.javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+    file("build/libs/${archivesBaseName}.jar.asc")
+    file("build/libs/${archivesBaseName}-javadoc.jar.asc")
+    file("build/libs/${archivesBaseName}-sources.jar.asc")
+}
+
+jar {
+    from sourceSets.main.allJava
+    manifest {
+        attributes "Implementation-Title": archivesBaseName
+    }
+    archiveName "sayaya-${archivesBaseName}.jar"
 }
 
 task gwtTest() {
