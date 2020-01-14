@@ -77,6 +77,33 @@ jar {
     archiveName "sayaya-${archivesBaseName}.jar"
 }
 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from tasks.javadoc.destinationDir
+}
+
+artifacts {
+    archives jar
+    archives javadocJar
+    archives sourcesJar
+    file("build/libs/${archivesBaseName}.jar.asc")
+    file("build/libs/${archivesBaseName}-javadoc.jar.asc")
+    file("build/libs/${archivesBaseName}-sources.jar.asc")
+}
+
+jar {
+    from sourceSets.main.allJava
+    manifest {
+        attributes "Implementation-Title": archivesBaseName
+    }
+    archiveName "sayaya-${archivesBaseName}.jar"
+}
+
 task gwtTest() {
     gwt.modules "net.sayaya.Test"
     sourceSets.main.java.srcDirs += 'src/test/java'
