@@ -1,0 +1,46 @@
+plugins {
+    id "org.wisepersist.gwt" version "1.0.13"
+}
+
+apply plugin: "java"
+apply plugin: "war"
+apply plugin: "gwt"
+
+group "net.sayaya"
+version "3.0"
+[compileJava, compileTestJava]*.options*.encoding = "UTF-8"
+sourceCompatibility = 11
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jboss.gwt.elemento:elemento-core:${elementoVersion}"
+    implementation "org.jboss.gwt.elemento:elemento-template-api:${elementoVersion}"
+    implementation "org.jboss.gwt.elemento:elemento-template-processor:${elementoVersion}"
+    compileOnly "com.google.gwt:gwt-user:${gwtVersion}"
+    compileOnly "com.google.gwt:gwt-dev:${gwtVersion}"
+}
+
+gwt {
+    gwtVersion = "${gwtVersion}"
+    minHeapSize = "1024M"
+    maxHeapSize = "2048M"
+    compiler {
+        disableClassMetadata = true
+        disableCastChecking = true
+    }
+}
+
+compileGwt {
+    gwtVersion = "${gwtVersion}"
+    minHeapSize = "2048M"
+    maxHeapSize = "4096M"
+}
+
+task gwtTest() {
+    gwt.modules "net.sayaya.Test"
+    sourceSets.main.java.srcDirs += 'src/test/java'
+    gwtDev.war file("src/test/webapp")
+}
