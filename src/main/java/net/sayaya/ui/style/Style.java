@@ -2,7 +2,6 @@ package net.sayaya.ui.style;
 
 import elemental2.dom.CSSProperties;
 import elemental2.dom.CSSStyleDeclaration;
-import elemental2.dom.DomGlobal;
 import lombok.Data;
 import lombok.experimental.Accessors;
 

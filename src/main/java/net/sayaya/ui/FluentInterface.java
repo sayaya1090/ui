@@ -1,4 +1,4 @@
-package net.sayaya.ui.handler;
+package net.sayaya.ui;
 
 public interface FluentInterface<T extends FluentInterface<T>> {
 	default T self() {

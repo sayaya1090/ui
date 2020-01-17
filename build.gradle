@@ -3,9 +3,24 @@ plugins {
 }
 
 apply plugin: "java"
-apply plugin: "war"
-apply plugin: "gwt"
-apply plugin: "gwt-base"
+if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
+    apply plugin: "gwt"
+    apply plugin: "war"
+    gwt.modules "net.sayaya.Test"
+    sourceSets.main.java.srcDirs += 'src/test/java'
+    gwtDev {
+        jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+        war file("src/test/webapp")
+        port 8080
+    }
+} else {
+    apply plugin: "gwt-base"
+    if(project.gradle.startParameter.taskNames.contains("install")) {
+        apply plugin: "maven"
+    } else {
+
+    }
+}
 
 group "net.sayaya"
 version "3.0"
@@ -14,6 +29,7 @@ sourceCompatibility = 11
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
@@ -22,7 +38,8 @@ dependencies {
     implementation("org.jboss.gwt.elemento:elemento-template-processor:${elementoVersion}")
     compileOnly("com.google.gwt:gwt-user:${gwtVersion}")
     compileOnly("com.google.gwt:gwt-dev:${gwtVersion}")
-    compileOnly("org.projectlombok:lombok:1.18.10")
+    compileOnly("org.projectlombok:lombok:1.18.12")
+    annotationProcessor('org.projectlombok:lombok:1.18.12')
 }
 
 compileJava {
@@ -43,17 +60,6 @@ compileGwt {
     minHeapSize = "2048M"
     maxHeapSize = "4096M"
     jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
-}
-
-gwtDev {
-    jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
-    port 8080
-}
-
-if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
-    gwt.modules "net.sayaya.Test"
-    sourceSets.main.java.srcDirs += 'src/test/java'
-    gwtDev.war file("src/test/webapp")
 }
 
 jar {
