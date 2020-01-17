@@ -29,27 +29,26 @@ compileJava {
     options.incremental = true
 }
 
-    gwt {
-        gwtVersion = "${gwtVersion}"
-        minHeapSize = "1024M"
-        maxHeapSize = "2048M"
-        compiler {
-            disableClassMetadata = true
-            disableCastChecking = true
-        }
+gwt {
+    gwtVersion = "${gwtVersion}"
+    minHeapSize = "1024M"
+    maxHeapSize = "2048M"
+    compiler {
+        disableClassMetadata = true
+        disableCastChecking = true
     }
+}
 
-    compileGwt {
-        gwtVersion = "${gwtVersion}"
-        minHeapSize = "2048M"
-        maxHeapSize = "4096M"
-        jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
-    }
+compileGwt {
+    minHeapSize = "2048M"
+    maxHeapSize = "4096M"
+    jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+}
 
-    gwtDev {
-        jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
-        port 8080
-    }
+gwtDev {
+    jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+    port 8080
+}
 
 if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     gwt.modules "net.sayaya.Test"
