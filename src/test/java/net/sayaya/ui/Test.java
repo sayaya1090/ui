@@ -22,6 +22,7 @@ public class Test implements EntryPoint {
 		// AnimationTest();
 		MsgBoxText();
 		TestButtonText();
+		TestChip();
 	}
 	void LayoutTest() {
 		GridLayoutResponsive.addHandler(evt->{
@@ -45,6 +46,13 @@ public class Test implements EntryPoint {
 	}
 	void MsgBoxText() {
 		Elements.body().add(new MsgBox());
+	}
+	void TestChip() {
+		Chip chip = new Chip("Chip");
+		chip.addRemoveHandler(evt->{
+			DomGlobal.alert("Remove Chip");
+		});
+		Elements.body().add(chip);
 	}
 	void TestButtonText() {
 		ButtonText tmp = new ButtonText("Text Button");
