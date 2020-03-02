@@ -2,7 +2,6 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.animate.Animation;
@@ -19,7 +18,7 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
-		// AnimationTest();
+		AnimationTest();
 		MsgBoxText();
 		TestButtonText();
 		TestChip();
@@ -37,18 +36,17 @@ public class Test implements EntryPoint {
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#FF00FF", "opacity", "1")
 				, JsPropertyMap.of("left", "300px", "opacity", "0")
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#0000FF", "opacity", "1"));
-		Scheduler.get().scheduleFixedDelay(()->{t.pause(); return false;}, 1000);
+		// Scheduler.get().scheduleFixedDelay(()->{t.finish(); return false;}, 1000);
 		DomGlobal.console.info(t);
-		t.finished.then(a->{
+		t.onfinish = ()->{
 			GWT.log("A");
-			return null;
-		});
+		};
 	}
 	void MsgBoxText() {
 		Elements.body().add(new MsgBox());
 	}
 	void TestChip() {
-		Chip chip = new Chip("Chip");
+		Chip chip = new Chip("Chip").setRemovable(true);
 		chip.addRemoveHandler(evt->{
 			DomGlobal.alert("Remove Chip");
 		});

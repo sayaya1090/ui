@@ -12,7 +12,7 @@ public class MsgBox implements IsElement<HTMLElement> {
 	public MsgBox() {
 		this.root = section().css("todoapp")
 				.add(header().css("header")
-						.add(h(1).textContent("Todos"))
+						.add(h(1).textContent("Todo"))
 						.add(newTodo = input(text).css("new-todo")
 								.autofocus(true)
 								.placeholder("New").element()))

@@ -1,7 +1,7 @@
 package net.sayaya.ui.animate;
 
 import elemental2.dom.Element;
-import elemental2.promise.Promise;
+import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
@@ -19,8 +19,8 @@ public class Animation {
 		attribute double currentTime;
 		attribute double playbackRate;
 		readonly attribute AnimationPlayState playState;*/
-		public Promise<AnimationImpl> ready;
-		public Promise<AnimationImpl> finished;
+		public AnimationCallback oncancel;
+		public AnimationCallback onfinish;
 		public native void cancel ();
 		public native void finish ();
 		public native void play ();
@@ -28,6 +28,11 @@ public class Animation {
 		public native void reverse ();
 	};
 
+	@FunctionalInterface
+	@JsFunction
+	public interface AnimationCallback {
+		void invoke();
+	}
 	/*
 	player = document.getElementById("code2").animate([
 	{ offset: 0, transform: 'translate3d(0px,0px,0)' },
