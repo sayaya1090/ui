@@ -7,7 +7,7 @@ import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.animate.Animation;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.input.Checkbox;
-import net.sayaya.ui.button.ButtonText;
+import net.sayaya.ui.button.ButtonImpl;
 import net.sayaya.ui.input.EmailBox;
 import net.sayaya.ui.input.TextBox;
 import net.sayaya.ui.layout.GridLayoutResponsive;
@@ -29,7 +29,7 @@ public class Test implements EntryPoint {
 		});
 	}
 	void AnimationTest() {
-		ButtonText tmp = new ButtonText("Text Button");
+		ButtonImpl tmp = new ButtonImpl("Text Button");
 		Elements.body().add(tmp);
 		tmp.setStyle(new Style().setPosition("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
@@ -53,7 +53,7 @@ public class Test implements EntryPoint {
 		Elements.body().add(chip);
 	}
 	void TestButtonText() {
-		ButtonText tmp = new ButtonText("Text Button");
+		ButtonImpl tmp = new ButtonImpl("Text Button");
 		Style style = new Style().setBorder("1px solid #ddd").setFontFamily("Arial");
 		tmp.setStyle(style);
 
@@ -62,13 +62,13 @@ public class Test implements EntryPoint {
 		});
 		Elements.body().add(tmp);
 
-		ButtonText tmp2 = new ButtonText("Button Enabled").setEnabled(true);
+		ButtonImpl tmp2 = new ButtonImpl("Button Enabled").setEnabled(true);
 		Elements.body().add(tmp2);
 
-		ButtonText tmp3 = new ButtonText("Button Disabled").setEnabled(false);
+		ButtonImpl tmp3 = new ButtonImpl("Button Disabled").setEnabled(false);
 		Elements.body().add(tmp3);
 
-		ButtonText tmp4 = new ButtonText("Button Focused").setFocus().setAccessKey('A');
+		ButtonImpl tmp4 = new ButtonImpl("Button Focused").setFocus().setAccessKey('A');
 		Elements.body().add(tmp4);
 
 		Checkbox tmp5 = new Checkbox().setFocus().setAccessKey('A').setStyle(style);

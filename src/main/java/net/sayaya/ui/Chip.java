@@ -1,11 +1,8 @@
 package net.sayaya.ui;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLElement;
 import jsinterop.base.JsPropertyMap;
-import net.sayaya.ui.animate.Animation;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasRemoveHandlers;
 import net.sayaya.ui.style.Style;

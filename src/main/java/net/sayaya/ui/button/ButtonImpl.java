@@ -2,8 +2,8 @@ package net.sayaya.ui.button;
 
 import net.sayaya.ui.ButtonBase;
 
-public class ButtonText extends ButtonBase<ButtonText> {
-	public ButtonText(String text) {
+public class ButtonImpl extends ButtonBase<ButtonImpl> {
+	ButtonImpl(String text) {
 		element().innerHTML=text;
 	}
 }
