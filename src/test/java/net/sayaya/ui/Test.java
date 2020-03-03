@@ -83,10 +83,10 @@ public class Test implements EntryPoint {
 			DomGlobal.alert(evt.getValue());
 		});
 
-		EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);
+		/*EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);
 		Elements.body().add(tmp7);
 		tmp7.addValueChangeHandler(evt->{
 			DomGlobal.alert(evt.getValue());
-		});
+		});*/
 	}
 }
