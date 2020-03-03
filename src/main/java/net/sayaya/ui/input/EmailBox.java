@@ -3,7 +3,7 @@ package net.sayaya.ui.input;
 import org.jboss.gwt.elemento.core.InputType;
 
 public class EmailBox extends TextBoxBase<String, EmailBox> {
-	public EmailBox() {
+	EmailBox() {
 		super(InputType.email);
 	}
 	@Override

@@ -1,12 +1,10 @@
-package net.sayaya.ui;
+package net.sayaya.ui.input;
 
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLInputElement;
 import net.sayaya.ui.event.HandlerRegistration;
-import net.sayaya.ui.event.HasClickHandlers;
-import net.sayaya.ui.event.HasValueChangeHandlers;
 
-public abstract class InputBase<V, W extends InputBase<V, W>> implements IsHTMLElement<HTMLInputElement, W>, Focusable<W>, HasValueChangeHandlers<V>, HasClickHandlers {
+public abstract class InputBase<V, W extends Input<V, W>> implements Input<V, W> {
 	private final HTMLInputElement _this;
 	protected InputBase(HTMLInputElement root) {
 		_this = root;

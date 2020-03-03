@@ -5,10 +5,14 @@ import com.google.gwt.core.client.GWT;
 import elemental2.dom.DomGlobal;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.animate.Animation;
+import net.sayaya.ui.button.ButtonBuilder;
+import net.sayaya.ui.chip.ChipBuilder;
+import net.sayaya.ui.chip.ChipDecorator;
 import net.sayaya.ui.event.HandlerRegistration;
-import net.sayaya.ui.input.Checkbox;
+import net.sayaya.ui.input.CheckBox;
 import net.sayaya.ui.button.ButtonImpl;
 import net.sayaya.ui.input.EmailBox;
+import net.sayaya.ui.input.InputBuilder;
 import net.sayaya.ui.input.TextBox;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.style.Style;
@@ -18,8 +22,7 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
-		AnimationTest();
-		MsgBoxText();
+		// AnimationTest();
 		TestButtonText();
 		TestChip();
 	}
@@ -29,7 +32,7 @@ public class Test implements EntryPoint {
 		});
 	}
 	void AnimationTest() {
-		ButtonImpl tmp = new ButtonImpl("Text Button");
+		ButtonImpl tmp = ButtonBuilder.button().contain().setText("Text Button").element();
 		Elements.body().add(tmp);
 		tmp.setStyle(new Style().setPosition("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
@@ -42,18 +45,15 @@ public class Test implements EntryPoint {
 			GWT.log("A");
 		};
 	}
-	void MsgBoxText() {
-		Elements.body().add(new MsgBox());
-	}
 	void TestChip() {
-		Chip chip = new Chip("Chip").setRemovable(true);
+		ChipDecorator.ChipRemovable chip = ChipBuilder.chip().setText("Chip").removable().element();
 		chip.addRemoveHandler(evt->{
 			DomGlobal.alert("Remove Chip");
 		});
 		Elements.body().add(chip);
 	}
 	void TestButtonText() {
-		ButtonImpl tmp = new ButtonImpl("Text Button");
+		ButtonImpl tmp = ButtonBuilder.button().contain().setText("Text Button").element();
 		Style style = new Style().setBorder("1px solid #ddd").setFontFamily("Arial");
 		tmp.setStyle(style);
 
@@ -62,22 +62,22 @@ public class Test implements EntryPoint {
 		});
 		Elements.body().add(tmp);
 
-		ButtonImpl tmp2 = new ButtonImpl("Button Enabled").setEnabled(true);
+		ButtonImpl tmp2 = ButtonBuilder.button().contain().setText("Button Enabled").element().setEnabled(true);
 		Elements.body().add(tmp2);
 
-		ButtonImpl tmp3 = new ButtonImpl("Button Disabled").setEnabled(false);
+		ButtonImpl tmp3 = ButtonBuilder.button().contain().setText("Button Disabled").element().setEnabled(false);
 		Elements.body().add(tmp3);
 
-		ButtonImpl tmp4 = new ButtonImpl("Button Focused").setFocus().setAccessKey('A');
+		ButtonImpl tmp4 = ButtonBuilder.button().contain().setText("Button Focused").element().setFocus().setAccessKey('A');
 		Elements.body().add(tmp4);
 
-		Checkbox tmp5 = new Checkbox().setFocus().setAccessKey('A').setStyle(style);
+		CheckBox tmp5 = InputBuilder.checkbox().element().setFocus().setAccessKey('A').setStyle(style);
 		Elements.body().add(tmp5);
 		tmp5.addValueChangeHandler(evt->{
 			DomGlobal.alert(evt.getValue());
 		});
 
-		TextBox tmp6 = new TextBox().setFocus().setAccessKey('B').setStyle(style);
+		TextBox tmp6 = InputBuilder.text().element().setAccessKey('B').setStyle(style);
 		Elements.body().add(tmp6);
 		tmp6.addValueChangeHandler(evt->{
 			DomGlobal.alert(evt.getValue());
