@@ -3,8 +3,6 @@ package net.sayaya.ui.chip;
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.animate.Animation;
-import net.sayaya.ui.event.HandlerRegistration;
-import net.sayaya.ui.event.HasRemoveHandlers;
 import net.sayaya.ui.style.Style;
 
 import static net.sayaya.ui.animate.Animation.animate;
@@ -12,7 +10,7 @@ import static org.jboss.gwt.elemento.core.Elements.i;
 import static org.jboss.gwt.elemento.core.Elements.span;
 
 public class ChipDecorator {
-	public static class ChipRemovable extends Chip<ChipRemovable> implements HasRemoveHandlers {
+	public static class ChipRemovable extends Chip<ChipRemovable> {
 		private final Chip<?> chip;
 		private final HTMLElement remove = i().css("fa fa-times-circle").element();
 		private final Style styleRemove = new Style().setMarginLeft("5px");
@@ -41,10 +39,6 @@ public class ChipDecorator {
 		@Override
 		public HTMLElement element() {
 			return chip.element();
-		}
-		@Override
-		public HandlerRegistration addRemoveHandler(EventListener listener) {
-			return addRemoveHandler(chip.element(), listener);
 		}
 	}
 	static ChipRemovable setRemovable(Chip<?> chip) {

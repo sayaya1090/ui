@@ -16,7 +16,7 @@ public class ChipBuilder<C extends Chip<C>> {
 	}
 	public ChipBuilder<ChipDecorator.ChipRemovable> removable(EventListener... listeners) {
 		ChipDecorator.ChipRemovable chip = ChipDecorator.setRemovable(this.chip);
-		for(EventListener listener: listeners) chip.addRemoveHandler(listener);
+		for(EventListener listener: listeners) chip.addDetachHandler(listener);
 		return new ChipBuilder<ChipDecorator.ChipRemovable>().setChip(chip).setText(text);
 	}
 	public ChipBuilder<C> thumbnails(HTMLElement thumbnail) {

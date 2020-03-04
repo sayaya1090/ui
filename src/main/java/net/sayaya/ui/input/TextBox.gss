@@ -1,0 +1,19 @@
+.textbox {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    padding: 0.5em;
+    color: rgba(0, 0, 0, 0.87);
+    background-color: rgb(245, 245, 245);
+    border: 1px solid transparent;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    outline-style: none;
+    -webkit-transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.textbox:focus {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-bottom: 1px solid #00A9E0;
+}

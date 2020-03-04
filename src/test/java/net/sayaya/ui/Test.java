@@ -11,8 +11,8 @@ import net.sayaya.ui.chip.ChipDecorator;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.input.CheckBox;
 import net.sayaya.ui.button.ButtonImpl;
-import net.sayaya.ui.input.EmailBox;
 import net.sayaya.ui.input.InputBuilder;
+import net.sayaya.ui.input.InputDecorator;
 import net.sayaya.ui.input.TextBox;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.style.Style;
@@ -47,7 +47,7 @@ public class Test implements EntryPoint {
 	}
 	void TestChip() {
 		ChipDecorator.ChipRemovable chip = ChipBuilder.chip().setText("Chip").removable().element();
-		chip.addRemoveHandler(evt->{
+		chip.addDetachHandler(evt->{
 			DomGlobal.alert("Remove Chip");
 		});
 		Elements.body().add(chip);
@@ -72,15 +72,15 @@ public class Test implements EntryPoint {
 		Elements.body().add(tmp4);
 
 		CheckBox tmp5 = InputBuilder.checkbox().element().setFocus().setAccessKey('A').setStyle(style);
-		Elements.body().add(tmp5);
+		Elements.body().add(InputDecorator.label(tmp5).setLabel("Label"));
 		tmp5.addValueChangeHandler(evt->{
-			DomGlobal.alert(evt.getValue());
+		//	DomGlobal.alert(evt.getValue());
 		});
 
-		TextBox tmp6 = InputBuilder.text().element().setAccessKey('B').setStyle(style);
-		Elements.body().add(tmp6);
+		TextBox tmp6 = InputBuilder.text().element().setAccessKey('B');
+		Elements.body().add(InputDecorator.label(tmp6).setLabel("Label"));
 		tmp6.addValueChangeHandler(evt->{
-			DomGlobal.alert(evt.getValue());
+		// 	DomGlobal.alert(evt.getValue());
 		});
 
 		/*EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);

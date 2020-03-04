@@ -1,0 +1,50 @@
+.labeled input:not([type="checkbox"]) {
+    margin-top: 20px;
+}
+.labeled input:not([type="checkbox"])::placeholder {
+    color: transparent;
+}
+
+.labeled input:not([type="checkbox"]) + label {
+    display: block;
+    position: relative;
+    height: 1px;
+    top: -48px;
+    left: 8px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    font-size: 11px;
+    color: #00A9E0;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    -webkit-transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.labeled input:not([type="checkbox"]):placeholder-shown:not(:focus) + label {
+    top: -23px;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.38);
+}
+
+.labeled input[type="checkbox"] + label {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
+    font-size: 14px;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: rgba(0, 0, 0, 0.38);
+    -webkit-transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.labeled input[type="checkbox"]:checked + label {
+    color: rgba(0, 0, 0, 0.62);
+}

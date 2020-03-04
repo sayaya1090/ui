@@ -50,10 +50,6 @@ gwt {
     gwtVersion = "${gwtVersion}"
     minHeapSize = "1024M"
     maxHeapSize = "2048M"
-    compiler {
-        disableClassMetadata = true
-        disableCastChecking = true
-    }
 }
 
 compileGwt {

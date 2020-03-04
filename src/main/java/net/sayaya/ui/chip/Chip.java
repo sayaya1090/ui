@@ -16,7 +16,7 @@ public abstract class Chip<W extends Chip<W>> implements IsHTMLElement<HTMLEleme
 		private final Style style = new Style().setColor("rgb(35, 47, 52)")
 											   .setBackgroundColor("rgba(35, 47, 52, 0.12)")
 											   .setCursor("pointer")
-											   .setWhiteSpace("nowrap").setFontFamily("Work Sans")
+											   .setWhiteSpace("nowrap").setFontFamily("'Montserrat', 'Noto Sans KR', sans-serif")
 											   .setFontWeight("normal")
 											   .setFontSize("14px").setBorderRadius("14px")
 											   .setOutlineStyle("none")

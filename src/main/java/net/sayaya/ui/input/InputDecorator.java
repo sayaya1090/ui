@@ -1,57 +1,52 @@
 package net.sayaya.ui.input;
 
-import elemental2.dom.EventListener;
-import elemental2.dom.HTMLInputElement;
-import net.sayaya.ui.event.HandlerRegistration;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.CssResource;
+import elemental2.dom.*;
+import net.sayaya.ui.IsHTMLElement;
+
+import org.jboss.gwt.elemento.core.Elements;
+import static org.jboss.gwt.elemento.core.Elements.div;
 
 public class InputDecorator {
-	public static class InputLabeled<V, I extends Input<V, I>> implements Input<V, I> {
-		private final Input<V, ?> delegate;
-		private final String label;
-		InputLabeled(Input<V, ?> delegate, String label) {
-			this.delegate = delegate;
-			this.label = label;
-		}
+	public interface InputDecoratorResource extends ClientBundle {
+		@Source("InputDecorator.gss")
+		InputDecoratorResource.Style style();
 
-		@Override
-		public V getValue() {
-			return delegate.getValue();
-		}
-
-		@Override
-		public HandlerRegistration addValueChangeHandler(ValueChangeEventListener<V> listener) {
-			return delegate.addValueChangeHandler(listener);
-		}
-
-		@Override
-		public I setEnabled(boolean enabled) {
-			delegate.setEnabled(enabled);
-			return self();
-		}
-
-		@Override
-		public I setAccessKey(char key) {
-			delegate.setAccessKey(key);
-			return self();
-		}
-
-		@Override
-		public I setFocus() {
-			delegate.setFocus();
-			return self();
-		}
-
-		@Override
-		public HandlerRegistration addClickHandler(EventListener listener) {
-			return delegate.addClickHandler(listener);
-		}
-
-		@Override
-		public HTMLInputElement element() {
-			return null;
+		interface Style extends CssResource {
+			String labeled();
 		}
 	}
-	public <V, I extends Input<V, I>> InputLabeled<V, I> label(Input<V, ?> input, String label) {
-		return new InputLabeled(input, label);
+	private static final InputDecoratorResource RESOURCE =  GWT.create(InputDecoratorResource.class);
+	public static final InputDecoratorResource.Style GSS = RESOURCE.style();
+	static {
+		RESOURCE.style().ensureInjected();
+	}
+	public static class InputLabeled implements IsHTMLElement<HTMLElement, InputLabeled> {
+		private final HTMLLabelElement label = Elements.label().element();
+		private final HTMLDivElement element;
+		InputLabeled(Input<?, ?> delegate) {
+			element = div().css(GSS.labeled()).add(delegate).add(label).element();
+			if(delegate.element().id == null || delegate.element().id.isEmpty()) delegate.element().id = Document.get().createUniqueId();
+			delegate.element().placeholder = "-";
+			label.setAttribute("for", delegate.element().id);
+		}
+		public InputLabeled setLabel(String label) {
+			this.label.innerHTML = label;
+			return this;
+		}
+		@Override
+		public HTMLElement element() {
+			return element;
+		}
+	}
+	public static InputLabeled label(Input<?, ?> input) {
+		return new InputLabeled(input);
+	}
+
+	public static Object helper(Input<?, ?> input) {
+		return null;
 	}
 }
