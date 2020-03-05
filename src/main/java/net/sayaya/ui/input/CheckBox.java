@@ -8,7 +8,7 @@ import org.jboss.gwt.elemento.core.InputType;
 import static org.jboss.gwt.elemento.core.Elements.input;
 
 public class CheckBox extends InputBase<Boolean, CheckBox> {
-	public interface CheckboxResource extends ClientBundle {
+	public interface Resource extends ClientBundle {
 		@Source("Checkbox.gss")
 		Style style();
 
@@ -16,8 +16,8 @@ public class CheckBox extends InputBase<Boolean, CheckBox> {
 			String check();
 		}
 	}
-	private static final CheckboxResource RESOURCE =  GWT.create(CheckboxResource.class);
-	public static final CheckboxResource.Style GSS = RESOURCE.style();
+	private static final Resource RESOURCE =  GWT.create(Resource.class);
+	public static final Resource.Style GSS = RESOURCE.style();
 	static {
 		RESOURCE.style().ensureInjected();
 	}
