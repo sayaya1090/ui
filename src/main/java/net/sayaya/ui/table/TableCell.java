@@ -18,9 +18,8 @@ public class TableCell<T> implements IsHTMLElement<HTMLTableCellElement, TableCe
 		if(header.getRowspan()!=null) element.rowSpan = header.getRowspan();
 	}
 	public TableCell<T> update(Data data) {
-		DomGlobal.console.log("A");
 		T value = header.getMapper().map(data);
-		DomGlobal.console.log(value);
+		while(element().childElementCount > 0) element().removeChild(element().lastChild);
 		element().appendChild(renderer.render(value));
 		return this;
 	}

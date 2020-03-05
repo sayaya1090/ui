@@ -2,6 +2,7 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Random;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLInputElement;
@@ -123,13 +124,17 @@ public class Test implements EntryPoint {
 			long v5;
 			String v6;
 		}
-		T[] values = new T[] {
-			new T().row(1).t1("A1").t2("a1").v1("Value 1").v2(1).v3(null).v4(1.1).v5(4883489398493434L).v6("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-			, new T().row(2).t1("A2").t2("a2").v1("Value 2").v2(2).v3(null).v4(1.2).v5(4883489398493434L).v6("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-			, new T().row(3).t1("A3").t2("a3").v1("Value 3").v2(3).v3(null).v4(-1.13).v5(4883489398493434L).v6("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
-			, new T().row(4).t1("A4").t2("a4").v1("Value 4").v2(4).v3(null).v4(9999999.1).v5(4883489398493434L).v6("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-			, new T().row(5).t1("A5").t2("a5").v1("Value 5").v2(5).v3(null).v4(234725).v5(4883489398493434L).v6("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-		};
+		T[] values = new T[100000];
+		for(int i = 0; i < values.length; ++i) {
+			String ch = (char)('A'+i%26)+"";
+			String ch2 = (char)('a'+i%26)+"";
+			int idx = i+1;
+			values[i] = new T().row(idx).t1(ch + idx)
+					.t2(ch2 + idx).v1("Value " + idx)
+					.v2(idx).v3(null)
+					.v4(Math.floor(Random.nextInt())/100.0).v5(Random.nextInt())
+					.v6(ch);
+		}
 		Table<T> table = table().set(header().numOfColumnsPrepared(30)
 											 .add(row().add(cell("A1").rowspan(2)
 																	  .builder(d->d.get("A1", Integer.class), v-> {
@@ -149,6 +154,6 @@ public class Test implements EntryPoint {
 								.map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
 																		   .put("C1", t.t1).put("C2", t.t2)
 																		   .put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
-		Elements.body().add(new Viewport(table.update(values)));
+		Elements.body().add(new Viewport(table.setValues(values)));
 	}
 }

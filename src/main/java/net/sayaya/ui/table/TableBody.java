@@ -15,6 +15,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	@Getter(AccessLevel.NONE)
 	private final TableHeader header;
 	private final ArrayList<TableBodyRow> rows = new ArrayList<>();
+	private Data[] values;
 	TableBody(TableHeader header, TableBuilder.ContextBodyBuilder contextBuilder) {
 		this.header = header;
 		this.contextBuilder = contextBuilder;
@@ -24,11 +25,18 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 		element().appendChild(row.element());
 	}
 	void update(Data[] values) {
+		this.values = values;
+		update(0);
+	}
+	void update(int idx) {
 		for(int i = 0; i < Math.min(values.length, rows.size()/header.getRowCount()); ++i) {
 			for(int j = 0; j < header.getRowCount(); ++j) {
-				rows.get(i*header.getRowCount() + j).update(values[i]);
+				rows.get(i*header.getRowCount() + j).update(values[idx + i]);
 			}
 		}
+	}
+	int rowCount() {
+		return rows.size();
 	}
 	@Override
 	public HTMLTableSectionElement element() {
