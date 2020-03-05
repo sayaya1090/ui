@@ -3,7 +3,13 @@ package net.sayaya.ui;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
+import jdk.jfr.DataAmount;
 import jsinterop.base.JsPropertyMap;
+import lombok.Data;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
 import net.sayaya.ui.button.ButtonBuilder;
 import net.sayaya.ui.chip.ChipBuilder;
@@ -16,15 +22,28 @@ import net.sayaya.ui.input.InputDecorator;
 import net.sayaya.ui.input.TextBox;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.style.Style;
+import net.sayaya.ui.table.Table;
+import net.sayaya.ui.table.Viewport;
 import org.jboss.gwt.elemento.core.Elements;
+import org.jboss.gwt.elemento.core.InputType;
+
+import java.util.Date;
+
+import static net.sayaya.ui.table.TableBuilder.TableBodyBuilder.body;
+import static net.sayaya.ui.table.TableBuilder.TableHeaderBuilder.header;
+import static net.sayaya.ui.table.TableBuilder.TableHeaderRowBuilder.row;
+import static net.sayaya.ui.table.TableBuilder.TableHeaderCellBuilder.cell;
+import static net.sayaya.ui.table.TableBuilder.table;
+import static org.jboss.gwt.elemento.core.Elements.label;
 
 public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
-		LayoutTest();
+		// LayoutTest();
 		// AnimationTest();
 		TestButtonText();
-		TestChip();
+		// TestChip();
+		TestTable();
 	}
 	void LayoutTest() {
 		GridLayoutResponsive.addHandler(evt->{
@@ -88,5 +107,48 @@ public class Test implements EntryPoint {
 		tmp7.addValueChangeHandler(evt->{
 			DomGlobal.alert(evt.getValue());
 		});*/
+	}
+
+	void TestTable() {
+		@Data
+		@Accessors(fluent = true)
+		class T {
+			int row;
+			String t1;
+			String t2;
+			String v1;
+			Integer v2;
+			Date v3;
+			double v4;
+			long v5;
+			String v6;
+		}
+		T[] values = new T[] {
+			new T().row(1).t1("A1").t2("a1").v1("Value 1").v2(1).v3(null).v4(1.1).v5(4883489398493434L).v6("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+			, new T().row(2).t1("A2").t2("a2").v1("Value 2").v2(2).v3(null).v4(1.2).v5(4883489398493434L).v6("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
+			, new T().row(3).t1("A3").t2("a3").v1("Value 3").v2(3).v3(null).v4(-1.13).v5(4883489398493434L).v6("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC")
+			, new T().row(4).t1("A4").t2("a4").v1("Value 4").v2(4).v3(null).v4(9999999.1).v5(4883489398493434L).v6("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+			, new T().row(5).t1("A5").t2("a5").v1("Value 5").v2(5).v3(null).v4(234725).v5(4883489398493434L).v6("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+		};
+		Table<T> table = table().set(header().numOfColumnsPrepared(30)
+											 .add(row().add(cell("A1").rowspan(2)
+																	  .builder(d->d.get("A1", Integer.class), v-> {
+																		  HTMLInputElement elem = Elements.input(InputType.number).element();
+																		  elem.valueAsNumber = v;
+																		  return elem;
+																	  }))
+													   .add(cell("C1").colspan(4))
+													   .add(cell("C2").colspan(2)))
+											 .add(row().add(cell("V1"))
+													   .add(cell("V2"))
+													   .add(cell("V3"))
+													   .add(cell("V4"))
+													   .add(cell("V5"))
+													   .add(cell("V6"))))
+								.set(body().numOfRowsPrepared(20))
+								.map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
+																		   .put("C1", t.t1).put("C2", t.t2)
+																		   .put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
+		Elements.body().add(new Viewport(table.update(values)));
 	}
 }
