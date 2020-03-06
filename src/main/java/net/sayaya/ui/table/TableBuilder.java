@@ -1,9 +1,13 @@
 package net.sayaya.ui.table;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
+import elemental2.dom.HTMLLabelElement;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.jboss.gwt.elemento.core.Elements;
+import org.jboss.gwt.elemento.core.InputType;
 
 import java.util.LinkedList;
 
@@ -91,7 +95,13 @@ public class TableBuilder<V> {
 		private Integer rowspan;
 		private int widthMin = 0;
 		private Integer widthMax = null;
-		private Renderer<Void> headerRenderer = n-> Elements.label().textContent(id).element();
+		private Renderer<Void> headerRenderer = (e, n)-> {
+			HTMLLabelElement elem = null;
+			if(e == null) elem = Elements.label().element();
+			else elem = (HTMLLabelElement)e;
+			elem.textContent = id;
+			return elem;
+		};
 		private TableCellBuilder<V> builder = new TableCellBuilder<>();
 		private Mapper<Data, V> mapper = data->(V)data.get(id, Object.class);
 		private TableHeaderCellBuilder(String id) {
@@ -116,7 +126,13 @@ public class TableBuilder<V> {
 		}
 	}
 	public static class TableCellBuilder<V> {
-		private Renderer<V> renderer = v-> Elements.label().textContent(v!=null?String.valueOf(v):"").element();
+		private Renderer<V> renderer = (e, v)->{
+			HTMLLabelElement elem = null;
+			if(e == null) elem = Elements.label().element();
+			else elem = (HTMLLabelElement) e;
+			elem.innerHTML = v!=null?String.valueOf(v):"";
+			return elem;
+		};
 		public TableCell<V> build(TableHeaderCell<V> column) {
 			return new TableCell<>(column, renderer);
 		}

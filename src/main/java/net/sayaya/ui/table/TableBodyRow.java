@@ -7,7 +7,6 @@ import lombok.Getter;
 import net.sayaya.ui.IsHTMLElement;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 import static org.jboss.gwt.elemento.core.Elements.tr;
 
@@ -30,9 +29,7 @@ public class TableBodyRow implements IsHTMLElement<HTMLTableRowElement, TableBod
 			  });
 	}
 	public TableBodyRow update(Data data) {
-		for(int i = 0; i < cells.size(); ++i) {
-			cells.get(i).update(data);
-		}
+		for(int i = 0; i < cells.size(); ++i) cells.get(i).update(data);
 		return this;
 	}
 	@Override

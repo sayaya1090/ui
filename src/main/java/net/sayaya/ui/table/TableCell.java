@@ -1,6 +1,7 @@
 package net.sayaya.ui.table;
 
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLTableCellElement;
 import net.sayaya.ui.IsHTMLElement;
 
@@ -10,6 +11,7 @@ public class TableCell<T> implements IsHTMLElement<HTMLTableCellElement, TableCe
 	private final HTMLTableCellElement element;
 	private final TableHeaderCell<T> header;
 	private final Renderer<T> renderer;
+	private HTMLElement content;
 	TableCell(TableHeaderCell<T> header, Renderer<T> renderer) {
 		this.header = header;
 		this.renderer = renderer;
@@ -19,8 +21,8 @@ public class TableCell<T> implements IsHTMLElement<HTMLTableCellElement, TableCe
 	}
 	public TableCell<T> update(Data data) {
 		T value = header.getMapper().map(data);
-		while(element().childElementCount > 0) element().removeChild(element().lastChild);
-		element().appendChild(renderer.render(value));
+		content = renderer.render(content, value);
+		if(content!=null) element.appendChild(content);
 		return this;
 	}
 	@Override

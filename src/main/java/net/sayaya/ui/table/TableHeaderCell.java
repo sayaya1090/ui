@@ -2,6 +2,7 @@ package net.sayaya.ui.table;
 
 import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLTableCellElement;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class TableHeaderCell<V> implements IsHTMLElement<HTMLTableCellElement, T
 	private int col;
 	private final Mapper<Data, V> mapper;
 	private final TableBuilder.TableCellBuilder<V> builder;
+	private HTMLElement content;
 	TableHeaderCell(TableHeaderRow parent, Renderer<Void> headerRenderer, TableBuilder.TableCellBuilder<V> builder, Mapper<Data, V> mapper, Integer colspan, Integer rowspan, int widthMin, Integer widthMax) {
 		this.parent = parent;
 		this.builder = builder;
@@ -32,7 +34,8 @@ public class TableHeaderCell<V> implements IsHTMLElement<HTMLTableCellElement, T
 		this.rowspan = rowspan;
 		this.widthMin = widthMin;
 		this.widthMax = widthMax;
-		element = th().add(headerRenderer.render(null)).element();
+		content = headerRenderer.render(content,null);
+		element = th().add(content).element();
 		element.addEventListener("DOMNodeInserted", evt->{
 			Scheduler.get().scheduleDeferred(()->{
 				element.style.setProperty("top", String.valueOf(parent.element().offsetTop) + "px");
