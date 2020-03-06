@@ -124,7 +124,7 @@ public class Test implements EntryPoint {
 			long v5;
 			String v6;
 		}
-		T[] values = new T[100000];
+		T[] values = new T[12800];
 		for(int i = 0; i < values.length; ++i) {
 			String ch = (char)('A'+i%26)+"";
 			String ch2 = (char)('a'+i%26)+"";
@@ -137,8 +137,10 @@ public class Test implements EntryPoint {
 		}
 		Table<T> table = table().set(header().numOfColumnsPrepared(30)
 											 .add(row().add(cell("A1").rowspan(2)
-																	  .builder(d->d.get("A1", Integer.class), v-> {
-																		  HTMLInputElement elem = Elements.input(InputType.number).element();
+																	  .builder(d->d.get("A1", Integer.class), (e, v)-> {
+																		  HTMLInputElement elem = null;
+																		  if(e == null) elem = Elements.input(InputType.number).element();
+																	  	  else elem = (HTMLInputElement) e;
 																		  elem.valueAsNumber = v;
 																		  return elem;
 																	  }))
@@ -150,7 +152,7 @@ public class Test implements EntryPoint {
 													   .add(cell("V4"))
 													   .add(cell("V5"))
 													   .add(cell("V6"))))
-								.set(body().numOfRowsPrepared(20))
+								.set(body().numOfRowsPrepared(100))
 								.map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
 																		   .put("C1", t.t1).put("C2", t.t2)
 																		   .put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();

@@ -4,5 +4,5 @@ import elemental2.dom.HTMLElement;
 
 @FunctionalInterface
 public interface Renderer<T> {
-	HTMLElement render(T value);
+	HTMLElement render(HTMLElement elem, T value);
 }

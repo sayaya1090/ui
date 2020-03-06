@@ -13,4 +13,7 @@ public final class Data {
 	public <T> T get(String key, Class<T> clazz) {
 		return (T) map.get(key);
 	}
+	public String toString() {
+		return map.toString();
+	}
 }

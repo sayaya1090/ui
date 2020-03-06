@@ -1,7 +1,7 @@
 .viewport {
     overflow: auto;
-    width: 650px;
-    height: 300px;
+    width: 1350px;
+    height: 500px;
 }
 .table {
     width: 100%;
