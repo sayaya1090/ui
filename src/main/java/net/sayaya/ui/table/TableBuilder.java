@@ -1,13 +1,9 @@
 package net.sayaya.ui.table;
 
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLInputElement;
 import elemental2.dom.HTMLLabelElement;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.jboss.gwt.elemento.core.Elements;
-import org.jboss.gwt.elemento.core.InputType;
 
 import java.util.LinkedList;
 
@@ -95,46 +91,40 @@ public class TableBuilder<V> {
 		private Integer rowspan;
 		private int widthMin = 0;
 		private Integer widthMax = null;
-		private Renderer<Void> headerRenderer = (e, n)-> {
-			HTMLLabelElement elem = null;
-			if(e == null) elem = Elements.label().element();
-			else elem = (HTMLLabelElement)e;
+		private HeaderRenderer headerRenderer = (e, i, c)-> {
+			if(e.firstElementChild == null) e.appendChild(Elements.label().element());
+			HTMLLabelElement elem = (HTMLLabelElement)e.firstElementChild;
 			elem.textContent = id;
-			return elem;
 		};
 		private TableCellBuilder<V> builder = new TableCellBuilder<>();
-		private Mapper<Data, V> mapper = data->(V)data.get(id, Object.class);
 		private TableHeaderCellBuilder(String id) {
 			this.id = id;
 		}
 		public static TableHeaderCellBuilder<?> cell(String id) {
 			return new TableHeaderCellBuilder<>(id);
 		}
-		public <T> TableHeaderCellBuilder<T> builder(Mapper<Data, T> mapper, Renderer<T> renderer) {
+		public <T> TableHeaderCellBuilder<T> builder(CellRenderer<T> renderer) {
 			TableHeaderCellBuilder<T> builder = new TableHeaderCellBuilder<>(id);
 			builder.colspan = colspan;
 			builder.rowspan = rowspan;
 			builder.widthMin = widthMin;
 			builder.widthMax = widthMax;
 			builder.headerRenderer = headerRenderer;
-			builder.mapper = mapper;
 			builder.builder.renderer = renderer;
 			return builder;
 		}
-		private TableHeaderCell<V> build(TableHeaderRow parent) {
-			return new TableHeaderCell<>(parent, headerRenderer, builder, mapper, colspan, rowspan, widthMin, widthMax);
+		private TableHeaderCell build(TableHeaderRow parent) {
+			return new TableHeaderCell(parent, headerRenderer, colspan, rowspan, widthMin, widthMax);
 		}
 	}
 	public static class TableCellBuilder<V> {
-		private Renderer<V> renderer = (e, v)->{
-			HTMLLabelElement elem = null;
-			if(e == null) elem = Elements.label().element();
-			else elem = (HTMLLabelElement) e;
-			elem.innerHTML = v!=null?String.valueOf(v):"";
-			return elem;
+		private CellRenderer<V> renderer = (e, i, c, d)-> {
+			if(e.firstElementChild == null) e.appendChild(Elements.label().element());
+			HTMLLabelElement elem = (HTMLLabelElement)e.firstElementChild;
+			elem.textContent = d!=null?String.valueOf(d):"";
 		};
-		public TableCell<V> build(TableHeaderCell<V> column) {
-			return new TableCell<>(column, renderer);
+		public TableCell<V> build() {
+			return new TableCell<>(renderer);
 		}
 	}
 	@Setter
@@ -142,18 +132,14 @@ public class TableBuilder<V> {
 	public static class TableBodyBuilder {
 		private int numOfRowsPrepared = 100;
 		private ContextBodyBuilder contextBuilder;
+		private RowRenderer renderer;
 		private TableBodyBuilder() {}
 		public static TableBodyBuilder body() {
 			return new TableBodyBuilder();
 		}
 		private TableBody build(TableHeader header) {
-			TableBody elem = new TableBody(header, contextBuilder);
-			for(int i = 0; i < numOfRowsPrepared; ++i) {
-				for(int j = 0; j < header.getRowCount(); ++j) {
-					TableHeaderRow template = header.getRow(j);
-					elem.add(new TableBodyRow(template));
-				}
-			}
+			TableBody elem = new TableBody(header, renderer, contextBuilder);
+			for(int i = 0; i < numOfRowsPrepared; ++i) elem.add(new TableBodyRow(0, 0));
 			return elem;
 		}
 	}

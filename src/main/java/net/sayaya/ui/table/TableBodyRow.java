@@ -1,36 +1,37 @@
 package net.sayaya.ui.table;
 
-import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLTableRowElement;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.experimental.Accessors;
 import net.sayaya.ui.IsHTMLElement;
-
-import java.util.ArrayList;
 
 import static org.jboss.gwt.elemento.core.Elements.tr;
 
-public class TableBodyRow implements IsHTMLElement<HTMLTableRowElement, TableBodyRow> {
-	private final HTMLTableRowElement element = tr().element();
-	private final int rowHeightMin;
-	private final Integer rowHeightMax;
-	private final TableHeaderRow header;
+@Getter
+@Accessors(chain = true)
+public final class TableBodyRow implements IsHTMLElement<HTMLTableRowElement, TableBodyRow> {
 	@Getter(AccessLevel.NONE)
-	private final ArrayList<TableCell<?>> cells = new ArrayList<>();
-	TableBodyRow(TableHeaderRow header) {
-		this.header = header;
-		this.rowHeightMin = header.getRowHeightMin();
-		this.rowHeightMax = header.getRowHeightMax();
-		header.forEachColumn()
-			  .map(h->h.build())
-			  .forEach(cell->{
-				  element.appendChild(cell.element());
-				  cells.add(cell);
-			  });
+	private final int rowHeightMin;
+	@Getter(AccessLevel.NONE)
+	private final Integer rowHeightMax;
+	@Getter(AccessLevel.NONE)
+	private final HTMLTableRowElement element = tr().element();
+	@Getter(AccessLevel.PACKAGE)
+	private RowRenderer renderer;
+	@Getter(AccessLevel.PACKAGE)
+	private Data data;
+	@Getter(AccessLevel.PACKAGE)
+	private int dataIdx;
+	public TableBodyRow(int rowHeightMin, Integer rowHeightMax) {
+		this.rowHeightMin = rowHeightMin;
+		this.rowHeightMax = rowHeightMax;
 	}
-	public TableBodyRow update(Data data) {
-		for(int i = 0; i < cells.size(); ++i) cells.get(i).update(data);
-		return this;
+	public RowRenderer.SiblingRowRenderers update(TableBody.BodyCursor cursor) {
+		this.renderer = cursor.getRenderer();
+		this.data = cursor.getData();
+		this.dataIdx = cursor.getDataIdx();
+		return cursor.getRenderer().render(element, cursor.getDataIdx(), cursor.getData());
 	}
 	@Override
 	public HTMLTableRowElement element() {

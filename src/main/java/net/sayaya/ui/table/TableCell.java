@@ -1,7 +1,5 @@
 package net.sayaya.ui.table;
 
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLTableCellElement;
 import net.sayaya.ui.IsHTMLElement;
 
@@ -9,20 +7,13 @@ import static org.jboss.gwt.elemento.core.Elements.td;
 
 public class TableCell<T> implements IsHTMLElement<HTMLTableCellElement, TableCell<T>> {
 	private final HTMLTableCellElement element;
-	private final TableHeaderCell<T> header;
-	private final Renderer<T> renderer;
-	private HTMLElement content;
-	TableCell(TableHeaderCell<T> header, Renderer<T> renderer) {
-		this.header = header;
+	private final CellRenderer<T> renderer;
+	TableCell(CellRenderer<T> renderer) {
 		this.renderer = renderer;
 		element = td().element();
-		if(header.getColspan()!=null) element.colSpan = header.getColspan();
-		if(header.getRowspan()!=null) element.rowSpan = header.getRowspan();
 	}
-	public TableCell<T> update(Data data) {
-		T value = header.getMapper().map(data);
-		content = renderer.render(content, value);
-		if(content!=null) element.appendChild(content);
+	public TableCell<T> update(int dataIdx, int col, T value) {
+		renderer.render(element, dataIdx, col, value);
 		return this;
 	}
 	@Override

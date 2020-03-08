@@ -54,7 +54,7 @@ public class Table<V> implements IsHTMLElement<HTMLTableElement, Table<V>>, HasV
 	}
 	public Table<V> setValues(V[] values) {
 		data = Arrays.stream(values).map(mapper::map).toArray(Data[]::new);
-		body.update(data);
+		body.setValues(data).set(0);
 		return this;
 	}
 	@Override
@@ -79,30 +79,31 @@ public class Table<V> implements IsHTMLElement<HTMLTableElement, Table<V>>, HasV
 	}
 	boolean viewport(Viewport.ViewportParam param) {
 		double bodyHeight = body.element().offsetHeight;
-		int bodyRowCount = body.bufferSize();
-		int pageNum = data.length / bodyRowCount;
-		double virtualHeight = pageNum * bodyHeight;
-		param.setVirtualHeight(virtualHeight);
-
+		// Jump
 		if(Math.abs(param.getScrollTop() - param.getPrevScrollTop()) > bodyHeight / 2) {
 			int page = (int) Math.floor(param.getScrollTop() / bodyHeight);
-			int idx = page * bodyRowCount;
-			// body.update(idx);
+			body.setValues(data).set(page * body.bufferSize());
 			top = param.getScrollTop() - 1000;
 			element.style.setProperty("top", top + "px");
 			return true;
-			// element().style.top = (param.getScrollTop()-100) + "px";
 		} else {
+			// Step
 			double remainsBottom = top + body.element().offsetHeight - param.getScrollTop() - param.getViewportHeight();
 			double remainsTop = param.getScrollTop() - top;
+			DomGlobal.console.log("Remains Bottom:" + remainsBottom);
+			DomGlobal.console.log("Remains Top:" + remainsTop);
 			if (remainsBottom < 1000) {
-				double delta = body.increase(5);
-				top += delta;
+				for(int i = 0; i < 5; ++i) {
+					double delta = body.increase();
+					top += delta;
+				}
 				element.style.setProperty("top", top + "px");
 				return true;
 			} else if (remainsTop < 1000) {
-				double delta = body.decrease(5);
-				top -= Math.min(delta, top);
+				for(int i = 0; i < 5; ++i) {
+					double delta = body.decrease();
+					top -= Math.min(delta, top);
+				}
 				element.style.setProperty("top", top + "px");
 				return true;
 			}

@@ -4,6 +4,8 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLTableSectionElement;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.ToString;
+import lombok.experimental.Accessors;
 import net.sayaya.ui.IsHTMLElement;
 
 import java.util.LinkedList;
@@ -15,68 +17,92 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	private final TableBuilder.ContextBodyBuilder contextBuilder;
 	@Getter(AccessLevel.NONE)
 	private final TableHeader header;
-	private final LinkedList<TableBodyRow> rows = new LinkedList<>();
+	private final LinkedList<TableBodyRow> buffer = new LinkedList<>();
 	private Data[] values;
-	private int cursorMin = 0;
-	private int cursorMax = 0;
-	TableBody(TableHeader header, TableBuilder.ContextBodyBuilder contextBuilder) {
+	private final BodyCursor head = new BodyCursor();
+	private final BodyCursor tail = new BodyCursor();
+	private final RowRenderer renderer;
+	TableBody(TableHeader header, RowRenderer renderer, TableBuilder.ContextBodyBuilder contextBuilder) {
 		this.header = header;
+		this.renderer = renderer;
 		this.contextBuilder = contextBuilder;
 	}
 	void add(TableBodyRow row) {
-		rows.add(row);
+		buffer.add(row);
 		element().appendChild(row.element());
 	}
-	void update(Data[] values) {
+	TableBody setValues(Data[] values) {
 		this.values = values;
-		DomGlobal.console.log("Update Body");
-		for(int i = 0; i < Math.min(values.length, rows.size()/header.getRowCount()); ++i) {
-			for(int j = 0; j < header.getRowCount(); ++j) {
-				rows.get(i*header.getRowCount() + j).update(values[i]);
+		return this;
+	}
+	void set(int idx) {
+		head.data = tail.data = values[idx];
+		head.renderer = tail.renderer = renderer;
+		head.dataIdx = tail.dataIdx = idx;
+		for(TableBodyRow row: buffer) {
+			tail.renderer = row.update(tail).forward();
+			if(tail.renderer == null) {
+				tail.data = values[++tail.dataIdx];
+				tail.renderer = renderer;
 			}
 		}
-		cursorMin = 0;
-		cursorMax = Math.min(values.length, rows.size()/header.getRowCount());
+		DomGlobal.console.log("Tail:" + tail.dataIdx + ", " + tail.data + ", " + tail.renderer);
 	}
 	int bufferSize() {
-		return rows.size();
+		return buffer.size();
 	}
-	double increase(int n) {
-		double height = 0;
-		int i = 0;
-		for(; i < n; ++i) {
-			if(cursorMax + i >= values.length) break;
-			Data datum = values[cursorMax + i];
-			for(int j = 0; j < header.getRowCount(); ++j) {
-				TableBodyRow row = rows.removeFirst();
-				height += row.element().offsetHeight;
-				rows.addLast(row);
-				element.appendChild(row.update(datum).element());
-			}
+	private boolean isTop() {
+		return head.dataIdx == 0 && head.renderer == renderer;
+	}
+	private boolean isBottom() {
+		return tail.dataIdx >= (values.length-1) && tail.renderer == null;
+	}
+	private void setCursor(TableBodyRow row, BodyCursor cursor) {
+		cursor.renderer = row.getRenderer();
+		cursor.data = row.getData();
+		cursor.dataIdx = row.getDataIdx();
+	}
+	double increase() {
+		if(isBottom()) return 0;
+		TableBodyRow row = buffer.removeFirst();
+		element.appendChild(row.element());
+		double move = row.element().offsetHeight;
+		buffer.addLast(row);
+		tail.renderer = row.update(tail).forward();
+		if(tail.renderer == null) {
+			tail.data = values[++tail.dataIdx];
+			tail.renderer = renderer;
 		}
-		cursorMin += i;
-		cursorMax += i;
-		return height;
+		TableBodyRow top = buffer.getFirst();
+		setCursor(top, head);
+		return move;
 	}
-	double decrease(int n) {
-		double height = n;
-		int i = 0;
-		for(; i < n; ++i) {
-			if(cursorMin - i < 0) break;
-			Data datum = values[cursorMin - i];
-			for(int j = 0; j < header.getRowCount(); ++j) {
-				TableBodyRow row = rows.removeLast();
-				height += row.element().offsetHeight;
-				rows.addFirst(row);
-				element.insertBefore(row.update(datum).element(), element.firstChild);
-			}
-		}
-		cursorMin -= i;
-		cursorMax -= i;
-		return height;
+	double decrease() {
+		if(isTop()) return 0;
+		TableBodyRow row = buffer.removeLast();
+		element.insertBefore(element.lastChild, element.firstChild);
+		double move = row.element().offsetHeight;
+		buffer.addFirst(row);
+		RowRenderer tmp = head.renderer;
+		head.renderer = row.update(head).backward();
+		if(tmp == renderer) head.data = values[--head.dataIdx];
+		TableBodyRow bottom = buffer.getLast();
+		setCursor(bottom, tail);
+		return move;
 	}
+
 	@Override
 	public HTMLTableSectionElement element() {
 		return element;
+	}
+
+	@Getter
+	@Accessors(chain=true)
+	@ToString
+	static class BodyCursor {
+		private Data data;
+		private RowRenderer renderer;
+		private int dataIdx;
+		private BodyCursor(){}
 	}
 }

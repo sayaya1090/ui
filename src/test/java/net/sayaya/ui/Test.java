@@ -3,9 +3,8 @@ package net.sayaya.ui;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Random;
-import elemental2.dom.DomGlobal;
-import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLInputElement;
+import com.google.gwt.user.client.ui.HTMLTable;
+import elemental2.dom.*;
 import jdk.jfr.DataAmount;
 import jsinterop.base.JsPropertyMap;
 import lombok.Data;
@@ -23,6 +22,7 @@ import net.sayaya.ui.input.InputDecorator;
 import net.sayaya.ui.input.TextBox;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.style.Style;
+import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
 import net.sayaya.ui.table.Viewport;
 import org.jboss.gwt.elemento.core.Elements;
@@ -36,6 +36,7 @@ import static net.sayaya.ui.table.TableBuilder.TableHeaderRowBuilder.row;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderCellBuilder.cell;
 import static net.sayaya.ui.table.TableBuilder.table;
 import static org.jboss.gwt.elemento.core.Elements.label;
+import static org.jboss.gwt.elemento.core.Elements.td;
 
 public class Test implements EntryPoint {
 	@Override
@@ -135,27 +136,80 @@ public class Test implements EntryPoint {
 					.v4(Math.floor(Random.nextInt())/100.0).v5(Random.nextInt())
 					.v6(ch);
 		}
+		@Setter
+		abstract class RowRendererImpl implements RowRenderer {
+			private RowRenderer forward;
+			private RowRenderer backword;
+
+			protected abstract void delegate(HTMLTableRowElement elem, int dataIdx, net.sayaya.ui.table.Data value);
+			@Override
+			public SiblingRowRenderers render(HTMLTableRowElement elem, int dataIdx, net.sayaya.ui.table.Data value) {
+				delegate(elem, dataIdx, value);
+				return new SiblingRowRenderers() {
+					@Override
+					public RowRenderer forward() {
+						return forward;
+					}
+
+					@Override
+					public RowRenderer backward() {
+						return backword;
+					}
+				};
+			}
+		}
+		RowRendererImpl row1 = new RowRendererImpl() {
+			@Override
+			protected void delegate(HTMLTableRowElement elem, int dataIdx, net.sayaya.ui.table.Data value) {
+				HTMLTableCellElement td1;
+				HTMLTableCellElement td2;
+				HTMLTableCellElement td3;
+				if(elem.childElementCount != 3) {
+					while(elem.childElementCount > 0) elem.firstElementChild.remove();
+					td1 = td().attr("rowspan", "2").element();
+					td2 = td().attr("colspan", "4").element();
+					td3 = td().attr("colspan", "2").element();
+					elem.appendChild(td1);
+					elem.appendChild(td2);
+					elem.appendChild(td3);
+				} else {
+					td1 = (HTMLTableCellElement) elem.firstElementChild;
+					td2 = (HTMLTableCellElement) elem.childNodes.item(1);
+					td3 = (HTMLTableCellElement) elem.childNodes.item(2);
+				}
+				td1.innerHTML = value.get("A1", Integer.class)+"";
+				td2.innerHTML = value.get("C1", String.class);
+				td3.innerHTML = value.get("C2", String.class);
+			}
+		};
+		RowRendererImpl row2 = new RowRendererImpl() {
+			@Override
+			protected void delegate(HTMLTableRowElement elem, int dataIdx, net.sayaya.ui.table.Data value) {
+				HTMLTableCellElement td;
+				if(elem.childElementCount <= 0) {
+					td = td().element();
+					elem.appendChild(td);
+				} else td = (HTMLTableCellElement) elem.firstElementChild;
+				td.innerHTML = value.get("V1", String.class);
+			}
+		};
+		row1.setForward(row2);
+		row1.setBackword(row2);
+		row2.setBackword(row1);
 		Table<T> table = table().set(header().numOfColumnsPrepared(30)
-											 .add(row().add(cell("A1").rowspan(2)
-																	  .builder(d->d.get("A1", Integer.class), (e, v)-> {
-																		  HTMLInputElement elem = null;
-																		  if(e == null) elem = Elements.input(InputType.number).element();
-																	  	  else elem = (HTMLInputElement) e;
-																		  elem.valueAsNumber = v;
-																		  return elem;
-																	  }))
-													   .add(cell("C1").colspan(4))
-													   .add(cell("C2").colspan(2)))
-											 .add(row().add(cell("V1"))
-													   .add(cell("V2"))
-													   .add(cell("V3"))
-													   .add(cell("V4"))
-													   .add(cell("V5"))
-													   .add(cell("V6"))))
-								.set(body().numOfRowsPrepared(100))
-								.map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
-																		   .put("C1", t.t1).put("C2", t.t2)
-																		   .put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
+				.add(row().add(cell("A1").rowspan(2))
+						.add(cell("C1").colspan(4))
+						.add(cell("C2").colspan(2)))
+				.add(row().add(cell("V1"))
+						.add(cell("V2"))
+						.add(cell("V3"))
+						.add(cell("V4"))
+						.add(cell("V5"))
+						.add(cell("V6"))))
+				.set(body().numOfRowsPrepared(100)
+						.renderer(row1)).map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
+						.put("C1", t.t1).put("C2", t.t2)
+						.put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
 		Elements.body().add(new Viewport(table.setValues(values)));
 	}
 }

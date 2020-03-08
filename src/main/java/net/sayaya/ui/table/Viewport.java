@@ -21,8 +21,8 @@ public class Viewport implements IsHTMLElement<HTMLDivElement, Viewport> {
 			Scheduler.get().scheduleDeferred(()->{
 				param.scrollTop = element.scrollTop;
 				if(table.viewport(param)) {
+					param.prevScrollTop = param.scrollTop;
 					element.scrollTop = param.scrollTop;
-					DomGlobal.console.log(element.scrollTop);
 				}
 			});
 			return null;
