@@ -25,7 +25,7 @@ public class CheckBox extends InputBase<Boolean, CheckBox> {
 		super(input(InputType.checkbox).css(GSS.check()).element());
 	}
 	@Override
-	public Boolean getValue() {
+	public Boolean value() {
 		return element().checked;
 	}
 }

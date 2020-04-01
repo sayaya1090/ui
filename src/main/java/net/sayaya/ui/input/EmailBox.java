@@ -7,7 +7,7 @@ public class EmailBox extends TextBoxBase<String, EmailBox> {
 		super(InputType.email);
 	}
 	@Override
-	public String getValue() {
+	public String value() {
 		return element().value;
 	}
 }

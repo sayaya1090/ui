@@ -12,7 +12,7 @@ public class TableBuilder<V> {
 	private TableBodyBuilder body;
 	private Mapper<V, Data> mapper;
 	private TableBuilder(){}
-	public static TableBuilder<?> table() {
+	public static TableBuilder<?> table(){
 		return new TableBuilder<>();
 	}
 	public <T> TableBuilder<T> map(Mapper<T, Data> mapper) {

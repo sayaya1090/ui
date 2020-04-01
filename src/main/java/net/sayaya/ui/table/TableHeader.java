@@ -28,10 +28,10 @@ public class TableHeader implements IsHTMLElement<HTMLTableSectionElement, Table
 		rows.add(row);
 		element().appendChild(row.element());
 	}
-	int getRowCount() {
+	int rowCount() {
 		return rows.size();
 	}
-	TableHeaderRow getRow(int row) {
+	TableHeaderRow row(int row) {
 		return rows.get(row);
 	}
 	@Override

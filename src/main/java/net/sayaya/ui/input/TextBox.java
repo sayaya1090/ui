@@ -8,7 +8,7 @@ public class TextBox extends TextBoxBase<String, TextBox> {
 	}
 
 	@Override
-	public String getValue() {
+	public String value() {
 		return element().value;
 	}
 }

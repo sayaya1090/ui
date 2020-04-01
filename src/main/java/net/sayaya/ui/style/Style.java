@@ -6,8 +6,11 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 @Data
-@Accessors(chain=true)
+@Accessors(fluent=true)
 public class Style {
+	public static Style build() {
+		return new Style();
+	}
 	private String alignContent;
 	private String alignItems;
 	private String alignSelf;
@@ -267,6 +270,7 @@ public class Style {
 	private String wordWrap;
 	private String zIndex;
 
+	private Style() {}
 	public void apply(CSSStyleDeclaration declaration) {
 		declaration.alignContent = alignContent;
 		declaration.alignItems = alignItems;
@@ -526,6 +530,5 @@ public class Style {
 		declaration.wordSpacing = wordSpacing;
 		declaration.wordWrap = wordWrap;
 		declaration.zIndex = CSSProperties.ZIndexUnionType.of(zIndex);
-
 	}
 }

@@ -7,5 +7,5 @@ import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 
 public interface Input<V, W extends Input<V, W>> extends IsHTMLElement<HTMLInputElement, W>, Focusable<W>, HasValueChangeHandlers<V>, HasClickHandlers {
-	W setEnabled(boolean enabled);
+	W enabled(boolean enabled);
 }

@@ -15,6 +15,7 @@ import net.sayaya.ui.button.ButtonBuilder;
 import net.sayaya.ui.chip.ChipBuilder;
 import net.sayaya.ui.chip.ChipDecorator;
 import net.sayaya.ui.event.HandlerRegistration;
+import net.sayaya.ui.grid.*;
 import net.sayaya.ui.input.CheckBox;
 import net.sayaya.ui.button.ButtonImpl;
 import net.sayaya.ui.input.InputBuilder;
@@ -45,7 +46,8 @@ public class Test implements EntryPoint {
 		// AnimationTest();
 		TestButtonText();
 		// TestChip();
-		TestTable();
+		// TestTable();
+		TestGrid();
 	}
 	void LayoutTest() {
 		GridLayoutResponsive.addHandler(evt->{
@@ -53,9 +55,9 @@ public class Test implements EntryPoint {
 		});
 	}
 	void AnimationTest() {
-		ButtonImpl tmp = ButtonBuilder.button().contain().setText("Text Button").element();
+		ButtonImpl tmp = ButtonBuilder.button().contain().text("Text Button").element();
 		Elements.body().add(tmp);
-		tmp.setStyle(new Style().setPosition("relative"));
+		tmp.style(Style.build().position("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#FF00FF", "opacity", "1")
 				, JsPropertyMap.of("left", "300px", "opacity", "0")
@@ -67,38 +69,38 @@ public class Test implements EntryPoint {
 		};
 	}
 	void TestChip() {
-		ChipDecorator.ChipRemovable chip = ChipBuilder.chip().setText("Chip").removable().element();
+		ChipDecorator.ChipRemovable chip = ChipBuilder.chip().text("Chip").removable().element();
 		chip.addDetachHandler(evt->{
 			DomGlobal.alert("Remove Chip");
 		});
 		Elements.body().add(chip);
 	}
 	void TestButtonText() {
-		ButtonImpl tmp = ButtonBuilder.button().contain().setText("Text Button").element();
-		Style style = new Style().setBorder("1px solid #ddd").setFontFamily("Arial");
-		tmp.setStyle(style);
+		ButtonImpl tmp = ButtonBuilder.button().contain().text("Text Button").element();
+		Style style = Style.build().border("1px solid #ddd").fontFamily("Arial");
+		tmp.style(style);
 
 		HandlerRegistration handler = tmp.addClickHandler(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
 		Elements.body().add(tmp);
 
-		ButtonImpl tmp2 = ButtonBuilder.button().contain().setText("Button Enabled").element().setEnabled(true);
+		ButtonImpl tmp2 = ButtonBuilder.button().contain().text("Button Enabled").element().enabled(true);
 		Elements.body().add(tmp2);
 
-		ButtonImpl tmp3 = ButtonBuilder.button().contain().setText("Button Disabled").element().setEnabled(false);
+		ButtonImpl tmp3 = ButtonBuilder.button().contain().text("Button Disabled").element().enabled(false);
 		Elements.body().add(tmp3);
 
-		ButtonImpl tmp4 = ButtonBuilder.button().contain().setText("Button Focused").element().setFocus().setAccessKey('A');
+		ButtonImpl tmp4 = ButtonBuilder.button().contain().text("Button Focused").element().focus().accessKey('A');
 		Elements.body().add(tmp4);
 
-		CheckBox tmp5 = InputBuilder.checkbox().element().setFocus().setAccessKey('A').setStyle(style);
+		CheckBox tmp5 = InputBuilder.checkbox().element().focus().accessKey('A').style(style);
 		Elements.body().add(InputDecorator.label(tmp5).setLabel("Label"));
 		tmp5.addValueChangeHandler(evt->{
 		//	DomGlobal.alert(evt.getValue());
 		});
 
-		TextBox tmp6 = InputBuilder.text().element().setAccessKey('B');
+		TextBox tmp6 = InputBuilder.text().element().accessKey('B');
 		Elements.body().add(InputDecorator.label(tmp6).setLabel("Label"));
 		tmp6.addValueChangeHandler(evt->{
 		// 	DomGlobal.alert(evt.getValue());
@@ -110,7 +112,6 @@ public class Test implements EntryPoint {
 			DomGlobal.alert(evt.getValue());
 		});*/
 	}
-
 	void TestTable() {
 		@Data
 		@Accessors(fluent = true)
@@ -210,6 +211,25 @@ public class Test implements EntryPoint {
 						.renderer(row1)).map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
 						.put("C1", t.t1).put("C2", t.t2)
 						.put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
-		Elements.body().add(new Viewport(table.setValues(values)));
+		Elements.body().add(new Viewport(table.values(values)));
+	}
+	void TestGrid() {
+		Grid grid = Grid.builder().scrollX(false).scrollY(false)
+											   .columns(new Column[] {
+										   new Column().header("Id").name("id").editor("text"),
+										   new Column().header("City").name("city").editor("text"),
+										   new Column().header("Country").name("country").editor("text")
+								   }).data(new Datum[]{
+						new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")
+								   .setChildren(new Datum[] {
+										   new Datum().put("id", "100121").put("city", "CDAF").put("country", "FWEFEWF"),
+										   new Datum().put("id", "100122").put("city", "CDAF").put("country", "FWEFEWF"),
+										   new Datum().put("id", "100123").put("city", "CDAF").put("country", "FWEFEWF")
+								   }).setAttribute(new Datum.Attribute().setExpanded(false)),
+						new Datum().put("id", "10013").put("city", "CDAF").put("country", "FWEFEWF"),
+						new Datum().put("id", "10014").put("city", "CDAF").put("country", "FWEFEWF"),
+						new Datum().put("id", "10015").put("city", "CDAF").put("country", "FWEFEWF")
+				}).treeColumnOption(new TreeColumnOption().id("id").useCascadingCheckbox(false).useIcon(false)).build();
+		Elements.body().add(grid);
 	}
 }

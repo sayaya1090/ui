@@ -36,7 +36,7 @@ public class Viewport implements IsHTMLElement<HTMLDivElement, Viewport> {
 
 	private void updateVirtualHeight() {
 		param.setViewportHeight(element.offsetHeight);
-		double virtualHeight = table.getTotalHeight();
+		double virtualHeight = table.totalHeight();
 		param.setVirtualHeight(virtualHeight);
 		// virtual.style.height = CSSProperties.HeightUnionType.of(virtualHeight + "px");
 		virtual.style.setProperty("height", virtualHeight + "px");

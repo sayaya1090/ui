@@ -4,7 +4,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 
 @Setter
-@Accessors(chain=true)
+@Accessors(fluent=true)
 public class InputBuilder {
 	private InputBuilder(){}
 	public static InputCheckBoxBuilder checkbox() {

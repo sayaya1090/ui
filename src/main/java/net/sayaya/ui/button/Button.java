@@ -22,19 +22,19 @@ public abstract class Button<W extends Button<W>> implements IsHTMLElement<HTMLB
 	public final HandlerRegistration addClickHandler(EventListener listener) {
 		return addClickHandler(_this, listener);
 	}
-	public final W setEnabled(boolean enabled) {
+	public final W enabled(boolean enabled) {
 		if(enabled) _this.removeAttribute("disabled");
 		else _this.setAttribute("disabled", true);
 		return self();
 	}
 	@Override
-	public W setAccessKey(char key) {
+	public W accessKey(char key) {
 		_this.setAttribute("accessKey", String.valueOf(key));
 		return self();
 	}
 
 	@Override
-	public W setFocus() {
+	public W focus() {
 		_this.focus();
 		return self();
 	}

@@ -9,7 +9,7 @@ import net.sayaya.ui.IsHTMLElement;
 import static org.jboss.gwt.elemento.core.Elements.tr;
 
 @Getter
-@Accessors(chain = true)
+@Accessors(fluent = true)
 public final class TableBodyRow implements IsHTMLElement<HTMLTableRowElement, TableBodyRow> {
 	@Getter(AccessLevel.NONE)
 	private final int rowHeightMin;
@@ -28,10 +28,10 @@ public final class TableBodyRow implements IsHTMLElement<HTMLTableRowElement, Ta
 		this.rowHeightMax = rowHeightMax;
 	}
 	public RowRenderer.SiblingRowRenderers update(TableBody.BodyCursor cursor) {
-		this.renderer = cursor.getRenderer();
-		this.data = cursor.getData();
-		this.dataIdx = cursor.getDataIdx();
-		return cursor.getRenderer().render(element, cursor.getDataIdx(), cursor.getData());
+		this.renderer = cursor.renderer();
+		this.data = cursor.data();
+		this.dataIdx = cursor.dataIdx();
+		return cursor.renderer().render(element, cursor.dataIdx(), cursor.data());
 	}
 	@Override
 	public HTMLTableRowElement element() {

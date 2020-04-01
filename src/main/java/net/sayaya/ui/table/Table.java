@@ -1,7 +1,6 @@
 package net.sayaya.ui.table;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import elemental2.dom.DomGlobal;
@@ -12,7 +11,6 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.concurrent.ScheduledExecutorService;
 
 import static org.jboss.gwt.elemento.core.Elements.*;
 
@@ -52,13 +50,13 @@ public class Table<V> implements IsHTMLElement<HTMLTableElement, Table<V>>, HasV
 		element.appendChild(body.element());
 		return this;
 	}
-	public Table<V> setValues(V[] values) {
+	public Table<V> values(V[] values) {
 		data = Arrays.stream(values).map(mapper::map).toArray(Data[]::new);
-		body.setValues(data).set(0);
+		body.values(data).set(0);
 		return this;
 	}
 	@Override
-	public Data[] getValue() {
+	public Data[] value() {
 		return data;
 	}
 	@Override
@@ -71,18 +69,18 @@ public class Table<V> implements IsHTMLElement<HTMLTableElement, Table<V>>, HasV
 		return element;
 	}
 
-	double getTotalHeight() {
+	double totalHeight() {
 		double headerHeigth = header.element().offsetHeight;
 		double bodyHeight = body.element().offsetHeight;
 		double rowHeight = bodyHeight / body.bufferSize();
-		return headerHeigth + rowHeight * data.length * header.getRowCount();
+		return headerHeigth + rowHeight * data.length * header.rowCount();
 	}
 	boolean viewport(Viewport.ViewportParam param) {
 		double bodyHeight = body.element().offsetHeight;
 		// Jump
 		if(Math.abs(param.getScrollTop() - param.getPrevScrollTop()) > bodyHeight / 2) {
 			int page = (int) Math.floor(param.getScrollTop() / bodyHeight);
-			body.setValues(data).set(page * body.bufferSize());
+			body.values(data).set(page * body.bufferSize());
 			top = param.getScrollTop() - 1000;
 			element.style.setProperty("top", top + "px");
 			return true;

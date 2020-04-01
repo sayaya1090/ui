@@ -13,7 +13,7 @@ public class ChipDecorator {
 	public static class ChipRemovable extends Chip<ChipRemovable> {
 		private final Chip<?> chip;
 		private final HTMLElement remove = i().css("fa fa-times-circle").element();
-		private final Style styleRemove = new Style().setMarginLeft("5px");
+		private final Style styleRemove = Style.build().marginLeft("5px");
 		ChipRemovable(Chip<?> chip) {
 			this.chip = chip;
 			remove.addEventListener("click", evt->{
@@ -24,31 +24,31 @@ public class ChipDecorator {
 			chip.element().appendChild(remove);
 		}
 		@Override
-		HTMLLabelElement getLabel() {
-			return chip.getLabel();
+		HTMLLabelElement label() {
+			return chip.label();
 		}
 		@Override
-		public ChipRemovable setText(String text) {
-			chip.setText(text);
+		public ChipRemovable text(String text) {
+			chip.text(text);
 			return this;
 		}
 		@Override
-		public String getText() {
-			return chip.getText();
+		public String text() {
+			return chip.text();
 		}
 		@Override
 		public HTMLElement element() {
 			return chip.element();
 		}
 	}
-	static ChipRemovable setRemovable(Chip<?> chip) {
+	static ChipRemovable removable(Chip<?> chip) {
 		return new ChipRemovable(chip);
 	}
-	static <C extends Chip<C>> Chip<C> setThumbnails(Chip<C> chip, HTMLElement thumbnail) {
-		HTMLLabelElement label = chip.getLabel();
+	static <C extends Chip<C>> Chip<C> thumbnails(Chip<C> chip, HTMLElement thumbnail) {
+		HTMLLabelElement label = chip.label();
 		while(label.previousElementSibling != null) chip.element().removeChild(label.previousElementSibling);
 		HTMLElement span = span().add(thumbnail).element();
-		Style style = new Style().setDisplay("inline-flex").setOverflow("hidden").setWidth("18px").setMarginRight("5px").setMarginLeft("-6px").setBorderRadius("10px").setBorderWidth("1px").setBorderStyle("solid");
+		Style style = Style.build().display("inline-flex").overflow("hidden").width("18px").marginRight("5px").marginLeft("-6px").borderRadius("10px").borderWidth("1px").borderStyle("solid");
 		style.apply(span.style);
 		chip.element().insertBefore(span, label);
 		thumbnail.style.marginLeft = CSSProperties.MarginLeftUnionType.of("auto");

@@ -31,7 +31,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 		buffer.add(row);
 		element().appendChild(row.element());
 	}
-	TableBody setValues(Data[] values) {
+	TableBody values(Data[] values) {
 		this.values = values;
 		return this;
 	}
@@ -57,10 +57,10 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	private boolean isBottom() {
 		return tail.dataIdx >= (values.length-1) && tail.renderer == null;
 	}
-	private void setCursor(TableBodyRow row, BodyCursor cursor) {
-		cursor.renderer = row.getRenderer();
-		cursor.data = row.getData();
-		cursor.dataIdx = row.getDataIdx();
+	private void cursor(TableBodyRow row, BodyCursor cursor) {
+		cursor.renderer = row.renderer();
+		cursor.data = row.data();
+		cursor.dataIdx = row.dataIdx();
 	}
 	double increase() {
 		if(isBottom()) return 0;
@@ -74,7 +74,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 			tail.renderer = renderer;
 		}
 		TableBodyRow top = buffer.getFirst();
-		setCursor(top, head);
+		cursor(top, head);
 		return move;
 	}
 	double decrease() {
@@ -87,7 +87,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 		head.renderer = row.update(head).backward();
 		if(tmp == renderer) head.data = values[--head.dataIdx];
 		TableBodyRow bottom = buffer.getLast();
-		setCursor(bottom, tail);
+		cursor(bottom, tail);
 		return move;
 	}
 
@@ -97,7 +97,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	}
 
 	@Getter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	@ToString
 	static class BodyCursor {
 		private Data data;

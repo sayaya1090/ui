@@ -7,7 +7,7 @@ import lombok.experimental.Accessors;
 import static org.jboss.gwt.elemento.core.Elements.i;
 
 @Setter
-@Accessors(chain=true)
+@Accessors(fluent=true)
 public class ButtonBuilder {
 	private String text;
 	private HTMLElement icon;
@@ -15,12 +15,12 @@ public class ButtonBuilder {
 	public static AbstractButtonBuilder button() {
 		return new AbstractButtonBuilder(new ButtonBuilder());
 	}
-	public ButtonBuilder setIcon(String icon) {
+	public ButtonBuilder icon(String icon) {
 		this.icon = i().css("fa " + icon).element();
 		return this;
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class AbstractButtonBuilder {
 		private final ButtonBuilder context;
 		private AbstractButtonBuilder(ButtonBuilder context) {
@@ -38,27 +38,27 @@ public class ButtonBuilder {
 		public ButtonToggleBuilder toggle() {
 			return new ButtonToggleBuilder(context);
 		}
-		public AbstractButtonBuilder setText(String text) {
-			context.setText(text);
+		public AbstractButtonBuilder text(String text) {
+			context.text(text);
 			return this;
 		}
-		public AbstractButtonBuilder setIcon(String icon) {
+		public AbstractButtonBuilder icon(String icon) {
 			context.icon = i().css("fa " + icon).element();
 			return this;
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class ButtonFlatBuilder {
 		private final ButtonBuilder context;
 		private ButtonFlatBuilder(ButtonBuilder context) {
 			this.context = context;
 		}
-		public ButtonFlatBuilder setText(String text) {
-			context.setText(text);
+		public ButtonFlatBuilder text(String text) {
+			context.text(text);
 			return this;
 		}
-		public ButtonFlatBuilder setIcon(String icon) {
+		public ButtonFlatBuilder icon(String icon) {
 			context.icon = i().css("fa " + icon).element();
 			return this;
 		}
@@ -67,17 +67,17 @@ public class ButtonBuilder {
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class ButtonOutlineBuilder {
 		private final ButtonBuilder context;
 		private ButtonOutlineBuilder(ButtonBuilder context) {
 			this.context = context;
 		}
-		public ButtonOutlineBuilder setText(String text) {
-			context.setText(text);
+		public ButtonOutlineBuilder text(String text) {
+			context.text(text);
 			return this;
 		}
-		public ButtonOutlineBuilder setIcon(String icon) {
+		public ButtonOutlineBuilder icon(String icon) {
 			context.icon = i().css("fa " + icon).element();
 			return this;
 		}
@@ -86,17 +86,17 @@ public class ButtonBuilder {
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class ButtonContainBuilder {
 		private final ButtonBuilder context;
 		private ButtonContainBuilder(ButtonBuilder context) {
 			this.context = context;
 		}
-		public ButtonContainBuilder setText(String text) {
-			context.setText(text);
+		public ButtonContainBuilder text(String text) {
+			context.text(text);
 			return this;
 		}
-		public ButtonContainBuilder setIcon(String icon) {
+		public ButtonContainBuilder icon(String icon) {
 			context.icon = i().css("fa " + icon).element();
 			return this;
 		}
@@ -105,17 +105,17 @@ public class ButtonBuilder {
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class ButtonToggleBuilder {
 		private final ButtonBuilder context;
 		private ButtonToggleBuilder(ButtonBuilder context) {
 			this.context = context;
 		}
-		public ButtonToggleBuilder setText(String text) {
-			context.setText(text);
+		public ButtonToggleBuilder text(String text) {
+			context.text(text);
 			return this;
 		}
-		public ButtonToggleBuilder setIcon(String icon) {
+		public ButtonToggleBuilder icon(String icon) {
 			context.icon = i().css("fa " + icon).element();
 			return this;
 		}
