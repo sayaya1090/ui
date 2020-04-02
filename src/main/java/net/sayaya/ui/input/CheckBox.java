@@ -9,7 +9,7 @@ import static org.jboss.gwt.elemento.core.Elements.input;
 
 public class CheckBox extends InputBase<Boolean, CheckBox> {
 	public interface Resource extends ClientBundle {
-		@Source("Checkbox.gss")
+		@Source("CheckBox.gss")
 		Style style();
 
 		interface Style extends CssResource {

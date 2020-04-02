@@ -63,7 +63,7 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonImpl element() {
-			return new ButtonImpl(context.text);
+			return new ButtonImpl(Button.GSS.button(), Button.GSS.flat()).setIcon(context.icon).setText(context.text);
 		}
 	}
 	@Setter
@@ -82,7 +82,7 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonImpl element() {
-			return new ButtonImpl(context.text);
+			return new ButtonImpl(Button.GSS.button(), Button.GSS.outline()).setIcon(context.icon).setText(context.text);
 		}
 	}
 	@Setter
@@ -101,7 +101,7 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonImpl element() {
-			return new ButtonImpl(context.text);
+			return new ButtonImpl(Button.GSS.button(), Button.GSS.contain()).setIcon(context.icon).setText(context.text);
 		}
 	}
 	@Setter
@@ -120,7 +120,7 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonToggle element() {
-			return new ButtonToggle();
+			return new ButtonToggle(Button.GSS.button(), Button.GSS.toggle());
 		}
 	}
 }

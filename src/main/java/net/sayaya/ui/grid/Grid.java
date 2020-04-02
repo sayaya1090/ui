@@ -15,6 +15,10 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	Grid(GridBuilder builder) {
 		elem = new ToastGrid(builder.element(div));
 	}
+	public Grid update(Datum[] data) {
+		elem.resetData(data);
+		return this;
+	}
 	@Override
 	public HTMLDivElement element() {
 		return div;
@@ -22,5 +26,6 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	@JsType(isNative = true, namespace = "tui", name="Grid")
 	private final static class ToastGrid {
 		ToastGrid(GridBuilder settings) {}
+		public native void resetData(Datum[] data);
 	}
 }

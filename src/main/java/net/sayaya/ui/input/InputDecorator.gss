@@ -8,7 +8,7 @@
 .labeled input:not([type="checkbox"]) + label {
     display: block;
     position: relative;
-    height: 1px;
+    height: 0px;
     top: -48px;
     left: 8px;
     text-rendering: optimizeLegibility;

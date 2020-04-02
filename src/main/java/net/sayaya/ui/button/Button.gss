@@ -1,0 +1,53 @@
+.button {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.375rem 0.75rem;
+    font-size: 14px;
+    text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	text-transform: uppercase;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    outline-style: none;
+    -webkit-transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 120ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.button:enabled {
+    cursor: pointer;
+}
+.button:first-child {
+    border-top-left-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+}
+.button:last-child {
+    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
+.flat {
+    font-weight: bold;
+    background-color: transparent;
+    border: 0px hidden;
+}
+.flat:hover:enabled {
+   color: rgba(0, 0, 0, 0.38);
+}
+.outline {
+    font-weight: bold;
+    background-color: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+.outline:hover:enabled {
+    color: #00A9E0;
+}
+.contain {
+    font-weight: bold;
+}
+
+.toggle {
+
+}

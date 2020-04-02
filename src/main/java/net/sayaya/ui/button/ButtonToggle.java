@@ -5,6 +5,9 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 
 public class ButtonToggle extends Button<ButtonImpl> implements HasValueChangeHandlers<Boolean> {
 	private boolean push = false;
+	protected ButtonToggle(String... classes) {
+		super(classes);
+	}
 	@Override
 	public Boolean value() {
 		return push;
