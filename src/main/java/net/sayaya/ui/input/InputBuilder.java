@@ -3,6 +3,8 @@ package net.sayaya.ui.input;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.swing.*;
+
 @Setter
 @Accessors(fluent=true)
 public class InputBuilder {
