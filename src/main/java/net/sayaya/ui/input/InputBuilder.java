@@ -61,7 +61,10 @@ public class InputBuilder {
 		private Double max;
 		private InputNumberBoxBuilder() {}
 		public NumberBox element() {
-			return new NumberBox().min(min).max(max);
+			NumberBox elem = new NumberBox();
+			if(min!=null) elem.min(min);
+			if(max!=null) elem.max(max);
+			return elem;
 		}
 	}
 }
