@@ -1,5 +1,6 @@
 package net.sayaya.ui.input;
 
+import elemental2.dom.Event;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLInputElement;
 import net.sayaya.ui.event.HandlerRegistration;
@@ -20,6 +21,9 @@ public abstract class InputBase<V, W extends Input<V, W>> implements Input<V, W>
 	@Override
 	public final HandlerRegistration addClickHandler(EventListener listener) {
 		return addClickHandler(_this, listener);
+	}
+	public void fireEvent(Event evt) {
+		_this.dispatchEvent(evt);
 	}
 	public final W enabled(boolean enabled) {
 		if(enabled) _this.removeAttribute("disabled");

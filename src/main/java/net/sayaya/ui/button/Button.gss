@@ -39,8 +39,15 @@
 .outline {
     font-weight: bold;
     background-color: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: 1px transparent;
 }
+.outline:first-of-type {
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 .outline:hover:enabled {
     color: #00A9E0;
 }

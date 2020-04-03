@@ -38,5 +38,20 @@ public final class Datum {
 	public final static class Attribute {
 		@JsProperty(name="expanded")
 		private boolean expanded;
+		@JsProperty(name="rowspan")
+		private RowSpan rowspan;
+
+		@JsOverlay
+		public static RowSpan rowspan(String column, int span) {
+			RowSpan s = new RowSpan();
+			Js.asPropertyMap(s).set(column, span);
+			return s;
+		}
+		@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+		@Setter(onMethod_= {@JsOverlay})
+		@Accessors(chain=true)
+		public final static class RowSpan {
+			private RowSpan(){}
+		}
 	}
 }

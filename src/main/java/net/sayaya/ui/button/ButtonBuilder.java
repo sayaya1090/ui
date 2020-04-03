@@ -63,7 +63,10 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonImpl element() {
-			return new ButtonImpl(Button.GSS.button(), Button.GSS.flat()).setIcon(context.icon).setText(context.text);
+			ButtonImpl btn = new ButtonImpl(Button.GSS.button(), Button.GSS.flat());
+			if(context.text!=null) btn.setText(context.text);
+			if(context.icon!=null) btn.setIcon(context.icon);
+			return btn;
 		}
 	}
 	@Setter
@@ -82,7 +85,10 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonImpl element() {
-			return new ButtonImpl(Button.GSS.button(), Button.GSS.outline()).setIcon(context.icon).setText(context.text);
+			ButtonImpl btn = new ButtonImpl(Button.GSS.button(), Button.GSS.outline());
+			if(context.text!=null) btn.setText(context.text);
+			if(context.icon!=null) btn.setIcon(context.icon);
+			return btn;
 		}
 	}
 	@Setter
@@ -101,7 +107,10 @@ public class ButtonBuilder {
 			return this;
 		}
 		public ButtonImpl element() {
-			return new ButtonImpl(Button.GSS.button(), Button.GSS.contain()).setIcon(context.icon).setText(context.text);
+			ButtonImpl btn = new ButtonImpl(Button.GSS.button(), Button.GSS.contain());
+			if(context.text!=null) btn.setText(context.text);
+			if(context.icon!=null) btn.setIcon(context.icon);
+			return btn;
 		}
 	}
 	@Setter

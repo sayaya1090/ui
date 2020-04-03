@@ -19,8 +19,11 @@ public class InputBuilder {
 	public static InputTextBoxBuilder text() {
 		return new InputTextBoxBuilder();
 	}
+	public static InputNumberBoxBuilder number() {
+		return new InputNumberBoxBuilder();
+	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class InputCheckBoxBuilder {
 		private InputCheckBoxBuilder(){};
 		public CheckBox element() {
@@ -28,7 +31,7 @@ public class InputBuilder {
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class InputComboBoxBuilder {
 		private InputComboBoxBuilder() {}
 		public ComboBox element() {
@@ -36,7 +39,7 @@ public class InputBuilder {
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class InputRadioBuilder {
 		private InputRadioBuilder() {}
 		public Radio element() {
@@ -44,11 +47,21 @@ public class InputBuilder {
 		}
 	}
 	@Setter
-	@Accessors(chain=true)
+	@Accessors(fluent=true)
 	public static class InputTextBoxBuilder {
 		private InputTextBoxBuilder() {}
 		public TextBox element() {
 			return new TextBox();
+		}
+	}
+	@Setter
+	@Accessors(fluent=true)
+	public static class InputNumberBoxBuilder {
+		private Double min;
+		private Double max;
+		private InputNumberBoxBuilder() {}
+		public NumberBox element() {
+			return new NumberBox().min(min).max(max);
 		}
 	}
 }
