@@ -2,10 +2,13 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.ui.HTMLTable;
+import elemental2.core.JsObject;
 import elemental2.dom.*;
 import jdk.jfr.DataAmount;
+import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import lombok.Data;
 import lombok.Setter;
@@ -30,6 +33,7 @@ import org.jboss.gwt.elemento.core.Elements;
 import org.jboss.gwt.elemento.core.InputType;
 
 import java.util.Date;
+import java.util.concurrent.ScheduledExecutorService;
 
 import static net.sayaya.ui.table.TableBuilder.TableBodyBuilder.body;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderBuilder.header;
@@ -215,21 +219,28 @@ public class Test implements EntryPoint {
 	}
 	void TestGrid() {
 		Grid grid = Grid.builder().scrollX(false).scrollY(false)
-											   .columns(new Column[] {
-										   new Column().header("Id").name("id").editor("text"),
-										   new Column().header("City").name("city").editor("text"),
-										   new Column().header("Country").name("country").editor("text")
-								   }).data(new Datum[]{
-						new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")
-								   .setChildren(new Datum[] {
-										   new Datum().put("id", "100121").put("city", "CDAF").put("country", "FWEFEWF"),
-										   new Datum().put("id", "100122").put("city", "CDAF").put("country", "FWEFEWF"),
-										   new Datum().put("id", "100123").put("city", "CDAF").put("country", "FWEFEWF")
-								   }).setAttribute(new Datum.Attribute().setExpanded(false)),
-						new Datum().put("id", "10013").put("city", "CDAF").put("country", "FWEFEWF"),
-						new Datum().put("id", "10014").put("city", "CDAF").put("country", "FWEFEWF"),
-						new Datum().put("id", "10015").put("city", "CDAF").put("country", "FWEFEWF")
-				}).treeColumnOption(new TreeColumnOption().id("id").useCascadingCheckbox(false).useIcon(false)).build();
+						.columns(new Column[] {
+								new Column().header("Id").name("id").editor("text"),
+								new Column().header("City").name("city").renderer(()->{
+									DomGlobal.console.log("Create");
+									return Elements.input(InputType.text).element();
+								}, (e, p)->{
+									((HTMLInputElement)e).value = (String) p.value();
+								}, (e, p)->{
+									DomGlobal.console.log("FWFEW");
+								}),
+								new Column().header("Country").name("country").editor("text")
+						}).treeColumnOption(new TreeColumnOption().id("id").useCascadingCheckbox(false).useIcon(false)).build();
 		Elements.body().add(grid);
+		Scheduler.get().scheduleFixedDelay(()->{
+			Datum[] data = new Datum[]{
+					new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"),
+					new Datum().put("id", "10013").put("city", "CDAF").put("country", "FWEFEWF"),
+					new Datum().put("id", "10014").put("city", "CDAF").put("country", "FWEFEWF"),
+					new Datum().put("id", "10015").put("city", "CDAF").put("country", "FWEFEWF")
+			};
+			grid.update(data);
+			return false;
+		}, 1000);
 	}
 }
