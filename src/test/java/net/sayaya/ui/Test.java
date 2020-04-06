@@ -4,26 +4,24 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.ui.HTMLTable;
-import elemental2.core.JsObject;
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.TextBox;
 import elemental2.dom.*;
-import jdk.jfr.DataAmount;
-import jsinterop.base.Js;
 import jsinterop.base.JsPropertyMap;
 import lombok.Data;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
+import net.sayaya.ui.button.Button;
 import net.sayaya.ui.button.ButtonBuilder;
 import net.sayaya.ui.chip.ChipBuilder;
 import net.sayaya.ui.chip.ChipDecorator;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
-import net.sayaya.ui.input.CheckBox;
-import net.sayaya.ui.button.ButtonImpl;
-import net.sayaya.ui.input.InputBuilder;
-import net.sayaya.ui.input.InputDecorator;
-import net.sayaya.ui.input.TextBox;
+import net.sayaya.ui.input.TextField;
+import net.sayaya.ui.input.TextFieldBuilder;
+import net.sayaya.ui.input.TextFieldFilled;
+import net.sayaya.ui.input.TextFieldOutlined;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
@@ -51,7 +49,7 @@ public class Test implements EntryPoint {
 		TestButtonText();
 		// TestChip();
 		// TestTable();
-		TestGrid();
+		// TestGrid();
 	}
 	void LayoutTest() {
 		GridLayoutResponsive.addHandler(evt->{
@@ -59,7 +57,7 @@ public class Test implements EntryPoint {
 		});
 	}
 	void AnimationTest() {
-		ButtonImpl tmp = ButtonBuilder.button().contain().text("Text Button").element();
+		Button tmp = ButtonBuilder.button().contain().text("Text Button").element();
 		Elements.body().add(tmp);
 		tmp.style(Style.build().position("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
@@ -80,36 +78,32 @@ public class Test implements EntryPoint {
 		Elements.body().add(chip);
 	}
 	void TestButtonText() {
-		ButtonImpl tmp = ButtonBuilder.button().contain().text("Text Button").element();
-		Style style = Style.build().border("1px solid #ddd").fontFamily("Arial");
-		tmp.style(style);
-
+		Button tmp = ButtonBuilder.button().contain().text("Text Button").element();
 		HandlerRegistration handler = tmp.addClickHandler(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
 		Elements.body().add(tmp);
 
-		ButtonImpl tmp2 = ButtonBuilder.button().contain().text("Button Enabled").element().enabled(true);
+		Button tmp2 = ButtonBuilder.button().flat().text("Button Enabled").icon("sync").element().enabled(true);
 		Elements.body().add(tmp2);
 
-		ButtonImpl tmp3 = ButtonBuilder.button().contain().text("Button Disabled").element().enabled(false);
+		Button tmp3 = ButtonBuilder.button().contain().text("Button Disabled").element().enabled(false);
 		Elements.body().add(tmp3);
 
-		ButtonImpl tmp4 = ButtonBuilder.button().contain().text("Button Focused").element().focus().accessKey('A');
+		Button tmp4 = ButtonBuilder.button().outline().text("Button Focused").element().focus().accessKey('A');
 		Elements.body().add(tmp4);
 
-		CheckBox tmp5 = InputBuilder.checkbox().element().focus().accessKey('A').style(style);
+		/*CheckBox tmp5 = InputBuilder.checkbox().element().focus().accessKey('A');
 		Elements.body().add(InputDecorator.label(tmp5).setLabel("Label"));
 		tmp5.addValueChangeHandler(evt->{
 		//	DomGlobal.alert(evt.getValue());
-		});
+		});*/
 
-		TextBox tmp6 = InputBuilder.text().element().accessKey('B');
-		Elements.body().add(InputDecorator.label(tmp6).setLabel("Label"));
+		TextFieldOutlined<String> tmp6 = TextFieldBuilder.textBox().label("tmp6").outlined().iconLeading("favorite").iconTrailing("visibility").build();
 		tmp6.addValueChangeHandler(evt->{
 		// 	DomGlobal.alert(evt.getValue());
 		});
-
+		Elements.body().add(tmp6);
 		/*EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);
 		Elements.body().add(tmp7);
 		tmp7.addValueChangeHandler(evt->{

@@ -6,24 +6,18 @@ import lombok.experimental.Accessors;
 
 import static org.jboss.gwt.elemento.core.Elements.i;
 
-@Setter
-@Accessors(fluent=true)
-public class ButtonBuilder {
-	private String text;
-	private HTMLElement icon;
-	private ButtonBuilder(){}
-	public static AbstractButtonBuilder button() {
-		return new AbstractButtonBuilder(new ButtonBuilder());
-	}
-	public ButtonBuilder icon(String icon) {
-		this.icon = i().css("fa " + icon).element();
-		return this;
+public abstract class ButtonBuilder<B extends ButtonBuilder<B>> {
+	@Setter
+	@Accessors(fluent=true)
+	private final static class ButtonSetting {
+		private String text;
+		private HTMLElement icon;
 	}
 	@Setter
 	@Accessors(fluent=true)
 	public static class AbstractButtonBuilder {
-		private final ButtonBuilder context;
-		private AbstractButtonBuilder(ButtonBuilder context) {
+		private final ButtonSetting context;
+		private AbstractButtonBuilder(ButtonSetting context) {
 			this.context = context;
 		}
 		public ButtonFlatBuilder flat() {
@@ -43,93 +37,72 @@ public class ButtonBuilder {
 			return this;
 		}
 		public AbstractButtonBuilder icon(String icon) {
-			context.icon = i().css("fa " + icon).element();
+			context.icon = i().css("material-icons", "mdc-button__icon").add(icon).element();
 			return this;
 		}
 	}
-	@Setter
-	@Accessors(fluent=true)
-	public static class ButtonFlatBuilder {
-		private final ButtonBuilder context;
-		private ButtonFlatBuilder(ButtonBuilder context) {
-			this.context = context;
+	protected final ButtonSetting context;
+	private ButtonBuilder(ButtonSetting context){
+		this.context = context;
+	}
+	public static AbstractButtonBuilder button() {
+		return new AbstractButtonBuilder(new ButtonSetting());
+	}
+	protected B self() {
+		return (B)this;
+	}
+	public B icon(String icon) {
+		context.icon = i().css("material-icons", "mdc-button__icon").add(icon).element();
+		return self();
+	}
+	public B text(String text) {
+		context.text(text);
+		return self();
+	}
+	public abstract Button element();
+	public static class ButtonFlatBuilder extends ButtonBuilder<ButtonFlatBuilder> {
+		private ButtonFlatBuilder(ButtonSetting context) {
+			super(context);
 		}
-		public ButtonFlatBuilder text(String text) {
-			context.text(text);
-			return this;
-		}
-		public ButtonFlatBuilder icon(String icon) {
-			context.icon = i().css("fa " + icon).element();
-			return this;
-		}
-		public ButtonImpl element() {
-			ButtonImpl btn = new ButtonImpl(Button.GSS.button(), Button.GSS.flat());
-			if(context.text!=null) btn.setText(context.text);
-			if(context.icon!=null) btn.setIcon(context.icon);
+		@Override
+		public Button element() {
+			Button btn = new Button();
+			if(context.icon!=null) btn.icon(context.icon);
+			if(context.text!=null) btn.text(context.text);
 			return btn;
 		}
 	}
-	@Setter
-	@Accessors(fluent=true)
-	public static class ButtonOutlineBuilder {
-		private final ButtonBuilder context;
-		private ButtonOutlineBuilder(ButtonBuilder context) {
-			this.context = context;
+	public static class ButtonOutlineBuilder extends ButtonBuilder<ButtonOutlineBuilder> {
+		private ButtonOutlineBuilder(ButtonSetting context) {
+			super(context);
 		}
-		public ButtonOutlineBuilder text(String text) {
-			context.text(text);
-			return this;
-		}
-		public ButtonOutlineBuilder icon(String icon) {
-			context.icon = i().css("fa " + icon).element();
-			return this;
-		}
-		public ButtonImpl element() {
-			ButtonImpl btn = new ButtonImpl(Button.GSS.button(), Button.GSS.outline());
-			if(context.text!=null) btn.setText(context.text);
-			if(context.icon!=null) btn.setIcon(context.icon);
+		@Override
+		public Button element() {
+			Button btn = new Button().addClass("mdc-button--outlined");
+			if(context.icon!=null) btn.icon(context.icon);
+			if(context.text!=null) btn.text(context.text);
 			return btn;
 		}
 	}
-	@Setter
-	@Accessors(fluent=true)
-	public static class ButtonContainBuilder {
-		private final ButtonBuilder context;
-		private ButtonContainBuilder(ButtonBuilder context) {
-			this.context = context;
+	public static class ButtonContainBuilder extends ButtonBuilder<ButtonContainBuilder> {
+		private ButtonContainBuilder(ButtonSetting context) {
+			super(context);
 		}
-		public ButtonContainBuilder text(String text) {
-			context.text(text);
-			return this;
-		}
-		public ButtonContainBuilder icon(String icon) {
-			context.icon = i().css("fa " + icon).element();
-			return this;
-		}
-		public ButtonImpl element() {
-			ButtonImpl btn = new ButtonImpl(Button.GSS.button(), Button.GSS.contain());
-			if(context.text!=null) btn.setText(context.text);
-			if(context.icon!=null) btn.setIcon(context.icon);
+		@Override
+		public Button element() {
+			Button btn = new Button().addClass("mdc-button--unelevated");
+			if(context.icon!=null) btn.icon(context.icon);
+			if(context.text!=null) btn.text(context.text);
 			return btn;
 		}
 	}
-	@Setter
-	@Accessors(fluent=true)
-	public static class ButtonToggleBuilder {
-		private final ButtonBuilder context;
-		private ButtonToggleBuilder(ButtonBuilder context) {
-			this.context = context;
+	public static class ButtonToggleBuilder extends ButtonBuilder<ButtonToggleBuilder> {
+		private ButtonToggleBuilder(ButtonSetting context) {
+			super(context);
 		}
-		public ButtonToggleBuilder text(String text) {
-			context.text(text);
-			return this;
-		}
-		public ButtonToggleBuilder icon(String icon) {
-			context.icon = i().css("fa " + icon).element();
-			return this;
-		}
+		@Override
 		public ButtonToggle element() {
-			return new ButtonToggle(Button.GSS.button(), Button.GSS.toggle());
+			return new ButtonToggle();
 		}
 	}
 }

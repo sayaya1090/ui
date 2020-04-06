@@ -5,8 +5,24 @@
 		<title>Module Application</title>
 		<link type="text/css" rel="stylesheet" href="fontawesome/css/all.min.css">
 		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Major+Mono+Display|Montserrat|Noto+Sans+KR&display=swap">
+		<link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet" type="text/css" >
+		<script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://uicdn.toast.com/tui-grid/latest/tui-grid.css" />
 		<script src="https://uicdn.toast.com/tui-grid/latest/tui-grid.js"></script>
+		<style type="text/css">
+			body {
+				--mdc-theme-primary: #00A9E0;
+				--mdc-theme-background: #FFFFFF;
+				--mdc-theme-surface: #ddd;
+			}
+			.mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label {
+				color: rgba(0,0,0,.6);
+			}
+			.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+				color: rgba(0,169,224,.87);
+			}
+		</style>
 	</head>
 	<body>
 		<script type="text/javascript" language="javascript" src="test/test.nocache.js"></script>
