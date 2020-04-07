@@ -44,6 +44,10 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 		HTMLInputElement input = input(InputType.date).element();
 		return new TextFieldBuilder<>(new TextFieldSetting<JsDate>().input(input).getter(()->input.valueAsDate).settter(v->input.valueAsDate = v));
 	}
+	public static TextFieldBuilder<String, ?> fileBox() {
+		HTMLInputElement input = input(InputType.file).element();
+		return new TextFieldBuilder<>(new TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->{DomGlobal.console.log("Unimplemented method: InputType.file -> setValue");}));
+	}
 	protected TextFieldSetting<V> context;
 	public S enabled(boolean enabled) {
 		context.enabled = enabled;
@@ -79,6 +83,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 				@Override
 				public TextFieldFilled<V> value(V value) {
 					context.settter.accept(value);
+					inject();
 					return self();
 				}
 				@Override
@@ -97,13 +102,13 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 	public static class TextFieldOutlinedBuilder<V> extends TextFieldBuilder<V, TextFieldOutlinedBuilder<V>> {
 		private TextFieldOutlinedBuilder(TextFieldSetting<V> context) {
 			super(context);
-			DomGlobal.console.log("FWEF");
 		}
 		public TextFieldOutlined<V> build() {
 			TextFieldOutlined<V> elem = new TextFieldOutlined<V>(context.input) {
 				@Override
 				public TextFieldOutlined<V> value(V value) {
 					context.settter.accept(value);
+					inject();
 					return self();
 				}
 
@@ -112,7 +117,6 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 					return context.getter.get();
 				}
 			};
-			DomGlobal.console.log("FWEF");
 			if(context.enabled!=null) elem.enabled(context.enabled);
 			if(context.label!=null) elem.label(context.label);
 			if(context.iconLeading!=null) elem.iconLeading(context.iconLeading);

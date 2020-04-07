@@ -13,6 +13,51 @@ public abstract class ButtonBuilder<B extends ButtonBuilder<B>> {
 		private String text;
 		private HTMLElement icon;
 	}
+	public static class ButtonFlatBuilder extends ButtonBuilder<ButtonFlatBuilder> {
+		private ButtonFlatBuilder(ButtonSetting context) {
+			super(context);
+		}
+		@Override
+		public Button element() {
+			Button btn = new Button();
+			if(context.icon!=null) btn.icon(context.icon);
+			if(context.text!=null) btn.text(context.text);
+			return btn;
+		}
+	}
+	public static class ButtonOutlineBuilder extends ButtonBuilder<ButtonOutlineBuilder> {
+		private ButtonOutlineBuilder(ButtonSetting context) {
+			super(context);
+		}
+		@Override
+		public Button element() {
+			Button btn = new Button().addClass("mdc-button--outlined");
+			if(context.icon!=null) btn.icon(context.icon);
+			if(context.text!=null) btn.text(context.text);
+			return btn;
+		}
+	}
+	public static class ButtonContainBuilder extends ButtonBuilder<ButtonContainBuilder> {
+		private ButtonContainBuilder(ButtonSetting context) {
+			super(context);
+		}
+		@Override
+		public Button element() {
+			Button btn = new Button().addClass("mdc-button--unelevated");
+			if(context.icon!=null) btn.icon(context.icon);
+			if(context.text!=null) btn.text(context.text);
+			return btn;
+		}
+	}
+	public static class ButtonToggleBuilder extends ButtonBuilder<ButtonToggleBuilder> {
+		private ButtonToggleBuilder(ButtonSetting context) {
+			super(context);
+		}
+		@Override
+		public ButtonToggle element() {
+			return new ButtonToggle();
+		}
+	}
 	@Setter
 	@Accessors(fluent=true)
 	public static class AbstractButtonBuilder {
@@ -60,49 +105,4 @@ public abstract class ButtonBuilder<B extends ButtonBuilder<B>> {
 		return self();
 	}
 	public abstract Button element();
-	public static class ButtonFlatBuilder extends ButtonBuilder<ButtonFlatBuilder> {
-		private ButtonFlatBuilder(ButtonSetting context) {
-			super(context);
-		}
-		@Override
-		public Button element() {
-			Button btn = new Button();
-			if(context.icon!=null) btn.icon(context.icon);
-			if(context.text!=null) btn.text(context.text);
-			return btn;
-		}
-	}
-	public static class ButtonOutlineBuilder extends ButtonBuilder<ButtonOutlineBuilder> {
-		private ButtonOutlineBuilder(ButtonSetting context) {
-			super(context);
-		}
-		@Override
-		public Button element() {
-			Button btn = new Button().addClass("mdc-button--outlined");
-			if(context.icon!=null) btn.icon(context.icon);
-			if(context.text!=null) btn.text(context.text);
-			return btn;
-		}
-	}
-	public static class ButtonContainBuilder extends ButtonBuilder<ButtonContainBuilder> {
-		private ButtonContainBuilder(ButtonSetting context) {
-			super(context);
-		}
-		@Override
-		public Button element() {
-			Button btn = new Button().addClass("mdc-button--unelevated");
-			if(context.icon!=null) btn.icon(context.icon);
-			if(context.text!=null) btn.text(context.text);
-			return btn;
-		}
-	}
-	public static class ButtonToggleBuilder extends ButtonBuilder<ButtonToggleBuilder> {
-		private ButtonToggleBuilder(ButtonSetting context) {
-			super(context);
-		}
-		@Override
-		public ButtonToggle element() {
-			return new ButtonToggle();
-		}
-	}
 }
