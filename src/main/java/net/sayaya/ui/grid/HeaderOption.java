@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
+import java.util.LinkedList;
+import java.util.List;
 
 @JsType
 @Getter
@@ -22,7 +24,10 @@ public class HeaderOption {
 	@JsProperty
 	@Getter(AccessLevel.NONE)
 	private String valign;
+	@JsProperty
+	private HeaderColumn[] columns;
 	public static class HeaderOptionBuilder {
+		private final List<HeaderColumn> _columns = new LinkedList<>();
 		public HeaderOptionBuilder height(int height) {
 			this.height = height + 0.0;
 			return this;
@@ -33,6 +38,11 @@ public class HeaderOption {
 		}
 		public HeaderOptionBuilder alignVertical(@NotNull AlignVertical align) {
 			this.valign = align.name();
+			return this;
+		}
+		public HeaderOptionBuilder column(HeaderColumn column) {
+			_columns.add(column);
+			this.columns = _columns.toArray(new HeaderColumn[0]);
 			return this;
 		}
 	}

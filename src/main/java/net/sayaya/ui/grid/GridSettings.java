@@ -7,6 +7,8 @@ import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.LinkedList;
+
 @JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 @Setter(onMethod_= {@JsOverlay})
 @Accessors(fluent=true)
@@ -61,7 +63,15 @@ public final class GridSettings {
 		editingEvent = trigger.name();
 		return this;
 	}
-
+	@JsProperty
+	private LinkedList<Column<?>> _columns;
+	@JsOverlay
+	public GridSettings column(Column<?> column) {
+		if(_columns == null) _columns = new LinkedList<>();
+		_columns.add(column);
+		this.columns = _columns.toArray(new Column[0]);
+		return this;
+	}
 	public enum EditTrigger {
 		dbclick, click
 	}

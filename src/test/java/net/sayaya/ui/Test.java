@@ -22,16 +22,18 @@ import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
 import net.sayaya.ui.table.Viewport;
 import org.jboss.gwt.elemento.core.Elements;
+import org.jboss.gwt.elemento.core.InputType;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static net.sayaya.ui.table.TableBuilder.TableBodyBuilder.body;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderBuilder.header;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderRowBuilder.row;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderCellBuilder.cell;
 import static net.sayaya.ui.table.TableBuilder.table;
-import static org.jboss.gwt.elemento.core.Elements.label;
-import static org.jboss.gwt.elemento.core.Elements.td;
+import static org.jboss.gwt.elemento.core.Elements.*;
 
 public class Test implements EntryPoint {
 	@Override
@@ -204,15 +206,25 @@ public class Test implements EntryPoint {
 		Elements.body().add(new Viewport(table.values(values)));
 	}
 	void TestGrid() {
-		Grid grid = Grid.builder().scrollY(false).header(HeaderOption.builder().height(50).alignHorizontal(AlignHorizontal.right).build())
+		Grid grid = Grid.builder().scrollY(false)
+						.header(HeaderOption.builder().height(50)
+											.column(HeaderColumn.builder().name("id").renderer(()->{
+												HTMLDivElement div = div().element();
+												HTMLInputElement chk = input(InputType.checkbox).element();
+												div.appendChild(chk);
+												return div;
+											}).build())
+											.build())
 						.colunmOptions(ColumnOption.builder().minWidth(300).frozenCount(1).build())
-						.columns(new Column[] {
-								Column.builder(String.class).header("Id").name("id").editor("text").onBeforeChange(evt->{
-									DomGlobal.console.log("FWEF");
-								}).build(),
-								Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build(),
-								Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build()
-						}).editingEvent(GridSettings.EditTrigger.click).build();
+						.column(Column.builder(String.class).header("Id").name("id").editor("text").onBeforeChange(evt->{
+									DomGlobal.console.log(evt.getValue() + "=>" + evt.getNextValue());
+								}).renderer(()->div().element(),
+											(elem, prop)->{
+												elem.innerHTML = prop.value();
+											}).build())
+						.column(Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build())
+						.column(Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build())
+						.editingEvent(GridSettings.EditTrigger.click).build();
 		Elements.body().add(grid);
 		Scheduler.get().scheduleFixedDelay(()->{
 			Datum[] data = new Datum[]{
