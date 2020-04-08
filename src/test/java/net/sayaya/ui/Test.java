@@ -1,11 +1,7 @@
 package net.sayaya.ui;
 
-import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.*;
 import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.TextBox;
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
 import lombok.Data;
@@ -18,9 +14,7 @@ import net.sayaya.ui.chip.ChipBuilder;
 import net.sayaya.ui.chip.ChipDecorator;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
-import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.input.TextFieldBuilder;
-import net.sayaya.ui.input.TextFieldFilled;
 import net.sayaya.ui.input.TextFieldOutlined;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.style.Style;
@@ -28,10 +22,8 @@ import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
 import net.sayaya.ui.table.Viewport;
 import org.jboss.gwt.elemento.core.Elements;
-import org.jboss.gwt.elemento.core.InputType;
 
 import java.util.Date;
-import java.util.concurrent.ScheduledExecutorService;
 
 import static net.sayaya.ui.table.TableBuilder.TableBodyBuilder.body;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderBuilder.header;
@@ -49,7 +41,7 @@ public class Test implements EntryPoint {
 		TestButtonText();
 		// TestChip();
 		// TestTable();
-		// TestGrid();
+		TestGrid();
 	}
 	void LayoutTest() {
 		GridLayoutResponsive.addHandler(evt->{
@@ -212,26 +204,19 @@ public class Test implements EntryPoint {
 		Elements.body().add(new Viewport(table.values(values)));
 	}
 	void TestGrid() {
-		Grid grid = Grid.builder().scrollX(false).scrollY(false)
+		Grid grid = Grid.builder().scrollY(false).header(HeaderOption.builder().height(50).alignHorizontal(AlignHorizontal.right).build())
+						.colunmOptions(ColumnOption.builder().minWidth(300).frozenCount(1).build())
 						.columns(new Column[] {
-								new Column().header("Id").name("id").editor("text"),
-								new Column().header("City").name("city").renderer(()->{
-									DomGlobal.console.log("Create");
-									return Elements.input(InputType.text).element();
-								}, (e, p)->{
-									((HTMLInputElement)e).value = (String) p.value();
-								}, (e, p)->{
-									DomGlobal.console.log("FWFEW");
-								}),
-								new Column().header("Country").name("country").editor("text")
-						}).treeColumnOption(new TreeColumnOption().id("id").useCascadingCheckbox(false).useIcon(false)).build();
+								Column.builder(String.class).header("Id").name("id").editor("text").onBeforeChange(evt->{
+									DomGlobal.console.log("FWEF");
+								}).build(),
+								Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build(),
+								Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build()
+						}).editingEvent(GridSettings.EditTrigger.click).build();
 		Elements.body().add(grid);
 		Scheduler.get().scheduleFixedDelay(()->{
 			Datum[] data = new Datum[]{
-					new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"),
-					new Datum().put("id", "10013").put("city", "CDAF").put("country", "FWEFEWF"),
-					new Datum().put("id", "10014").put("city", "CDAF").put("country", "FWEFEWF"),
-					new Datum().put("id", "10015").put("city", "CDAF").put("country", "FWEFEWF")
+					new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")
 			};
 			grid.update(data);
 			return false;

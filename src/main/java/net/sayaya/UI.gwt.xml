@@ -6,5 +6,4 @@
 	<source path="java.beans" />
 	<collapse-all-properties/>
 	<set-configuration-property name="CssResource.enableGss" value="TRUE" />
-	<set-configuration-property name="xsiframe.failIfScriptTag" value="FALSE"/>
 </module>

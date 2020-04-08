@@ -95,7 +95,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 			if(context.label!=null) elem.label(context.label);
 			if(context.iconLeading!=null) elem.iconLeading(context.iconLeading);
 			if(context.iconTrailing!=null) elem.iconTrailing(context.iconTrailing);
-			TextField.inject(elem.element());
+			elem.inject();
 			return elem;
 		}
 	}
@@ -121,7 +121,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 			if(context.label!=null) elem.label(context.label);
 			if(context.iconLeading!=null) elem.iconLeading(context.iconLeading);
 			if(context.iconTrailing!=null) elem.iconTrailing(context.iconTrailing);
-			TextField.inject(elem.element());
+			elem.inject();
 			return elem;
 		}
 	}

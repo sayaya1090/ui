@@ -1,17 +1,16 @@
 plugins {
     id "org.wisepersist.gwt" version "1.0.13"
 }
-
 apply plugin: "java"
 if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
-    apply plugin: "gwt"
     apply plugin: "war"
+    apply plugin: "gwt"
     gwt.modules "net.sayaya.Test"
     sourceSets.main.java.srcDirs += 'src/test/java'
     gwtDev {
         jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+        port 8888
         war file("src/test/webapp")
-        port 8080
     }
 } else {
     apply plugin: "gwt-base"
@@ -20,38 +19,46 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     } else {
 
     }
+    jar {
+        from sourceSets.main.allSource
+        archiveName "sayaya-${archivesBaseName}.jar"
+    }
 }
 
 group "net.sayaya"
 version "3.0"
 [compileJava, compileTestJava]*.options*.encoding = "UTF-8"
 sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
-    mavenCentral()
     mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
     implementation("org.jboss.gwt.elemento:elemento-core:${elementoVersion}")
     implementation("org.jboss.gwt.elemento:elemento-template-api:${elementoVersion}")
     implementation("org.jboss.gwt.elemento:elemento-template-processor:${elementoVersion}")
-    compileOnly("com.google.gwt:gwt-user:${gwtVersion}")
-    compileOnly("com.google.gwt:gwt-dev:${gwtVersion}")
+    compileOnly("com.google.gwt:gwt-user:2.8.2")
+    compileOnly("com.google.gwt:gwt-dev:2.8.2")
     compileOnly("org.projectlombok:lombok:1.18.12")
     annotationProcessor("org.projectlombok:lombok:1.18.12")
     testCompileOnly("org.projectlombok:lombok:1.18.12")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.12")
 }
 
-compileJava {
-    options.incremental = true
-}
 
 gwt {
-    gwtVersion = "${gwtVersion}"
+    gwtVersion = "2.8.2"
     minHeapSize = "1024M"
     maxHeapSize = "2048M"
+    jsInteropExports.setGenerate(true)
+    compiler {
+        localWorkers = 12
+        disableClassMetadata = true
+        disableCastChecking = true
+    }
 }
 
 compileGwt {
@@ -59,9 +66,3 @@ compileGwt {
     maxHeapSize = "4096M"
     jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
 }
-
-jar {
-    from sourceSets.main.allSource
-    archiveName "sayaya-${archivesBaseName}.jar"
-}
-

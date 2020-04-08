@@ -9,10 +9,10 @@ import static org.jboss.gwt.elemento.core.Elements.div;
 public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	private final ToastGrid elem;
 	private final HTMLDivElement div = div().element();
-	public static GridBuilder builder() {
-		return new GridBuilder();
+	public static GridSettings builder() {
+		return new GridSettings();
 	}
-	Grid(GridBuilder builder) {
+	Grid(GridSettings builder) {
 		elem = new ToastGrid(builder.element(div));
 	}
 	public Grid update(Datum[] data) {
@@ -33,7 +33,7 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	}
 	@JsType(isNative = true, namespace = "tui", name="Grid")
 	final static class ToastGrid {
-		ToastGrid(GridBuilder settings) {}
+		ToastGrid(GridSettings settings) {}
 		public native void resetData(Datum[] data);
 		public native void sort(String column, boolean b1, boolean b2);
 		public native void unsort(String column);
@@ -43,16 +43,5 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 		public native void removeRow();
 		public native void check();
 		public native void uncheck();
-
-		// GridTree
-		public native void expand();
-		public native void expandAll();
-		public native void collapse();
-		public native void collapseAll();
-		public native Object getAncestorRows();
-		public native Object getDescendantRows();
-		public native Object getParent();
-		public native Object getChildRows();
-		public native Object getDepth();
 	}
 }

@@ -16,7 +16,6 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 	protected final HTMLInputElement input;
 	protected TextField(HTMLInputElement input) {
 		this.input = input;
-		if("file".equals(input.type)) ;
 		input.classList.add("mdc-text-field__input");
 		String id = DOM.createUniqueId();
 		input.setAttribute("id", id);
@@ -28,13 +27,8 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 	native static void inject(Element elem) /*-{
         $wnd.mdc.textField.MDCTextField.attachTo(elem);
     }-*/;
-    native static void floatLabel(Element elem) /*-{
-    	// elem.float(true);
-		elem["float"].apply(true);
-    }-*/;
     final void inject() {
     	inject(div);
-    	if("file".equals(input.type)) floatLabel(label);
 	}
 	public final W enabled(boolean enabled) {
 		if(!enabled) {
