@@ -232,32 +232,32 @@ public class Test implements EntryPoint {
 		content.add(new Viewport(table.values(values)));
 	}
 	void TestGrid() {
-		Grid grid = Grid.builder().scrollY(false)
-						.header(HeaderOption.builder().height(50)
-											.column(HeaderColumn.builder().name("id").renderer(()->{
-												HTMLDivElement div = div().element();
-												HTMLInputElement chk = input(InputType.checkbox).element();
-												div.appendChild(chk);
-												return div;
-											}).build())
-											.build())
-						.colunmOptions(ColumnOption.builder().minWidth(300).frozenCount(1).build())
-						.column(Column.builder(String.class).header("Id").name("id").editor("text").onBeforeChange(evt->{
-									DomGlobal.console.log(evt.getValue() + "=>" + evt.getNextValue());
-								}).renderer(()->div().element(),
-											(elem, prop)->{
-												elem.innerHTML = prop.value();
-											}).build())
-						.column(Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build())
-						.column(Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build())
-						.editingEvent(GridSettings.EditTrigger.click).element();
+		GridTree grid = GridTree.builder().scrollY(false)
+				.header(HeaderOption.builder().height(50)
+						.column(HeaderColumn.builder().name("id").renderer(()->{
+							HTMLDivElement div = div().element();
+							HTMLInputElement chk = input(InputType.checkbox).element();
+							div.appendChild(chk);
+							return div;
+						}).build())
+						.build())
+				.colunmOptions(ColumnOption.builder().minWidth(300).frozenCount(1).build())
+				.column(Column.builder(String.class).header("Id").name("id").editor("text").onBeforeChange(evt->{
+					DomGlobal.console.log(evt.getValue() + "=>" + evt.getNextValue());
+				}).renderer(()->div().element(),
+						(elem, prop)->{
+							elem.innerHTML = prop.value();
+						}).build())
+				.column(Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build())
+				.column(Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build())
+				.data(new DatumNode[]{
+						new DatumNode().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")
+								.attribute(DatumNode.Attribute.builder().expanded(true).build())
+								.children(new DatumNode().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"),new DatumNode().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"), new DatumNode().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"))})
+				.treeColumnOptions(new GridTreeSettings.TreeColumnOption().name("id")
+						.useCascadingCheckbox(false)
+						.useIcon(false))
+				.element();
 		content.add(grid);
-		Scheduler.get().scheduleFixedDelay(()->{
-			Datum[] data = new Datum[]{
-					new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")
-			};
-			grid.update(data);
-			return false;
-		}, 1000);
 	}
 }

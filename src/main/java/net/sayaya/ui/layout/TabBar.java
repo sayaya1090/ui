@@ -27,7 +27,7 @@ public class TabBar implements IsHTMLElement<HTMLElement, TabBar> {
 								"  </div>";
 	}
 	native static void inject(Element elem) /*-{
-        $wnd.mdc.tabBar.MDCTabBar.attachTo(elem);
+     //   $wnd.mdc.tabBar.MDCTabBar.attachTo(elem);
     }-*/;
 	final void inject() {
 		inject(_this);

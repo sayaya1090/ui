@@ -3,7 +3,7 @@ package net.sayaya.ui.grid;
 import elemental2.core.JsObject;
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLDivElement;
-import jsinterop.annotations.*;
+import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import net.sayaya.ui.IsHTMLElement;
 import net.sayaya.ui.style.Style;
@@ -12,28 +12,28 @@ import java.util.Map;
 
 import static org.jboss.gwt.elemento.core.Elements.div;
 
-public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
+public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 	private final ToastGrid elem;
 	protected HTMLDivElement div = div().element();
-	public static GridSettings builder() {
-		return new GridSettings();
+	public static GridTreeSettings builder() {
+		return new GridTreeSettings();
 	}
-	Grid(GridSettings builder) {
+	GridTree(GridTreeSettings builder) {
 		elem = new ToastGrid(builder.element(div));
 	}
-	public Grid update(Datum[] data) {
+	public GridTree update(Datum[] data) {
 		elem.resetData(data);
 		return this;
 	}
-	public Grid sort(String column, boolean b1, boolean b2) {
+	public GridTree sort(String column, boolean b1, boolean b2) {
 		elem.sort(column, b1, b2);
 		return this;
 	}
-	public Grid unsort(String column) {
+	public GridTree unsort(String column) {
 		elem.unsort(column);
 		return this;
 	}
-	public Grid theme(Map<String, Object> styles) {
+	public GridTree theme(Map<String, Object> styles) {
 		JsObject custom = new JsObject();
 		for(String key: styles.keySet()) {
 			Object value = styles.get(key);
@@ -63,7 +63,7 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	}
 	@JsType(isNative = true, namespace = "tui", name="Grid")
 	final static class ToastGrid {
-		ToastGrid(GridSettings settings) {}
+		ToastGrid(GridTreeSettings settings) {}
 		public native void resetData(Datum[] data);
 		public native void sort(String column, boolean b1, boolean b2);
 		public native void unsort(String column);
