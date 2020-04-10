@@ -39,17 +39,13 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 			Object value = styles.get(key);
 			if(value instanceof Style) {
 				Style cast = (Style)value;
-				CSSStyleDeclaration style = new CSSStyleDeclaration();
-				cast.apply(style);
-				Js.asPropertyMap(custom).set(key, style);
+				Js.asPropertyMap(custom).set(key, cast.toObject());
 			} else if(value instanceof Map) {
 				Map<String, Style> cast = (Map<String, Style>)value;
 				JsObject custom2 = new JsObject();
 				for(String key2: cast.keySet()) {
 					Style value2 = cast.get(key2);
-					CSSStyleDeclaration style = new CSSStyleDeclaration();
-					value2.apply(style);
-					Js.asPropertyMap(custom2).set(key2, style);
+					Js.asPropertyMap(custom2).set(key2, value2.toObject());
 				}
 				Js.asPropertyMap(custom).set(key, custom2);
 			}
@@ -73,6 +69,6 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 		public native void removeRow();
 		public native void check();
 		public native void uncheck();
-		public native void applyTheme(String template, JsObject custom);
+		public native static void applyTheme(String template, JsObject custom);
 	}
 }
