@@ -16,6 +16,7 @@ import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.input.TextFieldOutlined;
 import net.sayaya.ui.layout.Drawer;
 import net.sayaya.ui.layout.GridLayoutResponsive;
+import net.sayaya.ui.layout.TabBar;
 import net.sayaya.ui.layout.TopBar;
 import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
@@ -48,21 +49,30 @@ public class Test implements EntryPoint {
 		TestGrid();
 	}
 	void LayoutTest() {
-		TopBar top = TopBar.topbar().title("Test App Bar").element(content.element());
-		top.button("file_download");
-		Drawer drawer = new Drawer().header(new Drawer.DrawerHeader().title(label().add("Mail"))
-																	 .subtitle(label().add("AAA")))
-									.content(new Drawer.DrawerContent().header("Mail")
-																	   .divider()
-																	   .add(new Drawer.DrawerListItem().icon("inbox").text("Inbox").activate(true))
-																	   .add(new Drawer.DrawerListItem().icon("star").text("Star"))
-																	   .add(new Drawer.DrawerListItem().icon("send").text("Sent Main")));
+		TopBar.TopBarButton menu = TopBar.TopBarButton.nav().element("menu");
+		TopBar top = TopBar.topbar()
+						   .section(TopBar.TopBarSection.left().element()
+														.add(menu)
+														.title("Test Top Bar"))
+						   .section(TopBar.TopBarSection.right().element()
+														.add(new TabBar().element())
+														.add(TopBar.TopBarButton.action().element("file_download")))
+						   .element(content.element());
+		Drawer drawer = Drawer.drawer().header(Drawer.DrawerHeader.drawerHeader()
+																  .title(label().add("Mail"))
+																  .subtitle(label().add("AAA")))
+							  .content(Drawer.DrawerContent.drawerContent()
+														   .header("Mail")
+														   .divider()
+														   .add(Drawer.DrawerListItem.item().icon("inbox").text("Inbox").activate(true))
+														   .add(Drawer.DrawerListItem.item().icon("star").text("Star"))
+														   .add(Drawer.DrawerListItem.item().icon("send").text("Sent Main")))
+							  .element();
 		HTMLDivElement div = div().add(top).add(content).element();
 		Drawer.setContent(div);
 		Elements.body().add(drawer);
 		Elements.body().add(div);
-		drawer.inject();
-		top.menu().addClickHandler(evt->drawer.toggle());
+		menu.addClickHandler(evt->drawer.toggle());
 		GridLayoutResponsive.addHandler(evt->{
 			DomGlobal.alert(evt.getGridInfo());
 		});

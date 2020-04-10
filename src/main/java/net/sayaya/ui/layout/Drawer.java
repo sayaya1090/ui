@@ -1,6 +1,9 @@
 package net.sayaya.ui.layout;
 
+import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.sayaya.ui.IsHTMLElement;
 import org.jboss.gwt.elemento.core.Elements;
 import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
@@ -10,11 +13,15 @@ import static org.jboss.gwt.elemento.core.Elements.*;
 public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 	private final HtmlContentBuilder<HTMLElement> _this = aside().css("mdc-drawer mdc-drawer--dismissible");
 	private Object _mdc;
-	public Drawer header(DrawerHeader header) {
-		_this.add(header);
+	private Drawer() {}
+	public static DrawerBuilder drawer() {
+		return new DrawerBuilder();
+	}
+	Drawer header(DrawerHeader.DrawerHeaderBuilder header) {
+		_this.add(header.element());
 		return this;
 	}
-	public Drawer content(DrawerContent content) {
+	Drawer content(DrawerContent content) {
 		_this.add(content);
 		return this;
 	}
@@ -23,7 +30,6 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
     }-*/;
 	public final void inject() {
 		_mdc = inject(element());
-		DomGlobal.console.log(_mdc);
 	}
 	public static void setContent(Element elem) {
 		elem.classList.add("mdc-drawer-app-content");
@@ -44,8 +50,26 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 	public HTMLElement element() {
 		return _this.element();
 	}
+	@Setter
+	@Accessors(fluent=true)
+	public static class DrawerBuilder {
+		private DrawerHeader.DrawerHeaderBuilder header;
+		private DrawerContent content;
+		private DrawerBuilder(){}
+		public Drawer element() {
+			Drawer elem = new Drawer();
+			if(header!=null) elem.header(header);
+			if(content!=null) elem.content(content);
+			Scheduler.get().scheduleDeferred(elem::inject);
+			return elem;
+		}
+	}
 	public static class DrawerHeader implements IsHTMLElement<HTMLDivElement, DrawerHeader> {
 		private final HtmlContentBuilder<HTMLDivElement> _this = div().css("mdc-drawer__header");
+		private DrawerHeader(){}
+		public static DrawerHeaderBuilder drawerHeader() {
+			return new DrawerHeaderBuilder();
+		}
 		public DrawerHeader title(HtmlContentBuilder<?> element) {
 			element.css("mdc-drawer__title");
 			_this.add(element);
@@ -60,12 +84,28 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 		public HTMLDivElement element() {
 			return _this.element();
 		}
+		@Setter
+		@Accessors(fluent=true)
+		public static class DrawerHeaderBuilder {
+			private HtmlContentBuilder<?> title;
+			private HtmlContentBuilder<?> subtitle;
+			public DrawerHeader element() {
+				DrawerHeader elem = new DrawerHeader();
+				if(title!=null) elem.title(title);
+				if(subtitle!=null) elem.subtitle(subtitle);
+				return elem;
+			}
+		}
 	}
 	public static class DrawerContent implements IsHTMLElement<HTMLDivElement, DrawerContent> {
 		private final HtmlContentBuilder<HTMLElement> list = Elements.nav().css("mdc-list");
 		private final HTMLDivElement _this = div().css("mdc-drawer__content")
 													.add(list)
 													.element();
+		private DrawerContent() {}
+		public static DrawerContent drawerContent() {
+			return new DrawerContent();
+		}
 		public DrawerContent header(String header) {
 			list.add(label().css("mdc-list-group__subheader").add(header));
 			return this;
@@ -85,6 +125,10 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 	}
 	public static class DrawerListItem implements IsHTMLElement<HTMLAnchorElement, DrawerListItem> {
 		private final HtmlContentBuilder<HTMLAnchorElement> _this = a().css("mdc-list-item").attr("href", "#");
+		private DrawerListItem(){}
+		public static DrawerListItem item() {
+			return new DrawerListItem();
+		}
 		public DrawerListItem activate(boolean activated) {
 			if(activated) element().classList.add("mdc-list-item--activated");
 			else element().classList.remove("mdc-list-item--activated");
