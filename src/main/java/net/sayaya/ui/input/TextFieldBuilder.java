@@ -1,22 +1,16 @@
 package net.sayaya.ui.input;
 
-import elemental2.core.JsDate;
-import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLInputElement;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.apache.tapestry.wml.Do;
-import org.jboss.gwt.elemento.core.InputType;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static org.jboss.gwt.elemento.core.Elements.input;
-
 public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 	@Setter
 	@Accessors(fluent = true)
-	private final static class TextFieldSetting<V> {
+	final static class TextFieldSetting<V> {
 		HTMLInputElement input;
 		Supplier<V> getter;
 		Consumer<V> settter;
@@ -27,26 +21,6 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 	}
 	public S self() {
 		return (S)this;
-	}
-	public static TextFieldBuilder<String, ?> textBox() {
-		HTMLInputElement input = input(InputType.text).element();
-		return new TextFieldBuilder<>(new TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->input.value = v));
-	}
-	public static TextFieldBuilder<Double, ?> numberBox() {
-		HTMLInputElement input = input(InputType.number).element();
-		return new TextFieldBuilder<>(new TextFieldSetting<Double>().input(input).getter(()->input.valueAsNumber).settter(v->input.value=v!=null?String.valueOf(v):null));
-	}
-	public static TextFieldBuilder<String, ?> emailBox() {
-		HTMLInputElement input = input(InputType.email).element();
-		return new TextFieldBuilder<>(new TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->input.value = v));
-	}
-	public static TextFieldBuilder<JsDate, ?> dateBox() {
-		HTMLInputElement input = input(InputType.date).element();
-		return new TextFieldBuilder<>(new TextFieldSetting<JsDate>().input(input).getter(()->input.valueAsDate).settter(v->input.valueAsDate = v));
-	}
-	public static TextFieldBuilder<String, ?> fileBox() {
-		HTMLInputElement input = input(InputType.file).element();
-		return new TextFieldBuilder<>(new TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->{DomGlobal.console.log("Unimplemented method: InputType.file -> setValue");}));
 	}
 	protected TextFieldSetting<V> context;
 	public S enabled(boolean enabled) {
@@ -71,14 +45,14 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 	public TextFieldOutlinedBuilder<V> outlined() {
 		return new TextFieldOutlinedBuilder<>(context);
 	}
-	private TextFieldBuilder(TextFieldSetting<V> context){
+	TextFieldBuilder(TextFieldSetting<V> context){
 		this.context = context;
 	}
 	public static class TextFieldFilledBuilder<V> extends TextFieldBuilder<V, TextFieldFilledBuilder<V>> {
 		private TextFieldFilledBuilder(TextFieldSetting<V> context) {
 			super(context);
 		}
-		public TextFieldFilled<V> build() {
+		public TextFieldFilled<V> element() {
 			TextFieldFilled<V> elem = new TextFieldFilled<V>(context.input) {
 				@Override
 				public TextFieldFilled<V> value(V value) {
@@ -103,7 +77,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 		private TextFieldOutlinedBuilder(TextFieldSetting<V> context) {
 			super(context);
 		}
-		public TextFieldOutlined<V> build() {
+		public TextFieldOutlined<V> element() {
 			TextFieldOutlined<V> elem = new TextFieldOutlined<V>(context.input) {
 				@Override
 				public TextFieldOutlined<V> value(V value) {

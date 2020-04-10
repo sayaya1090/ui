@@ -9,20 +9,21 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
 import net.sayaya.ui.button.Button;
-import net.sayaya.ui.button.ButtonBuilder;
-import net.sayaya.ui.chip.ChipBuilder;
-import net.sayaya.ui.chip.ChipDecorator;
+import net.sayaya.ui.chip.Chip;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
-import net.sayaya.ui.input.TextFieldBuilder;
+import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.input.TextFieldOutlined;
+import net.sayaya.ui.layout.Drawer;
 import net.sayaya.ui.layout.GridLayoutResponsive;
+import net.sayaya.ui.layout.TopBar;
 import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
 import net.sayaya.ui.table.Viewport;
 import org.jboss.gwt.elemento.core.Elements;
 import org.jboss.gwt.elemento.core.InputType;
+import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -36,23 +37,39 @@ import static net.sayaya.ui.table.TableBuilder.table;
 import static org.jboss.gwt.elemento.core.Elements.*;
 
 public class Test implements EntryPoint {
+	private final HtmlContentBuilder<HTMLDivElement> content = div();
 	@Override
 	public void onModuleLoad() {
-		// LayoutTest();
+		LayoutTest();
 		// AnimationTest();
 		TestButtonText();
-		// TestChip();
+		TestChip();
 		// TestTable();
 		TestGrid();
 	}
 	void LayoutTest() {
+		TopBar top = TopBar.topbar().title("Test App Bar").element(content.element());
+		top.button("file_download");
+		Drawer drawer = new Drawer().header(new Drawer.DrawerHeader().title(label().add("Mail"))
+																	 .subtitle(label().add("AAA")))
+									.content(new Drawer.DrawerContent().header("Mail")
+																	   .divider()
+																	   .add(new Drawer.DrawerListItem().icon("inbox").text("Inbox").activate(true))
+																	   .add(new Drawer.DrawerListItem().icon("star").text("Star"))
+																	   .add(new Drawer.DrawerListItem().icon("send").text("Sent Main")));
+		HTMLDivElement div = div().add(top).add(content).element();
+		Drawer.setContent(div);
+		Elements.body().add(drawer);
+		Elements.body().add(div);
+		drawer.inject();
+		top.menu().addClickHandler(evt->drawer.toggle());
 		GridLayoutResponsive.addHandler(evt->{
 			DomGlobal.alert(evt.getGridInfo());
 		});
 	}
 	void AnimationTest() {
-		Button tmp = ButtonBuilder.button().contain().text("Text Button").element();
-		Elements.body().add(tmp);
+		Button tmp = Button.button().contain().text("Text Button").element();
+		content.add(tmp);
 		tmp.style(Style.build().position("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#FF00FF", "opacity", "1")
@@ -65,41 +82,40 @@ public class Test implements EntryPoint {
 		};
 	}
 	void TestChip() {
-		ChipDecorator.ChipRemovable chip = ChipBuilder.chip().text("Chip").removable().element();
-		chip.addDetachHandler(evt->{
+		Chip chip = Chip.chip().text("Chip").removable(evt->{
 			DomGlobal.alert("Remove Chip");
-		});
-		Elements.body().add(chip);
+		}).element();
+		content.add(chip);
 	}
 	void TestButtonText() {
-		Button tmp = ButtonBuilder.button().contain().text("Text Button").element();
+		Button tmp = Button.button().contain().text("Text Button").element();
 		HandlerRegistration handler = tmp.addClickHandler(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
-		Elements.body().add(tmp);
+		content.add(tmp);
 
-		Button tmp2 = ButtonBuilder.button().flat().text("Button Enabled").icon("sync").element().enabled(true);
-		Elements.body().add(tmp2);
+		Button tmp2 = Button.button().flat().text("Button Enabled").icon("sync").element().enabled(true);
+		content.add(tmp2);
 
-		Button tmp3 = ButtonBuilder.button().contain().text("Button Disabled").element().enabled(false);
-		Elements.body().add(tmp3);
+		Button tmp3 = Button.button().contain().text("Button Disabled").element().enabled(false);
+		content.add(tmp3);
 
-		Button tmp4 = ButtonBuilder.button().outline().text("Button Focused").element().focus().accessKey('A');
-		Elements.body().add(tmp4);
+		Button tmp4 = Button.button().outline().text("Button Focused").element().focus().accessKey('A');
+		content.add(tmp4);
 
 		/*CheckBox tmp5 = InputBuilder.checkbox().element().focus().accessKey('A');
-		Elements.body().add(InputDecorator.label(tmp5).setLabel("Label"));
+		content.add(InputDecorator.label(tmp5).setLabel("Label"));
 		tmp5.addValueChangeHandler(evt->{
 		//	DomGlobal.alert(evt.getValue());
 		});*/
 
-		TextFieldOutlined<String> tmp6 = TextFieldBuilder.textBox().label("tmp6").outlined().iconLeading("favorite").iconTrailing("visibility").build();
+		TextFieldOutlined<String> tmp6 = TextField.textBox().label("tmp6").outlined().iconLeading("favorite").iconTrailing("visibility").element();
 		tmp6.addValueChangeHandler(evt->{
 		// 	DomGlobal.alert(evt.getValue());
 		});
-		Elements.body().add(tmp6);
+		content.add(tmp6);
 		/*EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);
-		Elements.body().add(tmp7);
+		content.add(tmp7);
 		tmp7.addValueChangeHandler(evt->{
 			DomGlobal.alert(evt.getValue());
 		});*/
@@ -203,7 +219,7 @@ public class Test implements EntryPoint {
 						.renderer(row1)).map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
 						.put("C1", t.t1).put("C2", t.t2)
 						.put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
-		Elements.body().add(new Viewport(table.values(values)));
+		content.add(new Viewport(table.values(values)));
 	}
 	void TestGrid() {
 		Grid grid = Grid.builder().scrollY(false)
@@ -224,8 +240,8 @@ public class Test implements EntryPoint {
 											}).build())
 						.column(Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build())
 						.column(Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build())
-						.editingEvent(GridSettings.EditTrigger.click).build();
-		Elements.body().add(grid);
+						.editingEvent(GridSettings.EditTrigger.click).element();
+		content.add(grid);
 		Scheduler.get().scheduleFixedDelay(()->{
 			Datum[] data = new Datum[]{
 					new Datum().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")

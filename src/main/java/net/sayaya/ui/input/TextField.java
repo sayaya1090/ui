@@ -1,16 +1,39 @@
 package net.sayaya.ui.input;
 
 import com.google.gwt.user.client.DOM;
+import elemental2.core.JsDate;
 import elemental2.dom.*;
 import net.sayaya.ui.Focusable;
 import net.sayaya.ui.IsHTMLElement;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
+import org.jboss.gwt.elemento.core.InputType;
 
 import static org.jboss.gwt.elemento.core.Elements.i;
 
 public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLElement<HTMLElement, W>, Focusable<W>, HasValueChangeHandlers<V>, HasClickHandlers {
+	public static TextFieldBuilder<String, ?> textBox() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.text).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->input.value = v));
+	}
+	public static TextFieldBuilder<Double, ?> numberBox() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.number).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<Double>().input(input).getter(()->input.valueAsNumber).settter(v->input.value=v!=null?String.valueOf(v):null));
+	}
+	public static TextFieldBuilder<String, ?> emailBox() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.email).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->input.value = v));
+	}
+	public static TextFieldBuilder<JsDate, ?> dateBox() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.date).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<JsDate>().input(input).getter(()->input.valueAsDate).settter(v->input.valueAsDate = v));
+	}
+	public static TextFieldBuilder<String, ?> fileBox() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.file).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->{DomGlobal.console.log("Unimplemented method: InputType.file -> setValue");}));
+	}
+
 	private final HTMLDivElement div;
 	protected final HTMLLabelElement label = org.jboss.gwt.elemento.core.Elements.label().css("mdc-floating-label").element();
 	protected final HTMLInputElement input;

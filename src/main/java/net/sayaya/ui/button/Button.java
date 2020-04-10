@@ -11,10 +11,13 @@ import static org.jboss.gwt.elemento.core.Elements.*;
 public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusable<Button>, HasClickHandlers {
 	private final HTMLDivElement ripple = div().css("mdc-button__ripple").element();
 	private final HTMLElement label = span().css("mdc-button__label").element();
-	private final HTMLButtonElement _this = button().css("mdc-button")
+	private final HTMLButtonElement _this = org.jboss.gwt.elemento.core.Elements.button().css("mdc-button")
 													.add(ripple)
 													.add(label)
 													.element();
+	public static ButtonBuilder.AbstractButtonBuilder button() {
+		return new ButtonBuilder.AbstractButtonBuilder();
+	}
 	Button() {inject(_this);}
 	private native void inject(Element elem) /*-{
 		$wnd.mdc.ripple.MDCRipple.attachTo(elem);

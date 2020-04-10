@@ -1,47 +1,53 @@
 package net.sayaya.ui.chip;
 
+import elemental2.dom.Element;
+import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLElement;
-import elemental2.dom.HTMLLabelElement;
 import net.sayaya.ui.IsHTMLElement;
-import net.sayaya.ui.style.Style;
 
-public abstract class Chip<W extends Chip<W>> implements IsHTMLElement<HTMLElement, W> {
-	public abstract W text(String text);
-	public abstract String text();
-	abstract HTMLLabelElement label();
-	final static class ChipImpl extends Chip<ChipImpl> {
-		private final HTMLLabelElement label = org.jboss.gwt.elemento.core.Elements.label().element();
-		private final HTMLElement _this = org.jboss.gwt.elemento.core.Elements.span().add(label).element();
-		private final Style style = Style.build().color("rgb(35, 47, 52)")
-										 .backgroundColor("rgba(35, 47, 52, 0.12)")
-										 .cursor("pointer")
-										 .whiteSpace("nowrap")
-										 .fontFamily("'Montserrat', 'Noto Sans KR', sans-serif")
-										 .fontWeight("normal")
-										 .fontSize("14px").borderRadius("14px")
-										 .outlineStyle("none")
-										 .paddingLeft("10px").paddingRight("10px").paddingTop("5px").paddingBottom("5px")
-										 .marginLeft("0").marginRight("10px")
-										 .letterSpacing("1px");
-		ChipImpl() {
-			style.apply(_this.style);
-		}
-		@Override
-		HTMLLabelElement label() {
-			return label;
-		}
-		@Override
-		public ChipImpl text(String text) {
-			label.textContent = text;
-			return this;
-		}
-		@Override
-		public String text() {
-			return label.textContent;
-		}
-		@Override
-		public HTMLElement element() {
-			return _this;
-		}
+import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.gwt.elemento.core.Elements.i;
+
+public class Chip implements IsHTMLElement<HTMLElement, Chip> {
+	private final HTMLDivElement ripple = div().css("mdc-chip__ripple").element();
+	private final HTMLElement text = span().css("mdc-chip__text").element();
+	private final HTMLElement btn = span().css("mdc-chip__primary-action").attr("role", "button")
+										  .add(text)
+										  .element();
+	private final HTMLElement cell = span().attr("role", "gridcell")
+										   .add(btn)
+										   .element();
+	private final HTMLDivElement _this = div().css("mdc-chip").attr("role", "row")
+											  .add(ripple)
+											  .add(cell)
+											  .element();
+	Chip(String text) {
+		this.text.innerHTML = text;
+	}
+	public static ChipBuilder chip() {
+		return ChipBuilder.builder();
+	}
+	native static void inject(Element elem) /*-{
+        $wnd.mdc.chips.MDCChip.attachTo(elem);
+    }-*/;
+	final void inject() {
+		inject(_this);
+	}
+	public final Chip iconLeading(String icon) {
+		HTMLElement i = i().css("material-icons", "mdc-chip__icon", "mdc-chip__icon--leading").add(icon).element();
+		_this.insertBefore(i, cell);
+		return self();
+	}
+	public final Chip iconTrailing(String icon) {
+		HTMLElement i = i().css("material-icons", "mdc-chip__icon", "mdc-chip__icon--trailing").add(icon).element();
+		_this.insertBefore(i, cell.nextSibling);
+		return self();
+	}
+	public String value() {
+		return this.text.innerHTML;
+	}
+	@Override
+	public HTMLElement element() {
+		return _this;
 	}
 }

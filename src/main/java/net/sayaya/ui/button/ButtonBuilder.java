@@ -62,8 +62,8 @@ public abstract class ButtonBuilder<B extends ButtonBuilder<B>> {
 	@Accessors(fluent=true)
 	public static class AbstractButtonBuilder {
 		private final ButtonSetting context;
-		private AbstractButtonBuilder(ButtonSetting context) {
-			this.context = context;
+		AbstractButtonBuilder() {
+			context = new ButtonSetting();
 		}
 		public ButtonFlatBuilder flat() {
 			return new ButtonFlatBuilder(context);
@@ -87,12 +87,10 @@ public abstract class ButtonBuilder<B extends ButtonBuilder<B>> {
 		}
 	}
 	protected final ButtonSetting context;
-	private ButtonBuilder(ButtonSetting context){
+	ButtonBuilder(ButtonSetting context){
 		this.context = context;
 	}
-	public static AbstractButtonBuilder button() {
-		return new AbstractButtonBuilder(new ButtonSetting());
-	}
+
 	protected B self() {
 		return (B)this;
 	}

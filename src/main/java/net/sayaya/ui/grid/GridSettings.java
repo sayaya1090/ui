@@ -45,7 +45,7 @@ public final class GridSettings {
 	private Datum[] data;
 	GridSettings(){}
 	@JsOverlay
-	public Grid build() {
+	public Grid element() {
 		return new Grid(this);
 	}
 	@JsOverlay
