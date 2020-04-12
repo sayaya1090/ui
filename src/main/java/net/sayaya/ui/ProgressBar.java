@@ -65,7 +65,7 @@ public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 		instance.reverse = isReversed;
 		return this;
 	}
-	public static ProgressBarBuilder builder() {
+	public static ProgressBarBuilder progressBar() {
 		return new ProgressBarBuilder();
 	}
 	public static class ProgressBarBuilder {

@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
-import net.sayaya.ui.button.Button;
 import net.sayaya.ui.chip.Chip;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
@@ -79,7 +78,7 @@ public class Test implements EntryPoint {
 		});
 	}
 	void ProgressTest() {
-		ProgressBar elem = ProgressBar.builder().element();
+		ProgressBar elem = ProgressBar.progressBar().element();
 		content.add(elem.determinate(true).buffer(0.5).progress(0.2));
 	}
 	void AnimationTest() {
@@ -109,7 +108,8 @@ public class Test implements EntryPoint {
 		});
 		content.add(tmp);
 
-		Button tmp2 = Button.button().flat().text("Button Enabled").icon("sync").element().enabled(true);
+		Button tmp2 = Button.button().flat().text("Button Enabled")
+				.iconBefore(Icon.icon("sync").element()).element().enabled(true);
 		content.add(tmp2);
 
 		Button tmp3 = Button.button().contain().text("Button Disabled").element().enabled(false);
