@@ -42,6 +42,7 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
+		ProgressTest();
 		// AnimationTest();
 		TestButtonText();
 		TestChip();
@@ -76,6 +77,10 @@ public class Test implements EntryPoint {
 		GridLayoutResponsive.addHandler(evt->{
 			DomGlobal.alert(evt.getGridInfo());
 		});
+	}
+	void ProgressTest() {
+		ProgressBar elem = ProgressBar.builder().element();
+		content.add(elem.determinate(true).buffer(0.5).progress(0.2));
 	}
 	void AnimationTest() {
 		Button tmp = Button.button().contain().text("Text Button").element();

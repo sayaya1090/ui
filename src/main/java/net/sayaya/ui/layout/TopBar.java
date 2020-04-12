@@ -28,7 +28,7 @@ public class TopBar implements IsHTMLElement<HTMLElement, TopBar> {
 	native static void inject(Element elem, Element contents) /*-{
         var bar = $wnd.mdc.topAppBar.MDCTopAppBar.attachTo(elem);
         bar.setScrollTarget(contents);
-        contents.classList.add("mdc-top-app-bar--short-fixed-adjust");
+        contents.classList.add("mdc-top-app-bar--fixed-adjust");
     }-*/;
 	final void inject(Element elem) {
 		inject(_this, elem);
