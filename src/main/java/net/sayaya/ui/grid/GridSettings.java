@@ -28,6 +28,8 @@ public final class GridSettings {
 	@JsProperty
 	private Column<?>[] columns;
 	@JsProperty
+	private HeaderRow[] rowHeaders;
+	@JsProperty
 	private ColumnOption colunmOptions;
 	@JsProperty
 	private CopyOption copyOptions;
@@ -41,6 +43,9 @@ public final class GridSettings {
 	@JsProperty
 	@Setter(AccessLevel.NONE)
 	private String editingEvent;
+	@JsProperty
+	@Setter(AccessLevel.NONE)
+	private String selectionUnit;
 	@JsProperty
 	private Datum[] data;
 	GridSettings(){}
@@ -63,6 +68,11 @@ public final class GridSettings {
 		editingEvent = trigger.name();
 		return this;
 	}
+	@JsOverlay
+	public GridSettings selectionUnit(@NonNull SelectionUnit unit) {
+		selectionUnit = unit.name();
+		return this;
+	}
 	@JsProperty
 	private LinkedList<Column<?>> _columns;
 	@JsOverlay
@@ -74,5 +84,8 @@ public final class GridSettings {
 	}
 	public enum EditTrigger {
 		dbclick, click
+	}
+	public enum SelectionUnit {
+		cell, row
 	}
 }

@@ -1,7 +1,6 @@
 package net.sayaya.ui.grid;
 
 import elemental2.core.JsObject;
-import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
@@ -21,9 +20,12 @@ public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 	GridTree(GridTreeSettings builder) {
 		elem = new ToastGrid(builder.element(div));
 	}
-	public GridTree update(Datum[] data) {
+	public GridTree update(DatumNode[] data) {
 		elem.resetData(data);
 		return this;
+	}
+	public DatumNode[] data() {
+		return elem.getData();
 	}
 	public GridTree sort(String column, boolean b1, boolean b2) {
 		elem.sort(column, b1, b2);
@@ -33,29 +35,24 @@ public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 		elem.unsort(column);
 		return this;
 	}
-	public GridTree theme(Map<String, Object> styles) {
+	public static void theme(Map<String, Object> styles) {
 		JsObject custom = new JsObject();
 		for(String key: styles.keySet()) {
 			Object value = styles.get(key);
 			if(value instanceof Style) {
 				Style cast = (Style)value;
-				CSSStyleDeclaration style = new CSSStyleDeclaration();
-				cast.apply(style);
-				Js.asPropertyMap(custom).set(key, style);
+				Js.asPropertyMap(custom).set(key, cast.toObject());
 			} else if(value instanceof Map) {
 				Map<String, Style> cast = (Map<String, Style>)value;
 				JsObject custom2 = new JsObject();
 				for(String key2: cast.keySet()) {
 					Style value2 = cast.get(key2);
-					CSSStyleDeclaration style = new CSSStyleDeclaration();
-					value2.apply(style);
-					Js.asPropertyMap(custom2).set(key2, style);
+					Js.asPropertyMap(custom2).set(key2, value2.toObject());
 				}
 				Js.asPropertyMap(custom).set(key, custom2);
 			}
 		}
-		elem.applyTheme("default", custom);
-		return this;
+		ToastGrid.applyTheme("default", custom);
 	}
 	@Override
 	public HTMLDivElement element() {
@@ -64,7 +61,8 @@ public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 	@JsType(isNative = true, namespace = "tui", name="Grid")
 	final static class ToastGrid {
 		ToastGrid(GridTreeSettings settings) {}
-		public native void resetData(Datum[] data);
+		public native void resetData(DatumNode[] data);
+		public native DatumNode[] getData();
 		public native void sort(String column, boolean b1, boolean b2);
 		public native void unsort(String column);
 
@@ -73,6 +71,6 @@ public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 		public native void removeRow();
 		public native void check();
 		public native void uncheck();
-		public native void applyTheme(String template, JsObject custom);
+		public native static void applyTheme(String template, JsObject custom);
 	}
 }

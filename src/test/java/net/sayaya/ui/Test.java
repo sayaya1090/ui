@@ -11,6 +11,7 @@ import net.sayaya.ui.animate.Animation;
 import net.sayaya.ui.chip.Chip;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
+import net.sayaya.ui.input.Radio;
 import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.input.TextFieldOutlined;
 import net.sayaya.ui.layout.Drawer;
@@ -42,6 +43,7 @@ public class Test implements EntryPoint {
 	public void onModuleLoad() {
 		LayoutTest();
 		ProgressTest();
+		RadioTest();
 		// AnimationTest();
 		TestButtonText();
 		TestChip();
@@ -80,6 +82,16 @@ public class Test implements EntryPoint {
 	void ProgressTest() {
 		ProgressBar elem = ProgressBar.progressBar().element();
 		content.add(elem.determinate(true).buffer(0.5).progress(0.2));
+	}
+	void RadioTest() {
+		Radio<String> a = Radio.radio("RADIO", "A").element();
+		Radio<String> b = Radio.radio("RADIO", "B").element();
+		Radio<String> c = Radio.radio("RADIO", "C").element();
+		Radio<String> d = Radio.radio("RADIO", "D").element();
+		a.addValueChangeHandler(evt->{
+			DomGlobal.alert(evt.value());
+		});
+		content.add(a).add(b).add(c).add(d).element();
 	}
 	void AnimationTest() {
 		Button tmp = Button.button().contain().text("Text Button").element();

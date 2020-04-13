@@ -1,7 +1,6 @@
 package net.sayaya.ui.grid;
 
 import elemental2.core.JsObject;
-import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.*;
 import jsinterop.base.Js;
@@ -14,7 +13,7 @@ import static org.jboss.gwt.elemento.core.Elements.div;
 
 public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	private final ToastGrid elem;
-	protected HTMLDivElement div = div().element();
+	protected HTMLDivElement div = div().style("overflow: hidden;").element();
 	public static GridSettings builder() {
 		return new GridSettings();
 	}
@@ -25,6 +24,9 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 		elem.resetData(data);
 		return this;
 	}
+	public Datum[] data() {
+		return elem.getData();
+	}
 	public Grid sort(String column, boolean b1, boolean b2) {
 		elem.sort(column, b1, b2);
 		return this;
@@ -33,7 +35,7 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 		elem.unsort(column);
 		return this;
 	}
-	public Grid theme(Map<String, Object> styles) {
+	public static void theme(Map<String, Object> styles) {
 		JsObject custom = new JsObject();
 		for(String key: styles.keySet()) {
 			Object value = styles.get(key);
@@ -50,8 +52,7 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 				Js.asPropertyMap(custom).set(key, custom2);
 			}
 		}
-		elem.applyTheme("default", custom);
-		return this;
+		ToastGrid.applyTheme("default", custom);
 	}
 	@Override
 	public HTMLDivElement element() {
@@ -61,6 +62,7 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 	final static class ToastGrid {
 		ToastGrid(GridSettings settings) {}
 		public native void resetData(Datum[] data);
+		public native Datum[] getData();
 		public native void sort(String column, boolean b1, boolean b2);
 		public native void unsort(String column);
 

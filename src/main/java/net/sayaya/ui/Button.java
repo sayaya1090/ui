@@ -69,7 +69,7 @@ public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusab
 	@Setter
 	@Accessors(fluent=true)
 	private final static class ButtonSetting {
-		private String text;
+		private String text = "";
 		private Icon iconBefore;
 		private Icon iconTrailing;
 	}

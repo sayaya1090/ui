@@ -32,6 +32,8 @@ public final class GridTreeSettings {
 	@JsProperty
 	private Column<?>[] columns;
 	@JsProperty
+	private HeaderRow[] rowHeaders;
+	@JsProperty
 	private ColumnOption colunmOptions;
 	@JsProperty
 	private CopyOption copyOptions;
@@ -45,6 +47,9 @@ public final class GridTreeSettings {
 	@JsProperty
 	@Setter(AccessLevel.NONE)
 	private String editingEvent;
+	@JsProperty
+	@Setter(AccessLevel.NONE)
+	private String selectionUnit;
 	@JsProperty
 	private DatumNode[] data;
 	@JsProperty
@@ -67,6 +72,11 @@ public final class GridTreeSettings {
 	@JsOverlay
 	public GridTreeSettings editingEvent(@NonNull GridSettings.EditTrigger trigger) {
 		editingEvent = trigger.name();
+		return this;
+	}
+	@JsOverlay
+	public GridTreeSettings selectionUnit(@NonNull GridSettings.SelectionUnit unit) {
+		selectionUnit = unit.name();
 		return this;
 	}
 	@JsProperty
