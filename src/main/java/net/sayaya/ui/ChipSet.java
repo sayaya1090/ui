@@ -1,9 +1,7 @@
-package net.sayaya.ui.chip;
+package net.sayaya.ui;
 
 import elemental2.dom.Element;
-import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
-import net.sayaya.ui.IsHTMLElement;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 

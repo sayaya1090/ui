@@ -1,14 +1,11 @@
 package net.sayaya.ui;
 
-import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
-import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import lombok.Builder;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
@@ -70,7 +67,7 @@ public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 	}
 	public static class ProgressBarBuilder {
 		private ProgressBarBuilder(){}
-		public ProgressBar element() {
+		public ProgressBar build() {
 			return new ProgressBar();
 		}
 	}

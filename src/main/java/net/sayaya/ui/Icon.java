@@ -29,7 +29,7 @@ public class Icon implements IsHTMLElement<HTMLElement, Icon> {
 			this.icon = icon;
 			return this;
 		}
-		public Icon element() {
+		public Icon build() {
 			return new Icon(icon);
 		}
 	}

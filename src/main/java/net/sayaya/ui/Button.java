@@ -115,7 +115,7 @@ public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusab
 		private ButtonFlatBuilder(ButtonSetting context) {
 			super(context);
 		}
-		public Button element() {
+		public Button build() {
 			Button elem = new Button();
 			if(context().iconBefore!=null) elem.iconBefore(context().iconBefore);
 			if(context().iconTrailing!=null) elem.iconTrailing(context().iconTrailing);
@@ -126,7 +126,7 @@ public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusab
 		private ButtonOutlineBuilder(ButtonSetting context) {
 			super(context);
 		}
-		public Button element() {
+		public Button build() {
 			Button elem = new Button().addClass("mdc-button--outlined");
 			if(context().iconBefore!=null) elem.iconBefore(context().iconBefore);
 			if(context().iconTrailing!=null) elem.iconTrailing(context().iconTrailing);
@@ -137,7 +137,7 @@ public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusab
 		private ButtonContainBuilder(ButtonSetting context) {
 			super(context);
 		}
-		public Button element() {
+		public Button build() {
 			Button elem = new Button().addClass("mdc-button--unelevated");
 			if(context().iconBefore!=null) elem.iconBefore(context().iconBefore);
 			if(context().iconTrailing!=null) elem.iconTrailing(context().iconTrailing);

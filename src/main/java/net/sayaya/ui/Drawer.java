@@ -1,10 +1,9 @@
-package net.sayaya.ui.layout;
+package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.sayaya.ui.IsHTMLElement;
 import org.jboss.gwt.elemento.core.Elements;
 import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
 
@@ -35,15 +34,15 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 		elem.classList.add("mdc-drawer-app-content");
 	}
 	public native Drawer open() /*-{
-    	this.@net.sayaya.ui.layout.Drawer::_mdc.open = true;
+    	this.@net.sayaya.ui.Drawer::_mdc.open = true;
 		return this;
 	}-*/;
 	public native Drawer close() /*-{
-    	this.@net.sayaya.ui.layout.Drawer::_mdc.open = false;
+    	this.@net.sayaya.ui.Drawer::_mdc.open = false;
 		return this;
 	}-*/;
 	public native Drawer toggle() /*-{
-    	this.@net.sayaya.ui.layout.Drawer::_mdc.open = !this.@net.sayaya.ui.layout.Drawer::_mdc.open;
+    	this.@net.sayaya.ui.Drawer::_mdc.open = !this.@net.sayaya.ui.Drawer::_mdc.open;
 		return this;
 	}-*/;
 	@Override
@@ -56,7 +55,7 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 		private DrawerHeader.DrawerHeaderBuilder header;
 		private DrawerContent content;
 		private DrawerBuilder(){}
-		public Drawer element() {
+		public Drawer build() {
 			Drawer elem = new Drawer();
 			if(header!=null) elem.header(header);
 			if(content!=null) elem.content(content);

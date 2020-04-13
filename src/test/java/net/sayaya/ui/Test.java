@@ -8,16 +8,13 @@ import lombok.Data;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
-import net.sayaya.ui.chip.Chip;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
 import net.sayaya.ui.input.Radio;
 import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.input.TextFieldOutlined;
-import net.sayaya.ui.layout.Drawer;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.layout.TabBar;
-import net.sayaya.ui.layout.TopBar;
 import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
@@ -26,9 +23,7 @@ import org.jboss.gwt.elemento.core.Elements;
 import org.jboss.gwt.elemento.core.InputType;
 import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
 
-import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 
 import static net.sayaya.ui.table.TableBuilder.TableBodyBuilder.body;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderBuilder.header;
@@ -47,19 +42,20 @@ public class Test implements EntryPoint {
 		// AnimationTest();
 		TestButtonText();
 		TestChip();
+		TestList();
 		// TestTable();
-		TestGrid();
+		// TestGrid();
 	}
 	void LayoutTest() {
-		TopBar.TopBarButton menu = TopBar.TopBarButton.nav().element("menu");
+		TopBar.TopBarButton menu = TopBar.TopBarButton.nav().build("menu");
 		TopBar top = TopBar.topbar()
-						   .section(TopBar.TopBarSection.left().element()
+						   .section(TopBar.TopBarSection.left().build()
 														.add(menu)
 														.title("Test Top Bar"))
-						   .section(TopBar.TopBarSection.right().element()
+						   .section(TopBar.TopBarSection.right().build()
 														.add(new TabBar().element())
-														.add(TopBar.TopBarButton.action().element("file_download")))
-						   .element(content.element());
+														.add(TopBar.TopBarButton.action().build("file_download")))
+						   .build(content.element());
 		Drawer drawer = Drawer.drawer().header(Drawer.DrawerHeader.drawerHeader()
 																  .title(label().add("Mail"))
 																  .subtitle(label().add("AAA")))
@@ -69,7 +65,7 @@ public class Test implements EntryPoint {
 														   .add(Drawer.DrawerListItem.item().icon("inbox").text("Inbox").activate(true))
 														   .add(Drawer.DrawerListItem.item().icon("star").text("Star"))
 														   .add(Drawer.DrawerListItem.item().icon("send").text("Sent Main")))
-							  .element();
+							  .build();
 		HTMLDivElement div = div().add(top).add(content).element();
 		Drawer.setContent(div);
 		Elements.body().add(drawer);
@@ -80,7 +76,7 @@ public class Test implements EntryPoint {
 		});
 	}
 	void ProgressTest() {
-		ProgressBar elem = ProgressBar.progressBar().element();
+		ProgressBar elem = ProgressBar.progressBar().build();
 		content.add(elem.determinate(true).buffer(0.5).progress(0.2));
 	}
 	void RadioTest() {
@@ -94,7 +90,7 @@ public class Test implements EntryPoint {
 		content.add(a).add(b).add(c).add(d).element();
 	}
 	void AnimationTest() {
-		Button tmp = Button.button().contain().text("Text Button").element();
+		Button tmp = Button.button().contain().text("Text Button").build();
 		content.add(tmp);
 		tmp.style(Style.build().position("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
@@ -110,24 +106,36 @@ public class Test implements EntryPoint {
 	void TestChip() {
 		Chip chip = Chip.chip().text("Chip").removable(evt->{
 			DomGlobal.alert("Remove Chip");
-		}).element();
+		}).build();
 		content.add(chip);
 	}
+	void TestList() {
+		List list = List.list()
+				.add(List.ListItem.item().label("AA").build())
+				.add(List.ListItem.item().label("BB", "CCCCCCCCC").build())
+				.add(List.ListItem.item().label("BB", "CCCCCCCCC").build())
+				.add(List.Divider.divider())
+				.add(List.ListItem.item().label("BB", "CCCCCCCCC").selectable().build())
+				.add(List.ListItem.item().label("DD", "CCCCCCCCC").selectable().build())
+				.build();
+		content.add(list);
+	}
 	void TestButtonText() {
-		Button tmp = Button.button().contain().text("Text Button").element();
+		Button tmp = Button.button().contain().text("Text Button").build();
 		HandlerRegistration handler = tmp.addClickHandler(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
 		content.add(tmp);
 
 		Button tmp2 = Button.button().flat().text("Button Enabled")
-				.iconBefore(Icon.icon("sync").element()).element().enabled(true);
+				.iconBefore(Icon.icon("sync").build())
+				.build().enabled(true);
 		content.add(tmp2);
 
-		Button tmp3 = Button.button().contain().text("Button Disabled").element().enabled(false);
+		Button tmp3 = Button.button().contain().text("Button Disabled").build().enabled(false);
 		content.add(tmp3);
 
-		Button tmp4 = Button.button().outline().text("Button Focused").element().focus().accessKey('A');
+		Button tmp4 = Button.button().outline().text("Button Focused").build().focus().accessKey('A');
 		content.add(tmp4);
 
 		/*CheckBox tmp5 = InputBuilder.checkbox().element().focus().accessKey('A');

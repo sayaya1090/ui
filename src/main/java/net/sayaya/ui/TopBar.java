@@ -1,12 +1,9 @@
-package net.sayaya.ui.layout;
+package net.sayaya.ui;
 
 import elemental2.dom.*;
-import lombok.Builder;
 import lombok.Setter;
 import lombok.Singular;
 import lombok.experimental.Accessors;
-import net.sayaya.ui.Focusable;
-import net.sayaya.ui.IsHTMLElement;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasClickHandlers;
 import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
@@ -52,7 +49,7 @@ public class TopBar implements IsHTMLElement<HTMLElement, TopBar> {
 			sections.add(section);
 			return this;
 		}
-		public TopBar element(HTMLElement contents) {
+		public TopBar build(HTMLElement contents) {
 			TopBar topbar = new TopBar();
 			if(type == TopBarType.FIXED) topbar.element().classList.add("mdc-top-app-bar--fixed");
 			else if(type == TopBarType.SHORT) topbar.element().classList.add("mdc-top-app-bar--short");
@@ -94,7 +91,7 @@ public class TopBar implements IsHTMLElement<HTMLElement, TopBar> {
 		@Accessors(fluent = true)
 		public static class TopBarSectionBuilder {
 			private boolean isRight = false;
-			public TopBarSection element() {
+			public TopBarSection build() {
 				TopBarSection elem = new TopBarSection();
 				if(isRight) elem._this.css("mdc-top-app-bar__section--align-end");
 				else elem._this.css("mdc-top-app-bar__section--align-start");
@@ -140,7 +137,7 @@ public class TopBar implements IsHTMLElement<HTMLElement, TopBar> {
 		@Accessors(fluent = true)
 		public static class TopBarButtonBuilder {
 			private TopBarButtonType type;
-			public TopBarButton element(String icon) {
+			public TopBarButton build(String icon) {
 				TopBarButton elem = new TopBarButton(icon);
 				if(type == TopBarButtonType.NAVIGATION) elem._this.css("mdc-top-app-bar__navigation-icon--unbounded");
 				else if(type == TopBarButtonType.ACTION) elem._this.css("mdc-top-app-bar__action-item--unbounded");
