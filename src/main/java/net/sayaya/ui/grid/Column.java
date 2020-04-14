@@ -107,21 +107,26 @@ public class Column<T> {
 		}
 	}
 	@JsFunction
+	@FunctionalInterface
 	interface GetRender<T> {
 		Object construct(RendererProperty<T> props);
 	}
 	@JsFunction
+	@FunctionalInterface
 	public interface CreateElement {
 		Element getElement();
 	}
 	@JsFunction
+	@FunctionalInterface
 	interface InitializeProxy {
 		void initialize(Element element);
 	}
+	@FunctionalInterface
 	public interface Renderer<T> {
 		void render(Element element, RendererProperty<T> props);
 	}
 	@JsFunction
+	@FunctionalInterface
 	interface RenderProxy<T> {
 		void render(RendererProperty<T> props);
 	}
