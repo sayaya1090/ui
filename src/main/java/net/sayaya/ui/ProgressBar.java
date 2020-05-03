@@ -12,8 +12,10 @@ import lombok.experimental.Accessors;
 import static org.jboss.gwt.elemento.core.Elements.*;
 
 public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
-	private final HTMLDivElement bufferingDots = div().css("mdc-linear-progress__buffering-dots").element();
-	private final HTMLDivElement buffer = div().css("mdc-linear-progress__buffer").element();
+	private final HTMLDivElement buffer = div().css("mdc-linear-progress__buffer")
+											   .add(div().css("mdc-linear-progress__buffer-bar"))
+											   .add(div().css("mdc-linear-progress__buffer-dots"))
+											   .element();
 	private final HTMLDivElement primary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__primary-bar")
 												.add(span().css("mdc-linear-progress__bar-inner")).element();
 	private final HTMLDivElement secondary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__secondary-bar")
@@ -22,7 +24,7 @@ public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 			.attr("role", "progressbar")
 			.attr("aria-valuemin", "0")
 			.attr("aria-valuemax", "1")
-			.add(bufferingDots)
+			.attr("aria-valuenow", "0")
 			.add(buffer)
 			.add(primary).add(secondary).element();
 	private final MdcProgressBar instance;
