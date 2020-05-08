@@ -2,17 +2,18 @@ package net.sayaya.ui.input;
 
 import elemental2.dom.*;
 
-import static org.jboss.gwt.elemento.core.Elements.div;
+import static org.jboss.gwt.elemento.core.Elements.*;
 
 public abstract class TextFieldFilled<V> extends TextField<V, TextFieldFilled<V>> {
 	TextFieldFilled(HTMLInputElement input) {
 		super(input);
 	}
-	protected final HTMLDivElement initialize() {
-		return div().css("mdc-text-field")
-					.add(input)
-					.add(div().css("mdc-line-ripple"))
-					.add(label)
-					.element();
+	protected final HTMLLabelElement initialize() {
+		return org.jboss.gwt.elemento.core.Elements.label().css("mdc-text-field", "mdc-text-field--filled")
+														 .add(span().css("mdc-text-field__input"))
+														 .add(input())
+														 .add(label())
+														 .add(div().css("mdc-line-ripple"))
+														 .element();
 	}
 }

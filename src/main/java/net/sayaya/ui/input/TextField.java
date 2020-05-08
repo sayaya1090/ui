@@ -30,13 +30,13 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<JsDate>().input(input).getter(()->input.valueAsDate).settter(v->input.valueAsDate = v));
 	}
 	public static TextFieldBuilder<String, ?> fileBox() {
-		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.file).element();
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.file).style("position: relative; top: calc(50% - 15px);").element();
 		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->{DomGlobal.console.log("Unimplemented method: InputType.file -> setValue");}));
 	}
 
-	private final HTMLDivElement div;
-	protected final HTMLLabelElement label = org.jboss.gwt.elemento.core.Elements.label().css("mdc-floating-label").element();
-	protected final HTMLInputElement input;
+	private final HTMLLabelElement div;
+	private final HTMLLabelElement label = org.jboss.gwt.elemento.core.Elements.label().css("mdc-floating-label").element();
+	private final HTMLInputElement input;
 	protected TextField(HTMLInputElement input) {
 		this.input = input;
 		input.classList.add("mdc-text-field__input");
@@ -45,7 +45,7 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		label.setAttribute("for", id);
 		div = initialize();
 	}
-	protected abstract HTMLDivElement initialize();
+	protected abstract HTMLLabelElement initialize();
 	public abstract W value(V value);
 	native static void inject(Element elem) /*-{
         $wnd.mdc.textField.MDCTextField.attachTo(elem);
@@ -67,14 +67,17 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		this.label.innerHTML = label;
 		return self();
 	}
+	public final HTMLLabelElement label() {
+    	return label;
+	}
 	public final W iconLeading(String icon) {
-		HTMLElement i = i().css("material-icons", "mdc-text-field__icon").style("position: absolute; top: 50%; left: 16px; right: auto; color: rgba(0, 0, 0, 0.54); cursor: default; pointer-events: none;").add(icon).element();
+		HTMLElement i = i().css("material-icons", "mdc-text-field__icon", "mdc-text-field__icon--leading").add(icon).element();
 		div.classList.add("mdc-text-field--with-leading-icon");
 		div.insertBefore(i, div.firstChild);
 		return self();
 	}
 	public final W iconTrailing(String icon) {
-		HTMLElement i = i().css("material-icons", "mdc-text-field__icon").style("position: absolute; top: 50%; left: auto; right: 12px; color: rgba(0, 0, 0, 0.54); cursor: default; pointer-events: none;").add(icon).element();
+		HTMLElement i = i().css("material-icons", "mdc-text-field__icon", "mdc-text-field__icon--trailing").add(icon).element();
 		div.classList.add("mdc-text-field--with-trailing-icon");
 		div.insertBefore(i, input);
 		return self();
