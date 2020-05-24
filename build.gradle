@@ -37,20 +37,30 @@ repositories {
 }
 
 dependencies {
+    implementation("com.google.elemental2:elemental2-dom:1.0.0-RC1")
+    implementation("com.google.elemental2:elemental2-core:1.0.0-RC1")
+    implementation("com.google.elemental2:elemental2-webstorage:1.0.0-RC1")
     implementation("org.jboss.gwt.elemento:elemento-core:${elementoVersion}")
-    implementation("org.jboss.gwt.elemento:elemento-template-api:${elementoVersion}")
-    implementation("org.jboss.gwt.elemento:elemento-template-processor:${elementoVersion}")
-    compileOnly("com.google.gwt:gwt-user:2.8.2")
-    compileOnly("com.google.gwt:gwt-dev:2.8.2")
+    compileOnly("com.google.gwt:gwt-user:${gwtVersion}"){
+        exclude group: "com.google.elemental2", module: 'elemental2-core'
+        exclude group: "com.google.elemental2", module: 'elemental2-dom'
+        exclude group: "com.google.elemental2", module: 'elemental2-promise'
+        exclude group: "com.google.elemental2", module: 'elemental2-webstorage'
+    }
+    compileOnly("com.google.gwt:gwt-dev:${gwtVersion}"){
+        exclude group: "com.google.elemental2", module: 'elemental2-core'
+        exclude group: "com.google.elemental2", module: 'elemental2-dom'
+        exclude group: "com.google.elemental2", module: 'elemental2-promise'
+        exclude group: "com.google.elemental2", module: 'elemental2-webstorage'
+    }
     compileOnly("org.projectlombok:lombok:1.18.12")
     annotationProcessor("org.projectlombok:lombok:1.18.12")
     testCompileOnly("org.projectlombok:lombok:1.18.12")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.12")
 }
 
-
 gwt {
-    gwtVersion = "2.8.2"
+    gwtVersion = "${gwtVersion}"
     minHeapSize = "1024M"
     maxHeapSize = "2048M"
     jsInteropExports.setGenerate(true)
