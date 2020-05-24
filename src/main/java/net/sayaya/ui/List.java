@@ -13,9 +13,13 @@ public class List implements IsHTMLElement<HTMLUListElement, List> {
 	private final HtmlContentBuilder<HTMLUListElement> _this = ul().css("mdc-list");
 	private List(){
 	}
-	public static AbstractListBuilder singleLine() {
-		return new AbstractListBuilder();
+	public static ListBuilderSingleLine singleLine() {
+		return new ListBuilderSingleLine(new AbstractListBuilder());
 	}
+	public static ListBuilderDoubleLine doubleLine() {
+		return new ListBuilderDoubleLine(new AbstractListBuilder());
+	}
+
 	native static void inject(Element elem) /*-{
         $wnd.mdc.list.MDCList.attachTo(elem);
     }-*/;
@@ -36,12 +40,6 @@ public class List implements IsHTMLElement<HTMLUListElement, List> {
 		public AbstractListBuilder add(AbstractListItem<?> item) {
 			children.add(item);
 			return this;
-		}
-		public ListBuilderSingleLine singleLine() {
-			return new ListBuilderSingleLine(this);
-		}
-		public ListBuilderDoubleLine doubleLine() {
-			return new ListBuilderDoubleLine(this);
 		}
 	}
 	public static class ListBuilderSingleLine {

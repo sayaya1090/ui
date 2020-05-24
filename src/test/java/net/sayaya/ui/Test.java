@@ -110,7 +110,7 @@ public class Test implements EntryPoint {
 		content.add(chip);
 	}
 	void TestList() {
-		List list = List.list()
+		List list = List.singleLine()
 				.add(List.ListItem.item().label("AA").build())
 				.add(List.ListItem.item().label("BB", "CCCCCCCCC").build())
 				.add(List.ListItem.item().label("BB", "CCCCCCCCC").build())

@@ -33,7 +33,14 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.file).style("position: relative; top: calc(50% - 15px);").element();
 		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->{DomGlobal.console.log("Unimplemented method: InputType.file -> setValue");}));
 	}
-
+	public static TextFieldBuilder<String, ?> password() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.password).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->input.value = v));
+	}
+	public static TextFieldBuilder<String, ?> image() {
+		HTMLInputElement input = org.jboss.gwt.elemento.core.Elements.input(InputType.image).element();
+		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().input(input).getter(()->input.value).settter(v->input.value = v));
+	}
 	private final HTMLLabelElement div;
 	private final HTMLLabelElement label = org.jboss.gwt.elemento.core.Elements.label().css("mdc-floating-label").element();
 	private final HTMLInputElement input;
