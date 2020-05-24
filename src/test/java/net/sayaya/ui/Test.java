@@ -40,7 +40,8 @@ public class Test implements EntryPoint {
 		ProgressTest();
 		RadioTest();
 		// AnimationTest();
-		TestButtonText();
+		TestButton();
+		TestText();
 		TestChip();
 		TestList();
 		// TestTable();
@@ -120,7 +121,7 @@ public class Test implements EntryPoint {
 				.build();
 		content.add(list);
 	}
-	void TestButtonText() {
+	void TestButton() {
 		Button tmp = Button.button().contain().text("Text Button").build();
 		HandlerRegistration handler = tmp.addClickHandler(evt->{
 			DomGlobal.alert("Hello, World!!");
@@ -144,16 +145,23 @@ public class Test implements EntryPoint {
 		//	DomGlobal.alert(evt.getValue());
 		});*/
 
-		TextFieldOutlined<String> tmp6 = TextField.textBox().label("tmp6").outlined().iconLeading("favorite").iconTrailing("visibility").element();
-		tmp6.addValueChangeHandler(evt->{
-		// 	DomGlobal.alert(evt.getValue());
-		});
-		content.add(tmp6);
 		/*EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);
 		content.add(tmp7);
 		tmp7.addValueChangeHandler(evt->{
 			DomGlobal.alert(evt.getValue());
 		});*/
+	}
+	void TestText() {
+		TextFieldOutlined<String> tmp1 = TextField.textBox().label("tmp1").outlined().iconLeading("favorite").element();
+		tmp1.addValueChangeHandler(evt->{
+			// 	DomGlobal.alert(evt.getValue());
+		});
+		content.add(tmp1);
+		TextFieldOutlined<String> tmp2 = TextField.password().label("tmp2").outlined().iconLeading("vpn_key").iconTrailing("visibility").element();
+		tmp2.addValueChangeHandler(evt->{
+			// 	DomGlobal.alert(evt.getValue());
+		});
+		content.add(tmp2);
 	}
 	void TestTable() {
 		@Data
