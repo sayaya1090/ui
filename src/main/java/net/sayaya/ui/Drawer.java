@@ -4,10 +4,10 @@ import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.jboss.gwt.elemento.core.Elements;
-import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
+import org.jboss.elemento.Elements;
+import org.jboss.elemento.HtmlContentBuilder;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 	private final HtmlContentBuilder<HTMLElement> _this = aside().css("mdc-drawer mdc-drawer--dismissible");

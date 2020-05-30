@@ -9,7 +9,7 @@ import net.sayaya.ui.style.Style;
 
 import java.util.Map;
 
-import static org.jboss.gwt.elemento.core.Elements.div;
+import static org.jboss.elemento.Elements.div;
 
 public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 	private final ToastGrid elem;

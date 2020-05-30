@@ -3,11 +3,11 @@ package net.sayaya.ui;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLLIElement;
 import elemental2.dom.HTMLUListElement;
-import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.LinkedList;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class List implements IsHTMLElement<HTMLUListElement, List> {
 	private final HtmlContentBuilder<HTMLUListElement> _this = ul().css("mdc-list");

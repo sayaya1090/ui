@@ -3,6 +3,7 @@ package net.sayaya.ui.input;
 import elemental2.dom.HTMLInputElement;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.jboss.elemento.InputBuilder;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -11,9 +12,10 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 	@Setter
 	@Accessors(fluent = true)
 	final static class TextFieldSetting<V> {
-		HTMLInputElement input;
+		InputBuilder<HTMLInputElement> builder;
 		Supplier<V> getter;
 		Consumer<V> settter;
+		String style;
 		Boolean enabled;
 		String label;
 		String iconLeading;
@@ -23,6 +25,10 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 		return (S)this;
 	}
 	protected TextFieldSetting<V> context;
+	public S style(String style) {
+		context.style = style;
+		return self();
+	}
 	public S enabled(boolean enabled) {
 		context.enabled = enabled;
 		return self();
@@ -53,7 +59,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 			super(context);
 		}
 		public TextFieldFilled<V> element() {
-			TextFieldFilled<V> elem = new TextFieldFilled<V>(context.input) {
+			TextFieldFilled<V> elem = new TextFieldFilled<V>(context.builder) {
 				@Override
 				public TextFieldFilled<V> value(V value) {
 					context.settter.accept(value);
@@ -65,6 +71,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 					return context.getter.get();
 				}
 			};
+			if(context.style!=null) context.builder.style(context.style);
 			if(context.enabled!=null) elem.enabled(context.enabled);
 			if(context.label!=null) elem.label(context.label);
 			if(context.iconLeading!=null) elem.iconLeading(context.iconLeading);
@@ -78,7 +85,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 			super(context);
 		}
 		public TextFieldOutlined<V> element() {
-			TextFieldOutlined<V> elem = new TextFieldOutlined<V>(context.input) {
+			TextFieldOutlined<V> elem = new TextFieldOutlined<V>(context.builder) {
 				@Override
 				public TextFieldOutlined<V> value(V value) {
 					context.settter.accept(value);
@@ -91,6 +98,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 					return context.getter.get();
 				}
 			};
+			if(context.style!=null) context.builder.style(context.style);
 			if(context.enabled!=null) elem.enabled(context.enabled);
 			if(context.label!=null) elem.label(context.label);
 			if(context.iconLeading!=null) elem.iconLeading(context.iconLeading);

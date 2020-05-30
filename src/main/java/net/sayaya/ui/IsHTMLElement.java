@@ -6,7 +6,7 @@ import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
 import net.sayaya.ui.style.Style;
-import org.jboss.gwt.elemento.core.IsElement;
+import org.jboss.elemento.IsElement;
 
 public interface IsHTMLElement<E extends HTMLElement, W extends FluentInterface<W>> extends IsElement<E>, FluentInterface<W>, HasAttachHandlers, HasDetachHandlers {
 	default W style(Style style) {

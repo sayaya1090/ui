@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.IsHTMLElement;
 
-import static org.jboss.gwt.elemento.core.Elements.tr;
+import static org.jboss.elemento.Elements.tr;
 
 @Getter
 @Accessors(fluent = true)

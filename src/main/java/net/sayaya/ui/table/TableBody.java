@@ -10,7 +10,7 @@ import net.sayaya.ui.IsHTMLElement;
 
 import java.util.LinkedList;
 
-import static org.jboss.gwt.elemento.core.Elements.tbody;
+import static org.jboss.elemento.Elements.tbody;
 
 public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBody> {
 	private final HTMLTableSectionElement element = tbody().element();

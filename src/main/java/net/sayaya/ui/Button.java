@@ -6,12 +6,12 @@ import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasClickHandlers;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusable<Button>, HasClickHandlers {
 	private final HTMLDivElement ripple = div().css("mdc-button__ripple").element();
 	private final HTMLElement label = span().css("mdc-button__label").element();
-	private final HTMLButtonElement _this = org.jboss.gwt.elemento.core.Elements.button().css("mdc-button")
+	private final HTMLButtonElement _this = org.jboss.elemento.Elements.button().css("mdc-button")
 			.add(ripple)
 			.add(label)
 			.element();
@@ -93,7 +93,7 @@ public class Button implements IsHTMLElement<HTMLButtonElement, Button>, Focusab
 			return self();
 		}
 		public B text(String text) {
-			settings.text(text);
+			settings.text = text;
 			return self();
 		}
 	}

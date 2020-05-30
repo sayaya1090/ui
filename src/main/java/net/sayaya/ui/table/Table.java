@@ -12,7 +12,7 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class Table<V> implements IsHTMLElement<HTMLTableElement, Table<V>>, HasValueChangeHandlers<Data[]> {
 	protected interface Resource extends ClientBundle {

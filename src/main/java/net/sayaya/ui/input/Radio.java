@@ -6,10 +6,10 @@ import net.sayaya.ui.Icon;
 import net.sayaya.ui.IsHTMLElement;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.jboss.gwt.elemento.core.InputType;
+import org.jboss.elemento.InputType;
 
-import static org.jboss.gwt.elemento.core.Elements.div;
-import static org.jboss.gwt.elemento.core.Elements.input;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.input;
 
 public class Radio<T> implements IsHTMLElement<HTMLDivElement, Radio<T>>, Focusable<Radio<T>>, HasValueChangeHandlers<T> {
 	private final HTMLInputElement input = input(InputType.radio).css("mdc-radio__native-control").element();

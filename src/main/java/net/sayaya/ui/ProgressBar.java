@@ -9,7 +9,7 @@ import jsinterop.annotations.JsType;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 	private final HTMLDivElement buffer = div().css("mdc-linear-progress__buffer")
@@ -74,7 +74,7 @@ public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 		}
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_= {@JsOverlay})
+	@Setter(onMethod_ = {@JsOverlay})
 	@Accessors(fluent=true)
 	private static final class MdcProgressBar {
 		@JsProperty
@@ -90,7 +90,7 @@ public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 		// public native MdcProgressBarFoundation getDefaultFoundation();
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_= {@JsOverlay})
+	@Setter(onMethod_ = {@JsOverlay})
 	@Accessors(fluent=true)
 	private static final class MdcProgressBarFoundation {
 		public native void setDeterminate(boolean isDetermined);

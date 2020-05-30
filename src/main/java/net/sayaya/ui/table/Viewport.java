@@ -5,7 +5,7 @@ import elemental2.dom.*;
 import net.sayaya.ui.IsHTMLElement;
 
 import static net.sayaya.ui.table.Table.GSS;
-import static org.jboss.gwt.elemento.core.Elements.div;
+import static org.jboss.elemento.Elements.div;
 
 public class Viewport implements IsHTMLElement<HTMLDivElement, Viewport> {
 	private final HTMLDivElement virtual = div().style("border: 2px solid #FF00FF").element();

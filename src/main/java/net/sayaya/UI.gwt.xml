@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
 	<inherits name="com.google.gwt.user.User"/>
-	<inherits name="org.jboss.gwt.elemento.Core"/>
+	<inherits name="org.jboss.elemento.Core"/>
 	<source path="ui"/>
 	<source path="java.beans" />
 	<collapse-all-properties/>
