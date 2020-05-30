@@ -8,7 +8,7 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.jboss.gwt.elemento.core.Elements.div;
+import static org.jboss.elemento.Elements.div;
 
 public final class ChipSet implements IsHTMLElement<HTMLElement, ChipSet>, HasValueChangeHandlers<Chip[]> {
 	private final HTMLElement _this = div().css("mdc-chip-set").attr("role", "grid").element();

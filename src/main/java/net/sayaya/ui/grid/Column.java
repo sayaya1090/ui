@@ -90,7 +90,7 @@ public class Column<T> {
 		return "asc".equals(sortingType);
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Getter(onMethod_= {@JsOverlay})
+	@Getter(onMethod = {@JsOverlay})
 	@Accessors(fluent=true)
 	public final static class RendererProperty<T> {
 		@JsProperty(name="grid")

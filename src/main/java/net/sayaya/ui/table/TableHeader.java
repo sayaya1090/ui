@@ -8,7 +8,7 @@ import net.sayaya.ui.IsHTMLElement;
 
 import java.util.ArrayList;
 
-import static org.jboss.gwt.elemento.core.Elements.thead;
+import static org.jboss.elemento.Elements.thead;
 
 @Getter
 public class TableHeader implements IsHTMLElement<HTMLTableSectionElement, TableHeader> {

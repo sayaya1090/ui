@@ -6,7 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import net.sayaya.ui.IsHTMLElement;
 
-import static org.jboss.gwt.elemento.core.Elements.th;
+import static org.jboss.elemento.Elements.th;
 
 @Getter
 public class TableHeaderCell implements IsHTMLElement<HTMLTableCellElement, TableHeaderCell> {

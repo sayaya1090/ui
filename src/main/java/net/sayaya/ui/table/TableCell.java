@@ -3,7 +3,7 @@ package net.sayaya.ui.table;
 import elemental2.dom.HTMLTableCellElement;
 import net.sayaya.ui.IsHTMLElement;
 
-import static org.jboss.gwt.elemento.core.Elements.td;
+import static org.jboss.elemento.Elements.td;
 
 public class TableCell<T> implements IsHTMLElement<HTMLTableCellElement, TableCell<T>> {
 	private final HTMLTableCellElement element;

@@ -3,7 +3,7 @@ package net.sayaya.ui.table;
 import elemental2.dom.HTMLLabelElement;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import org.jboss.gwt.elemento.core.Elements;
+import org.jboss.elemento.Elements;
 
 import java.util.LinkedList;
 

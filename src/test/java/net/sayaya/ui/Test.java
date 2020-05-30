@@ -19,9 +19,9 @@ import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
 import net.sayaya.ui.table.Viewport;
-import org.jboss.gwt.elemento.core.Elements;
-import org.jboss.gwt.elemento.core.InputType;
-import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
+import org.jboss.elemento.Elements;
+import org.jboss.elemento.InputType;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.Date;
 
@@ -30,7 +30,7 @@ import static net.sayaya.ui.table.TableBuilder.TableHeaderBuilder.header;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderRowBuilder.row;
 import static net.sayaya.ui.table.TableBuilder.TableHeaderCellBuilder.cell;
 import static net.sayaya.ui.table.TableBuilder.table;
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class Test implements EntryPoint {
 	private final HtmlContentBuilder<HTMLDivElement> content = div();

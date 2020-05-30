@@ -2,7 +2,7 @@ package net.sayaya.ui;
 
 import elemental2.dom.HTMLElement;
 
-import static org.jboss.gwt.elemento.core.Elements.i;
+import static org.jboss.elemento.Elements.i;
 
 public class Icon implements IsHTMLElement<HTMLElement, Icon> {
 	private final HTMLElement _this = i().css("material-icons").element();

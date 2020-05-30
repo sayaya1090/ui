@@ -4,7 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import net.sayaya.ui.IsHTMLElement;
 
-import static org.jboss.gwt.elemento.core.Elements.div;
+import static org.jboss.elemento.Elements.div;
 
 public class TabBar implements IsHTMLElement<HTMLElement, TabBar> {
 	private final HTMLElement _this = div().css("mdc-tab-bar").attr("role", "tablist").element();

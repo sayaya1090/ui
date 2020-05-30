@@ -10,7 +10,7 @@ import lombok.experimental.Accessors;
 import java.util.LinkedList;
 
 @JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-@Setter(onMethod_= {@JsOverlay})
+@Setter(onMethod = {@JsOverlay})
 @Accessors(fluent=true)
 public final class GridSettings {
 	@JsProperty(name="el")

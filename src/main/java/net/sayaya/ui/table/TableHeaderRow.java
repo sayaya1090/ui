@@ -8,7 +8,7 @@ import net.sayaya.ui.IsHTMLElement;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import static org.jboss.gwt.elemento.core.Elements.tr;
+import static org.jboss.elemento.Elements.tr;
 
 @Getter
 public class TableHeaderRow implements IsHTMLElement<HTMLTableRowElement, TableHeaderRow> {

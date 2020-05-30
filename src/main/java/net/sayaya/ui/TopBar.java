@@ -6,12 +6,12 @@ import lombok.Singular;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasClickHandlers;
-import org.jboss.gwt.elemento.core.builder.HtmlContentBuilder;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.jboss.gwt.elemento.core.Elements.*;
+import static org.jboss.elemento.Elements.*;
 
 public class TopBar implements IsHTMLElement<HTMLElement, TopBar> {
 	private final HtmlContentBuilder<HTMLDivElement> row = div().css("mdc-top-app-bar__row");
@@ -100,7 +100,7 @@ public class TopBar implements IsHTMLElement<HTMLElement, TopBar> {
 		}
 	}
 	public static class TopBarButton implements IsHTMLElement<HTMLButtonElement, TopBarButton>, Focusable<TopBarButton>, HasClickHandlers {
-		private final HtmlContentBuilder<HTMLButtonElement> _this = org.jboss.gwt.elemento.core.Elements.button().css("material-icons", "mdc-icon-button");
+		private final HtmlContentBuilder<HTMLButtonElement> _this = org.jboss.elemento.Elements.button().css("material-icons", "mdc-icon-button");
 		TopBarButton(String icon) {
 			_this.textContent(icon);
 		}

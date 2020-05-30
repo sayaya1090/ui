@@ -12,8 +12,8 @@ import net.sayaya.ui.animate.Animation;
 import java.util.LinkedList;
 
 import static net.sayaya.ui.animate.Animation.animate;
-import static org.jboss.gwt.elemento.core.Elements.*;
-import static org.jboss.gwt.elemento.core.Elements.i;
+import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.i;
 
 public class Chip implements IsHTMLElement<HTMLElement, Chip> {
 	private final HTMLDivElement ripple = div().css("mdc-chip__ripple").element();
