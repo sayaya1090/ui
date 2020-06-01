@@ -4,7 +4,7 @@ import jsinterop.annotations.*;
 import lombok.Getter;
 
 @JsType(isNative = true, namespace= JsPackage.GLOBAL)
-@Getter
+@Getter(onMethod_ = {@JsOverlay})
 public final class GridEvent<T> {
 	@JsProperty
 	private boolean stopped;

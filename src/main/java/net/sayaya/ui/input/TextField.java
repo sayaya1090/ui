@@ -14,8 +14,8 @@ import org.jboss.elemento.InputBuilder;
 
 import static org.jboss.elemento.Elements.i;
 
-public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLElement<HTMLElement, W>, Focusable<W>, HasValueChangeHandlers<V>, HasClickHandlers {
-	public static TextFieldBuilder<String, ?> textBox() {
+public abstract class TextField<V> extends HTMLElement implements HasValueChangeHandlers<V>, HasClickHandlers {
+/*	public static TextFieldBuilder<String, ?> textBox() {
 		InputBuilder<HTMLInputElement> builder = org.jboss.elemento.Elements.input(InputType.text);
 		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().builder(builder).getter(()->builder.element().value).settter(v->builder.element().value = v));
 	}
@@ -38,7 +38,7 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 	public static TextFieldBuilder<String, ?> password() {
 		InputBuilder<HTMLInputElement> builder = org.jboss.elemento.Elements.input(InputType.password);
 		return new TextFieldBuilder<>(new TextFieldBuilder.TextFieldSetting<String>().builder(builder).getter(()->builder.element().value).settter(v->builder.element().value = v));
-	}
+	}*/
 	private final HTMLLabelElement div;
 	private final HTMLLabelElement label = org.jboss.elemento.Elements.label().css("mdc-floating-label").element();
 	private final InputBuilder<HTMLInputElement> builder;
@@ -52,14 +52,14 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		div = initialize();
 	}
 	protected abstract HTMLLabelElement initialize();
-	public abstract W value(V value);
+	public abstract TextField<V> value(V value);
 	native static void inject(Element elem) /*-{
         $wnd.mdc.textField.MDCTextField.attachTo(elem);
     }-*/;
 	final void inject() {
 		inject(div);
 	}
-	public final W enabled(boolean enabled) {
+	/*public final TextField<V> enabled(boolean enabled) {
 		if(!enabled) {
 			div.classList.add("mdc-text-field--disabled");
 			input().setAttribute("disabled", true);
@@ -69,39 +69,33 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		}
 		return self();
 	}
-	public final W label(String label) {
+	public final TextField<V> label(String label) {
 		this.label.innerHTML = label;
 		return self();
-	}
+	}*/
 	public final HTMLLabelElement label() {
 		return label;
 	}
-	public final W iconLeading(String icon) {
+/*	public final TextField<V> iconLeading(String icon) {
 		HTMLElement i = i().css("material-icons", "mdc-text-field__icon", "mdc-text-field__icon--leading").add(icon).element();
 		div.classList.add("mdc-text-field--with-leading-icon");
 		div.insertBefore(i, div.firstChild);
 		return self();
 	}
-	public final W iconTrailing(String icon) {
+	public final TextField<V> iconTrailing(String icon) {
 		HTMLElement i = i().css("material-icons", "mdc-text-field__icon", "mdc-text-field__icon--trailing").add(icon).element();
 		div.classList.add("mdc-text-field--with-trailing-icon");
 		div.insertBefore(i, input());
 		return self();
 	}
-	public final W fireEvent(Event evt) {
+	public final TextField<V> fireEvent(Event evt) {
 		input().dispatchEvent(evt);
 		return self();
 	}
+*/
 	@Override
-	public final W accessKey(char key) {
-		input().setAttribute("accessKey", String.valueOf(key));
-		return self();
-	}
-
-	@Override
-	public final W focus() {
-		input().focus();
-		return self();
+	public V value() {
+		return null;
 	}
 
 	@Override
@@ -113,7 +107,7 @@ public abstract class TextField<V, W extends TextField<V, W>> implements IsHTMLE
 		return addClickHandler(input(), listener);
 	}
 
-	@Override
+//	@Override
 	public final HTMLElement element() {
 		return div;
 	}

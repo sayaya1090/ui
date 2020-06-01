@@ -3,12 +3,14 @@ package net.sayaya.ui.input;
 import elemental2.dom.HTMLInputElement;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.sayaya.ui.HTMLElementBuilder;
 import org.jboss.elemento.InputBuilder;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
+public class TextFieldBuilder<T extends TextField<T>> {
+
 	@Setter
 	@Accessors(fluent = true)
 	final static class TextFieldSetting<V> {
@@ -21,6 +23,7 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 		String iconLeading;
 		String iconTrailing;
 	}
+	/*
 	public S self() {
 		return (S)this;
 	}
@@ -106,5 +109,5 @@ public class TextFieldBuilder<V, S extends TextFieldBuilder<V, S>> {
 			elem.inject();
 			return elem;
 		}
-	}
+	}*/
 }

@@ -9,15 +9,15 @@ import net.sayaya.ui.style.Style;
 import org.jboss.elemento.IsElement;
 
 public interface IsHTMLElement<E extends HTMLElement, W extends FluentInterface<W>> extends IsElement<E>, FluentInterface<W>, HasAttachHandlers, HasDetachHandlers {
-	default W style(Style style) {
+	/*default W style(Style style) {
 		style.apply(element().style);
 		return self();
-	}
-	default W addClass(String clazz1, String... clazz) {
+	}*/
+	/*default W addClass(String clazz1, String... clazz) {
 		element().classList.add(clazz1);
 		if(clazz!=null) for(String c: clazz) element().classList.add(c);
 		return self();
-	}
+	}*/
 	default HandlerRegistration addAttachHandler(EventListener listener) {
 		return addAttachHandler(element(), listener);
 	}

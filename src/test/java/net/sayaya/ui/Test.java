@@ -15,6 +15,8 @@ import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.input.TextFieldOutlined;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.layout.TabBar;
+import net.sayaya.ui.n.Button;
+import net.sayaya.ui.n.Icon;
 import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
@@ -41,7 +43,7 @@ public class Test implements EntryPoint {
 		RadioTest();
 		// AnimationTest();
 		TestButton();
-		TestText();
+		// TestText();
 		TestChip();
 		TestList();
 		// TestTable();
@@ -91,9 +93,8 @@ public class Test implements EntryPoint {
 		content.add(a).add(b).add(c).add(d).element();
 	}
 	void AnimationTest() {
-		Button tmp = Button.button().contain().text("Text Button").build();
+		Button tmp = Button.contain().text("Text Button").style("position: relative").proxy();
 		content.add(tmp);
-		tmp.style(Style.build().position("relative"));
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#FF00FF", "opacity", "1")
 				, JsPropertyMap.of("left", "300px", "opacity", "0")
@@ -122,35 +123,27 @@ public class Test implements EntryPoint {
 		content.add(list);
 	}
 	void TestButton() {
-		Button tmp = Button.button().contain().text("Text Button").build();
+		Button tmp = Button.contain().text("Text Button").proxy();
 		HandlerRegistration handler = tmp.addClickHandler(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
 		content.add(tmp);
 
-		Button tmp2 = Button.button().flat().text("Button Enabled")
-				.iconBefore(Icon.icon("sync").build())
-				.build().enabled(true);
+		Button tmp2 = Button.flat().text("Button Enabled")
+							.iconBefore(Icon.icon("sync"))
+							.proxy()
+							.enabled(true);
 		content.add(tmp2);
 
-		Button tmp3 = Button.button().contain().text("Button Disabled").build().enabled(false);
+		Button tmp3 = Button.contain().text("Button Disabled").proxy().enabled(false);
 		content.add(tmp3);
 
-		Button tmp4 = Button.button().outline().text("Button Focused").build().focus().accessKey('A');
+		Button tmp4 = Button.outline().text("Button Focused").proxy();
+		tmp4.element().accessKey = "A";
+		tmp4.element().focus();
 		content.add(tmp4);
-
-		/*CheckBox tmp5 = InputBuilder.checkbox().element().focus().accessKey('A');
-		content.add(InputDecorator.label(tmp5).setLabel("Label"));
-		tmp5.addValueChangeHandler(evt->{
-		//	DomGlobal.alert(evt.getValue());
-		});*/
-
-		/*EmailBox tmp7 = new EmailBox().setFocus().setAccessKey('C').setStyle(style);
-		content.add(tmp7);
-		tmp7.addValueChangeHandler(evt->{
-			DomGlobal.alert(evt.getValue());
-		});*/
 	}
+	/*
 	void TestText() {
 		TextFieldOutlined<String> tmp1 = TextField.textBox().label("tmp1").outlined().iconLeading("favorite").element();
 		tmp1.addValueChangeHandler(evt->{
@@ -162,7 +155,7 @@ public class Test implements EntryPoint {
 			// 	DomGlobal.alert(evt.getValue());
 		});
 		content.add(tmp2);
-	}
+	}*/
 	void TestTable() {
 		@Data
 		@Accessors(fluent = true)
