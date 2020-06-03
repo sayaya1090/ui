@@ -3,15 +3,25 @@ package net.sayaya.ui.event;
 import elemental2.dom.Event;
 import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
+import org.gwtproject.event.shared.HandlerRegistration;
 
-public interface HasValueChangeHandlers<V> extends HasHandlers {
+import static org.jboss.elemento.EventType.bind;
+
+public interface HasValueChangeHandlers<V> {
 	V value();
 	interface ValueChangeEventListener<V> {
-		void handleEvent(ValueChangeEvent<V> evt);
+		void handle(ValueChangeEvent<V> evt);
 	}
 	final class ValueChangeEvent<V> {
 		private Event event;
 		private V value;
+		public static <V> ValueChangeEvent<V> event(Event event, V value) {
+			ValueChangeEvent<V> evt = new ValueChangeEvent<V>();
+			evt.event = event;
+			evt.value = value;
+			return evt;
+		}
+		private ValueChangeEvent(){}
 		public Event event() {
 			return event;
 		}
@@ -27,9 +37,9 @@ public interface HasValueChangeHandlers<V> extends HasHandlers {
 			return this;
 		}
 	}
-	HandlerRegistration addValueChangeHandler(ValueChangeEventListener<V> listener);
-	default HandlerRegistration addValueChangeHandler(EventTarget dom, ValueChangeEventListener<V> listener) {
-		EventListener wrapper = evt->listener.handleEvent(new ValueChangeEvent<V>().event(evt).value(value()));
-		return addHandler("change", dom, wrapper);
+	HandlerRegistration onValueChange(ValueChangeEventListener<V> listener);
+	default HandlerRegistration onValueChange(EventTarget dom, ValueChangeEventListener<V> listener) {
+		EventListener wrapper = evt->listener.handle(new ValueChangeEvent<V>().event(evt).value(value()));
+		return bind(dom, "change", wrapper);
 	}
 }

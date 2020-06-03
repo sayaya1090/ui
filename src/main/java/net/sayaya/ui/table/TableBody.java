@@ -6,14 +6,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import net.sayaya.ui.IsHTMLElement;
+import net.sayaya.ui.HTMLElementBuilder;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.LinkedList;
 
-import static org.jboss.elemento.Elements.tbody;
-
-public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBody> {
-	private final HTMLTableSectionElement element = tbody().element();
+public class TableBody extends HTMLElementBuilder<HTMLTableSectionElement, TableBody> {
+	private final HtmlContentBuilder<HTMLTableSectionElement> element;
 	private final TableBuilder.ContextBodyBuilder contextBuilder;
 	@Getter(AccessLevel.NONE)
 	private final TableHeader header;
@@ -22,7 +21,9 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	private final BodyCursor head = new BodyCursor();
 	private final BodyCursor tail = new BodyCursor();
 	private final RowRenderer renderer;
-	TableBody(TableHeader header, RowRenderer renderer, TableBuilder.ContextBodyBuilder contextBuilder) {
+	TableBody(HtmlContentBuilder<HTMLTableSectionElement> e, TableHeader header, RowRenderer renderer, TableBuilder.ContextBodyBuilder contextBuilder) {
+		super(e);
+		this.element = e;
 		this.header = header;
 		this.renderer = renderer;
 		this.contextBuilder = contextBuilder;
@@ -65,7 +66,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	double increase() {
 		if(isBottom()) return 0;
 		TableBodyRow row = buffer.removeFirst();
-		element.appendChild(row.element());
+		element().appendChild(row.element());
 		double move = row.element().offsetHeight;
 		buffer.addLast(row);
 		tail.renderer = row.update(tail).forward();
@@ -80,7 +81,7 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	double decrease() {
 		if(isTop()) return 0;
 		TableBodyRow row = buffer.removeLast();
-		element.insertBefore(element.lastChild, element.firstChild);
+		element().insertBefore(element().lastChild, element().firstChild);
 		double move = row.element().offsetHeight;
 		buffer.addFirst(row);
 		RowRenderer tmp = head.renderer;
@@ -92,8 +93,8 @@ public class TableBody implements IsHTMLElement<HTMLTableSectionElement, TableBo
 	}
 
 	@Override
-	public HTMLTableSectionElement element() {
-		return element;
+	public TableBody that() {
+		return this;
 	}
 
 	@Getter

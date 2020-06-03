@@ -2,11 +2,14 @@ package net.sayaya.ui.event;
 
 import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
+import org.gwtproject.event.shared.HandlerRegistration;
+
+import static org.jboss.elemento.EventType.bind;
 
 @FunctionalInterface
-public interface HasDetachHandlers extends HasHandlers {
-	HandlerRegistration addDetachHandler(EventListener listener);
-	default HandlerRegistration addDetachHandler(EventTarget dom, EventListener listener) {
-		return addHandler("DOMNodeRemoved", dom, listener);
+public interface HasDetachHandlers {
+	HandlerRegistration onDetach(EventListener listener);
+	default HandlerRegistration onDetach(EventTarget dom, EventListener listener) {
+		return bind(dom, "DOMNodeRemoved", listener);
 	}
 }

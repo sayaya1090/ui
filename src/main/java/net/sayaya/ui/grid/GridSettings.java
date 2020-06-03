@@ -9,6 +9,8 @@ import lombok.experimental.Accessors;
 
 import java.util.LinkedList;
 
+import static org.jboss.elemento.Elements.div;
+
 @JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 @Setter(onMethod_ = {@JsOverlay})
 @Accessors(fluent=true)
@@ -51,7 +53,7 @@ public final class GridSettings {
 	GridSettings(){}
 	@JsOverlay
 	public Grid element() {
-		return new Grid(this);
+		return new Grid(div().style("overflow: hidden;"), this);
 	}
 	@JsOverlay
 	public GridSettings rowHeight(int height) {

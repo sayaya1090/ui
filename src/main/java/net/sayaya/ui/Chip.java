@@ -1,100 +1,87 @@
 package net.sayaya.ui;
 
-import elemental2.dom.Element;
-import elemental2.dom.EventListener;
-import elemental2.dom.HTMLDivElement;
-import elemental2.dom.HTMLElement;
+import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
-
-import java.util.LinkedList;
+import net.sayaya.ui.event.HasAttachHandlers;
+import net.sayaya.ui.event.HasDetachHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.jboss.elemento.EventType;
+import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.IsElement;
 
 import static net.sayaya.ui.animate.Animation.animate;
 import static org.jboss.elemento.Elements.*;
-import static org.jboss.elemento.Elements.i;
+import static org.jboss.elemento.EventType.bind;
 
-public class Chip implements IsHTMLElement<HTMLElement, Chip> {
-	private final HTMLDivElement ripple = div().css("mdc-chip__ripple").element();
-	private final HTMLElement text = span().css("mdc-chip__text").element();
-	private final HTMLElement btn = span().css("mdc-chip__primary-action").attr("role", "button")
-										  .add(text)
-										  .element();
-	private final HTMLElement cell = span().attr("role", "gridcell")
-										   .add(btn)
-										   .element();
-	private final HTMLDivElement _this = div().css("mdc-chip").attr("role", "row")
-											  .add(ripple)
-											  .add(cell)
-											  .element();
-	Chip(String text) {
-		this.text.innerHTML = text;
+public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements HasAttachHandlers, HasDetachHandlers {
+	public static Chip chip(String text) {
+		Chip elem = new Chip(div().css("mdc-chip").attr("role", "row")).text(text);
+		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
+		return elem;
 	}
-	public static ChipBuilder chip() {
-		return ChipBuilder.builder();
-	}
-	native static void inject(Element elem) /*-{
+	private static native void inject(Element elem) /*-{
         $wnd.mdc.chips.MDCChip.attachTo(elem);
     }-*/;
-	final void inject() {
-		inject(_this);
+	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-chip__ripple");
+	private IsElement<?> iconBefore;
+	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-chip__text");
+	private final HtmlContentBuilder<HTMLElement> btn = span().css("mdc-chip__primary-action").attr("role", "button")
+															  .add(label);
+	private final HtmlContentBuilder<HTMLElement> cell = span().attr("role", "gridcell")
+															   .add(btn);
+	private IsElement<?> iconTrailing;
+	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private Chip(HtmlContentBuilder<HTMLDivElement> e) {
+		super(e);
+		_this = e;
+		layout();
 	}
-	public final Chip iconLeading(String icon) {
-		HTMLElement i = i().css("material-icons", "mdc-chip__icon", "mdc-chip__icon--leading").add(icon).element();
-		_this.insertBefore(i, cell);
-		return self();
+	private void layout() {
+		clear();
+		_this.add(ripple);
+		if(iconBefore!=null) _this.add(iconBefore);
+		_this.add(cell);
+		if(iconTrailing!=null) _this.add(iconTrailing);
 	}
-	public final Chip iconTrailing(String icon) {
-		HTMLElement i = i().css("material-icons", "mdc-chip__icon", "mdc-chip__icon--trailing").add(icon).element();
-		_this.insertBefore(i, cell.nextSibling);
-		return self();
+	public Chip text(String text) {
+		label.textContent(text);
+		return that();
 	}
-	public String value() {
-		return this.text.innerHTML;
+	public String text() {
+		return label.element().innerHTML;
+	}
+	public Chip before(Icon icon) {
+		if(icon!=null) icon.css("mdc-chip__icon", "mdc-chip__icon--leading");
+		this.iconBefore = icon;
+		layout();
+		return that();
+	}
+	public Chip trailing(Icon icon) {
+		if(icon!=null) icon.css("mdc-chip__icon", "mdc-chip__icon--trailing");
+		this.iconTrailing = icon;
+		layout();
+		return that();
+	}
+	public Chip removable() {
+		Icon remove = Icon.icon("close");
+		remove.on(EventType.click, evt->{
+			Animation.AnimationImpl fade = animate(element(), 150, JsPropertyMap.of("opacity", "1"), JsPropertyMap.of("opacity", "0"));
+			fade.onfinish = ()->element().remove();
+		});
+		trailing(remove);
+		return this;
 	}
 	@Override
-	public HTMLElement element() {
-		return _this;
+	public Chip that() {
+		return this;
 	}
-
-	@Setter
-	@Accessors(fluent=true)
-	public final static class ChipBuilder {
-		private String text;
-		private final LinkedList<EventListener> removeListeners = new LinkedList<>();
-		private String iconLeading;
-		private ChipBuilder(){}
-		static ChipBuilder builder() {
-			return new ChipBuilder();
-		}
-		public ChipBuilder text(String text) {
-			this.text = text;
-			return this;
-		}
-		public ChipBuilder removable() {
-			return removable(evt->{});
-		}
-		public ChipBuilder removable(EventListener listener) {
-			removeListeners.add(listener);
-			return this;
-		}
-		public Chip build() {
-			Chip elem = new Chip(text);
-			if(!removeListeners.isEmpty()) {
-				elem.iconLeading("close");
-				elem.element()
-						.querySelector(".mdc-chip__icon--leading")
-						.addEventListener("click", evt->{
-							Animation.AnimationImpl fade = animate(elem.element(), 150, JsPropertyMap.of("opacity", "1"), JsPropertyMap.of("opacity", "0"));
-							fade.onfinish = ()->{
-								elem.element().remove();
-								for(EventListener listener: removeListeners) listener.handleEvent(evt);
-							};
-						});
-			} else if(iconLeading!=null) elem.iconLeading(iconLeading);
-			elem.inject();
-			return elem;
-		}
+	@Override
+	public HandlerRegistration onAttach(EventListener listener) {
+		return onAttach(element(), listener);
+	}
+	@Override
+	public HandlerRegistration onDetach(EventListener listener) {
+		return onDetach(element(), listener);
 	}
 }

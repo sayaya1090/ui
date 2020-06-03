@@ -5,10 +5,9 @@ import com.google.gwt.user.client.DOM;
 import elemental2.core.JsDate;
 import elemental2.dom.*;
 import net.sayaya.ui.Focusable;
-import net.sayaya.ui.IsHTMLElement;
-import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.InputType;
 import org.jboss.elemento.InputBuilder;
 
@@ -99,12 +98,12 @@ public abstract class TextField<V> extends HTMLElement implements HasValueChange
 	}
 
 	@Override
-	public final HandlerRegistration addValueChangeHandler(ValueChangeEventListener<V> listener) {
-		return addValueChangeHandler(input(), listener);
+	public final HandlerRegistration onValueChange(ValueChangeEventListener<V> listener) {
+		return onValueChange(input(), listener);
 	}
 	@Override
-	public final HandlerRegistration addClickHandler(EventListener listener) {
-		return addClickHandler(input(), listener);
+	public final HandlerRegistration onClick(EventListener listener) {
+		return onClick(input(), listener);
 	}
 
 //	@Override

@@ -2,27 +2,31 @@ package net.sayaya.ui.table;
 
 import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
-import net.sayaya.ui.IsHTMLElement;
+import net.sayaya.ui.HTMLElementBuilder;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import static net.sayaya.ui.table.Table.GSS;
 import static org.jboss.elemento.Elements.div;
 
-public class Viewport implements IsHTMLElement<HTMLDivElement, Viewport> {
+public class Viewport extends HTMLElementBuilder<HTMLDivElement, Viewport> {
 	private final HTMLDivElement virtual = div().style("border: 2px solid #FF00FF").element();
-	private final HTMLDivElement element = div().css(GSS.viewport()).add(virtual).element();
+	private final HtmlContentBuilder<HTMLDivElement> element;
 	private final Table<?> table;
 	private final ViewportParam param = new ViewportParam();
-	public Viewport(Table<?> table) {
+	public Viewport(HtmlContentBuilder<HTMLDivElement> e, Table<?> table) {
+		super(e);
+		element = e;
+		e.css(GSS.viewport()).add(virtual).element();
 		this.table = table;
 	//	param.setParent(element);
 		virtual.appendChild(table.element());
-		table.addValueChangeHandler(evt->updateVirtualHeight());
-		this.element.onscroll = p0 -> {
+		table.onValueChange(evt->updateVirtualHeight());
+		this.element().onscroll = p0 -> {
 			Scheduler.get().scheduleDeferred(()->{
-				param.scrollTop = element.scrollTop;
+				param.scrollTop = element().scrollTop;
 				if(table.viewport(param)) {
 					param.prevScrollTop = param.scrollTop;
-					element.scrollTop = param.scrollTop;
+					element().scrollTop = param.scrollTop;
 				}
 			});
 			return null;
@@ -35,7 +39,7 @@ public class Viewport implements IsHTMLElement<HTMLDivElement, Viewport> {
 	}
 
 	private void updateVirtualHeight() {
-		param.setViewportHeight(element.offsetHeight);
+		param.setViewportHeight(element().offsetHeight);
 		double virtualHeight = table.totalHeight();
 		param.setVirtualHeight(virtualHeight);
 		// virtual.style.height = CSSProperties.HeightUnionType.of(virtualHeight + "px");
@@ -43,8 +47,8 @@ public class Viewport implements IsHTMLElement<HTMLDivElement, Viewport> {
 	}
 
 	@Override
-	public HTMLDivElement element() {
-		return element;
+	public Viewport that() {
+		return this;
 	}
 
 	@lombok.Data

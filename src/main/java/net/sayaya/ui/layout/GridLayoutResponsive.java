@@ -2,7 +2,7 @@ package net.sayaya.ui.layout;
 
 import elemental2.dom.DomGlobal;
 import lombok.*;
-import net.sayaya.ui.event.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -8,71 +8,73 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.jboss.elemento.HtmlContentBuilder;
 
-import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.span;
+import static org.jboss.elemento.EventType.bind;
 
-public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
-	private final HTMLDivElement buffer = div().css("mdc-linear-progress__buffer")
-											   .add(div().css("mdc-linear-progress__buffer-bar"))
-											   .add(div().css("mdc-linear-progress__buffer-dots"))
-											   .element();
-	private final HTMLDivElement primary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__primary-bar")
-												.add(span().css("mdc-linear-progress__bar-inner")).element();
-	private final HTMLDivElement secondary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__secondary-bar")
-			.add(span().css("mdc-linear-progress__bar-inner")).element();
-	private final HTMLDivElement _this = div().css("mdc-linear-progress")
+public class ProgressBar extends HTMLElementBuilder<HTMLDivElement, ProgressBar> {
+	public static ProgressBar progressBar() {
+		ProgressBar elem = new ProgressBar(div());
+		elem.css("mdc-linear-progress")
 			.attr("role", "progressbar")
 			.attr("aria-valuemin", "0")
 			.attr("aria-valuemax", "1")
-			.attr("aria-valuenow", "0")
-			.add(buffer)
-			.add(primary).add(secondary).element();
-	private final MdcProgressBar instance;
-	ProgressBar() {
-		instance = inject(element());
+			.attr("aria-valuenow", "0");
+		elem._mdc=inject(elem.element());
+		// bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		return elem;
 	}
-	private native MdcProgressBar inject(Element elem) /*-{
-		return $wnd.mdc.linearProgress.MDCLinearProgress.attachTo(elem);
-	}-*/;
-	@Override
-	public HTMLDivElement element() {
-		return _this;
+	private native static MdcProgressBar inject(Element elem) /*-{
+        return $wnd.mdc.linearProgress.MDCLinearProgress.attachTo(elem);
+    }-*/;
+	private final HtmlContentBuilder<HTMLDivElement> buffer = div().css("mdc-linear-progress__buffer")
+																   .add(div().css("mdc-linear-progress__buffer-bar"))
+																   .add(div().css("mdc-linear-progress__buffer-dots"));
+	private final HtmlContentBuilder<HTMLDivElement> primary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__primary-bar").add(span().css("mdc-linear-progress__bar-inner"));
+	private final HtmlContentBuilder<HTMLDivElement> secondary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__secondary-bar").add(span().css("mdc-linear-progress__bar-inner"));
+	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private MdcProgressBar _mdc;
+	private ProgressBar(HtmlContentBuilder<HTMLDivElement> e) {
+		super(e);
+		_this = e;
+		layout();
+	}
+	private void layout() {
+		_this.add(buffer).add(primary).add(secondary);
 	}
 	public ProgressBar open() {
-		instance.open();
+		_mdc.open();
 		return this;
 	}
 	public ProgressBar close() {
-		instance.close();
+		_mdc.close();
 		return this;
 	}
 	public ProgressBar determinate(boolean isDetermined) {
-		instance.determinate = isDetermined;
+		_mdc.determinate = isDetermined;
 		return this;
 	}
 	public ProgressBar progress(double progress) {
 		assert progress >= 0 && progress <= 1;
-		instance.progress = progress;
+		_mdc.progress = progress;
 		return this;
 	}
 	public ProgressBar buffer(double buffer) {
 		assert buffer >= 0 && buffer <= 1;
-		instance.buffer = buffer;
+		_mdc.buffer = buffer;
 		return this;
 	}
 	public ProgressBar reverse(boolean isReversed) {
-		instance.reverse = isReversed;
+		_mdc.reverse = isReversed;
 		return this;
 	}
-	public static ProgressBarBuilder progressBar() {
-		return new ProgressBarBuilder();
+	@Override
+	public ProgressBar that() {
+		return this;
 	}
-	public static class ProgressBarBuilder {
-		private ProgressBarBuilder(){}
-		public ProgressBar build() {
-			return new ProgressBar();
-		}
-	}
+
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 	@Setter(onMethod_ = {@JsOverlay})
 	@Accessors(fluent=true)
@@ -89,6 +91,7 @@ public class ProgressBar implements IsHTMLElement<HTMLDivElement, ProgressBar> {
 		public native void close();
 		// public native MdcProgressBarFoundation getDefaultFoundation();
 	}
+
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 	@Setter(onMethod_ = {@JsOverlay})
 	@Accessors(fluent=true)

@@ -8,19 +8,13 @@ import lombok.Data;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
-import net.sayaya.ui.event.HandlerRegistration;
 import net.sayaya.ui.grid.*;
 import net.sayaya.ui.input.Radio;
-import net.sayaya.ui.input.TextField;
-import net.sayaya.ui.input.TextFieldOutlined;
 import net.sayaya.ui.layout.GridLayoutResponsive;
-import net.sayaya.ui.layout.TabBar;
-import net.sayaya.ui.n.Button;
-import net.sayaya.ui.n.Icon;
-import net.sayaya.ui.style.Style;
 import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
 import net.sayaya.ui.table.Viewport;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.InputType;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -41,7 +35,7 @@ public class Test implements EntryPoint {
 		LayoutTest();
 		ProgressTest();
 		RadioTest();
-		// AnimationTest();
+		AnimationTest();
 		TestButton();
 		// TestText();
 		TestChip();
@@ -50,50 +44,45 @@ public class Test implements EntryPoint {
 		// TestGrid();
 	}
 	void LayoutTest() {
-		TopBar.TopBarButton menu = TopBar.TopBarButton.nav().build("menu");
-		TopBar top = TopBar.topbar()
-						   .section(TopBar.TopBarSection.left().build()
-														.add(menu)
-														.title("Test Top Bar"))
-						   .section(TopBar.TopBarSection.right().build()
-														.add(new TabBar().element())
-														.add(TopBar.TopBarButton.action().build("file_download")))
-						   .build(content.element());
-		Drawer drawer = Drawer.drawer().header(Drawer.DrawerHeader.drawerHeader()
-																  .title(label().add("Mail"))
-																  .subtitle(label().add("AAA")))
-							  .content(Drawer.DrawerContent.drawerContent()
-														   .header("Mail")
-														   .divider()
-														   .add(Drawer.DrawerListItem.item().icon("inbox").text("Inbox").activate(true))
-														   .add(Drawer.DrawerListItem.item().icon("star").text("Star"))
-														   .add(Drawer.DrawerListItem.item().icon("send").text("Sent Main")))
-							  .build();
-		HTMLDivElement div = div().add(top).add(content).element();
-		Drawer.setContent(div);
+		TopBar.TopBarButton menu = TopBar.buttonNavigation("menu");
+		TopBar top = TopBar.topBarFixed()
+						   .add(TopBar.section().add(menu).title("Test Top Bar"))
+						   .add(TopBar.section().right().add(TopBar.buttonAction("file_download")))
+						   .target(content);
+		HtmlContentBuilder<HTMLDivElement> div = div().add(top).add(content);
+		Drawer drawer = Drawer.drawer().header(Drawer.header()
+													 .title(label().add("Mail"))
+													 .subtitle(label().add("AAA")))
+							  .content(Drawer.content()
+											 .header("Mail")
+											 .divider()
+											 .add(Drawer.item().icon(Icon.icon("inbox")).text("Inbox").activate(true))
+											 .add(Drawer.item().icon(Icon.icon("star")).text("Star"))
+											 .add(Drawer.item().icon(Icon.icon("send")).text("Sent Main")))
+							  .target(div);
 		Elements.body().add(drawer);
 		Elements.body().add(div);
-		menu.addClickHandler(evt->drawer.toggle());
+		menu.onClick(evt->drawer.toggle());
 		GridLayoutResponsive.addHandler(evt->{
 			DomGlobal.alert(evt.getGridInfo());
 		});
 	}
 	void ProgressTest() {
-		ProgressBar elem = ProgressBar.progressBar().build();
-		content.add(elem.determinate(true).buffer(0.5).progress(0.2));
+		ProgressBar elem = ProgressBar.progressBar().determinate(true).buffer(0.5).progress(0.2);
+		content.add(elem);
 	}
 	void RadioTest() {
-		Radio<String> a = Radio.radio("RADIO", "A").element();
-		Radio<String> b = Radio.radio("RADIO", "B").element();
-		Radio<String> c = Radio.radio("RADIO", "C").element();
-		Radio<String> d = Radio.radio("RADIO", "D").element();
-		a.addValueChangeHandler(evt->{
+		Radio<String> a = Radio.radio("RADIO", "A");
+		Radio<String> b = Radio.radio("RADIO", "B");
+		Radio<String> c = Radio.radio("RADIO", "C");
+		Radio<String> d = Radio.radio("RADIO", "D");
+		a.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
 		});
 		content.add(a).add(b).add(c).add(d).element();
 	}
 	void AnimationTest() {
-		Button tmp = Button.contain().text("Text Button").style("position: relative").proxy();
+		Button tmp = Button.contain().text("Text Button").style("position: relative");
 		content.add(tmp);
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#FF00FF", "opacity", "1")
@@ -106,39 +95,46 @@ public class Test implements EntryPoint {
 		};
 	}
 	void TestChip() {
-		Chip chip = Chip.chip().text("Chip").removable(evt->{
-			DomGlobal.alert("Remove Chip");
-		}).build();
-		content.add(chip);
+		ChipSet chips = ChipSet.chips();
+		content.add(chips);
+		chips.onValueChange(evt->DomGlobal.alert("Chipset value changed"));
+		Chip chip = Chip.chip("Chip 1").removable();
+		chip.onDetach(evt->DomGlobal.alert("Remove Chip 1"));
+		chips.add(chip);
+		Chip chip2 = Chip.chip("Chip 2").removable();
+		chip2.onDetach(evt->DomGlobal.alert("Remove Chip 2"));
+		chips.add(chip2);
+		Chip chip3 = Chip.chip("Chip 3").removable();
+		chip3.onDetach(evt->DomGlobal.alert("Remove Chip 3"));
+		chips.add(chip3);
+
 	}
 	void TestList() {
-		List list = List.singleLine()
-				.add(List.ListItem.item().label("AA").build())
-				.add(List.ListItem.item().label("BB", "CCCCCCCCC").build())
-				.add(List.ListItem.item().label("BB", "CCCCCCCCC").build())
-				.add(List.Divider.divider())
-				.add(List.ListItem.item().label("BB", "CCCCCCCCC").selectable().build())
-				.add(List.ListItem.item().label("DD", "CCCCCCCCC").selectable().build())
-				.build();
+		List list = List.singleLineList()
+				.add(List.item().label("AA"))
+				.add(List.item().label("BB", "CCCCCCCCC"))
+				.add(List.item().label("CC", "CCCCCCCCC"))
+				.add(List.divider())
+				.add(List.item().label("DD", "CCCCCCCCC").selectable(true))
+				.add(List.item().label("EE", "CCCCCCCCC").selectable(true));
 		content.add(list);
 	}
 	void TestButton() {
-		Button tmp = Button.contain().text("Text Button").proxy();
-		HandlerRegistration handler = tmp.addClickHandler(evt->{
+		Button tmp = Button.contain().text("Text Button");
+		HandlerRegistration handler = tmp.onClick(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
 		content.add(tmp);
 
 		Button tmp2 = Button.flat().text("Button Enabled")
-							.iconBefore(Icon.icon("sync"))
-							.proxy()
+							.before(Icon.icon("sync"))
 							.enabled(true);
 		content.add(tmp2);
 
-		Button tmp3 = Button.contain().text("Button Disabled").proxy().enabled(false);
+		Button tmp3 = Button.contain().text("Button Disabled").enabled(false);
 		content.add(tmp3);
 
-		Button tmp4 = Button.outline().text("Button Focused").proxy();
+		Button tmp4 = Button.outline().text("Button Focused");
 		tmp4.element().accessKey = "A";
 		tmp4.element().focus();
 		content.add(tmp4);
@@ -255,7 +251,7 @@ public class Test implements EntryPoint {
 						.renderer(row1)).map((T t)-> new net.sayaya.ui.table.Data().put("A1", t.row)
 						.put("C1", t.t1).put("C2", t.t2)
 						.put("V1", t.v1).put("V2", t.v2).put("V3", t.v3).put("V4", t.v4).put("V5", t.v5).put("V6", t.v6)).build();
-		content.add(new Viewport(table.values(values)));
+		content.add(new Viewport(div(), table.values(values)));
 	}
 	void TestGrid() {
 		GridTree grid = GridTree.builder().scrollY(false)

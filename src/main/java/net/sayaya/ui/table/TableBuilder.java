@@ -7,6 +7,8 @@ import org.jboss.elemento.Elements;
 
 import java.util.LinkedList;
 
+import static org.jboss.elemento.Elements.*;
+
 public class TableBuilder<V> {
 	private TableHeaderBuilder header;
 	private TableBodyBuilder body;
@@ -31,7 +33,7 @@ public class TableBuilder<V> {
 		return this;
 	}
 	public Table<V> build() {
-		Table<V> elem = new Table<>(mapper);
+		Table<V> elem = new Table<V>(Elements.table(), mapper);
 		if(header!=null) {
 			TableHeader head = header.build(elem);
 			elem.set(head);
@@ -57,7 +59,7 @@ public class TableBuilder<V> {
 			return this;
 		}
 		private TableHeader build(Table<?> parent) {
-			TableHeader elem = new TableHeader(parent, numOfColumnsPrepared, fixedColumns);
+			TableHeader elem = new TableHeader(thead(), parent, numOfColumnsPrepared, fixedColumns);
 			for(TableHeaderRowBuilder child: children) elem.add(child.build(elem));
 			return elem;
 		}
@@ -77,7 +79,7 @@ public class TableBuilder<V> {
 			return this;
 		}
 		private TableHeaderRow build(TableHeader parent) {
-			TableHeaderRow elem = new TableHeaderRow(parent, rowHeightMin, rowHeightMax);
+			TableHeaderRow elem = new TableHeaderRow(tr(), parent, rowHeightMin, rowHeightMax);
 			for(TableHeaderCellBuilder<?> child: children) elem.add(child.build(elem));
 			return elem;
 		}
@@ -114,7 +116,7 @@ public class TableBuilder<V> {
 			return builder;
 		}
 		private TableHeaderCell build(TableHeaderRow parent) {
-			return new TableHeaderCell(parent, headerRenderer, colspan, rowspan, widthMin, widthMax);
+			return new TableHeaderCell(td(), parent, headerRenderer, colspan, rowspan, widthMin, widthMax);
 		}
 	}
 	public static class TableCellBuilder<V> {
@@ -124,7 +126,7 @@ public class TableBuilder<V> {
 			elem.textContent = d!=null?String.valueOf(d):"";
 		};
 		public TableCell<V> build() {
-			return new TableCell<>(renderer);
+			return new TableCell<>(td(), renderer);
 		}
 	}
 	@Setter
@@ -138,8 +140,8 @@ public class TableBuilder<V> {
 			return new TableBodyBuilder();
 		}
 		private TableBody build(TableHeader header) {
-			TableBody elem = new TableBody(header, renderer, contextBuilder);
-			for(int i = 0; i < numOfRowsPrepared; ++i) elem.add(new TableBodyRow(0, 0));
+			TableBody elem = new TableBody(tbody(), header, renderer, contextBuilder);
+			for(int i = 0; i < numOfRowsPrepared; ++i) elem.add(new TableBodyRow(tr(), 0, 0));
 			return elem;
 		}
 	}

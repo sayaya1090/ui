@@ -1,36 +1,30 @@
 package net.sayaya.ui;
 
 import elemental2.dom.HTMLElement;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.i;
 
-public class Icon implements IsHTMLElement<HTMLElement, Icon> {
-	private final HTMLElement _this = i().css("material-icons").element();
-	Icon(String icon) {
-		value(icon);
+public class Icon extends HTMLElementBuilder<HTMLElement, Icon> {
+	public static Icon icon(String icon) {
+		return new Icon(i().css("material-icons")).value(icon);
+	}
+	private final HtmlContentBuilder<HTMLElement> _this;
+	private Icon(HtmlContentBuilder<HTMLElement> e) {
+		super(e);
+		_this = e;
+		layout();
+	}
+	private void layout() {
+
 	}
 	public Icon value(String icon) {
 		element().textContent = icon;
 		return this;
 	}
+
 	@Override
-	public HTMLElement element() {
-		return _this;
-	}
-	public static IconBuilder icon(String icon) {
-		return new IconBuilder(icon);
-	}
-	public final static class IconBuilder {
-		private String icon;
-		private IconBuilder(String icon){
-			this.icon = icon;
-		}
-		public IconBuilder icon(String icon) {
-			this.icon = icon;
-			return this;
-		}
-		public Icon build() {
-			return new Icon(icon);
-		}
+	public Icon that() {
+		return this;
 	}
 }

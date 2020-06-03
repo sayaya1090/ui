@@ -13,6 +13,8 @@ import lombok.experimental.Accessors;
 
 import java.util.LinkedList;
 
+import static org.jboss.elemento.Elements.div;
+
 @JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 @Setter(onMethod_= {@JsOverlay})
 @Accessors(fluent=true)
@@ -57,7 +59,7 @@ public final class GridTreeSettings {
 	GridTreeSettings(){}
 	@JsOverlay
 	public GridTree element() {
-		return new GridTree(this);
+		return new GridTree(div(), this);
 	}
 	@JsOverlay
 	public GridTreeSettings rowHeight(int height) {

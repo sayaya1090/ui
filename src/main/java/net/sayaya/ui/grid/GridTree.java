@@ -4,21 +4,22 @@ import elemental2.core.JsObject;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
-import net.sayaya.ui.IsHTMLElement;
+import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.style.Style;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.Map;
 
-import static org.jboss.elemento.Elements.div;
-
-public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
+public class GridTree extends HTMLElementBuilder<HTMLDivElement, GridTree> {
 	private final ToastGrid elem;
-	protected HTMLDivElement div = div().element();
+	protected final HtmlContentBuilder<HTMLDivElement> div;
 	public static GridTreeSettings builder() {
 		return new GridTreeSettings();
 	}
-	GridTree(GridTreeSettings builder) {
-		elem = new ToastGrid(builder.element(div));
+	GridTree(HtmlContentBuilder<HTMLDivElement> div, GridTreeSettings builder) {
+		super(div);
+		this.div = div;
+		elem = new ToastGrid(builder.element(div.element()));
 	}
 	public GridTree update(DatumNode[] data) {
 		elem.resetData(data);
@@ -54,10 +55,12 @@ public class GridTree implements IsHTMLElement<HTMLDivElement, GridTree> {
 		}
 		ToastGrid.applyTheme("default", custom);
 	}
+
 	@Override
-	public HTMLDivElement element() {
-		return div;
+	public GridTree that() {
+		return this;
 	}
+
 	@JsType(isNative = true, namespace = "tui", name="Grid")
 	final static class ToastGrid {
 		ToastGrid(GridTreeSettings settings) {}

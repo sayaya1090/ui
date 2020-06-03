@@ -2,24 +2,24 @@ package net.sayaya.ui.table;
 
 import elemental2.dom.HTMLTableSectionElement;
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
-import net.sayaya.ui.IsHTMLElement;
+import net.sayaya.ui.HTMLElementBuilder;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.ArrayList;
 
-import static org.jboss.elemento.Elements.thead;
-
 @Getter
-public class TableHeader implements IsHTMLElement<HTMLTableSectionElement, TableHeader> {
+public class TableHeader extends HTMLElementBuilder<HTMLTableSectionElement, TableHeader> {
 	private final int numOfCellsMaxShown;
 	private final int fixedColumns;
-	private final HTMLTableSectionElement element = thead().element();
+	private final HtmlContentBuilder<HTMLTableSectionElement> element;
 	@Getter(AccessLevel.NONE)
 	private final ArrayList<TableHeaderRow> rows = new ArrayList<>();
 	@Getter(AccessLevel.NONE)
 	private final Table<?> parent;
-	TableHeader(Table<?> parent, int numOfCellsMaxShown, int fixedColumns) {
+	TableHeader(HtmlContentBuilder<HTMLTableSectionElement> e, Table<?> parent, int numOfCellsMaxShown, int fixedColumns) {
+		super(e);
+		this.element = e;
 		this.parent = parent;
 		this.numOfCellsMaxShown = numOfCellsMaxShown;
 		this.fixedColumns = fixedColumns;
@@ -34,8 +34,9 @@ public class TableHeader implements IsHTMLElement<HTMLTableSectionElement, Table
 	TableHeaderRow row(int row) {
 		return rows.get(row);
 	}
+
 	@Override
-	public HTMLTableSectionElement element() {
-		return element;
+	public TableHeader that() {
+		return this;
 	}
 }

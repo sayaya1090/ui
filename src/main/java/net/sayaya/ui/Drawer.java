@@ -1,73 +1,94 @@
 package net.sayaya.ui;
 
-import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
-import lombok.Setter;
-import lombok.experimental.Accessors;
-import org.jboss.elemento.Elements;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.EventType.bind;
 
-public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
-	private final HtmlContentBuilder<HTMLElement> _this = aside().css("mdc-drawer mdc-drawer--dismissible");
-	private Object _mdc;
-	private Drawer() {}
-	public static DrawerBuilder drawer() {
-		return new DrawerBuilder();
+public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
+	public static Drawer drawer() {
+		Drawer elem = new Drawer(aside().css("mdc-drawer mdc-drawer--dismissible"));
+		elem.css("mdc-button", "mdc-button--outlined");
+		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		return elem;
 	}
-	Drawer header(DrawerHeader.DrawerHeaderBuilder header) {
-		_this.add(header.element());
-		return this;
+	public static DrawerHeader header() {
+		DrawerHeader elem = new DrawerHeader(div().css("mdc-drawer__header"));
+		return elem;
 	}
-	Drawer content(DrawerContent content) {
-		_this.add(content);
-		return this;
+	public static DrawerContent content() {
+		DrawerContent elem = new DrawerContent(div().css("mdc-drawer__content"));
+		return elem;
 	}
-	native static Object inject(Element elem) /*-{
+	public static DrawerListItem item() {
+		DrawerListItem elem = new DrawerListItem(a().css("mdc-list-item").attr("href", "#"));
+		return elem;
+	}
+	private native static MCDDrawer inject(Element elem) /*-{
         return $wnd.mdc.drawer.MDCDrawer.attachTo(elem);
     }-*/;
-	public final void inject() {
-		_mdc = inject(element());
+	private MCDDrawer _mdc;
+	private final HtmlContentBuilder<HTMLElement> _this;
+	private DrawerHeader header;
+	private DrawerContent content;
+	private Drawer(HtmlContentBuilder<HTMLElement> e) {
+		super(e);
+		_this = e;
+		layout();
 	}
-	public static void setContent(Element elem) {
-		elem.classList.add("mdc-drawer-app-content");
+	private void layout() {
+		clear();
+		if(header!=null) _this.add(header);
+		if(content!=null) _this.add(content);
 	}
-	public native Drawer open() /*-{
-    	this.@net.sayaya.ui.Drawer::_mdc.open = true;
+	public Drawer header(DrawerHeader header) {
+		this.header = header;
+		layout();
 		return this;
-	}-*/;
-	public native Drawer close() /*-{
-    	this.@net.sayaya.ui.Drawer::_mdc.open = false;
+	}
+	public Drawer content(DrawerContent content) {
+		this.content = content;
+		layout();
 		return this;
-	}-*/;
-	public native Drawer toggle() /*-{
-    	this.@net.sayaya.ui.Drawer::_mdc.open = !this.@net.sayaya.ui.Drawer::_mdc.open;
+	}
+	public Drawer target(HtmlContentBuilder<?> elem) {
+		elem.css("mdc-drawer-app-content");
 		return this;
-	}-*/;
+	}
+	public Drawer open() {
+		_mdc.open = true;
+		return this;
+	}
+	public Drawer close() {
+		_mdc.open = false;
+		return this;
+	}
+	public Drawer toggle() {
+		_mdc.open = !_mdc.open;
+		return this;
+	}
 	@Override
-	public HTMLElement element() {
-		return _this.element();
+	public Drawer that() {
+		return this;
 	}
-	@Setter
-	@Accessors(fluent=true)
-	public static class DrawerBuilder {
-		private DrawerHeader.DrawerHeaderBuilder header;
-		private DrawerContent content;
-		private DrawerBuilder(){}
-		public Drawer build() {
-			Drawer elem = new Drawer();
-			if(header!=null) elem.header(header);
-			if(content!=null) elem.content(content);
-			Scheduler.get().scheduleDeferred(elem::inject);
-			return elem;
+
+	@JsType(isNative = true, namespace = "mdc.drawer", name="MDCDrawer")
+	private final static class MCDDrawer {
+		@JsProperty
+		private boolean open;
+	}
+	public static class DrawerHeader extends HTMLElementBuilder<HTMLDivElement, DrawerHeader> {
+		private final HtmlContentBuilder<HTMLDivElement> _this;
+		private DrawerHeader(HtmlContentBuilder<HTMLDivElement> e) {
+			super(e);
+			_this = e;
+			layout();
 		}
-	}
-	public static class DrawerHeader implements IsHTMLElement<HTMLDivElement, DrawerHeader> {
-		private final HtmlContentBuilder<HTMLDivElement> _this = div().css("mdc-drawer__header");
-		private DrawerHeader(){}
-		public static DrawerHeaderBuilder drawerHeader() {
-			return new DrawerHeaderBuilder();
+		private void layout() {
+
 		}
 		public DrawerHeader title(HtmlContentBuilder<?> element) {
 			element.css("mdc-drawer__title");
@@ -80,30 +101,20 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 			return this;
 		}
 		@Override
-		public HTMLDivElement element() {
-			return _this.element();
-		}
-		@Setter
-		@Accessors(fluent=true)
-		public static class DrawerHeaderBuilder {
-			private HtmlContentBuilder<?> title;
-			private HtmlContentBuilder<?> subtitle;
-			public DrawerHeader element() {
-				DrawerHeader elem = new DrawerHeader();
-				if(title!=null) elem.title(title);
-				if(subtitle!=null) elem.subtitle(subtitle);
-				return elem;
-			}
+		public DrawerHeader that() {
+			return this;
 		}
 	}
-	public static class DrawerContent implements IsHTMLElement<HTMLDivElement, DrawerContent> {
-		private final HtmlContentBuilder<HTMLElement> list = Elements.nav().css("mdc-list");
-		private final HTMLDivElement _this = div().css("mdc-drawer__content")
-													.add(list)
-													.element();
-		private DrawerContent() {}
-		public static DrawerContent drawerContent() {
-			return new DrawerContent();
+	public static class DrawerContent extends HTMLElementBuilder<HTMLDivElement, DrawerContent> {
+		private final HtmlContentBuilder<HTMLElement> list = nav().css("mdc-list");
+		private final HtmlContentBuilder<HTMLDivElement> _this;
+		private DrawerContent(HtmlContentBuilder<HTMLDivElement> e) {
+			super(e);
+			_this = e;
+			layout();
+		}
+		private void layout() {
+			_this.add(list);
 		}
 		public DrawerContent header(String header) {
 			list.add(label().css("mdc-list-group__subheader").add(header));
@@ -118,32 +129,44 @@ public class Drawer implements IsHTMLElement<HTMLElement, Drawer> {
 			return this;
 		}
 		@Override
-		public HTMLDivElement element() {
-			return _this;
-		}
-	}
-	public static class DrawerListItem implements IsHTMLElement<HTMLAnchorElement, DrawerListItem> {
-		private final HtmlContentBuilder<HTMLAnchorElement> _this = a().css("mdc-list-item").attr("href", "#");
-		private DrawerListItem(){}
-		public static DrawerListItem item() {
-			return new DrawerListItem();
-		}
-		public DrawerListItem activate(boolean activated) {
-			if(activated) element().classList.add("mdc-list-item--activated");
-			else element().classList.remove("mdc-list-item--activated");
+		public DrawerContent that() {
 			return this;
 		}
-		public DrawerListItem icon(String icon) {
-			_this.add(i().css("material-icons", "mdc-list-item__graphic").add(icon).attr("area-hidden", "true"));
+	}
+
+	public static class DrawerListItem extends HTMLElementBuilder<HTMLAnchorElement, DrawerListItem> {
+		private final HtmlContentBuilder<HTMLAnchorElement> _this;
+		private Icon icon;
+		private String label;
+		private DrawerListItem(HtmlContentBuilder<HTMLAnchorElement> e) {
+			super(e);
+			_this = e;
+			layout();
+		}
+		private void layout() {
+			clear();
+			if(this.icon!=null) _this.add(icon);
+			_this.textContent(label);
+		}
+		public DrawerListItem activate(boolean activated) {
+			if(activated) css("mdc-list-item--activated");
+			else ncss("mdc-list-item--activated");
+			return this;
+		}
+		public DrawerListItem icon(Icon icon) {
+			if(icon!=null) icon.css("mdc-list-item__graphic").attr("area-hidden", "true");
+			this.icon = icon;
+			layout();
 			return this;
 		}
 		public DrawerListItem text(String text) {
-			_this.add(text);
+			this.label = text;
+			layout();
 			return this;
 		}
 		@Override
-		public HTMLAnchorElement element() {
-			return _this.element();
+		public DrawerListItem that() {
+			return this;
 		}
 	}
 }

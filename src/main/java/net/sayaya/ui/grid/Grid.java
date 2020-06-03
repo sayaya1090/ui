@@ -4,21 +4,22 @@ import elemental2.core.JsObject;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.*;
 import jsinterop.base.Js;
-import net.sayaya.ui.IsHTMLElement;
+import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.style.Style;
+import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.Map;
 
-import static org.jboss.elemento.Elements.div;
-
-public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
+public class Grid extends HTMLElementBuilder<HTMLDivElement, Grid> {
 	private final ToastGrid elem;
-	protected HTMLDivElement div = div().style("overflow: hidden;").element();
+	protected final HtmlContentBuilder<HTMLDivElement> div;
 	public static GridSettings builder() {
 		return new GridSettings();
 	}
-	Grid(GridSettings builder) {
-		elem = new ToastGrid(builder.element(div));
+	Grid(HtmlContentBuilder<HTMLDivElement> div, GridSettings builder) {
+		super(div);
+		this.div = div;
+		elem = new ToastGrid(builder.element(div.element()));
 	}
 	public Grid update(Datum[] data) {
 		elem.resetData(data);
@@ -55,9 +56,10 @@ public class Grid implements IsHTMLElement<HTMLDivElement, Grid> {
 		ToastGrid.applyTheme("default", custom);
 	}
 	@Override
-	public HTMLDivElement element() {
-		return div;
+	public Grid that() {
+		return this;
 	}
+
 	@JsType(isNative = true, namespace = "tui", name="Grid")
 	final static class ToastGrid {
 		ToastGrid(GridSettings settings) {}

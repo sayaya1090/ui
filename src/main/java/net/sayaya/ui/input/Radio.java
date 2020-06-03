@@ -2,72 +2,66 @@ package net.sayaya.ui.input;
 
 import elemental2.dom.*;
 import net.sayaya.ui.Focusable;
-import net.sayaya.ui.Icon;
-import net.sayaya.ui.IsHTMLElement;
-import net.sayaya.ui.event.HandlerRegistration;
+import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.event.HasValueChangeHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.InputBuilder;
 import org.jboss.elemento.InputType;
 
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.input;
 
-public class Radio<T> implements IsHTMLElement<HTMLDivElement, Radio<T>>, Focusable<Radio<T>>, HasValueChangeHandlers<T> {
-	private final HTMLInputElement input = input(InputType.radio).css("mdc-radio__native-control").element();
-	private final HTMLDivElement _this = div().css("mdc-radio")
-											  .add(input)
-											  .add(div().css("mdc-radio__background")
-														.add(div().css("mdc-radio__outer-circle").style("box-sizing: border-box;"))
-														.add(div().css("mdc-radio__inner-circle").style("box-sizing: border-box;")))
-											  .add(div().css("mdc-radio__ripple"))
-											  .element();
-	private T value;
-	private Radio(String group) {
-		input.setAttribute("name", group);
-		inject();
+public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> implements Focusable<Radio<V>>, HasValueChangeHandlers<V> {
+	public static <V> Radio<V> radio(String group, V value) {
+		Radio<V> elem = new Radio<>(div(), group, value);
+		elem.css("mdc-radio");
+		inject(elem.element());
+		return elem;
 	}
-	native static void inject(Element elem) /*-{
+	private native static void inject(Element elem) /*-{
         $wnd.mdc.radio.MDCRadio.attachTo(elem);
     }-*/;
-	final void inject() {
-		inject(_this);
+	private final InputBuilder<HTMLInputElement> input = input(InputType.radio).css("mdc-radio__native-control");
+	private final HtmlContentBuilder<HTMLDivElement> background = div().css("mdc-radio__background")
+																	   .add(div().css("mdc-radio__outer-circle").style("box-sizing: border-box;"))
+																	   .add(div().css("mdc-radio__inner-circle").style("box-sizing: border-box;"));
+	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-radio__ripple");
+	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private final V value;
+	private Radio(HtmlContentBuilder<HTMLDivElement> e, String group, V value) {
+		super(e);
+		_this = e;
+		this.value = value;
+		input.attr("name", group);
+		layout();
+	}
+	private void layout() {
+		clear();
+		_this.add(input).add(background).add(ripple);
 	}
 	@Override
-	public Radio<T> accessKey(char key) {
-		input.setAttribute("accessKey", String.valueOf(key));
-		return self();
+	public Radio<V> accessKey(char key) {
+		return null;
 	}
+
 	@Override
-	public Radio<T> focus() {
-		input.focus();
-		return self();
+	public Radio<V> focus() {
+		return null;
 	}
+
 	@Override
-	public HTMLDivElement element() {
-		return _this;
+	public V value() {
+		if("on".equals(input.element().value)) return value;
+		return null;
 	}
+
 	@Override
-	public T value() {
-		if("on".equals(input.value)) return value;
+	public HandlerRegistration onValueChange(HasValueChangeHandlers.ValueChangeEventListener<V> listener) {
 		return null;
 	}
 	@Override
-	public HandlerRegistration addValueChangeHandler(ValueChangeEventListener<T> listener) {
-		return addValueChangeHandler(input, listener);
-	}
-	public static <T> RadioBuilder<T> radio(String group, T value) {
-		return new RadioBuilder<>(group, value);
-	}
-	public final static class RadioBuilder<T> {
-		private final String group;
-		private final T value;
-		private RadioBuilder(String group, T value){
-			this.group = group;
-			this.value = value;
-		}
-		public Radio<T> element() {
-			Radio<T> elem = new Radio<>(group);
-			elem.value = value;
-			return elem;
-		}
+	public Radio<V> that() {
+		return this;
 	}
 }
