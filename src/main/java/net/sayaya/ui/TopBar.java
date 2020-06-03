@@ -12,6 +12,12 @@ import static org.jboss.elemento.Elements.*;
 import static org.jboss.elemento.EventType.bind;
 
 public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
+	public static TopBar topBar() {
+		TopBar elem = new TopBar(header());
+		elem.css("mdc-top-app-bar");
+		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		return elem;
+	}
 	public static TopBar topBarFixed() {
 		TopBar elem = new TopBar(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--fixed");
@@ -60,7 +66,7 @@ public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
 		_this.add(row);
 	}
 	public TopBar add(TopBarSection section) {
-		_this.add(section);
+		row.add(section);
 		return this;
 	}
 	public TopBar target(HtmlContentBuilder<?> elem) {
