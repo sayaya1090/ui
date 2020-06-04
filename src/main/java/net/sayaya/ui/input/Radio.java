@@ -58,7 +58,7 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 
 	@Override
 	public HandlerRegistration onValueChange(HasValueChangeHandlers.ValueChangeEventListener<V> listener) {
-		return null;
+		return onValueChange(input.element(), listener);
 	}
 	@Override
 	public Radio<V> that() {

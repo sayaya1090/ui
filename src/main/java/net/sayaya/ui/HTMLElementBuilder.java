@@ -1,7 +1,9 @@
 package net.sayaya.ui;
 
 import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
 import org.jboss.elemento.ElementBuilder;
+import org.jboss.elemento.InputBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public abstract class HTMLElementBuilder<E extends HTMLElement, B extends HTMLEl
 	public B clear() {
 		E elem = element();
 		elem.childNodes.setLength(0);
+		// elem.childNodes.forEach((n, i, l)->elem.removeChild(n));
 		return that();
 	}
 }

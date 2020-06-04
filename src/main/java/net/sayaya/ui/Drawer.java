@@ -58,6 +58,10 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 		elem.css("mdc-drawer-app-content");
 		return this;
 	}
+	public Drawer target(HTMLElement elem) {
+		elem.classList.add("mdc-drawer-app-content");
+		return this;
+	}
 	public Drawer open() {
 		_mdc.open = true;
 		return this;

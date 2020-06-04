@@ -74,6 +74,11 @@ public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
 		_mdc.setScrollTarget(elem.element());
 		return this;
 	}
+	public TopBar target(HTMLElement elem) {
+		elem.classList.add("mdc-top-app-bar--fixed-adjust");
+		_mdc.setScrollTarget(elem);
+		return this;
+	}
 	@Override
 	public TopBar that() {
 		return this;
@@ -100,6 +105,10 @@ public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
 		public TopBarSection right() {
 			css("mdc-top-app-bar__section--align-end");
 			ncss("mdc-top-app-bar__section--align-start");
+			return this;
+		}
+		public TopBarSection add(HTMLElement elem) {
+			_this.add(elem);
 			return this;
 		}
 		public TopBarSection add(IsElement<?> elem) {

@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 import net.sayaya.ui.animate.Animation;
 import net.sayaya.ui.grid.*;
 import net.sayaya.ui.input.Radio;
+import net.sayaya.ui.input.TextField;
 import net.sayaya.ui.layout.GridLayoutResponsive;
 import net.sayaya.ui.table.RowRenderer;
 import net.sayaya.ui.table.Table;
@@ -37,7 +38,7 @@ public class Test implements EntryPoint {
 		RadioTest();
 		AnimationTest();
 		TestButton();
-		// TestText();
+		TestText();
 		TestChip();
 		TestList();
 		// TestTable();
@@ -139,19 +140,19 @@ public class Test implements EntryPoint {
 		tmp4.element().focus();
 		content.add(tmp4);
 	}
-	/*
+
 	void TestText() {
-		TextFieldOutlined<String> tmp1 = TextField.textBox().label("tmp1").outlined().iconLeading("favorite").element();
-		tmp1.addValueChangeHandler(evt->{
-			// 	DomGlobal.alert(evt.getValue());
+		TextField<String> tmp1 = TextField.textBox().outlined().text("tmp1").before(Icon.icon("favorite"));
+		tmp1.onValueChange(evt->{
+		//	DomGlobal.alert(evt.value());
 		});
 		content.add(tmp1);
-		TextFieldOutlined<String> tmp2 = TextField.password().label("tmp2").outlined().iconLeading("vpn_key").iconTrailing("visibility").element();
-		tmp2.addValueChangeHandler(evt->{
-			// 	DomGlobal.alert(evt.getValue());
+		TextField<String> tmp2 = TextField.password().filled().text("tmp2").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
+		tmp2.onValueChange(evt->{
+		//	DomGlobal.alert(evt.value());
 		});
 		content.add(tmp2);
-	}*/
+	}
 	void TestTable() {
 		@Data
 		@Accessors(fluent = true)
