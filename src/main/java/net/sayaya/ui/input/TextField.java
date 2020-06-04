@@ -6,7 +6,6 @@ import elemental2.dom.*;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.sayaya.ui.Button;
 import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.Icon;
 import net.sayaya.ui.event.HasClickHandlers;

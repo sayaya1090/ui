@@ -1,5 +1,6 @@
 package net.sayaya.ui;
 
+import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -12,7 +13,7 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 	public static Drawer drawer() {
 		Drawer elem = new Drawer(aside().css("mdc-drawer mdc-drawer--dismissible"));
 		elem.css("mdc-button", "mdc-button--outlined");
-		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		bind(elem, "DOMNodeInserted", evt->Scheduler.get().scheduleDeferred(()->elem._mdc=inject(elem.element())));
 		return elem;
 	}
 	public static DrawerHeader header() {
