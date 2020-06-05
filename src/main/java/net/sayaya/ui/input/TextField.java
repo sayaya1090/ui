@@ -95,7 +95,7 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 	public abstract InputBuilder<HTMLInputElement> input();
 	@Override
 	public final HandlerRegistration onClick(EventListener listener) {
-		return onClick(null, listener);
+		return onClick(input().element(), listener);
 	}
 	@Override
 	public final V value() {
