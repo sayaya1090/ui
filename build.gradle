@@ -37,12 +37,13 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.jboss.elemento:elemento-core:${elementoVersion}") {
+    implementation("org.jboss.elemento:elemento-core:${elementoVersion}") {
         exclude group: "com.google.jsinterop", module: "jsinterop-annotations"
         exclude group: "org.gwtproject.safehtml", module: "gwt-safehtml"
     }
-    compileOnly("com.google.gwt:gwt-user:${gwtVersion}")
-    compileOnly("com.google.gwt:gwt-dev:${gwtVersion}")
+    implementation("com.google.gwt:gwt-user:${gwtVersion}")
+    implementation("com.google.gwt:gwt-dev:${gwtVersion}")
+    implementation("org.jresearch.gwtproject.safehtml:gwt-safehtml:1.0.5")
     implementation("org.projectlombok:lombok:1.18.12")
     annotationProcessor("org.projectlombok:lombok:1.18.12")
     testCompileOnly("org.projectlombok:lombok:1.18.12")
