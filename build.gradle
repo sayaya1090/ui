@@ -39,6 +39,7 @@ repositories {
 dependencies {
     implementation("org.jboss.elemento:elemento-core:${elementoVersion}") {
         exclude group: "com.google.jsinterop", module: "jsinterop-annotations"
+        exclude group: "org.gwtproject.safehtml", module: "gwt-safehtml"
     }
     implementation("com.google.gwt:gwt-user:${gwtVersion}")
     implementation("com.google.gwt:gwt-dev:${gwtVersion}")
