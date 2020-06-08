@@ -16,6 +16,7 @@ import org.jboss.elemento.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 import static org.jboss.elemento.EventType.bind;
 
@@ -131,13 +132,62 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		}
 		return that();
 	}
+	public final TextFieldHelper helper(String msg) {
+		String id =  DOM.createUniqueId();
+		input().aria("labelledby", id).aria("controls", id).aria("describedby", id);
+		return new TextFieldHelper(id, div()).text(msg);
+	}
 	public final TextField<V> fire(Event evt) {
 		input().element().dispatchEvent(evt);
+		return that();
+	}
+	public final TextField<V> required(boolean required) {
+		input().required(required);
+		return that();
+	}
+	public final TextField<V> autocomplete(String autocomplete) {
+		input().autocomplete(autocomplete);
+		return that();
+	}
+	public final TextField<V> autofocus(boolean autofocus) {
+		input().autofocus(autofocus);
+		return that();
+	}
+	public final TextField<V> disabled(boolean disabled) {
+		input().disabled(disabled);
+		return that();
+	}
+	public final TextField<V> readOnly(boolean readOnly) {
+		input().readOnly(readOnly);
 		return that();
 	}
 	@Override
 	public final HandlerRegistration onValueChange(ValueChangeEventListener<V> listener) {
 		return onValueChange(input().element(), listener);
+	}
+
+	public static class TextFieldHelper extends HTMLElementBuilder<HTMLDivElement, TextFieldHelper> {
+		private HtmlContentBuilder<HTMLDivElement> text = div().css("mdc-text-field-helper-text").aria("hidden", "true");
+		private TextFieldHelper(String id, HtmlContentBuilder<HTMLDivElement> elem) {
+			super(elem);
+			elem.css("mdc-text-field-helper-line").add(text.id(id));
+		}
+		public TextFieldHelper persistent() {
+			text.css("mdc-text-field-helper-text--persistent");
+			return that();
+		}
+		public TextFieldHelper validation() {
+			text.css("mdc-text-field-helper-text--validation-msg");
+			return that();
+		}
+		public TextFieldHelper text(String text) {
+			this.text.textContent(text);
+			return this;
+		}
+		@Override
+		public TextFieldHelper that() {
+			return this;
+		}
 	}
 	private static class TextFieldFilled<V> extends TextField<V> {
 		private final HtmlContentBuilder<HTMLLabelElement> _this;
