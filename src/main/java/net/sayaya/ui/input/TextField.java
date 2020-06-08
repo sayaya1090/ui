@@ -3,9 +3,12 @@ package net.sayaya.ui.input;
 import com.google.gwt.user.client.DOM;
 import elemental2.core.JsDate;
 import elemental2.dom.*;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
 import lombok.AccessLevel;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.experimental.Delegate;
 import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.Icon;
 import net.sayaya.ui.event.HasClickHandlers;
@@ -32,13 +35,13 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		public TextField<V> filled() {
 			TextFieldFilled<V> elem = new TextFieldFilled<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--filled");
-			bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
+			bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
 			return elem;
 		}
 		public TextField<V> outlined() {
 			TextFieldOutlined<V> elem = new TextFieldOutlined<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--outlined");
-			bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
+			bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
 			return elem;
 		}
 	}
@@ -78,14 +81,16 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 											 .setter(v->input.element().value=v)
 											 .getter(()->input.element().value);
 	}
-	private static native void inject(Element elem) /*-{
-        $wnd.mdc.textField.MDCTextField.attachTo(elem);
+	private static native MDCTextField inject(Element elem) /*-{
+        return $wnd.mdc.textField.MDCTextField.attachTo(elem).foundation_.adapter_;
     }-*/;
 	private final HtmlContentBuilder<HTMLLabelElement> _this;
 	protected IsElement<?> iconBefore;
 	protected IsElement<?> iconTrailing;
 	private final Supplier<V> getter;
 	private final Consumer<V> setter;
+	@Delegate
+	protected MDCTextField _mdc;
 	public TextField(HtmlContentBuilder<HTMLLabelElement> e, Supplier<V> getter, Consumer<V> setter) {
 		super(e);
 		_this = e;
@@ -295,5 +300,12 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		public TextFieldOutlined<V> that() {
 			return this;
 		}
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	private final static class MDCTextField {
+		public native void activateLineRipple();
+		public native void deactivateLineRipple();
+		public native void shakeLabel(boolean shouldShake);
+		public native void floatLabel(boolean shouldFloat);
 	}
 }
