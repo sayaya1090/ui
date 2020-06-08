@@ -153,13 +153,27 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		input().autofocus(autofocus);
 		return that();
 	}
-	public final TextField<V> disabled(boolean disabled) {
-		input().disabled(disabled);
-		return that();
-	}
 	public final TextField<V> readOnly(boolean readOnly) {
 		input().readOnly(readOnly);
 		return that();
+	}
+	public final boolean checkValidity() {
+		return input().element().checkValidity();
+	}
+	public final boolean reportValidity() {
+		return input().element().reportValidity();
+	}
+	public final void blur() {
+		input().element().blur();
+	}
+	public final void click() {
+		input().element().click();
+	}
+	public final void focus() {
+		input().element().focus();
+	}
+	public final void select() {
+		input().element().select();
 	}
 	@Override
 	public final HandlerRegistration onValueChange(ValueChangeEventListener<V> listener) {
