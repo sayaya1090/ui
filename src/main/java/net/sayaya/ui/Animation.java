@@ -1,4 +1,4 @@
-package net.sayaya.ui.animate;
+package net.sayaya.ui;
 
 import elemental2.dom.Element;
 import jsinterop.annotations.JsFunction;

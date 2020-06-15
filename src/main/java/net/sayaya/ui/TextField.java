@@ -1,4 +1,4 @@
-package net.sayaya.ui.input;
+package net.sayaya.ui;
 
 import com.google.gwt.user.client.DOM;
 import elemental2.core.JsDate;
@@ -6,11 +6,11 @@ import elemental2.dom.*;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
-import net.sayaya.ui.HTMLElementBuilder;
-import net.sayaya.ui.Icon;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
@@ -32,16 +32,19 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		private Supplier<V> getter;
 		@Setter(AccessLevel.PRIVATE)
 		private Consumer<V> setter;
+
 		public TextField<V> filled() {
 			TextFieldFilled<V> elem = new TextFieldFilled<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--filled");
-			bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+			bind(elem, "DOMNodeInserted", evt -> elem._mdc = inject(elem.element()));
 			return elem;
 		}
+
 		public TextField<V> outlined() {
+			new TextFieldBuilder<String>();
 			TextFieldOutlined<V> elem = new TextFieldOutlined<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--outlined");
-			bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+			bind(elem, "DOMNodeInserted", evt -> elem._mdc = inject(elem.element()));
 			return elem;
 		}
 	}

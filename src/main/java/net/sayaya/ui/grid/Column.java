@@ -52,7 +52,7 @@ public class Column<T> {
 		}
 		public ColumnBuilder<T> renderer(CreateElement createElement, Renderer<T> init, Renderer<T> update) {
 			this.renderer = new JsObject();
-			GetRender<T> getter = prop->{
+			GetRender<T> getter = prop-> {
 				JsObject obj = new JsObject();
 				Element elem = createElement.getElement();
 				elem.classList.add("tui-grid-cell-content");

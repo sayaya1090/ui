@@ -8,7 +8,7 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     gwt.modules "net.sayaya.Test"
     sourceSets.main.java.srcDirs += 'src/test/java'
     gwtDev {
-        jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+        jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.12.jar=ECJ"
         port 8888
         war file("src/test/webapp")
     }
@@ -67,5 +67,5 @@ gwt {
 compileGwt {
     minHeapSize = "2048M"
     maxHeapSize = "4096M"
-    jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.10.jar=ECJ"
+    jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.12.jar=ECJ"
 }

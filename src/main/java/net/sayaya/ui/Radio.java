@@ -1,8 +1,6 @@
-package net.sayaya.ui.input;
+package net.sayaya.ui;
 
 import elemental2.dom.*;
-import net.sayaya.ui.Focusable;
-import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;

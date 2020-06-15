@@ -2,7 +2,7 @@ package net.sayaya.ui;
 
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
-import net.sayaya.ui.animate.Animation;
+import net.sayaya.ui.Animation;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
@@ -10,7 +10,7 @@ import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
-import static net.sayaya.ui.animate.Animation.animate;
+import static net.sayaya.ui.Animation.animate;
 import static org.jboss.elemento.Elements.*;
 import static org.jboss.elemento.EventType.bind;
 
