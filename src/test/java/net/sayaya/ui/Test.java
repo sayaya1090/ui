@@ -138,35 +138,105 @@ public class Test implements EntryPoint {
 		content.add(tmp2);
 	}
 	void TestGrid() {
+		Data[] gridData1 = new Data[]{
+				new Data().put("id", 549731).put("name", "Beautiful Lies")
+						  .put("artist", "Birdy")
+						  .put("release", "2016.03.26")
+						  .put("type", "Deluxe")
+						  .put("typeCode", "1")
+						  .put("genre", "Pop")
+						  .put("genreCode", "1")
+						  .put("grade", "2")
+						  .put("price", 10000)
+						  .put("downloadCount", 1000)
+						.put("listenCount", 5000),
+				new Data()
+						.put("id", 436461)
+						.put("name", "X")
+						.put("artist", "Ed Sheeran")
+						.put("release", "2014.06.24")
+						.put("type", "Deluxe")
+						.put("typeCode", "1")
+						.put("genre", "Pop")
+						.put("genreCode", "1")
+						.put("grade", "3")
+						.put("price", 20000)
+						.put("downloadCount", 1000)
+						.put("listenCount", 5000),
+				new Data()
+						.put("id", 295651)
+						.put("name", "Moves Like Jagger")
+						.put("release", "2011.08.08")
+						.put("artist", "Maroon5")
+						.put("type", "Single")
+						.put("typeCode", "3")
+						.put("genre", "Pop,Rock")
+						.put("genreCode", "1,2")
+						.put("grade", "2")
+						.put("price", 7000)
+						.put("downloadCount", 1000)
+						.put("listenCount", 5000),
+				new Data()
+						.put("id", 541713)
+						.put("name", "A Head Full Of Dreams")
+						.put("artist", "Coldplay")
+						.put("release", "2015.12.04")
+						.put("type", "Deluxe")
+						.put("typeCode", "1")
+						.put("genre", "Rock")
+						.put("genreCode", "2")
+						.put("grade", "3")
+						.put("price", 25000)
+						.put("downloadCount", 1000)
+						.put("listenCount", 5000),
+				new Data()
+						.put("id", 265289)
+						.put("name", "21")
+						.put("artist", "Adele")
+						.put("release", "2011.01.21")
+						.put("type", "Deluxe")
+						.put("typeCode", "1")
+						.put("genre", "Pop,R&B")
+						.put("genreCode", "1,3")
+						.put("grade", "3")
+						.put("price", 15000)
+						.put("downloadCount", 1000)
+						.put("listenCount", 5000),
+				new Data()
+						.put("id", 555871)
+						.put("name", "Warm On A Cold Night")
+						.put("artist", "HONNE")
+						.put("release", "2016.07.22")
+						.put("type", "EP")
+						.put("typeCode", "1")
+						.put("genre", "R&B,Electronic")
+						.put("genreCode", "3,4")
+						.put("grade", "2")
+						.put("price", 11000)
+						.put("downloadCount", 1000)
+						.put("listenCount", 5000),
+				new Data()
+						.put("id", 550571)
+						.put("name", "Take Me To The Alley")
+						.put("artist", "Gregory Porter")
+						.put("release", "2016.09.02")
+						.put("type", "Deluxe")
+						.put("typeCode", "1")
+						.put("genre", "Jazz")
+						.put("genreCode", "5")
+						.put("grade", "3")
+						.put("price", 30000)
+						.put("downloadCount", 1000)
+						.put("listenCount", 5000)
+		};
 		Grid grid = Grid.builder()
-				.scrollY(false)
-				.header(HeaderOption.builder().height(50)
-						.column(HeaderColumn.builder().name("id").renderer(()->{
-							HTMLDivElement div = div().element();
-							HTMLInputElement chk = input(InputType.checkbox).element();
-							div.appendChild(chk);
-							return div;
-						}).build())
-						.build())
-				.colunmOptions(ColumnOption.builder().minWidth(300).frozenCount(1).build())
-				.column(Column.builder(String.class).header("Id").name("id").editor("text").onBeforeChange(evt->{
-					DomGlobal.console.log(evt.getValue() + "=>" + evt.getNextValue());
-				}).renderer(()->div().element(),
-						(elem, prop)->{
-							elem.innerHTML = prop.value();
-						}).build())
-				.column(Column.builder(String.class).header("B").name("city").editor("text").widthMin(800).build())
-				.column(Column.builder(String.class).header("C").name("country").editor("text").widthMin(800).build())
-				.data(new Data[]{
-						new Data().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF")
-								//.attribute(Data.Attribute.builder().expanded(true).build())
-								.children(new Data().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"),
-								new Data().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"),
-								new Data().put("id", "10012").put("city", "CDAF").put("country", "FWEFEWF"))})
-				.treeColumnOptions(new TreeColumnOption().name("id")
-						.useCascadingCheckbox(false)
-						.useIcon(false))
-				.build();
+				.scrollY(false).scrollX(false)
+				.column(Column.builder(String.class).header("Name").name("name").editor("text").build())
+				.column(Column.builder(String.class).header("Artist").name("artist").build())
+				.column(Column.builder(String.class).header("Type").name("type").build())
+				.column(Column.builder(String.class).header("Release").name("release").build())
+				.column(Column.builder(String.class).header("Genre").name("genre").build())
+				.data(gridData1).build();
 		content.add(grid);
 	}
 }

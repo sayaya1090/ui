@@ -67,5 +67,5 @@ gwt {
 compileGwt {
     minHeapSize = "2048M"
     maxHeapSize = "4096M"
-    jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.12.jar=ECJ"
+    jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:lib/lombok-1.18.12.jar=ECJ", "-generateJsInteropExport"
 }

@@ -1,6 +1,7 @@
 package net.sayaya.ui.grid;
 
 import elemental2.core.JsObject;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;

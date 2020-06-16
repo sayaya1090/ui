@@ -4,15 +4,16 @@ import elemental2.core.JsObject;
 import elemental2.dom.Element;
 import jsinterop.annotations.*;
 import jsinterop.base.Js;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@JsType
-@ToString
-@Getter
-@Builder
+@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+@Setter(onMethod_ = {@JsOverlay})
+@Accessors(fluent=true)
 @SuppressWarnings("unusable-by-js")
-public class Column<T> {
+public final class Column<T> {
 	@JsProperty(name="name")
 	private String name;
 	@JsProperty(name="header")
@@ -39,11 +40,25 @@ public class Column<T> {
 	@Getter(AccessLevel.NONE)
 	@JsProperty(name="renderer")
 	private Object renderer;
+	Column(){}
 	@SuppressWarnings("unusable-by-js")
+	@JsOverlay
 	public static <T> ColumnBuilder<T> builder(Class<T> clazz) {
 		return new ColumnBuilder<T>();
 	}
 	public static class ColumnBuilder<T> {
+		private String name;
+		private String header;
+		private String align;
+		private String editor;
+		private Integer width;
+		private Integer widthMin;
+		private Boolean sortable;
+		private String sortingType;
+		private GridEvent.EventListener<T> onBeforeChange;
+		private GridEvent.EventListener<T> onAfterChange;
+		private Object renderer;
+		ColumnBuilder() {}
 		public ColumnBuilder<T> sortAsc(Boolean isAsc) {
 			if(isAsc == null) sortingType = null;
 			else if(isAsc) sortingType = "asc";
@@ -83,8 +98,68 @@ public class Column<T> {
 		public ColumnBuilder<T> renderer2(CreateElement createElement, Renderer<T> init) {
 			return renderer2(createElement, init, init);
 		}
+
+		public ColumnBuilder<T> name(String name) {
+			this.name = name;
+			return this;
+		}
+
+		public ColumnBuilder<T> header(String header) {
+			this.header = header;
+			return this;
+		}
+
+		public ColumnBuilder<T> align(String align) {
+			this.align = align;
+			return this;
+		}
+
+		public ColumnBuilder<T> editor(String editor) {
+			this.editor = editor;
+			return this;
+		}
+
+		public ColumnBuilder<T> width(Integer width) {
+			this.width = width;
+			return this;
+		}
+
+		public ColumnBuilder<T> widthMin(Integer widthMin) {
+			this.widthMin = widthMin;
+			return this;
+		}
+
+		public ColumnBuilder<T> sortable(Boolean sortable) {
+			this.sortable = sortable;
+			return this;
+		}
+
+		public ColumnBuilder<T> sortingType(String sortingType) {
+			this.sortingType = sortingType;
+			return this;
+		}
+
+		public ColumnBuilder<T> onBeforeChange(GridEvent.EventListener<T> onBeforeChange) {
+			this.onBeforeChange = onBeforeChange;
+			return this;
+		}
+
+		public ColumnBuilder<T> onAfterChange(GridEvent.EventListener<T> onAfterChange) {
+			this.onAfterChange = onAfterChange;
+			return this;
+		}
+
+		public Column<T> build() {
+			Column<T> column = new Column<>();
+			return column.name(name).header(header).align(align).editor(editor)
+						 .width(width).widthMin(widthMin).sortable(sortable)
+						 .sortingType(sortingType)
+						 .onBeforeChange(onBeforeChange)
+						 .onAfterChange(onAfterChange)
+						 .renderer(renderer);
+		}
 	}
-	@JsMethod
+	@JsOverlay
 	public Boolean isSortAsc() {
 		if(sortingType == null) return null;
 		return "asc".equals(sortingType);
