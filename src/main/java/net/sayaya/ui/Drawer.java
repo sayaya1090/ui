@@ -12,7 +12,6 @@ import static org.jboss.elemento.EventType.bind;
 public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 	public static Drawer drawer() {
 		Drawer elem = new Drawer(aside().css("mdc-drawer mdc-drawer--dismissible"));
-		elem.css("mdc-button", "mdc-button--outlined");
 		bind(elem, "DOMNodeInserted", evt->Scheduler.get().scheduleDeferred(()->elem._mdc=inject(elem.element())));
 		return elem;
 	}
@@ -151,7 +150,7 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 		private void layout() {
 			clear();
 			if(this.icon!=null) _this.add(icon);
-			_this.textContent(label);
+			if(this.label!=null) _this.add(label);
 		}
 		public DrawerListItem activate(boolean activated) {
 			if(activated) css("mdc-list-item--activated");
