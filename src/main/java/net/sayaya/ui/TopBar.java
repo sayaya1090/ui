@@ -15,19 +15,19 @@ public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
 	public static TopBar topBar() {
 		TopBar elem = new TopBar(header());
 		elem.css("mdc-top-app-bar");
-		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		elem._mdc=inject(elem.element());
 		return elem;
 	}
 	public static TopBar topBarFixed() {
 		TopBar elem = new TopBar(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--fixed");
-		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		elem._mdc=inject(elem.element());
 		return elem;
 	}
 	public static TopBar topBarShort() {
 		TopBar elem = new TopBar(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--short");
-		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		elem._mdc=inject(elem.element());
 		return elem;
 	}
 	public static TopBar topBarDense() {

@@ -66,12 +66,9 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
 	public Chip removable() {
 		Icon remove = Icon.icon("close");
 		remove.on(EventType.click, evt->{
-			try {
-				Animation.AnimationImpl fade = animate(element(), 150, JsPropertyMap.of("opacity", "1"), JsPropertyMap.of("opacity", "0"));
-				fade.onfinish = () -> element().remove();
-			} catch(Exception e) {
-				element().remove();
-			}
+			Animation.AnimationImpl fade = animate(element(), 150, JsPropertyMap.of("opacity", "1"), JsPropertyMap.of("opacity", "0"));
+			if(fade!=null) fade.onfinish = () -> element().remove();
+			else element().parentElement.removeChild(element());
 		});
 		trailing(remove);
 		return this;

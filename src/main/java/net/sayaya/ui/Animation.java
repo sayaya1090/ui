@@ -8,7 +8,8 @@ import jsinterop.base.JsPropertyMap;
 
 public class Animation {
 	public static native AnimationImpl animate(Element elem, int duration, JsPropertyMap... keyframes) /*-{
-        return elem.animate(keyframes, duration);
+    	if(elem.animate!=null) return elem.animate(keyframes, duration);
+    	else return null;
 	}-*/;
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL)

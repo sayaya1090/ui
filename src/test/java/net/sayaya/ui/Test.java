@@ -75,7 +75,7 @@ public class Test implements EntryPoint {
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#0000FF", "opacity", "1"));
 		// Scheduler.get().scheduleFixedDelay(()->{t.finish(); return false;}, 1000);
 		DomGlobal.console.info(t);
-		t.onfinish = ()->{
+		if(t!=null) t.onfinish = ()->{
 			GWT.log("A");
 		};
 	}
