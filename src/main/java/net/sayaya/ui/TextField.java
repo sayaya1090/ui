@@ -1,13 +1,12 @@
 package net.sayaya.ui;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
 import elemental2.core.JsDate;
 import elemental2.dom.*;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
@@ -16,7 +15,8 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.*;
 
-import java.util.function.Consumer;
+import java.util.Date;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static org.jboss.elemento.Elements.div;
@@ -31,12 +31,12 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		@Setter(AccessLevel.PRIVATE)
 		private Supplier<V> getter;
 		@Setter(AccessLevel.PRIVATE)
-		private Consumer<V> setter;
+		private Function<V, String> setter;
 
 		public TextField<V> filled() {
 			TextFieldFilled<V> elem = new TextFieldFilled<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--filled");
-			bind(elem, "DOMNodeInserted", evt -> elem._mdc = inject(elem.element()));
+			bind(elem, "DOMNodeInserted", evt->elem.initialize());
 			return elem;
 		}
 
@@ -44,61 +44,74 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 			new TextFieldBuilder<String>();
 			TextFieldOutlined<V> elem = new TextFieldOutlined<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--outlined");
-			bind(elem, "DOMNodeInserted", evt -> elem._mdc = inject(elem.element()));
+			bind(elem, "DOMNodeInserted", evt->elem.initialize());
 			return elem;
 		}
 	}
 	public static TextFieldBuilder<String> textBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.text).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->input.element().value=v)
+											 .setter(v->v)
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<Double> numberBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input");
 		return new TextFieldBuilder<Double>().input(input)
-											 .setter(v->input.element().value=v!=null?String.valueOf(v):null)
+											 .setter(v->v!=null?String.valueOf(v):null)
 											 .getter(()->input.element().valueAsNumber);
 	}
 	public static TextFieldBuilder<String> emailBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.email).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->input.element().value=v)
+											 .setter(v->v)
 											 .getter(()->input.element().value);
 	}
+	private final static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd");
 	public static TextFieldBuilder<JsDate> dateBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.date).css("mdc-text-field__input");
 		return new TextFieldBuilder<JsDate>().input(input)
-											 .setter(v->input.element().valueAsDate = v)
-											 .getter(()->input.element().valueAsDate);
+											 .setter(v->{
+											 	if(v==null) return null;
+											 	return DTF.format(new Date((long) v.getTime()));
+											 }).getter(()->input.element().valueAsDate);
 	}
 	public static TextFieldBuilder<String> fileBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->{DomGlobal.console.log("Unimplemented method: InputType.file -> setValue");})
+											 .setter(v->v)
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<String> password() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.password).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->input.element().value=v)
+											 .setter(v->v)
 											 .getter(()->input.element().value);
 	}
 	private static native MDCTextField inject(Element elem) /*-{
-        return $wnd.mdc.textField.MDCTextField.attachTo(elem).foundation_.adapter_;
+    	return new $wnd.mdc.textField.MDCTextField(elem);
     }-*/;
+	private static native MDCTextFieldFoundation foundation(MDCTextField mdc) /*-{
+        return mdc.foundation_.adapter_;
+    }-*/;
+
 	private final HtmlContentBuilder<HTMLLabelElement> _this;
 	protected IsElement<?> iconBefore;
 	protected IsElement<?> iconTrailing;
 	private final Supplier<V> getter;
-	private final Consumer<V> setter;
+	private final Function<V, String> setter;
 	@Delegate
 	protected MDCTextField _mdc;
-	public TextField(HtmlContentBuilder<HTMLLabelElement> e, Supplier<V> getter, Consumer<V> setter) {
+	protected MDCTextFieldFoundation _foundation;
+	public TextField(HtmlContentBuilder<HTMLLabelElement> e, Supplier<V> getter, Function<V, String> setter) {
 		super(e);
 		_this = e;
 		this.getter = getter;
 		this.setter = setter;
+	}
+	public TextField<V> initialize() {
+		_mdc = inject(_this.element());
+		_foundation = foundation(_mdc);
+		return that();
 	}
 	protected abstract void layout();
 	public abstract InputBuilder<HTMLInputElement> input();
@@ -111,7 +124,7 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		return getter.get();
 	}
 	public final TextField<V> value(V value) {
-		setter.accept(value);
+		this._mdc.value=setter.apply(value);
 		return that();
 	}
 	public abstract TextField<V> text(String label);
@@ -165,6 +178,10 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		input().readOnly(readOnly);
 		return that();
 	}
+	public TextField<V> floatLabel(boolean shouldFloat) {
+		_foundation.floatLabel(shouldFloat);
+		return that();
+	}
 	public final boolean checkValidity() {
 		return input().element().checkValidity();
 	}
@@ -215,9 +232,9 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		private final HtmlContentBuilder<HTMLLabelElement> _this;
 		private final InputBuilder<HTMLInputElement> input;
 		private final HtmlContentBuilder<HTMLElement> rippleInput = span().css("mdc-text-field__ripple");
-		private final HtmlContentBuilder<HTMLLabelElement> label = Elements.label().css("mdc-floating-label");
+		private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 		private final HtmlContentBuilder<HTMLElement> rippleLine = span().css("mdc-line-ripple");
-		public TextFieldFilled(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Consumer<V> setter) {
+		public TextFieldFilled(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, getter, setter);
 			_this = e;
 			this.input = i;
@@ -260,12 +277,12 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 	private static class TextFieldOutlined<V> extends TextField<V> {
 		private final HtmlContentBuilder<HTMLLabelElement> _this;
 		private final InputBuilder<HTMLInputElement> input;
-		private final HtmlContentBuilder<HTMLLabelElement> label = Elements.label().css("mdc-floating-label");
+		private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 		private final HtmlContentBuilder<HTMLElement> outline = span().css("mdc-notched-outline");
 		private final HtmlContentBuilder<HTMLElement> outlineLeading = span().css("mdc-notched-outline__leading");
 		private final HtmlContentBuilder<HTMLElement> outlineNotch = span().css("mdc-notched-outline__notch");
 		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span().css("mdc-notched-outline__trailing");
-		public TextFieldOutlined(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Consumer<V> setter) {
+		public TextFieldOutlined(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, getter, setter);
 			_this = e;
 			this.input = i;
@@ -295,6 +312,11 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 			this.label.textContent(label);
 			return that();
 		}
+		public final TextField<V> floatLabel(boolean shouldFloat) {
+			super.floatLabel(shouldFloat);
+			if(shouldFloat) outline.css("mdc-notched-outline--notched");
+			return that();
+		}
 		@Override
 		public InputBuilder<HTMLInputElement> input() {
 			return input;
@@ -306,6 +328,12 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 	private final static class MDCTextField {
+		private String value;
+		private boolean disabled;
+		private boolean valid;
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	private final static class MDCTextFieldFoundation {
 		public native void activateLineRipple();
 		public native void deactivateLineRipple();
 		public native void shakeLabel(boolean shouldShake);

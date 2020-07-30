@@ -1,20 +1,17 @@
 package net.sayaya.ui;
 
 import com.google.gwt.core.client.*;
-import com.google.gwt.user.client.Random;
+import elemental2.core.JsDate;
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.sayaya.ui.grid.*;
-import net.sayaya.ui.layout.GridLayoutResponsive;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.InputType;
 import org.jboss.elemento.HtmlContentBuilder;
 
-import java.util.Date;
+import java.util.concurrent.ScheduledExecutorService;
 
+import static net.sayaya.ui.Icon.icon;
 import static org.jboss.elemento.Elements.*;
 
 public class Test implements EntryPoint {
@@ -123,14 +120,28 @@ public class Test implements EntryPoint {
 		tmp4.element().accessKey = "A";
 		tmp4.element().focus();
 		content.add(tmp4);
+
+		Button tmp5 = Button.floating(Icon.icon("add"));
+		content.add(tmp5);
+
+		Button tmp6 = Button.floating(Icon.icon("add")).text("Create");
+		tmp6.onClick(evt->DomGlobal.alert("Created"));
+		content.add(tmp6);
 	}
 
 	void TestText() {
-		TextField<String> tmp1 = TextField.textBox().outlined().text("tmp1").before(Icon.icon("favorite"));
+		TextField<String> tmp1 = TextField.textBox().outlined().text("tmp1").before(Icon.icon("favorite")).value("FFF");
 		tmp1.onValueChange(evt->{
 		//	DomGlobal.alert(evt.value());
 		});
 		content.add(tmp1);
+		TextField tmp3 = TextField.textBox().outlined().before(icon("title")).text("Title").style("width: 100%;").required(true);
+		content.add(tmp3);
+		Scheduler.get().scheduleFixedDelay(()->{
+			tmp3.value("FFFFFFFFFFFFFFFFF");
+			return false;
+		}, 1000);
+		content.add(TextField.dateBox().outlined().before(icon("today")).text("Date").required(true).value(new JsDate((double) 1595919979408L)));
 		TextField<String> tmp2 = TextField.password().filled().text("tmp2").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
 		tmp2.onValueChange(evt->{
 		//	DomGlobal.alert(evt.value());
