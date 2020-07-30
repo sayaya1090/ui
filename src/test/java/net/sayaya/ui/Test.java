@@ -45,7 +45,7 @@ public class Test implements EntryPoint {
 											 .header("Mail")
 											 .divider()
 											 .add(Drawer.item().icon(Icon.icon("inbox")).text("Inbox").activate(true))
-											 .add(Drawer.item().icon(Icon.icon("star")).text("Star"))
+											 .add(Drawer.item().icon(Icon.icon("star")).text("Star").activate(true))
 											 .add(Drawer.item().icon(Icon.icon("send")).text("Sent Main")))
 							  .target(div);
 		Elements.body().add(drawer);

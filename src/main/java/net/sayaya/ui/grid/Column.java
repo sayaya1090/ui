@@ -21,7 +21,7 @@ public final class Column<T> {
 	@JsProperty(name="align")
 	private String align;
 	@JsProperty(name="editor")
-	private String editor;
+	private Object editor;
 	@Getter(AccessLevel.NONE)
 	@JsProperty(name="width")
 	private Integer width;
@@ -50,7 +50,7 @@ public final class Column<T> {
 		private String name;
 		private String header;
 		private String align;
-		private String editor;
+		private Object editor;
 		private Integer width;
 		private Integer widthMin;
 		private Boolean sortable;
@@ -82,43 +82,40 @@ public final class Column<T> {
 		public ColumnBuilder<T> renderer(CreateElement createElement, Renderer<T> init) {
 			return renderer(createElement, init, init);
 		}
-		public ColumnBuilder<T> renderer2(CreateElement createElement, Renderer<T> init, Renderer<T> update) {
-			GetRender<T> getter = prop->{
+		public ColumnBuilder<T> name(String name) {
+			this.name = name;
+			return this;
+		}
+		public ColumnBuilder<T> header(String header) {
+			this.header = header;
+			return this;
+		}
+		public ColumnBuilder<T> align(String align) {
+			this.align = align;
+			return this;
+		}
+		public ColumnBuilder<T> editor(String editor) {
+			this.editor = editor;
+			return this;
+		}
+		public ColumnBuilder<T> editor(CreateElement createElement, Renderer<T> init, Renderer<T> update, GetValue<T> gt) {
+			this.editor = new JsObject();
+			GetRender<T> red = prop-> {
 				JsObject obj = new JsObject();
 				Element elem = createElement.getElement();
 				elem.classList.add("tui-grid-cell-content");
 				Js.asPropertyMap(obj).set("getElement", (CreateElement)()->elem);
 				Js.asPropertyMap(obj).set("mounted", (InitializeProxy)elem2->init.render(elem, prop));
 				Js.asPropertyMap(obj).set("render", (RenderProxy<T>)props2->update.render(elem, props2));
+				Js.asPropertyMap(obj).set("getValue", (GetValueProxy)()->gt.get(elem));
 				return obj;
 			};
-			this.renderer = getter;
+			Js.asPropertyMap(this.editor).set("type", red);
 			return this;
 		}
-		public ColumnBuilder<T> renderer2(CreateElement createElement, Renderer<T> init) {
-			return renderer2(createElement, init, init);
+		public ColumnBuilder<T> editor(CreateElement createElement, Renderer<T> init, GetValue<T> getter) {
+			return editor(createElement, init, init, getter);
 		}
-
-		public ColumnBuilder<T> name(String name) {
-			this.name = name;
-			return this;
-		}
-
-		public ColumnBuilder<T> header(String header) {
-			this.header = header;
-			return this;
-		}
-
-		public ColumnBuilder<T> align(String align) {
-			this.align = align;
-			return this;
-		}
-
-		public ColumnBuilder<T> editor(String editor) {
-			this.editor = editor;
-			return this;
-		}
-
 		public ColumnBuilder<T> width(Integer width) {
 			this.width = width;
 			return this;
@@ -148,7 +145,6 @@ public final class Column<T> {
 			this.onAfterChange = onAfterChange;
 			return this;
 		}
-
 		public Column<T> build() {
 			Column<T> column = new Column<>();
 			return column.name(name).header(header).align(align).editor(editor)
@@ -204,5 +200,14 @@ public final class Column<T> {
 	@FunctionalInterface
 	interface RenderProxy<T> {
 		void render(RendererProperty<T> props);
+	}
+	@FunctionalInterface
+	public interface GetValue<T> {
+		T get(Element element);
+	}
+	@JsFunction
+	@FunctionalInterface
+	interface GetValueProxy {
+		Object getValue();
 	}
 }

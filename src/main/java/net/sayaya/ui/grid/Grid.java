@@ -1,18 +1,17 @@
 package net.sayaya.ui.grid;
 
 import elemental2.core.JsObject;
-import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import elemental2.dom.HTMLElement;
+import jsinterop.annotations.*;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import lombok.experimental.Delegate;
 import net.sayaya.ui.HTMLElementBuilder;
+import net.sayaya.ui.event.HasValueChangeHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.LinkedList;
@@ -108,13 +107,12 @@ public class Grid extends HTMLElementBuilder<HTMLDivElement, Grid> {
 		super(e);
 		toastGrid = new ToastGrid(settings);
 		_this = e;
-		layout();
 	}
-	private void layout() {
-
+	public HandlerRegistration onValueChange(HasValueChangeHandlers.ValueChangeEventListener<Data[]> listener) {
+		return null;
 	}
 	public Grid values(Data[] data) {
-		toastGrid.setData(data, null);
+		toastGrid.resetData(data);
 		return this;
 	}
 	public Data[] values() {
@@ -124,13 +122,28 @@ public class Grid extends HTMLElementBuilder<HTMLDivElement, Grid> {
 	public Grid that() {
 		return this;
 	}
-
+	public ToastGrid i() {
+		return toastGrid;
+	}
+	protected void startEditing(int row, String column, boolean scroll) {
+		toastGrid.startEditing(row, column, scroll);
+	}
+	protected void cancelEditing() {
+		toastGrid.cancelEditing();
+	}
+	protected void finishEditing(int row, String column) {
+		toastGrid.finishEditing(row, column);
+	}
 	@JsType(isNative = true, namespace = "tui", name="Grid")
-	final static class ToastGrid {
+	public final static class ToastGrid {
 		ToastGrid(GridBuilder settings) {}
-		// public native void resetData(Data[] data);
-		public native void setData(Data[] data, Object callback);
+		public native void resetData(Data[] data);
+		// public native void setData(Data[] data, Object callback);
 		public native Data[] getData();
+		public native HTMLElement getElement(String rowKey, String columnName);
+		public native void activateFocus();
+		public native void focus(int row, String column, boolean scroll);
+		public native CellReference getFocusedCell();
 		public native void sort(String column, boolean asc);
 		public native void unsort(String column);
 
@@ -139,6 +152,28 @@ public class Grid extends HTMLElementBuilder<HTMLDivElement, Grid> {
 		public native void removeRow();
 		public native void check();
 		public native void uncheck();
+		public native void startEditing(int row, String column, boolean scroll);
+		public native void cancelEditing();
+		public native void finishEditing(int row, String column);
+
+		public native void on(String type, GridEvent.EventListener<?> listener);
+		// public native void dispatch(Object... params);
 		public native static void applyTheme(String template, JsObject custom);
+	}
+
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL)
+	@Getter(onMethod_ = {@JsOverlay})
+	public final static class CellReference {
+		@JsProperty
+		private Double rowKey;
+		@JsProperty
+		private String columnName;
+		@JsProperty
+		private Object value;
+		@JsOverlay
+		public Integer rowKey() {
+			if(rowKey!=null) return rowKey.intValue();
+			return null;
+		}
 	}
 }
