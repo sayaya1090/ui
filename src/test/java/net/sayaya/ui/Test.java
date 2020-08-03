@@ -26,6 +26,7 @@ public class Test implements EntryPoint {
 		TestText();
 		TestChip();
 		TestList();
+		TestDialog();
 		TestGrid();
 	}
 	void LayoutTest() {
@@ -147,6 +148,23 @@ public class Test implements EntryPoint {
 		//	DomGlobal.alert(evt.value());
 		});
 		content.add(tmp2);
+	}
+	void TestDialog() {
+		ButtonText close1 = Button.flat().text("Cancel");
+		ButtonText close2 = Button.flat().text("OK");
+		Dialog dialog1 = Dialog.alert("Alert", close1, close2);
+		close1.onClick(evt->dialog1.close());
+		close2.onClick(evt->dialog1.close());
+		content.add(dialog1);
+		dialog1.open();
+
+		ButtonText close3 = Button.flat().text("Cancel");
+		ButtonText close4 = Button.flat().text("OK");
+		Dialog dialog2 = Dialog.confirmation("Confirmation", close3, close4).add("Content");
+		close3.onClick(evt->dialog2.close());
+		close4.onClick(evt->dialog2.close());
+		content.add(dialog2);
+		dialog2.open();
 	}
 	void TestGrid() {
 		Data[] gridData1 = new Data[]{
