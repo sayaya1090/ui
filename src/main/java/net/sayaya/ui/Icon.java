@@ -10,13 +10,9 @@ public class Icon extends HTMLElementBuilder<HTMLElement, Icon> {
 		return new Icon(i().css("material-icons")).value(icon);
 	}
 	private final HtmlContentBuilder<? extends HTMLElement> _this;
-	private Icon(HtmlContentBuilder<HTMLElement> e) {
+	protected Icon(HtmlContentBuilder<HTMLElement> e) {
 		super(e);
 		_this = e;
-		layout();
-	}
-	private void layout() {
-
 	}
 	public Icon value(String icon) {
 		element().textContent = icon;
