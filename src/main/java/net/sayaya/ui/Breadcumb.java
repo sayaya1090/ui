@@ -45,7 +45,7 @@ public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
 		elem.style(item());
 		elem.on(EventType.click, listener::handleEvent);
 		CSSStyleDeclaration style = elem.element().style;
-		elem.on(EventType.mouseover, evt->style.color = "var(--mdc-theme-primary)");
+		elem.on(EventType.mouseover, evt->style.color = "var(--mdc-theme-secondary)");
 		elem.on(EventType.mouseout, evt->style.color = "rgba(0, 0, 0, 0.54)");
 		return elem;
 	}
