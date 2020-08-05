@@ -17,7 +17,7 @@ public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
 	private Breadcumb(HtmlContentBuilder<HTMLDivElement> e, Icon icon, EventListener listener) {
 		super(e);
 		_this = e.add(wrap(icon, listener));
-		splitter = Icon.icon("double_arrow").style(splitter()).element();
+		splitter(Icon.icon("double_arrow").element());
 	}
 	public Breadcumb add(String label, EventListener listener) {
 		return add(label, listener, "#");
@@ -35,32 +35,23 @@ public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
 		CSSStyleDeclaration style = splitter.style;
 		style.marginLeft = CSSProperties.MarginLeftUnionType.of("2em");
 		style.marginRight = CSSProperties.MarginRightUnionType.of("2em");
-		style.color = "rgba(0, 0, 0, 0.54)";
+		style.color = "var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.54))";
 		style.userSelect = "none";
 		style.setProperty("text-rendering", "optimizeLegibility");
-		style.setProperty("-webkit-font-smoothing", "antialiased");
+		style.setProperty("-webkit-font-smoothing", "subpixel-antialiased");
 		return that();
 	}
 	public <E extends ElementBuilder<?, ?>> E wrap(E elem, EventListener listener) {
-		elem.style(item());
 		elem.on(EventType.click, listener::handleEvent);
 		CSSStyleDeclaration style = elem.element().style;
+		style.cursor = "pointer";
+		style.setProperty("text-rendering", "optimizeLegibility");
+		style.setProperty("-webkit-font-smoothing", "subpixel-antialiased");
+		style.textDecoration = "unset";
+		style.color = "var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.54))";
 		elem.on(EventType.mouseover, evt->style.color = "var(--mdc-theme-secondary)");
-		elem.on(EventType.mouseout, evt->style.color = "rgba(0, 0, 0, 0.54)");
+		elem.on(EventType.mouseout, evt->style.color = "var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.54))");
 		return elem;
-	}
-	private static String splitter() {
-		return "margin-left: 2em; margin-right: 2em; color: rgba(0, 0, 0, 0.54);" +
-				"text-rendering: optimizeLegibility;" +
-				"-webkit-font-smoothing: antialiased;" +
-				"-webkit-user-select: none;" +
-				"-khtml-user-select: none;" +
-				"-moz-user-select: none;" +
-				"-o-user-select: none;" +
-				"user-select: none;";
-	}
-	private static String item() {
-		return "cursor: pointer; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; text-decoration: unset; color: rgba(0, 0, 0, 0.54);";
 	}
 	@Override
 	public Breadcumb that() {
