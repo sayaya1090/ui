@@ -19,6 +19,7 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
+		TestBreadcumb();
 		ProgressTest();
 		RadioTest();
 		AnimationTest();
@@ -49,6 +50,10 @@ public class Test implements EntryPoint {
 		Elements.body().add(drawer);
 		Elements.body().add(div);
 		menu.onClick(evt->drawer.toggle());
+	}
+	void TestBreadcumb() {
+		Breadcumb elem = Breadcumb.home(Icon.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(Icon.icon("article"), evt->{});
+		content.add(elem);
 	}
 	void ProgressTest() {
 		ProgressBar elem = ProgressBar.progressBar().determinate(true).buffer(0.5).progress(0.2);
