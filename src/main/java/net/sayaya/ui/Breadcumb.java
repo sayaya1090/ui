@@ -35,7 +35,7 @@ public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
 		CSSStyleDeclaration style = splitter.style;
 		style.marginLeft = CSSProperties.MarginLeftUnionType.of("2em");
 		style.marginRight = CSSProperties.MarginRightUnionType.of("2em");
-		style.color = "var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.54))";
+		style.color = "var(--mdc-theme-text-secondary-on-background, rgba(0, 0, 0, 0.54))";
 		style.userSelect = "none";
 		style.setProperty("text-rendering", "optimizeLegibility");
 		style.setProperty("-webkit-font-smoothing", "subpixel-antialiased");
@@ -50,7 +50,7 @@ public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
 		style.textDecoration = "unset";
 		style.color = "var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.54))";
 		elem.on(EventType.mouseover, evt->style.color = "var(--mdc-theme-secondary)");
-		elem.on(EventType.mouseout, evt->style.color = "var(--mdc-theme-text-primary-on-background, rgba(0, 0, 0, 0.54))");
+		elem.on(EventType.mouseout, evt->style.color = "var(--mdc-theme-text-secondary-on-background, rgba(0, 0, 0, 0.54))");
 		return elem;
 	}
 	@Override
