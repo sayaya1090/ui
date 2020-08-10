@@ -27,8 +27,9 @@ public class Test implements EntryPoint {
 		TestText();
 		TestChip();
 		TestList();
-		TestDialog();
-		TestGrid();
+		// TestDialog();
+		// TestGrid();
+		TestPage();
 	}
 	void LayoutTest() {
 		TopBar.TopBarButton menu = TopBar.buttonNavigation("menu");
@@ -272,5 +273,9 @@ public class Test implements EntryPoint {
 				.column(Column.builder(String.class).header("Genre").name("genre").build())
 				.data(gridData1).build();
 		content.add(grid);
+	}
+	private void TestPage() {
+		Page page = Page.instance().idx(0).show(30).total(1000);
+		content.add(page);
 	}
 }

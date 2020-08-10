@@ -32,6 +32,10 @@ public interface Button extends IsElement<HTMLButtonElement>, HasClickHandlers, 
 		bind(elem, "DOMNodeInserted", evt->ButtonText.inject(elem.element()));
 		return elem;
 	}
+	static ButtonIcon icon(String icon) {
+		ButtonIcon elem = new ButtonIcon(button(), icon);
+		return elem;
+	}
 	Button enabled(boolean enabled);
 	Button text(String text);
 	String text();

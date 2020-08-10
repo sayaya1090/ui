@@ -55,7 +55,7 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<Double> numberBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input");
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input").style("text-align: right; padding-right: 0px;");
 		return new TextFieldBuilder<Double>().input(input)
 											 .setter(v->v!=null?String.valueOf(v):null)
 											 .getter(()->input.element().valueAsNumber);
