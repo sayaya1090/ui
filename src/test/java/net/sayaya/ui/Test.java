@@ -123,13 +123,15 @@ public class Test implements EntryPoint {
 	private void TestDropDown() {
 		List list = List.singleLineList()
 						.add(List.item().label("AA"))
-						.add(List.item().label("BB", "CCCCCCCCC"))
-						.add(List.item().label("CC", "CCCCCCCCC"))
-						.add(List.divider())
-						.add(List.item().label("DD", "CCCCCCCCC").selectable(true))
-						.add(List.item().label("EE", "CCCCCCCCC").selectable(true));
+						.add(List.item().label("BB"))
+						.add(List.item().label("CC"))
+						.add(List.item().label("DD").selectable(true))
+						.add(List.item().label("EE").selectable(true));
 		DropDown dropdown = DropDown.dropdown(list);
 		content.add(dropdown);
+		dropdown.onValueChange(evt->{
+			DomGlobal.alert(dropdown.value());
+		});
 	}
 	void TestButton() {
 		Button tmp = Button.contain().text("Text Button");
@@ -174,7 +176,7 @@ public class Test implements EntryPoint {
 		content.add(TextField.dateBox().outlined().before(icon("today")).text("Date").required(true).value(new JsDate((double) 1595919979408L)));
 		TextField<String> tmp2 = TextField.password().filled().text("tmp2").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
 		tmp2.onValueChange(evt->{
-		//	DomGlobal.alert(evt.value());
+			DomGlobal.console.log(evt.value());
 		});
 		content.add(tmp2);
 	}
