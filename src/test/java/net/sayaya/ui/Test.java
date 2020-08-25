@@ -24,13 +24,17 @@ public class Test implements EntryPoint {
 		RadioTest();
 		AnimationTest();
 		TestButton();
+		TestCheckBox();
+		TestDropDown();
 		TestText();
 		TestChip();
 		TestList();
 		// TestDialog();
 		// TestGrid();
 		TestPage();
+
 	}
+
 	void LayoutTest() {
 		TopBar.TopBarButton menu = TopBar.buttonNavigation("menu");
 		TopBar top = TopBar.topBarFixed()
@@ -107,6 +111,25 @@ public class Test implements EntryPoint {
 				.add(List.item().label("DD", "CCCCCCCCC").selectable(true))
 				.add(List.item().label("EE", "CCCCCCCCC").selectable(true));
 		content.add(list);
+	}
+	private void TestCheckBox() {
+		CheckBox checkBox = CheckBox.checkBox(true).text("Test");
+		content.add(checkBox);
+		checkBox.onValueChange(evt->
+			DomGlobal.console.log(evt.value() + ", " + checkBox.value())
+		);
+	}
+
+	private void TestDropDown() {
+		List list = List.singleLineList()
+						.add(List.item().label("AA"))
+						.add(List.item().label("BB", "CCCCCCCCC"))
+						.add(List.item().label("CC", "CCCCCCCCC"))
+						.add(List.divider())
+						.add(List.item().label("DD", "CCCCCCCCC").selectable(true))
+						.add(List.item().label("EE", "CCCCCCCCC").selectable(true));
+		DropDown dropdown = DropDown.dropdown(list);
+		content.add(dropdown);
 	}
 	void TestButton() {
 		Button tmp = Button.contain().text("Text Button");

@@ -42,8 +42,9 @@ dependencies {
         exclude group: "org.gwtproject.safehtml", module: "gwt-safehtml"
         exclude group: "org.gwtproject.event", module: "gwt-event"
     }
-    implementation("org.jresearch.gwtproject.safehtml:gwt-safehtml:1.0.5")
+    implementation("com.google.elemental2:elemental2-svg:1.1.0")
     implementation("org.jresearch.gwtproject.event:gwt-event:1.0.0")
+    implementation("org.jresearch.gwtproject.safehtml:gwt-safehtml:1.0.5")
     implementation("com.google.gwt:gwt-user:${gwtVersion}")
     implementation("com.google.gwt:gwt-dev:${gwtVersion}")
     implementation("org.projectlombok:lombok:1.18.12")
