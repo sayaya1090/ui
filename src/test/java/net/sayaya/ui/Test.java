@@ -22,6 +22,7 @@ public class Test implements EntryPoint {
 		TestBreadcumb();
 		ProgressTest();
 		RadioTest();
+		TestSwtich();
 		AnimationTest();
 		TestButton();
 		TestCheckBox();
@@ -32,7 +33,7 @@ public class Test implements EntryPoint {
 		// TestDialog();
 		// TestGrid();
 		TestPage();
-
+		TestTab();
 	}
 
 	void LayoutTest() {
@@ -302,5 +303,20 @@ public class Test implements EntryPoint {
 	private void TestPage() {
 		Page page = Page.instance().idx(0).show(30).total(1000);
 		content.add(page);
+	}
+
+	private void TestSwtich() {
+		Switch sw = Switch.sw();
+		content.add(sw);
+		sw.onValueChange(evt->{
+			DomGlobal.alert(evt.value() + "!");
+		});
+	}
+	private void TestTab() {
+		TabBar tab = TabBar.tabBar(TabBar.tab().text("Favorites").icon("favorite"), TabBar.tab().text("Favorites").icon("favorite"), TabBar.tab().text("Favorites").icon("favorite")).activate(0);
+		content.add(tab);
+		tab.onValueChange(evt->{
+			DomGlobal.alert(evt.value());
+		});
 	}
 }

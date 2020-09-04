@@ -91,8 +91,6 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
     	return new $wnd.mdc.textField.MDCTextField(elem);
     }-*/;
 	private static native MDCTextFieldFoundation foundation(MDCTextField mdc) /*-{
-    	var foundation = mdc.foundation;
-    	var adaptor = foundation.adapter;
         return mdc.foundation.adapter;
     }-*/;
 
