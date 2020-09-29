@@ -104,14 +104,24 @@ public class Test implements EntryPoint {
 
 	}
 	void TestList() {
-		List list = List.singleLineList()
-				.add(List.item().label("AA"))
-				.add(List.item().label("BB", "CCCCCCCCC"))
-				.add(List.item().label("CC", "CCCCCCCCC"))
-				.add(List.divider())
-				.add(List.item().label("DD", "CCCCCCCCC").selectable(true))
-				.add(List.item().label("EE", "CCCCCCCCC").selectable(true));
-		content.add(list);
+		ListGroup group = ListGroup.group();
+		group.add(ListGroup.header(3).textContent("List Single line"))
+			 .add(List.singleLineList()
+					  .add(List.singleLine().label("AA").trailing(Switch.sw()))
+					  .add(List.singleLine().label("BB"))
+					  .add(List.singleLine().label("CC"))
+					  .divider()
+					  .add(List.singleLine().label("DD"))
+					  .add(List.singleLine().label("EE")))
+			 .add(ListGroup.header(3).textContent("List Double line"))
+			 .add(List.doubleLineList()
+					  .add(List.doubleLine().primary("AA"))
+					  .add(List.doubleLine().primary("BB").secondary("CCCCCCCCC").leading(Icon.icon("event")))
+					  .add(List.doubleLine().primary("CC").secondary("CCCCCCCCC"))
+					  .divider()
+					  .add(List.doubleLine().primary("DD").secondary("CCCCCCCCC"))
+					  .add(List.doubleLine().primary("EE").secondary("CCCCCCCCC")));
+		content.add(group);
 	}
 	private void TestCheckBox() {
 		CheckBox checkBox = CheckBox.checkBox(true).text("Test");
@@ -122,12 +132,12 @@ public class Test implements EntryPoint {
 	}
 
 	private void TestDropDown() {
-		List list = List.singleLineList()
-						.add(List.item().label("AA"))
-						.add(List.item().label("BB"))
-						.add(List.item().label("CC"))
-						.add(List.item().label("DD").selectable(true))
-						.add(List.item().label("EE").selectable(true));
+		List<List.SingleLineItem> list = List.singleLineList()
+											 .add(List.singleLine().label("AA"))
+											 .add(List.singleLine().label("BB"))
+											 .add(List.singleLine().label("CC"))
+											 .add(List.singleLine().label("DD"))
+											 .add(List.singleLine().label("EE"));
 		DropDown dropdown = DropDown.dropdown(list);
 		content.add(dropdown);
 		dropdown.onValueChange(evt->{

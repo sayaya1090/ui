@@ -93,7 +93,12 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 	private static native MDCTextFieldFoundation foundation(MDCTextField mdc) /*-{
         return mdc.foundation.adapter;
     }-*/;
-
+	private static native MDCTextFieldHelperText inject2(Element elem) /*-{
+        return new $wnd.mdc.textField.MDCTextFieldHelperText(elem);
+    }-*/;
+	private static native MDCTextFieldHelperTextFoundation foundation(MDCTextFieldHelperText mdc) /*-{
+        return mdc.foundation.adapter;
+    }-*/;
 	private final HtmlContentBuilder<HTMLLabelElement> _this;
 	protected IsElement<?> iconBefore;
 	protected IsElement<?> iconTrailing;
@@ -207,9 +212,15 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 
 	public static class TextFieldHelper extends HTMLElementBuilder<HTMLDivElement, TextFieldHelper> {
 		private HtmlContentBuilder<HTMLDivElement> text = div().css("mdc-text-field-helper-text").aria("hidden", "true");
+		private MDCTextFieldHelperText _mdc;
+		private MDCTextFieldHelperTextFoundation _foundation;
 		private TextFieldHelper(String id, HtmlContentBuilder<HTMLDivElement> elem) {
 			super(elem);
 			elem.css("mdc-text-field-helper-line").add(text.id(id));
+			bind(text,"DOMNodeInserted", evt->{
+				_mdc = inject2(text.element());
+				_foundation = foundation(_mdc);
+			});
 		}
 		public TextFieldHelper persistent() {
 			text.css("mdc-text-field-helper-text--persistent");
@@ -338,5 +349,13 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		public native void deactivateLineRipple();
 		public native void shakeLabel(boolean shouldShake);
 		public native void floatLabel(boolean shouldFloat);
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	private final static class MDCTextFieldHelperText {
+
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	private final static class MDCTextFieldHelperTextFoundation {
+
 	}
 }
