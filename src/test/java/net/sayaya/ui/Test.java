@@ -184,12 +184,14 @@ public class Test implements EntryPoint {
 			tmp3.value("FFFFFFFFFFFFFFFFF");
 			return false;
 		}, 1000);
-		content.add(TextField.dateBox().outlined().before(icon("today")).text("Date").required(true).value(new JsDate((double) 1595919979408L)));
+		//content.add(TextField.dateBox().outlined().before(icon("today")).text("Date").required(true).value(new JsDate((double) 1595919979408L)));
 		TextField<String> tmp2 = TextField.password().filled().text("tmp2").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
 		tmp2.onValueChange(evt->{
 			DomGlobal.console.log(evt.value());
 		});
 		content.add(tmp2);
+		TextArea<String> tmp4 = TextArea.textBox().filled().text("tmp4").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
+		content.add(tmp4);
 	}
 	void TestDialog() {
 		ButtonText close1 = Button.flat().text("Cancel");

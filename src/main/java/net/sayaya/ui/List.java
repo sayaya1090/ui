@@ -1,7 +1,8 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import org.jboss.elemento.ElementBuilder;
+import net.sayaya.ui.event.HasClickHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
@@ -60,7 +61,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 	public List<ListItem> that() {
 		return this;
 	}
-	static abstract class AbstractListItem<B extends AbstractListItem<B>> extends HTMLElementBuilder<HTMLLIElement, B> {
+	static abstract class AbstractListItem<B extends AbstractListItem<B>> extends HTMLElementBuilder<HTMLLIElement, B> implements HasClickHandlers {
 		private final HtmlContentBuilder<HTMLElement> ripple = span().css("mdc-list-item__ripple");
 		private HtmlContentBuilder<HTMLElement> leading;
 		private final HtmlContentBuilder<HTMLElement> text = span().css("mdc-list-item__text");
@@ -93,6 +94,10 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 			return that();
 		}
 		protected abstract void layout(HtmlContentBuilder<HTMLElement> text);
+		@Override
+		public final HandlerRegistration onClick(EventListener listener) {
+			return onClick(that().element, listener);
+		}
 	}
 	public static class SingleLineItem extends AbstractListItem<SingleLineItem> {
 		private HtmlContentBuilder<HTMLElement> text;

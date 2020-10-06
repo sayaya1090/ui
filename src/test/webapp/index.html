@@ -25,6 +25,30 @@
 			.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
 				color: rgba(0,169,224,.87);
 			}
+			.mdc-text-field--textarea {
+				flex-direction: row;
+				align-items: center;
+				width: auto;
+				height: auto;
+				padding: 0;
+				transition: none;
+			}
+			.mdc-text-field__resizer {
+				align-self: stretch;
+				display: inline-flex;
+				flex-direction: column;
+				flex-grow: 1;
+				max-height: 100%;
+				max-width: 100%;
+				min-height: 56px;
+				min-width: -webkit-fit-content;
+				min-width: -moz-fit-content;
+				min-width: fit-content;
+				min-width: -moz-available;
+				min-width: auto;
+				overflow: hidden;
+				resize: both;
+			}
 		</style>
 		<script type="text/javascript" language="javascript" src="test/test.nocache.js"></script>
 	</head>
