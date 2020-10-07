@@ -21,6 +21,7 @@ public class Data {
 	public Data children(Data... children) {
 		return put("_children", children);
 	}
+	@SuppressWarnings("unusable-by-js")
 	public <T> T get(String key, Class<T> clazz) {
 		return (T) Js.asPropertyMap(this).get(key);
 	}
