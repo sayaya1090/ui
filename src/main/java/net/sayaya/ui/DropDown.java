@@ -3,6 +3,8 @@ package net.sayaya.ui;
 import elemental2.dom.*;
 import elemental2.svg.SVGElement;
 import elemental2.svg.SVGPolygonElement;
+import jsinterop.annotations.JsMethod;
+import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
@@ -17,10 +19,14 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 	public static DropDown dropdown(List list) {
 		DropDown elem = new DropDown(div(), list);
 		elem._mdc = inject(elem.element());
+		elem._foundation = foundation(elem._mdc);
 		return elem;
 	}
 	private static native MCDDropdown inject(Element elem) /*-{
         return $wnd.mdc.select.MDCSelect.attachTo(elem);
+    }-*/;
+	private static native MCDDropdownFoundation foundation(MCDDropdown mdc) /*-{
+        return mdc.foundation;
     }-*/;
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	private final SVGPolygonElement inactive = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
@@ -41,6 +47,7 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 	private final List list;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private MCDDropdown _mdc;
+	private MCDDropdownFoundation _foundation;
 	public DropDown(HtmlContentBuilder<HTMLDivElement> e, List list) {
 		super(e);
 		_this = e;
@@ -65,8 +72,8 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 		active.setAttribute("fill-rule", "evenodd");
 		active.classList.add("mdc-select__dropdown-icon-active");
 	}
-	public DropDown value(String value) {
-		_mdc.value = value;
+	public DropDown select(int idx) {
+		_foundation.setSelectedIndex(idx);
 		return that();
 	}
 	@Override
@@ -94,5 +101,9 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 		private boolean required;
 		@JsProperty
 		private boolean valid;
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	private final static class MCDDropdownFoundation {
+		public native void setSelectedIndex(int idx);
 	}
 }

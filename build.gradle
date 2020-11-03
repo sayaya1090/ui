@@ -1,17 +1,17 @@
 plugins {
-    id "org.wisepersist.gwt" version "1.0.13"
+    id "org.wisepersist.gwt" version "1.1.10"
 }
 apply plugin: "java"
 if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     apply plugin: "war"
     apply plugin: "gwt"
     gwt.modules "net.sayaya.Test"
-    sourceSets.main.java.srcDirs += 'src/test/java'
     gwtDev {
         jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:lib/lombok-1.18.12.jar=ECJ"
         port 8888
         war file("src/test/webapp")
     }
+    sourceSets.main.java.srcDirs += 'src/test/java'
 } else {
     apply plugin: "gwt-base"
     if(project.gradle.startParameter.taskNames.contains("install")) {
@@ -37,14 +37,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jboss.elemento:elemento-core:${elementoVersion}") {
-        exclude group: "com.google.jsinterop", module: "jsinterop-annotations"
-        exclude group: "org.gwtproject.safehtml", module: "gwt-safehtml"
-        exclude group: "org.gwtproject.event", module: "gwt-event"
-    }
+    implementation("org.jboss.elemento:elemento-core:${elementoVersion}")
     implementation("com.google.elemental2:elemental2-svg:1.1.0")
-    implementation("org.jresearch.gwtproject.event:gwt-event:1.0.0")
-    implementation("org.jresearch.gwtproject.safehtml:gwt-safehtml:1.0.5")
     implementation("com.google.gwt:gwt-user:${gwtVersion}")
     implementation("com.google.gwt:gwt-dev:${gwtVersion}")
     implementation("org.projectlombok:lombok:1.18.12")
