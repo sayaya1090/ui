@@ -30,7 +30,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	private final Button btnNext = Button.icon("chevron_right");
 	private final Button btnFirst = Button.icon("first_page");
 	private final Button btnLast = Button.icon("last_page");
-	private final TextField<Double> iptPage = TextField.numberBox().filled().style("display: inline-block; margin-top: auto; margin-bottom: auto; width: 50px;height: 28px;").attr("min", "1");
+	private final TextField<Double> iptPage = TextField.numberBox().filled().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; border: 1px solid #DDD; font-size: 13px !important;").attr("min", "1");
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	public Page(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
@@ -43,7 +43,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 				 .add(lblPageMax)
 				 .add(btnNext)
 				 .add(btnLast);
-		iptPage.input().style("text-align: right; padding-top: 6px; padding-left: 2px; padding-right: 0px;");
+		iptPage.input().style("text-align: right; padding-left: 2px; ");
 		iptPage.onValueChange(evt->{
 			try {
 				page(evt.value().longValue());
@@ -89,6 +89,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 			btnNext.enabled(true);
 			btnLast.enabled(true);
 		}
+		iptPage.input().autofocus(true);
 		return this;
 	}
 	public int show() {
