@@ -1,6 +1,7 @@
 package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
+import elemental2.dom.DomGlobal;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsOverlay;
@@ -33,12 +34,14 @@ public class ChipSet extends HTMLElementBuilder<HTMLDivElement, ChipSet> impleme
 		});
 		return elem;
 	}
-	public static ChipSet filters(Chip.ChipCheckable... chips) {
+	public static ChipSet filters(ChipCheckable... chips) {
 		ChipSet elem =  new ChipSet(div().css("mdc-chip-set", "mdc-chip-set--filter").attr("role", "grid"));
-		for(Chip c: chips) elem.add(c);
-		bind(elem, "DOMNodeInserted", evt->{
-			elem._mdc = inject(elem.element());
-		});
+		for(ChipCheckable c: chips) elem.add(c);
+		elem._mdc = inject(elem.element());
+		for(int i = 0; i < chips.length; ++i) {
+			chips[i]._mdc = elem._mdc.chips[i];
+			if(chips[i].value) chips[i].value(true);
+		}
 		return elem;
 	}
 	native static MdcChipSet inject(Element elem) /*-{
@@ -51,18 +54,22 @@ public class ChipSet extends HTMLElementBuilder<HTMLDivElement, ChipSet> impleme
 	private ChipSet(HtmlContentBuilder<HTMLDivElement> element) {
 		super(element);
 		_this = element;
-
 	}
 	public final ChipSet add(final Chip chip) {
 		if(_mdc!=null) _mdc.addChip(chip.element());
-		else _this.add(chip);
+		_this.add(chip.element());
 		chips.add(chip);
-		/*Scheduler.get().scheduleDeferred(()-> {
-			chip.onDetach(evt -> {
-				chips.remove(chip);
-				fire(ValueChangeEvent.event(evt, value()));
-			});
-		});*/
+		try {chip.onDetach(evt -> {
+			chips.remove(chip);
+			fire(ValueChangeEvent.event(evt, value()));
+		});} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return this;
+	}
+	public final ChipSet add(final ChipCheckable chip) {
+		if(_mdc!=null) _mdc.addChip(chip.element());
+		_this.add(chip.element());
 		return this;
 	}
 
@@ -93,6 +100,7 @@ public class ChipSet extends HTMLElementBuilder<HTMLDivElement, ChipSet> impleme
 	@Setter(onMethod_ = {@JsOverlay})
 	@Accessors(fluent=true)
 	private static final class MdcChipSet {
+		private Chip.MdcChip[] chips;
 		public native void addChip(Element elem);
 	}
 }
