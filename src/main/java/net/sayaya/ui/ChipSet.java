@@ -23,8 +23,9 @@ public class ChipSet extends HTMLElementBuilder<HTMLDivElement, ChipSet> impleme
 		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
 	}
-	public static ChipSet filters() {
+	public static ChipSet filters(Chip... chips) {
 		ChipSet elem =  new ChipSet(div().css("mdc-chip-set", "mdc-chip-set--filter").attr("role", "grid"));
+		for(Chip c: chips) elem.add(c);
 		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
 	}
