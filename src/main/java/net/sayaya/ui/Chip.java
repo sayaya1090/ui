@@ -1,6 +1,8 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
+import elemental2.svg.SVGElement;
+import elemental2.svg.SVGPathElement;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.Animation;
 import net.sayaya.ui.event.HasAttachHandlers;
@@ -25,8 +27,9 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
     }-*/;
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-chip__ripple");
 	private IsElement<?> iconBefore;
+	private IsElement<?> check;
 	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-chip__text");
-	private final HtmlContentBuilder<HTMLElement> btn = span().css("mdc-chip__primary-action").attr("role", "button")
+	private final HtmlContentBuilder<HTMLElement> btn = span().css("mdc-chip__primary-action").attr("role", "checkbox").attr("tabindex", "0")
 															  .add(label);
 	private final HtmlContentBuilder<HTMLElement> cell = span().attr("role", "gridcell")
 															   .add(btn);
@@ -41,6 +44,10 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
 		clear();
 		_this.add(ripple);
 		if(iconBefore!=null) _this.add(iconBefore);
+		if(check!=null) {
+			_this.add(check);
+			if(iconBefore!=null) iconBefore.element().classList.add("mdc-chip__icon--leading");
+		}
 		_this.add(cell);
 		if(iconTrailing!=null) _this.add(iconTrailing);
 	}
@@ -72,6 +79,25 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
 		});
 		trailing(remove);
 		return this;
+	}
+	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+	public Chip checkable() {
+		check = span().css("mdc_chip__checkmark").add(checkmark());
+		layout();
+		return this;
+	}
+	private static SVGElement checkmark() {
+		SVGPathElement path = (SVGPathElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "path");
+		path.classList.add("mdc-chip__checkmark-path");
+		path.setAttribute("d", "M1.73,12.91 8.1,19.28 22.79,4.59");
+		path.setAttribute("fill", "none");
+		path.setAttribute("stroke", "black");
+
+		SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
+		svg.classList.add("mdc-chip__checkmark-svg");
+		svg.setAttribute( "viewBox", "-2 -3 30 30");
+		svg.appendChild(path);
+		return svg;
 	}
 	@Override
 	public Chip that() {

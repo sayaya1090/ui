@@ -18,6 +18,16 @@ public class ChipSet extends HTMLElementBuilder<HTMLDivElement, ChipSet> impleme
 		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
 	}
+	public static ChipSet choices() {
+		ChipSet elem =  new ChipSet(div().css("mdc-chip-set", "mdc-chip-set--choice").attr("role", "grid"));
+		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
+		return elem;
+	}
+	public static ChipSet filters() {
+		ChipSet elem =  new ChipSet(div().css("mdc-chip-set", "mdc-chip-set--filter").attr("role", "grid"));
+		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
+		return elem;
+	}
 	native static void inject(Element elem) /*-{
         $wnd.mdc.chips.MDCChipSet.attachTo(elem);
     }-*/;
@@ -32,10 +42,10 @@ public class ChipSet extends HTMLElementBuilder<HTMLDivElement, ChipSet> impleme
 	public final ChipSet add(final Chip chip) {
 		_this.add(chip);
 		chips.add(chip);
-		chip.onDetach(evt->{
+		/*chip.onDetach(evt->{
 			chips.remove(chip);
 			fire(ValueChangeEvent.event(evt, value()));
-		});
+		});*/
 		return this;
 	}
 
