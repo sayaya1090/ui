@@ -16,14 +16,14 @@ import static org.jboss.elemento.Elements.label;
 
 public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> implements HasValueChangeHandlers<Boolean> {
 	public static CheckBox checkBox(boolean initialValue) {
-		CheckBox elem = new CheckBox(div());
+		CheckBox elem = new CheckBox(div(), initialValue);
 		elem._mdc = inject(elem.element());
-		return elem.value(initialValue);
+		return elem;
 	}
 	public static CheckBox intermediateCheckBox(boolean initialValue) {
-		CheckBox elem = new CheckBox(div());
+		CheckBox elem = new CheckBox(div(), initialValue);
 		elem._mdc = inject(elem.element());
-		return elem.value(initialValue);
+		return elem;
 	}
 	private static native MCDCheckbox inject(Element elem) /*-{
         var mdc = $wnd.mdc.checkbox.MDCCheckbox.attachTo(elem.firstChild);
@@ -41,8 +41,9 @@ public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> imple
 	private final HtmlContentBuilder<HTMLLabelElement> label = label().attr("for", input.id);
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private MCDCheckbox _mdc;
-	private CheckBox(HtmlContentBuilder<HTMLDivElement> e) {
+	private CheckBox(HtmlContentBuilder<HTMLDivElement> e, boolean initValue) {
 		super(e);
+		input.checked = initValue;
 		_this = e;
 		layout();
 	}
