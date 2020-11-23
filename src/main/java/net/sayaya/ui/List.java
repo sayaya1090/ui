@@ -51,12 +51,18 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 		if(_this.element().childElementCount <= 1) item.attr("tabindex", "0");
 		return that();
 	}
+	public List<ListItem> clear() {
+		super.clear();
+		while(_this.element().childElementCount > 0) _this.element().firstElementChild.remove();
+		return that();
+	}
 	public List<ListItem> divider() {
 		Divider elem = new Divider(li());
 		elem.css("mdc-list-divider").attr("role", "separator");
 		_this.add(elem);
 		return that();
 	}
+
 	@Override
 	public List<ListItem> that() {
 		return this;

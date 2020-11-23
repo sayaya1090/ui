@@ -1,21 +1,26 @@
 package net.sayaya.ui;
 
+import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import elemental2.svg.SVGElement;
 import elemental2.svg.SVGPathElement;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
+import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static net.sayaya.ui.Animation.animate;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
-public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, ChipCheckable> implements HasAttachHandlers, HasDetachHandlers {
+public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, ChipCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	private static native Chip.MdcChip inject(Element elem) /*-{
         return $wnd.mdc.chips.MDCChip.attachTo(elem);
@@ -36,6 +41,7 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 		super(e);
 		_this = e;
 		layout();
+		on(EventType.click, evt->Scheduler.get().scheduleDeferred(()->fire()));
 	}
 	protected void layout() {
 		clear();
@@ -79,10 +85,32 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 		if(_mdc!=null) _mdc.selected = value;
 		return this;
 	}
-	public boolean value() {
+	public Boolean value() {
 		if(_mdc!=null) return _mdc.selected;
 		else return value;
 	}
+	private native static Event createEvent(String event) /*-{
+        var evt = $wnd.document.createEvent("Event");
+        evt.initEvent(event, true, true);
+        return evt;
+    }-*/;
+	private void fire() {
+		Event evt;
+		try {
+			evt = new Event("change");
+		} catch(Exception e) {
+			evt = createEvent("change");
+		}
+		ValueChangeEvent<Boolean> e = ValueChangeEvent.event(evt, value());
+		for(ValueChangeEventListener<Boolean> listener: listeners) listener.handle(e);
+	}
+	private final Set<ValueChangeEventListener<Boolean>> listeners = new HashSet<>();
+	@Override
+	public HandlerRegistration onValueChange(ValueChangeEventListener<Boolean> listener) {
+		listeners.add(listener);
+		return ()->listeners.remove(listener);
+	}
+
 	private static SVGElement checkmark() {
 		SVGPathElement path = (SVGPathElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "path");
 		path.classList.add("mdc-chip__checkmark-path");

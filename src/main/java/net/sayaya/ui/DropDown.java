@@ -43,12 +43,12 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 																   .add(arrow)
 																   .add(label)
 																   .add(ripple2);
-	private final HtmlContentBuilder<HTMLDivElement> menu = div().css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fullwidth");
-	private final List list;
+	private final HtmlContentBuilder<HTMLDivElement> menu = div().css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth");
+	private final List<?> list;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private MCDDropdown _mdc;
 	private MCDDropdownFoundation _foundation;
-	public DropDown(HtmlContentBuilder<HTMLDivElement> e, List list) {
+	public DropDown(HtmlContentBuilder<HTMLDivElement> e, List<?> list) {
 		super(e);
 		_this = e;
 		this.list = list;
