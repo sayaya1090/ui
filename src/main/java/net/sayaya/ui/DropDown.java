@@ -3,10 +3,8 @@ package net.sayaya.ui;
 import elemental2.dom.*;
 import elemental2.svg.SVGElement;
 import elemental2.svg.SVGPolygonElement;
-import jsinterop.annotations.JsMethod;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsProperty;
-import jsinterop.annotations.JsType;
+import jsinterop.annotations.*;
+import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -15,7 +13,7 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 import static org.jboss.elemento.EventType.bind;
 
-public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> implements HasValueChangeHandlers<String> {
+public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> implements HasValueChangeHandlers<String>, HasSelectionChangeHandlers<Integer> {
 	public static DropDown dropdown(List list) {
 		DropDown elem = new DropDown(div(), list);
 		elem._mdc = inject(elem.element());
@@ -77,6 +75,17 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 		return that();
 	}
 	@Override
+	public Integer selection() {
+		return _mdc.selectedIndex();
+	}
+
+	@Override
+	public HandlerRegistration onSelectionChange(SelectionChangeEventListener<Integer> listener) {
+		EventListener wrapper = evt->listener.handle(SelectionChangeEvent.event(evt, selection()));
+		return bind(value.element(), "DOMSubtreeModified", wrapper);
+	}
+
+	@Override
 	public String value() {
 		return value.element().textContent;
 	}
@@ -101,6 +110,12 @@ public class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> imple
 		private boolean required;
 		@JsProperty
 		private boolean valid;
+		@JsOverlay
+		@JsIgnore
+		public int selectedIndex() {
+			if(selectedIndex==null) return 0;
+			else return selectedIndex.intValue();
+		}
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 	private final static class MCDDropdownFoundation {

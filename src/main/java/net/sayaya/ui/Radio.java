@@ -1,6 +1,7 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
+import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -10,7 +11,7 @@ import org.jboss.elemento.InputType;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.input;
 
-public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> implements Focusable<Radio<V>>, HasValueChangeHandlers<V> {
+public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> implements Focusable<Radio<V>>, HasValueChangeHandlers<V>, HasSelectionChangeHandlers<V> {
 	public static <V> Radio<V> radio(String group, V value) {
 		Radio<V> elem = new Radio<>(div(), group, value);
 		elem.css("mdc-radio");
@@ -61,5 +62,15 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 	@Override
 	public Radio<V> that() {
 		return this;
+	}
+
+	@Override
+	public V selection() {
+		return value();
+	}
+
+	@Override
+	public HandlerRegistration onSelectionChange(SelectionChangeEventListener<V> listener) {
+		return this.onSelectionChange(input.element(), listener);
 	}
 }
