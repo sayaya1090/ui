@@ -29,7 +29,7 @@ public interface HasStateChangeHandlers<State extends Enum> {
     }
     Collection<StateChangeEventListener<State>> listeners();
     State state();
-    default void fire() {
+    default void fireStateChangeEvent() {
         StateChangeEvent<State> evt = StateChangeEvent.event(this.state());
         for(StateChangeEventListener<State> listener: listeners()) listener.handle(evt);
     }

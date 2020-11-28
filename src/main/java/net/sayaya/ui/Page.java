@@ -144,11 +144,6 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	public Page that() {
 		return this;
 	}
-	private native static Event createEvent(String event) /*-{
-        var evt = $wnd.document.createEvent("Event");
-        evt.initEvent(event, true, true);
-        return evt;
-    }-*/;
 
 	@Override
 	public Page value() {
@@ -160,7 +155,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 		try {
 			evt = new Event("change");
 		} catch(Exception e) {
-			evt = createEvent("change");
+			evt = new CustomEvent("change");
 		}
 		ValueChangeEvent<Page> e = ValueChangeEvent.event(evt, this);
 		for(ValueChangeEventListener<Page> listener: listeners) listener.handle(e);
