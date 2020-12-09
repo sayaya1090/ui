@@ -3,6 +3,7 @@ package net.sayaya.ui;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLInputElement;
+import elemental2.dom.HTMLLabelElement;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -23,7 +24,8 @@ public class Switch extends HTMLElementBuilder<HTMLDivElement, Switch> implement
        $wnd.mdc.switchControl.MDCSwitch.attachTo(elem);
     }-*/;
 	private final InputBuilder<HTMLInputElement> checkbox = input(InputType.checkbox).css("mdc-switch__native-control").id("basic-switch").attr("role", "switch");
-	private final HtmlContentBuilder<HTMLDivElement> track = div().css("mdc-switch__track");
+	private final HTMLLabelElement label = org.jboss.elemento.Elements.label().element();
+	private final HtmlContentBuilder<HTMLDivElement> track = div().css("mdc-switch__track").add(label);
 	private final HtmlContentBuilder<HTMLDivElement> underlay = div().css("mdc-switch__thumb-underlay")
 																	 .add(div().css("mdc-switch__thumb"))
 																	 .add(checkbox);
@@ -33,7 +35,10 @@ public class Switch extends HTMLElementBuilder<HTMLDivElement, Switch> implement
 		_this = e;
 		_this.add(track).add(underlay);
 	}
-
+	public Switch text(String text) {
+		label.innerHTML = text;
+		return that();
+	}
 	@Override
 	public Boolean value() {
 		return checkbox.element().checked;
