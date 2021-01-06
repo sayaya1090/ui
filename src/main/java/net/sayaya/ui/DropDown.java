@@ -38,8 +38,8 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 	protected MCDDropdownFoundation _foundation;
 	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
-	private final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
-	protected final HtmlContentBuilder<HTMLElement> container = span().css("mdc-select__selected-text-container").add(value);
+	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
+	// protected final HtmlContentBuilder<HTMLElement> container = span().css("mdc-select__selected-text-container").add(value);
 	private final SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
 	protected final HtmlContentBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg);
 	private final SVGPolygonElement inactive = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
@@ -106,7 +106,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 		private void layout() {
 			_this.css("mdc-select", "mdc-select--filled")
 					.add(anchor.add(ripple)
-							.add(container)
+							.add(value)
 							.add(arrow)
 							.add(label)
 							.add(ripple2))
@@ -133,7 +133,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 		private void layout() {
 			_this.css("mdc-select", "mdc-select--outlined")
 					.add(anchor.add(outline.add(outlineLeading).add(outlineNotch).add(outlineTrailing))
-							.add(container).add(arrow).add(label))
+							.add(value).add(arrow).add(label))
 					.add(menu.add(list));
 		}
 
