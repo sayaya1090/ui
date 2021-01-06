@@ -17,8 +17,10 @@ import static org.jboss.elemento.EventType.bind;
 public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> implements HasValueChangeHandlers<String>, HasSelectionChangeHandlers<Integer> {
 	public static DropDown filled(List list) {
 		DropDown elem = new DropDownFilled(div(), list);
-		elem._mdc = inject(elem.element());
-		elem._foundation = foundation(elem._mdc);
+		bind(elem.element,"DOMNodeInserted", evt->{
+			elem._mdc = inject(elem.element());
+			elem._foundation = foundation(elem._mdc);
+		});
 		return elem;
 	}
 	public static DropDown outlined(List list) {
@@ -36,7 +38,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	protected MCDDropdown _mdc;
 	protected MCDDropdownFoundation _foundation;
-	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
+	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor").style("width: 100%;");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
 	// protected final HtmlContentBuilder<HTMLElement> container = span().css("mdc-select__selected-text-container").add(value);
@@ -84,7 +86,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 
 	@Override
 	public String value() {
-		return value.element().textContent;
+		return _mdc.value;
 	}
 	@Override
 	public HandlerRegistration onValueChange(ValueChangeEventListener<String> listener) {
@@ -132,8 +134,9 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 		}
 		private void layout() {
 			_this.css("mdc-select", "mdc-select--outlined")
-					.add(anchor.add(outline.add(outlineLeading).add(outlineNotch).add(outlineTrailing))
-							.add(value).add(arrow).add(label))
+					.add(anchor.add(outline.add(outlineLeading).add(outlineNotch.add(label)).add(outlineTrailing))
+							   .add(value)
+							   .add(arrow))
 					.add(menu.add(list));
 		}
 

@@ -112,6 +112,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 		}
 		public SingleLineItem label(String msg) {
 			text.element().textContent = msg;
+			attr("data-value", msg);
 			return that();
 		}
 		@Override
