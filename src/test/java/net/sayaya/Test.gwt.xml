@@ -2,5 +2,6 @@
 <module rename-to="test">
 	<inherits name='net.sayaya.UI'/>
 	<entry-point class='net.sayaya.ui.Test'/>
-	<collapse-all-properties/>
+	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
+	<add-linker name="xsiframe"/>
 </module>
