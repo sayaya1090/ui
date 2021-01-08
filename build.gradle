@@ -14,8 +14,8 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     sourceSets.main.java.srcDirs += 'src/test/java'
 } else {
     apply plugin: "gwt-base"
-    if(project.gradle.startParameter.taskNames.contains("install")) {
-        apply plugin: "maven"
+    if(project.gradle.startParameter.taskNames.contains("publishToMavenLocal")) {
+        apply plugin: "maven-publish"
     } else {
 
     }
