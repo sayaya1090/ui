@@ -16,7 +16,6 @@ import org.jboss.elemento.IsElement;
 
 import static net.sayaya.ui.Animation.animate;
 import static org.jboss.elemento.Elements.*;
-import static org.jboss.elemento.EventType.bind;
 
 public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements HasAttachHandlers, HasDetachHandlers {
 	public static Chip chip(String text) {

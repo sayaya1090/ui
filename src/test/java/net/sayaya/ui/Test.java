@@ -32,8 +32,8 @@ public class Test implements EntryPoint {
 		TestList();
 		// TestDialog();
 		// TestGrid();
-		TestPage();
-		TestTab();
+		/*TestPage();
+		TestTab();*/
 	}
 
 	void LayoutTest() {
@@ -89,18 +89,12 @@ public class Test implements EntryPoint {
 		};
 	}
 	void TestChip() {
-		ChipSet chips = ChipSet.chips();
+
+		ChipCheckable chip3 = Chip.check("Chip 3").before(Icon.icon("face")).value(true);
+		ChipCheckable chip4 = Chip.check("Chip 4").before(Icon.icon("face"));
+		ChipSet chips = ChipSet.filters(chip3, chip4);
 		content.add(chips);
-		chips.onValueChange(evt->DomGlobal.alert("Chipset value changed"));
-		Chip chip = Chip.chip("Chip 1").removable();
-		chip.onDetach(evt->DomGlobal.alert("Remove Chip 1"));
-		chips.add(chip);
-		Chip chip2 = Chip.chip("Chip 2").removable();
-		chip2.onDetach(evt->DomGlobal.alert("Remove Chip 2"));
-		chips.add(chip2);
-		Chip chip3 = Chip.chip("Chip 3").removable();
-		chip3.onDetach(evt->DomGlobal.alert("Remove Chip 3"));
-		chips.add(chip3);
+		//chips.add(chip3).add(chip4);
 
 	}
 	void TestList() {
@@ -133,15 +127,26 @@ public class Test implements EntryPoint {
 
 	private void TestDropDown() {
 		List<List.SingleLineItem> list = List.singleLineList()
-											 .add(List.singleLine().label("AA"))
-											 .add(List.singleLine().label("BB"))
-											 .add(List.singleLine().label("CC"))
-											 .add(List.singleLine().label("DD"))
-											 .add(List.singleLine().label("EE"));
-		DropDown dropdown = DropDown.dropdown(list);
+				.add(List.singleLine().label("AA").attr("data-value", "A"))
+				.add(List.singleLine().label("BB").attr("data-value", "B"))
+				.add(List.singleLine().label("CC").attr("data-value", "C"))
+				.add(List.singleLine().label("DD").attr("data-value", "D"))
+				.add(List.singleLine().label("EE").attr("data-value", "E"));
+		DropDown dropdown = DropDown.outlined(list).text("Dropdown").style("width: 300px;");
 		content.add(dropdown);
 		dropdown.onValueChange(evt->{
-			DomGlobal.alert(dropdown.value());
+			DomGlobal.console.log(dropdown.value());
+		});
+		List<List.SingleLineItem> list2 = List.singleLineList()
+				.add(List.singleLine().label("AA").attr("data-value", "A"))
+				.add(List.singleLine().label("BB").attr("data-value", "B"))
+				.add(List.singleLine().label("CC").attr("data-value", "C"))
+				.add(List.singleLine().label("DD").attr("data-value", "D"))
+				.add(List.singleLine().label("EE").attr("data-value", "E"));
+		DropDown dropdown2 = DropDown.filled(list2);
+		content.add(dropdown2);
+		dropdown2.onValueChange(evt->{
+			DomGlobal.alert(dropdown2.value());
 		});
 	}
 	void TestButton() {
@@ -170,6 +175,16 @@ public class Test implements EntryPoint {
 		Button tmp6 = Button.floating(Icon.icon("add")).text("Create");
 		tmp6.onClick(evt->DomGlobal.alert("Created"));
 		content.add(tmp6);
+
+		ButtonToggle tmp7 = Button.toggle().text("Toggle");
+		tmp7.onValueChange(evt->{
+			DomGlobal.alert(evt.value()+"");
+		});
+		Scheduler.get().scheduleFixedDelay(()->{
+			tmp7.value(true);
+			return false;
+		}, 1000);
+		content.add(tmp7);
 	}
 
 	void TestText() {
@@ -193,7 +208,7 @@ public class Test implements EntryPoint {
 		TextArea<String> tmp4 = TextArea.textBox().filled().text("tmp4").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
 		content.add(tmp4);
 	}
-	void TestDialog() {
+	/*void TestDialog() {
 		ButtonText close1 = Button.flat().text("Cancel");
 		ButtonText close2 = Button.flat().text("OK");
 		Dialog dialog1 = Dialog.alert("Alert", close1, close2);
@@ -209,9 +224,9 @@ public class Test implements EntryPoint {
 		close4.onClick(evt->dialog2.close());
 		content.add(dialog2);
 		dialog2.open();
-	}
+	}*/
 	void TestGrid() {
-		Data[] gridData1 = new Data[]{
+		/*Data[] gridData1 = new Data[]{
 				new Data().put("id", 549731).put("name", "Beautiful Lies")
 						  .put("artist", "Birdy")
 						  .put("release", "2016.03.26")
@@ -310,7 +325,7 @@ public class Test implements EntryPoint {
 				.column(Column.builder(String.class).header("Release").name("release").build())
 				.column(Column.builder(String.class).header("Genre").name("genre").build())
 				.data(gridData1).build();
-		content.add(grid);
+		content.add(grid);*/
 	}
 	private void TestPage() {
 		Page page = Page.instance().idx(0).show(30).total(1000);

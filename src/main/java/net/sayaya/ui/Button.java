@@ -1,7 +1,9 @@
 package net.sayaya.ui;
 
+import elemental2.dom.Event;
 import elemental2.dom.HTMLButtonElement;
 import net.sayaya.ui.event.HasClickHandlers;
+import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.button;
@@ -34,6 +36,12 @@ public interface Button extends IsElement<HTMLButtonElement>, HasClickHandlers, 
 	}
 	static ButtonIcon icon(String icon) {
 		ButtonIcon elem = new ButtonIcon(button(), icon);
+		return elem;
+	}
+	static ButtonToggle toggle() {
+		ButtonToggle elem = new ButtonToggle(button());
+		elem.css("mdc-button", "mdc-button--outlined", "mdc-button-toggle");
+		ButtonToggle.inject(elem.element());
 		return elem;
 	}
 	Button enabled(boolean enabled);

@@ -89,18 +89,9 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 		if(_mdc!=null) return _mdc.selected;
 		else return value;
 	}
-	private native static Event createEvent(String event) /*-{
-        var evt = $wnd.document.createEvent("Event");
-        evt.initEvent(event, true, true);
-        return evt;
-    }-*/;
 	private void fire() {
-		Event evt;
-		try {
-			evt = new Event("change");
-		} catch(Exception e) {
-			evt = createEvent("change");
-		}
+		CustomEvent<Boolean> evt = new CustomEvent<>("change");
+		evt.detail = value();
 		ValueChangeEvent<Boolean> e = ValueChangeEvent.event(evt, value());
 		for(ValueChangeEventListener<Boolean> listener: listeners) listener.handle(e);
 	}
