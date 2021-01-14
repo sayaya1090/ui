@@ -92,6 +92,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 			else leading = null;
 			layout();
 			return that();
+
 		}
 		public B trailing(IsElement<?> element) {
 			if(element!=null) trailing = span().css("mdc-list-item__meta").add(element);
