@@ -1,6 +1,8 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
+import jsinterop.annotations.JsProperty;
+import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
@@ -15,12 +17,12 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 	public static <V> Radio<V> radio(String group, V value) {
 		Radio<V> elem = new Radio<>(div(), group, value);
 		elem.css("mdc-radio");
-		inject(elem.element());
+		elem._mdc = inject(elem.element());
 		return elem;
 	}
-	private native static void inject(Element elem) /*-{
-        $wnd.mdc.radio.MDCRadio.attachTo(elem);
-    }-*/;
+	private native static MCDRadio inject(Element elem) /*-{
+		return $wnd.mdc.radio.MDCRadio.attachTo(elem);
+	}-*/;
 	private final InputBuilder<HTMLInputElement> input = input(InputType.radio).css("mdc-radio__native-control");
 	private final HtmlContentBuilder<HTMLDivElement> background = div().css("mdc-radio__background")
 																	   .add(div().css("mdc-radio__outer-circle").style("box-sizing: border-box;"))
@@ -28,6 +30,7 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-radio__ripple");
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private final V value;
+	private MCDRadio _mdc;
 	private Radio(HtmlContentBuilder<HTMLDivElement> e, String group, V value) {
 		super(e);
 		_this = e;
@@ -68,9 +71,21 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 	public V selection() {
 		return value();
 	}
-
+	public Radio<V> enabled(boolean enabled) {
+		_mdc.disabled = !enabled;
+		return that();
+	}
 	@Override
 	public HandlerRegistration onSelectionChange(SelectionChangeEventListener<V> listener) {
 		return this.onSelectionChange(input.element(), listener);
+	}
+	@JsType(isNative = true, namespace = "mdc.radio", name="MDCRadio")
+	private final static class MCDRadio {
+		@JsProperty
+		private boolean checked;
+		@JsProperty
+		private boolean disabled;
+		@JsProperty
+		private String value;
 	}
 }
