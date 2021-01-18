@@ -127,15 +127,15 @@ public class Test implements EntryPoint {
 
 	private void TestDropDown() {
 		List<List.SingleLineItem> list = List.singleLineList()
-				.add(List.singleLine().label("AA").attr("data-value", "A"))
-				.add(List.singleLine().label("BB").attr("data-value", "B"))
-				.add(List.singleLine().label("CC").attr("data-value", "C"))
-				.add(List.singleLine().label("DD").attr("data-value", "D"))
-				.add(List.singleLine().label("EE").attr("data-value", "E"));
+				.add(List.singleLine().label("AA"))
+				.add(List.singleLine().label("BB"))
+				.add(List.singleLine().label("CC"))
+				.add(List.singleLine().label("DD"))
+				.add(List.singleLine().label("EE"));
 		DropDown dropdown = DropDown.outlined(list).text("Dropdown").style("width: 300px;");
 		content.add(dropdown);
 		dropdown.onValueChange(evt->{
-			DomGlobal.console.log(dropdown.value());
+			DomGlobal.console.log(evt.value());
 		});
 		List<List.SingleLineItem> list2 = List.singleLineList()
 				.add(List.singleLine().label("AA").attr("data-value", "A"))
@@ -145,7 +145,7 @@ public class Test implements EntryPoint {
 				.add(List.singleLine().label("EE").attr("data-value", "E"));
 		DropDown dropdown2 = DropDown.filled(list2);
 		content.add(dropdown2);
-		dropdown2.onValueChange(evt->{
+		dropdown2.onSelectionChange(evt->{
 			DomGlobal.alert(dropdown2.value());
 		});
 	}

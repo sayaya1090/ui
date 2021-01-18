@@ -1,5 +1,6 @@
 package net.sayaya.ui;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.DOM;
 import elemental2.dom.*;
 import elemental2.svg.SVGElement;
@@ -80,7 +81,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 	}
 	@Override
 	public HandlerRegistration onSelectionChange(SelectionChangeEventListener<Integer> listener) {
-		EventListener wrapper = evt->listener.handle(SelectionChangeEvent.event(evt, selection()));
+		EventListener wrapper = evt->Scheduler.get().scheduleDeferred(()->listener.handle(SelectionChangeEvent.event(evt, selection())));
 		return bind(value.element(), "DOMSubtreeModified", wrapper);
 	}
 
@@ -90,7 +91,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 	}
 	@Override
 	public HandlerRegistration onValueChange(ValueChangeEventListener<String> listener) {
-		EventListener wrapper = evt->listener.handle(ValueChangeEvent.event(evt, value()));
+		EventListener wrapper = evt->Scheduler.get().scheduleDeferred(()->listener.handle(ValueChangeEvent.event(evt, value())));
 		return bind(value.element(), "DOMSubtreeModified", wrapper);
 	}
 
