@@ -6,6 +6,9 @@ import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import static org.jboss.elemento.Elements.*;
 import static org.jboss.elemento.EventType.bind;
 
@@ -37,6 +40,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
         // mdc.singleSelection = true;
     }-*/;
 	private final HtmlContentBuilder<HTMLUListElement> _this;
+	private final java.util.List<ListItem> children = new ArrayList<>();
 	private List(HtmlContentBuilder<HTMLUListElement> e) {
 		super(e);
 		_this = e;
@@ -48,12 +52,14 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 	}
 	public List<ListItem> add(ListItem item) {
 		_this.add(item);
+		children.add(item);
 		if(_this.element().childElementCount <= 1) item.attr("tabindex", "0");
 		return that();
 	}
 	public List<ListItem> clear() {
 		super.clear();
 		while(_this.element().childElementCount > 0) _this.element().firstElementChild.remove();
+		children.clear();
 		return that();
 	}
 	public List<ListItem> divider() {
@@ -62,7 +68,12 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 		_this.add(elem);
 		return that();
 	}
-
+	public String value(int n) {
+		return children.get(n).value();
+	}
+	public Integer indexOf(String value) {
+		return children.stream().filter(child->child.value()!=null).filter(child->child.value().equals(value)).findFirst().map(children::indexOf).orElse(null);
+	}
 	@Override
 	public List<ListItem> that() {
 		return this;
@@ -97,6 +108,14 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 			if(element!=null) trailing = span().css("mdc-list-item__meta").add(element);
 			else trailing = null;
 			layout();
+			return that();
+		}
+		public String value() {
+			return element().getAttribute("data-value");
+		}
+		public B enabled(boolean enabled) {
+			if(!enabled) css("mdc-list-item--disabled");
+			else ncss("mdc-list-item--disabled");
 			return that();
 		}
 		protected abstract void layout(HtmlContentBuilder<HTMLElement> text);
@@ -138,6 +157,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 		}
 		public DoubleLineItem primary(String msg) {
 			primary.element().textContent = msg;
+			attr("data-value", msg);
 			return that();
 		}
 		public DoubleLineItem secondary(String msg) {
