@@ -79,6 +79,21 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 		_foundation.setSelectedIndex(idx);
 		return that();
 	}
+	public DropDown select(String value) {
+		Integer n = list.indexOf(value);
+		if(n != null) select(n);
+		return that();
+	}
+	public final DropDown enabled(boolean enabled) {
+		if(!enabled) {
+			css("mdc-select--disable");
+			anchor.attr("aria-disabled", "true");
+		} else {
+			ncss("mdc-select--disable");
+			anchor.attr("aria-disabled", null);
+		}
+		return that();
+	}
 	@Override
 	public HandlerRegistration onSelectionChange(SelectionChangeEventListener<Integer> listener) {
 		EventListener wrapper = evt->Scheduler.get().scheduleDeferred(()->listener.handle(SelectionChangeEvent.event(evt, selection())));
