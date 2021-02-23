@@ -1,15 +1,14 @@
 package net.sayaya.ui;
 
 import com.google.gwt.core.client.*;
-import elemental2.core.JsDate;
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
-import net.sayaya.ui.grid.*;
+import net.sayaya.ui.sheet.Column;
+import net.sayaya.ui.sheet.Data;
+import net.sayaya.ui.sheet.Sheet;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
-
-import java.util.concurrent.ScheduledExecutorService;
 
 import static net.sayaya.ui.Icon.icon;
 import static org.jboss.elemento.Elements.*;
@@ -31,9 +30,9 @@ public class Test implements EntryPoint {
 		TestChip();
 		TestList();
 		// TestDialog();
-		// TestGrid();
 		/*TestPage();
 		TestTab();*/
+		TestSheet();
 	}
 
 	void LayoutTest() {
@@ -225,108 +224,6 @@ public class Test implements EntryPoint {
 		content.add(dialog2);
 		dialog2.open();
 	}*/
-	void TestGrid() {
-		/*Data[] gridData1 = new Data[]{
-				new Data().put("id", 549731).put("name", "Beautiful Lies")
-						  .put("artist", "Birdy")
-						  .put("release", "2016.03.26")
-						  .put("type", "Deluxe")
-						  .put("typeCode", "1")
-						  .put("genre", "Pop")
-						  .put("genreCode", "1")
-						  .put("grade", "2")
-						  .put("price", 10000)
-						  .put("downloadCount", 1000)
-						.put("listenCount", 5000),
-				new Data()
-						.put("id", 436461)
-						.put("name", "X")
-						.put("artist", "Ed Sheeran")
-						.put("release", "2014.06.24")
-						.put("type", "Deluxe")
-						.put("typeCode", "1")
-						.put("genre", "Pop")
-						.put("genreCode", "1")
-						.put("grade", "3")
-						.put("price", 20000)
-						.put("downloadCount", 1000)
-						.put("listenCount", 5000),
-				new Data()
-						.put("id", 295651)
-						.put("name", "Moves Like Jagger")
-						.put("release", "2011.08.08")
-						.put("artist", "Maroon5")
-						.put("type", "Single")
-						.put("typeCode", "3")
-						.put("genre", "Pop,Rock")
-						.put("genreCode", "1,2")
-						.put("grade", "2")
-						.put("price", 7000)
-						.put("downloadCount", 1000)
-						.put("listenCount", 5000),
-				new Data()
-						.put("id", 541713)
-						.put("name", "A Head Full Of Dreams")
-						.put("artist", "Coldplay")
-						.put("release", "2015.12.04")
-						.put("type", "Deluxe")
-						.put("typeCode", "1")
-						.put("genre", "Rock")
-						.put("genreCode", "2")
-						.put("grade", "3")
-						.put("price", 25000)
-						.put("downloadCount", 1000)
-						.put("listenCount", 5000),
-				new Data()
-						.put("id", 265289)
-						.put("name", "21")
-						.put("artist", "Adele")
-						.put("release", "2011.01.21")
-						.put("type", "Deluxe")
-						.put("typeCode", "1")
-						.put("genre", "Pop,R&B")
-						.put("genreCode", "1,3")
-						.put("grade", "3")
-						.put("price", 15000)
-						.put("downloadCount", 1000)
-						.put("listenCount", 5000),
-				new Data()
-						.put("id", 555871)
-						.put("name", "Warm On A Cold Night")
-						.put("artist", "HONNE")
-						.put("release", "2016.07.22")
-						.put("type", "EP")
-						.put("typeCode", "1")
-						.put("genre", "R&B,Electronic")
-						.put("genreCode", "3,4")
-						.put("grade", "2")
-						.put("price", 11000)
-						.put("downloadCount", 1000)
-						.put("listenCount", 5000),
-				new Data()
-						.put("id", 550571)
-						.put("name", "Take Me To The Alley")
-						.put("artist", "Gregory Porter")
-						.put("release", "2016.09.02")
-						.put("type", "Deluxe")
-						.put("typeCode", "1")
-						.put("genre", "Jazz")
-						.put("genreCode", "5")
-						.put("grade", "3")
-						.put("price", 30000)
-						.put("downloadCount", 1000)
-						.put("listenCount", 5000)
-		};
-		Grid grid = Grid.builder()
-				.scrollY(false).scrollX(false)
-				.column(Column.builder(String.class).header("Name").name("name").editor("text").build())
-				.column(Column.builder(String.class).header("Artist").name("artist").build())
-				.column(Column.builder(String.class).header("Type").name("type").build())
-				.column(Column.builder(String.class).header("Release").name("release").build())
-				.column(Column.builder(String.class).header("Genre").name("genre").build())
-				.data(gridData1).build();
-		content.add(grid);*/
-	}
 	private void TestPage() {
 		Page page = Page.instance().idx(0).show(30).total(1000);
 		content.add(page);
@@ -344,6 +241,13 @@ public class Test implements EntryPoint {
 		content.add(tab);
 		tab.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
+		});
+	}
+	private void TestSheet() {
+		Sheet sheet = Sheet.builder().columns(Column.defaults().data("A"), Column.defaults().data("B"), Column.defaults().data("C")).build();
+		content.add(sheet);
+		sheet.values(new Data[] {
+			new Data("1"), new Data("2"), new Data("3")
 		});
 	}
 }
