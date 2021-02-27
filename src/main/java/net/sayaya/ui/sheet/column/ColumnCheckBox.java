@@ -7,9 +7,6 @@ import elemental2.svg.SVGElement;
 import elemental2.svg.SVGPathElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.Delegate;
 import net.sayaya.ui.HTMLElementBuilder;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import net.sayaya.ui.sheet.Column;
@@ -19,9 +16,9 @@ import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputType;
 
-import static org.jboss.elemento.Elements.div;
-import static org.jboss.elemento.Elements.label;
-import static org.jboss.elemento.Elements.span;
+import java.util.function.Supplier;
+
+import static org.jboss.elemento.Elements.*;
 
 public final class ColumnCheckBox implements ColumnBuilder {
 	private final static JsRegExp CHK_BOOLEAN = new JsRegExp("^true|false$");
@@ -33,15 +30,10 @@ public final class ColumnCheckBox implements ColumnBuilder {
 		else return str;
 	}
 	private final String id;
-	@Delegate
 	private final ColumnBuilderDefaultHelper<ColumnCheckBox> defaultHelper = new ColumnBuilderDefaultHelper<>(()->this);
-	@Delegate
 	private final ColumnStyleDataChangeHelper<ColumnCheckBox> dataChangeHelper = new ColumnStyleDataChangeHelper<>(()->this);
-	@Delegate
 	private final ColumnStyleColorHelper<ColumnCheckBox> colorHelper = new ColumnStyleColorHelper<>(()->this);
-	@Delegate
 	private final ColumnStyleColorConditionalHelper<ColumnCheckBox> colorConditionalHelper = new ColumnStyleColorConditionalHelper<>(()->this);
-	@Delegate
 	private final ColumnStyleAlignHelper<ColumnCheckBox> alignHelper = new ColumnStyleAlignHelper<>(()->this);
 	ColumnCheckBox(String id) {
 		this.id = id;
@@ -68,6 +60,40 @@ public final class ColumnCheckBox implements ColumnBuilder {
 			return td;
 		}).headerRenderer(n->span().textContent(defaultHelper.name()).element());
 	}
+
+	public ColumnCheckBox name(String name) {return this.defaultHelper.name(name);}
+
+	public ColumnCheckBox width(Integer width) {return this.defaultHelper.width(width);}
+
+	public ColumnCheckBox width(Supplier<Integer> width) {return this.defaultHelper.width(width);}
+
+	public ColumnCheckBox readOnly(Boolean readOnly) {return this.defaultHelper.readOnly(readOnly);}
+
+	public ColumnCheckBox readOnly(Supplier<Boolean> readOnly) {return this.defaultHelper.readOnly(readOnly);}
+
+	public ColumnCheckBox color(String color) {return this.colorHelper.color(color);}
+
+	public ColumnCheckBox color(ColumnStyleFn<String> color) {return this.colorHelper.color(color);}
+
+	public ColumnCheckBox colorBackground(String colorBackground) {return this.colorHelper.colorBackground(colorBackground);}
+
+	public ColumnCheckBox colorBackground(ColumnStyleFn<String> colorBackground) {return this.colorHelper.colorBackground(colorBackground);}
+
+	public ColumnCheckBox pattern(String pattern) {return this.colorConditionalHelper.pattern(pattern);}
+
+	public ColumnCheckBox pattern(ColumnStyleFn<String> pattern) {return this.colorConditionalHelper.pattern(pattern);}
+
+	public ColumnCheckBox colorConditional(String color) {return this.colorConditionalHelper.colorConditional(color);}
+
+	public ColumnCheckBox colorConditional(ColumnStyleFn<String> color) {return this.colorConditionalHelper.colorConditional(color);}
+
+	public ColumnCheckBox colorConditionalBackground(String colorBackground) {return this.colorConditionalHelper.colorConditionalBackground(colorBackground);}
+
+	public ColumnCheckBox colorConditionalBackground(ColumnStyleFn<String> colorBackground) {return this.colorConditionalHelper.colorConditionalBackground(colorBackground);}
+
+	public ColumnCheckBox align(String align) {return this.alignHelper.align(align);}
+
+	public ColumnCheckBox align(ColumnStyleFn<String> align) {return this.alignHelper.align(align);}
 
 	private final static class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> implements HasValueChangeHandlers<Boolean> {
 		public static CheckBox checkBox(boolean initialValue) {
