@@ -5,5 +5,5 @@ import jsinterop.annotations.JsFunction;
 
 @JsFunction
 public interface AfterGetRowHeaderRenderers {
-	void apply(BiConsumer<Integer, HTMLTableCellElement> renderers);
+	void apply(BiConsumer<Integer, HTMLTableCellElement>[] renderers);
 }
