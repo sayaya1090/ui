@@ -6,6 +6,7 @@ import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.sheet.Column;
 import net.sayaya.ui.sheet.Data;
 import net.sayaya.ui.sheet.Sheet;
+import net.sayaya.ui.sheet.column.ColumnBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -244,10 +245,13 @@ public class Test implements EntryPoint {
 		});
 	}
 	private void TestSheet() {
-		Sheet sheet = Sheet.builder().columns(Column.defaults().data("A"), Column.defaults().data("B"), Column.defaults().data("C")).build();
+		Sheet sheet = Sheet.builder()
+				.columns(ColumnBuilder.string("A").name("A").pattern("^a$").colorConditional("red").colorConditionalBackground("yellow").color("blue").build(),
+						ColumnBuilder.string("B").build(),
+						ColumnBuilder.checkbox("C").build()).build();
 		content.add(sheet);
 		sheet.values(new Data[] {
-			new Data("1"), new Data("2"), new Data("3")
+			new Data("1").put("A", "FFF"), new Data("2").put("A", "a"), new Data("3")
 		});
 	}
 }
