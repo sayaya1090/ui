@@ -4,7 +4,7 @@ import net.sayaya.ui.event.HasSelectionChangeHandlers;
 
 import java.util.Arrays;
 
-public interface SheetSelectable extends HasSelectionChangeHandlers<Data[]> {
+public interface SheetSelectableMulti extends HasSelectionChangeHandlers<Data[]> {
 	Data[] value();
 	@Override
 	default Data[] selection() {

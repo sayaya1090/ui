@@ -6,6 +6,7 @@ import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.sheet.Column;
 import net.sayaya.ui.sheet.Data;
 import net.sayaya.ui.sheet.Sheet;
+import net.sayaya.ui.sheet.SheetSelectableSingle;
 import net.sayaya.ui.sheet.column.ColumnBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
@@ -249,6 +250,7 @@ public class Test implements EntryPoint {
 				.columns(ColumnBuilder.string("A").name("A").pattern("^a$").colorConditional("red").colorConditionalBackground("yellow").color("blue").build(),
 						ColumnBuilder.string("B").build(),
 						ColumnBuilder.checkbox("C").build()).build();
+		SheetSelectableSingle.header(sheet);
 		content.add(sheet);
 		sheet.values(new Data[] {
 			new Data("1").put("A", "FFF"), new Data("2").put("A", "a"), new Data("3")

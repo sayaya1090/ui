@@ -2,6 +2,7 @@ package net.sayaya.ui.sheet;
 
 import com.google.gwt.core.client.Scheduler;
 import elemental2.core.JsArray;
+import elemental2.core.JsNumber;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.*;
@@ -161,6 +162,8 @@ public final class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 		public SheetConfiguration columns(Column... columns) {
 			this.columns = columns;
 			colHeaders = (HeaderRenderFn) n->columns[n].headerRenderer().render(n).innerHTML;
+			if(Arrays.stream(columns).anyMatch(c->c.width()!=null)) colWidths = Arrays.stream(columns).map(Column::width).map(JsNumber::new).toArray();
+			else colWidths = null;
 			return this;
 		}
 		@JsOverlay

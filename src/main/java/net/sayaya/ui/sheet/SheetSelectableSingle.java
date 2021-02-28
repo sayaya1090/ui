@@ -1,0 +1,45 @@
+package net.sayaya.ui.sheet;
+
+import com.google.gwt.user.client.Random;
+import elemental2.core.JsArray;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.HTMLInputElement;
+import elemental2.dom.HTMLTableCellElement;
+import net.sayaya.ui.event.HasSelectionChangeHandlers;
+
+import java.util.Arrays;
+import java.util.Optional;
+
+public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Optional<Data>> {
+	Data[] value();
+	@Override
+	default Optional<Data> selection() {
+		return Arrays.stream(value()).filter(d->d.state() == Data.DataState.SELECTED).findAny();
+	}
+	static void header(Sheet sheet) {
+		Sheet.SheetConfiguration config = sheet.configuration();
+		config.afterGetRowHeaderRenderers(renderers->{
+			Data[] data = config.data();
+			String id = "Sheet-row-select-" + Random.nextInt();
+			JsArray.asJsArray(renderers).push((row, TH)->{
+				boolean checked = data[row].state() == Data.DataState.SELECTED;
+				TH.classList.add("row-header-checkbox");
+				TH.style.cursor = "pointer";
+				TH.innerHTML = "<input name='" + id + "' " +
+						"idx='" + data[row].idx() + "' " + (checked?"checked ":"") +
+						"type='radio' style='vertical-align: middle; margin: 0px;'/>";
+			});
+		}).rowHeaderWidth(30);
+		sheet.element().addEventListener("click", evt->{
+			HTMLElement target = (HTMLElement) evt.target;
+			if(target.classList.contains("row-header-checkbox")) {
+				HTMLTableCellElement th = (HTMLTableCellElement)target;
+				HTMLInputElement radio = (HTMLInputElement) th.firstElementChild;
+				radio.checked = true;
+				String idx = radio.getAttribute("idx");
+				Arrays.stream(config.data()).forEach(d->d.select(false));
+				Arrays.stream(config.data()).filter(d->idx.equals(d.idx())).findAny().get().select(true);
+			}
+		});
+	}
+}
