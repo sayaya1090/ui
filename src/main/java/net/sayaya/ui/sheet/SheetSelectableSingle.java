@@ -14,7 +14,9 @@ public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Option
 	Data[] value();
 	@Override
 	default Optional<Data> selection() {
-		return Arrays.stream(value()).filter(d->d.state() == Data.DataState.SELECTED).findAny();
+		return Arrays.stream(value())
+				.filter(d->d.state()==Data.DataState.SELECTED)
+				.findAny();
 	}
 	static void header(Sheet sheet) {
 		Sheet.SheetConfiguration config = sheet.configuration();
@@ -22,6 +24,7 @@ public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Option
 			Data[] data = config.data();
 			String id = "Sheet-row-select-" + Random.nextInt();
 			JsArray.asJsArray(renderers).push((row, TH)->{
+				if(data[row]==null) return;
 				boolean checked = data[row].state() == Data.DataState.SELECTED;
 				TH.classList.add("row-header-checkbox");
 				TH.style.cursor = "pointer";
@@ -35,6 +38,12 @@ public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Option
 			if(target.classList.contains("row-header-checkbox")) {
 				HTMLTableCellElement th = (HTMLTableCellElement)target;
 				HTMLInputElement radio = (HTMLInputElement) th.firstElementChild;
+				radio.checked = true;
+				String idx = radio.getAttribute("idx");
+				Arrays.stream(config.data()).forEach(d->d.select(false));
+				Arrays.stream(config.data()).filter(d->idx.equals(d.idx())).findAny().get().select(true);
+			} else if(target.parentElement!=null && target.parentElement.classList.contains("row-header-checkbox")) {
+				HTMLInputElement radio = (HTMLInputElement) target;
 				radio.checked = true;
 				String idx = radio.getAttribute("idx");
 				Arrays.stream(config.data()).forEach(d->d.select(false));

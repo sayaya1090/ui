@@ -51,7 +51,7 @@ public final class ColumnCheckBox implements ColumnBuilder {
 			value = normalize(value);
 			CheckBox elem = CheckBox.checkBox(value!=null?Boolean.parseBoolean(value):false).style("transform: scale(0.5)");
 			if(defaultHelper.readOnly()) elem.enabled(false);
-			else elem.onValueChange(evt->{
+			else if(data!=null) elem.onValueChange(evt->{
 				data.put(id, evt!=null?String.valueOf(evt.value()):"false");
 				dataChangeHelper.apply(sheet, td, row, prop);
 			});

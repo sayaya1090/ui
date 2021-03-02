@@ -16,6 +16,8 @@ import net.sayaya.ui.sheet.function.AfterGetRowHeaderRenderers;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.jboss.elemento.Elements.div;
 
@@ -44,8 +46,13 @@ public final class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 		Scheduler.get().scheduleDeferred(()->table.updateSettings(configuration));
 		return that();
 	}
-	public Sheet value(Data data) {
-		configuration.add(data);
+	public Sheet append(Data data) {
+		configuration.append(data);
+		Scheduler.get().scheduleDeferred(()->table.updateSettings(configuration));
+		return that();
+	}
+	public Sheet delete(String id) {
+		configuration.delete(id);
 		Scheduler.get().scheduleDeferred(()->table.updateSettings(configuration));
 		return that();
 	}
@@ -177,9 +184,18 @@ public final class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 			return this;
 		}
 		@JsOverlay
-		public SheetConfiguration add(Data item) {
+		public SheetConfiguration append(Data item) {
 			if(data == null) data = new Data[] {};
 			JsArray.asJsArray(data).push(item);
+			return this;
+		}
+		@JsOverlay
+		public SheetConfiguration delete(String id) {
+			if(data == null) return this;
+			JsArray.asJsArray(data).forEach((d, i, arr)->{
+				if(id.equals(d.idx())) arr.splice(i, 1);
+				return null;
+			});
 			return this;
 		}
 		@JsOverlay
