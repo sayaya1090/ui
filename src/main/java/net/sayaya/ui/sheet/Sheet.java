@@ -16,18 +16,16 @@ import net.sayaya.ui.sheet.function.AfterGetRowHeaderRenderers;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.jboss.elemento.Elements.div;
 
-public final class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
+public class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 	public static SheetConfiguration builder() {
 		return new SheetConfiguration();
 	}
 	private final Handsontable table;
 	private final SheetConfiguration configuration;
-	private Sheet(SheetConfiguration setting) {
+	Sheet(SheetConfiguration setting) {
 		this(div(), setting);
 	}
 	private Sheet(HtmlContentBuilder<HTMLDivElement> e, SheetConfiguration setting) {

@@ -1,5 +1,6 @@
 package net.sayaya.ui.sheet;
 
+import elemental2.core.Function;
 import elemental2.core.JsArray;
 import jsinterop.annotations.*;
 import jsinterop.base.Js;
@@ -72,4 +73,15 @@ public class Data implements HasStateChangeHandlers<Data.DataState> {
 	public enum DataState {
 		UNSELECTED, SELECTED
 	}
+
+	private native Data proxy(Data origin, Function callback) /*-{
+		var proxy = new Proxy(origin, {
+			set: function(target, key, value, receiver) {
+				var result = Reflect.set(target, key, value, receiver);
+				callback(key, value);
+				return result;
+			}
+		});
+		return proxy;
+	}-*/;
 }

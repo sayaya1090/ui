@@ -16,7 +16,7 @@ public interface HasSelectionChangeHandlers<T> {
         private Event event;
         private T selection;
         public static <T> SelectionChangeEvent<T> event(Event event, T value) {
-            SelectionChangeEvent<T> evt = new SelectionChangeEvent<T>();
+            SelectionChangeEvent<T> evt = new SelectionChangeEvent<>();
             evt.event = event;
             evt.selection = value;
             return evt;
