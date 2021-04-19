@@ -51,19 +51,19 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 	public static TextFieldBuilder<String> textBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.text).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->v)
+											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<Double> numberBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input").style("text-align: right; padding-right: 0px;");
 		return new TextFieldBuilder<Double>().input(input)
-											 .setter(v->v!=null?String.valueOf(v):null)
+											 .setter(v->v!=null?String.valueOf(v):"")
 											 .getter(()->input.element().valueAsNumber);
 	}
 	public static TextFieldBuilder<String> emailBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.email).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->v)
+											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	private final static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd");
@@ -71,20 +71,20 @@ public abstract class TextField<V> extends HTMLElementBuilder<HTMLLabelElement, 
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.date).css("mdc-text-field__input");
 		return new TextFieldBuilder<JsDate>().input(input)
 											 .setter(v->{
-											 	if(v==null) return null;
+											 	if(v==null) return "";
 											 	return DTF.format(new Date((long) v.getTime()));
 											 }).getter(()->input.element().valueAsDate);
 	}
 	public static TextFieldBuilder<String> fileBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->v)
+											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<String> password() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.password).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->v)
+											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	private static native MDCTextField inject(Element elem) /*-{

@@ -48,7 +48,7 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 	public static TextFieldBuilder<String> textBox() {
 		TextContentBuilder<HTMLTextAreaElement> input = Elements.textarea().css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
-											 .setter(v->v)
+											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	private static native MDCTextField inject(Element elem) /*-{
