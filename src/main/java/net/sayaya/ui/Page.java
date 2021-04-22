@@ -20,6 +20,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	private long total;
 	private long idx;
 	private int show;
+	private Boolean isAsc;
 	private final HtmlContentBuilder<HTMLLabelElement> lblTotal = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: auto;");
 	private final HtmlContentBuilder<HTMLLabelElement> lblPageMax = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
 	private final HtmlContentBuilder<HTMLLabelElement> lblIdxFirst = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; ");
@@ -28,13 +29,18 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	private final Button btnNext = Button.icon("chevron_right");
 	private final Button btnFirst = Button.icon("first_page");
 	private final Button btnLast = Button.icon("last_page");
+	private final HtmlContentBuilder<HTMLDivElement> sort = div().style("display: flex;");
+	private DropDown iptSort = null;
+	private final DropDown iptAsc = DropDown.outlined(List.singleLineList().add(List.singleLine().label("Asc")).add(List.singleLine().label("Desc"))).style("width: 120px;")
+			.text("Order");
 	private final TextField<Double> iptPage = TextField.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; border: 1px solid #DDD; font-size: 13px !important;").attr("min", "1");
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	public Page(HtmlContentBuilder<HTMLDivElement> e) {
-		super(e);
+		super(e.css("page"));
 		_this = e.add(lblIdxFirst)
 				 .add(lblIdxLast)
 				 .add(lblTotal)
+				 .add(sort)
 				 .add(btnFirst)
 				 .add(btnPrevious)
 				 .add(iptPage)
@@ -72,6 +78,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 			iptPage.value(1.0);
 			page(page.longValue());
 		});
+		iptAsc.onSelectionChange(evt->fire());
 	}
 	public long total() {
 		return total;
@@ -139,6 +146,24 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	private void page(long page) {
 		idx(show*(page-1));
 		fire();
+	}
+	public Page sortable(String c1, String... columns) {
+		List<List.SingleLineItem> listSort = List.singleLineList();
+		listSort.add(List.singleLine().label(c1));
+		if(columns!=null) for(String column: columns) listSort.add(List.singleLine().label(column));
+		iptSort = DropDown.outlined(listSort).text("Sort column").style("width: 160px;");
+		iptSort.onSelectionChange(evt->{
+			try { fire(); } catch(Exception ignore){}
+		});
+		sort.add(iptSort).add(iptAsc);
+		return that();
+	}
+	public boolean isAsc() {
+		if(isAsc == null) return true;
+		else return isAsc;
+	}
+	public String sortBy() {
+		return iptSort.value();
 	}
 	@Override
 	public Page that() {
