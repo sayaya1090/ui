@@ -78,7 +78,12 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 			iptPage.value(1.0);
 			page(page.longValue());
 		});
-		iptAsc.onSelectionChange(evt->fire());
+		iptAsc.onSelectionChange(evt->{
+			if("Asc".equalsIgnoreCase(iptAsc.value())) this.isAsc = true;
+			else if("Desc".equalsIgnoreCase(iptAsc.value())) this.isAsc = false;
+			else this.isAsc = null;
+			try { fire(); } catch(Exception ignore){}
+		});
 	}
 	public long total() {
 		return total;
@@ -156,6 +161,13 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 		iptSort.onSelectionChange(evt->{
 			try { fire(); } catch(Exception ignore){}
 		});
+		return that();
+	}
+	public Page sort(String column, boolean isAsc) {
+		if(iptSort == null) return that();
+		iptSort.select(column);
+		if(isAsc) iptAsc.select(0);
+		else iptAsc.select(1);
 		return that();
 	}
 	public boolean isAsc() {
