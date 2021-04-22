@@ -32,8 +32,8 @@ public class Test implements EntryPoint {
 		TestChip();
 		TestList();
 		// TestDialog();
-		/*TestPage();
-		TestTab();*/
+		TestPage();
+		//TestTab();*/
 		TestSheet();
 	}
 
@@ -228,6 +228,7 @@ public class Test implements EntryPoint {
 	}*/
 	private void TestPage() {
 		Page page = Page.instance().idx(0).show(30).total(1000);
+		page.sortable("A1", "AC", "CC");
 		content.add(page);
 	}
 
