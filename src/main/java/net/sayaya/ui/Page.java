@@ -33,7 +33,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	private DropDown iptSort = null;
 	private final DropDown iptAsc = DropDown.outlined(List.singleLineList().add(List.singleLine().label("Asc")).add(List.singleLine().label("Desc"))).style("width: 120px;")
 			.text("Order");
-	private final TextField<Double> iptPage = TextField.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; border: 1px solid #DDD; font-size: 13px !important;").attr("min", "1");
+	private final TextField<Double> iptPage = TextField.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; font-size: 13px !important;").attr("min", "1");
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	public Page(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e.css("page"));
