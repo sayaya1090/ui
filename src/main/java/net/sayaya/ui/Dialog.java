@@ -50,7 +50,6 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	private final HtmlContentBuilder<HTMLDivElement> surface = div().css("mdc-dialog__surface").attr("role", "alertdialog");
 	private final HtmlContentBuilder<HTMLDivElement> scrim = div().css("mdc-dialog__scrim");
 	private final HtmlContentBuilder<HTMLDivElement> container = div().css("mdc-dialog__container").add(surface);
-	@Delegate
 	private MCDDialog mdc;
 	private Dialog() {
 		this(div());
@@ -93,6 +92,12 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	public Dialog add(IsElement<?> element) {
 		content.add(element);
 		return that();
+	}
+	public final void open() {
+		mdc.open();
+	}
+	public final void close() {
+		mdc.close();
 	}
 	@Override
 	public Dialog that() {
