@@ -8,29 +8,29 @@ import org.jboss.elemento.HtmlContentBuilder;
 import static org.jboss.elemento.Elements.a;
 import static org.jboss.elemento.Elements.div;
 
-public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
-	public static Breadcumb home(Icon icon, EventListener listener) {
-		return new Breadcumb(div().style("display: flex; margin-top: 5px; margin-bottom: 5px;"), icon, listener);
+public class BreadcumbElement extends HTMLElementBuilder<HTMLDivElement, BreadcumbElement> {
+	public static BreadcumbElement home(IconElement iconElement, EventListener listener) {
+		return new BreadcumbElement(div().style("display: flex; margin-top: 5px; margin-bottom: 5px;"), iconElement, listener);
 	}
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private Element splitter;
-	private Breadcumb(HtmlContentBuilder<HTMLDivElement> e, Icon icon, EventListener listener) {
+	private BreadcumbElement(HtmlContentBuilder<HTMLDivElement> e, IconElement iconElement, EventListener listener) {
 		super(e);
-		_this = e.add(wrap(icon, listener));
-		splitter(Icon.icon("double_arrow").element());
+		_this = e.add(wrap(iconElement, listener));
+		splitter(IconElement.icon("double_arrow").element());
 	}
-	public Breadcumb add(String label, EventListener listener) {
+	public BreadcumbElement add(String label, EventListener listener) {
 		return add(label, listener, "#");
 	}
-	public Breadcumb add(String label, EventListener listener, String url) {
+	public BreadcumbElement add(String label, EventListener listener, String url) {
 		_this.add(splitter.cloneNode(true)).add(wrap(a(url).add(label), listener));
 		return that();
 	}
-	public Breadcumb add(Icon icon, EventListener listener) {
-		_this.add(splitter.cloneNode(true)).add(wrap(icon, listener));
+	public BreadcumbElement add(IconElement iconElement, EventListener listener) {
+		_this.add(splitter.cloneNode(true)).add(wrap(iconElement, listener));
 		return that();
 	}
-	public Breadcumb splitter(HTMLElement splitter) {
+	public BreadcumbElement splitter(HTMLElement splitter) {
 		this.splitter = splitter;
 		CSSStyleDeclaration style = splitter.style;
 		style.marginLeft = CSSProperties.MarginLeftUnionType.of("2em");
@@ -54,7 +54,7 @@ public class Breadcumb extends HTMLElementBuilder<HTMLDivElement, Breadcumb> {
 		return elem;
 	}
 	@Override
-	public Breadcumb that() {
+	public BreadcumbElement that() {
 		return this;
 	}
 }

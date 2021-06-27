@@ -3,16 +3,15 @@ package net.sayaya.ui;
 import com.google.gwt.core.client.*;
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
-import net.sayaya.ui.sheet.Column;
 import net.sayaya.ui.sheet.Data;
-import net.sayaya.ui.sheet.Sheet;
-import net.sayaya.ui.sheet.SheetSelectableSingle;
+import net.sayaya.ui.sheet.SheetElement;
+import net.sayaya.ui.sheet.SheetElementSelectableSingle;
 import net.sayaya.ui.sheet.column.ColumnBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 
-import static net.sayaya.ui.Icon.icon;
+import static net.sayaya.ui.IconElement.icon;
 import static org.jboss.elemento.Elements.*;
 
 public class Test implements EntryPoint {
@@ -38,46 +37,46 @@ public class Test implements EntryPoint {
 	}
 
 	void LayoutTest() {
-		TopBar.TopBarButton menu = TopBar.buttonNavigation("menu");
-		TopBar top = TopBar.topBarFixed()
-						   .add(TopBar.section().add(menu).title("Test Top Bar"))
-						   .add(TopBar.section().right().add(TopBar.buttonAction("file_download")))
+		TopBarElement.TopBarButton menu = TopBarElement.buttonNavigation("menu");
+		TopBarElement top = TopBarElement.topBarFixed()
+						   .add(TopBarElement.section().add(menu).title("Test Top Bar"))
+						   .add(TopBarElement.section().right().add(TopBarElement.buttonAction("file_download")))
 						   .target(content);
 		HtmlContentBuilder<HTMLDivElement> div = div().add(top).add(content);
-		Drawer drawer = Drawer.drawer().header(Drawer.header()
+		DrawerElement drawer = DrawerElement.drawer().header(DrawerElement.header()
 													 .title(label().add("Mail"))
 													 .subtitle(label().add("AAA")))
-							  .content(Drawer.content()
+							  .content(DrawerElement.content()
 											 .header("Mail")
 											 .divider()
-											 .add(Drawer.item().icon(Icon.icon("inbox")).text("Inbox").activate(true))
-											 .add(Drawer.item().icon(Icon.icon("star")).text("Star").activate(true))
-											 .add(Drawer.item().icon(Icon.icon("send")).text("Sent Main")))
+											 .add(DrawerElement.item().icon(IconElement.icon("inbox")).text("Inbox").activate(true))
+											 .add(DrawerElement.item().icon(IconElement.icon("star")).text("Star").activate(true))
+											 .add(DrawerElement.item().icon(IconElement.icon("send")).text("Sent Main")))
 							  .target(div);
 		Elements.body().add(drawer);
 		Elements.body().add(div);
 		menu.onClick(evt->drawer.toggle());
 	}
 	void TestBreadcumb() {
-		Breadcumb elem = Breadcumb.home(Icon.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(Icon.icon("article"), evt->{});
+		BreadcumbElement elem = BreadcumbElement.home(IconElement.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(IconElement.icon("article"), evt->{});
 		content.add(elem);
 	}
 	void ProgressTest() {
-		ProgressBar elem = ProgressBar.progressBar().determinate(true).buffer(0.5).progress(0.2);
+		ProgressBarElement elem = ProgressBarElement.progressBar().determinate(true).buffer(0.5).progress(0.2);
 		content.add(elem);
 	}
 	void RadioTest() {
-		Radio<String> a = Radio.radio("RADIO", "A");
-		Radio<String> b = Radio.radio("RADIO", "B");
-		Radio<String> c = Radio.radio("RADIO", "C");
-		Radio<String> d = Radio.radio("RADIO", "D");
+		RadioElement<String> a = RadioElement.radio("RADIO", "A");
+		RadioElement<String> b = RadioElement.radio("RADIO", "B");
+		RadioElement<String> c = RadioElement.radio("RADIO", "C");
+		RadioElement<String> d = RadioElement.radio("RADIO", "D");
 		a.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
 		});
 		content.add(a).add(b).add(c).add(d).element();
 	}
 	void AnimationTest() {
-		Button tmp = Button.contain().text("Text Button").style("position: relative");
+		ButtonElement tmp = ButtonElement.contain().text("Text Button").style("position: relative");
 		content.add(tmp);
 		Animation.AnimationImpl t = Animation.animate(tmp.element(), 5000
 				, JsPropertyMap.of("left", "0px", "backgroundColor", "#FF00FF", "opacity", "1")
@@ -91,93 +90,93 @@ public class Test implements EntryPoint {
 	}
 	void TestChip() {
 
-		ChipCheckable chip3 = Chip.check("Chip 3").before(Icon.icon("face")).value(true);
-		ChipCheckable chip4 = Chip.check("Chip 4").before(Icon.icon("face"));
-		ChipSet chips = ChipSet.filters(chip3, chip4);
+		ChipElementCheckable chip3 = ChipElement.check("Chip 3").before(IconElement.icon("face")).value(true);
+		ChipElementCheckable chip4 = ChipElement.check("Chip 4").before(IconElement.icon("face"));
+		ChipSetElement chips = ChipSetElement.filters(chip3, chip4);
 		content.add(chips);
 		//chips.add(chip3).add(chip4);
 
 	}
 	void TestList() {
-		ListGroup group = ListGroup.group();
-		group.add(ListGroup.header(3).textContent("List Single line"))
-			 .add(List.singleLineList()
-					  .add(List.singleLine().label("AA").trailing(Switch.sw()))
-					  .add(List.singleLine().label("BB"))
-					  .add(List.singleLine().label("CC"))
+		ListGroupElement group = ListGroupElement.group();
+		group.add(ListGroupElement.header(3).textContent("List Single line"))
+			 .add(ListElement.singleLineList()
+					  .add(ListElement.singleLine().label("AA").trailing(SwitchElement.sw()))
+					  .add(ListElement.singleLine().label("BB"))
+					  .add(ListElement.singleLine().label("CC"))
 					  .divider()
-					  .add(List.singleLine().label("DD"))
-					  .add(List.singleLine().label("EE")))
-			 .add(ListGroup.header(3).textContent("List Double line"))
-			 .add(List.doubleLineList()
-					  .add(List.doubleLine().primary("AA"))
-					  .add(List.doubleLine().primary("BB").secondary("CCCCCCCCC").leading(Icon.icon("event")))
-					  .add(List.doubleLine().primary("CC").secondary("CCCCCCCCC"))
+					  .add(ListElement.singleLine().label("DD"))
+					  .add(ListElement.singleLine().label("EE")))
+			 .add(ListGroupElement.header(3).textContent("List Double line"))
+			 .add(ListElement.doubleLineList()
+					  .add(ListElement.doubleLine().primary("AA"))
+					  .add(ListElement.doubleLine().primary("BB").secondary("CCCCCCCCC").leading(IconElement.icon("event")))
+					  .add(ListElement.doubleLine().primary("CC").secondary("CCCCCCCCC"))
 					  .divider()
-					  .add(List.doubleLine().primary("DD").secondary("CCCCCCCCC"))
-					  .add(List.doubleLine().primary("EE").secondary("CCCCCCCCC")));
+					  .add(ListElement.doubleLine().primary("DD").secondary("CCCCCCCCC"))
+					  .add(ListElement.doubleLine().primary("EE").secondary("CCCCCCCCC")));
 		content.add(group);
 	}
 	private void TestCheckBox() {
-		CheckBox checkBox = CheckBox.checkBox(true).text("Test");
-		content.add(checkBox);
-		checkBox.onValueChange(evt->
-			DomGlobal.console.log(evt.value() + ", " + checkBox.value())
+		CheckBoxElement checkBoxElement = CheckBoxElement.checkBox(true).text("Test");
+		content.add(checkBoxElement);
+		checkBoxElement.onValueChange(evt->
+			DomGlobal.console.log(evt.value() + ", " + checkBoxElement.value())
 		);
 	}
 
 	private void TestDropDown() {
-		List<List.SingleLineItem> list = List.singleLineList()
-				.add(List.singleLine().label("AA"))
-				.add(List.singleLine().label("BB"))
-				.add(List.singleLine().label("CC"))
-				.add(List.singleLine().label("DD"))
-				.add(List.singleLine().label("EE"));
-		DropDown dropdown = DropDown.outlined(list).text("Dropdown").style("width: 300px;");
+		ListElement<ListElement.SingleLineItem> listElement = ListElement.singleLineList()
+				.add(ListElement.singleLine().label("AA"))
+				.add(ListElement.singleLine().label("BB"))
+				.add(ListElement.singleLine().label("CC"))
+				.add(ListElement.singleLine().label("DD"))
+				.add(ListElement.singleLine().label("EE"));
+		DropDownElement dropdown = DropDownElement.outlined(listElement).text("Dropdown").style("width: 300px;");
 		content.add(dropdown);
 		dropdown.onValueChange(evt->{
 			DomGlobal.console.log(evt.value());
 		});
-		List<List.SingleLineItem> list2 = List.singleLineList()
-				.add(List.singleLine().label("AA").attr("data-value", "A"))
-				.add(List.singleLine().label("BB").attr("data-value", "B"))
-				.add(List.singleLine().label("CC").attr("data-value", "C"))
-				.add(List.singleLine().label("DD").attr("data-value", "D"))
-				.add(List.singleLine().label("EE").attr("data-value", "E"));
-		DropDown dropdown2 = DropDown.filled(list2);
+		ListElement<ListElement.SingleLineItem> listElement2 = ListElement.singleLineList()
+				.add(ListElement.singleLine().label("AA").attr("data-value", "A"))
+				.add(ListElement.singleLine().label("BB").attr("data-value", "B"))
+				.add(ListElement.singleLine().label("CC").attr("data-value", "C"))
+				.add(ListElement.singleLine().label("DD").attr("data-value", "D"))
+				.add(ListElement.singleLine().label("EE").attr("data-value", "E"));
+		DropDownElement dropdown2 = DropDownElement.filled(listElement2);
 		content.add(dropdown2);
 		dropdown2.onSelectionChange(evt->{
 			DomGlobal.alert(dropdown2.value());
 		});
 	}
 	void TestButton() {
-		Button tmp = Button.contain().text("Text Button");
+		ButtonElement tmp = ButtonElement.contain().text("Text Button");
 		HandlerRegistration handler = tmp.onClick(evt->{
 			DomGlobal.alert("Hello, World!!");
 		});
 		content.add(tmp);
 
-		Button tmp2 = Button.flat().text("Button Enabled")
-							.before(Icon.icon("sync"))
+		ButtonElement tmp2 = ButtonElement.flat().text("Button Enabled")
+							.before(IconElement.icon("sync"))
 							.enabled(true);
 		content.add(tmp2);
 
-		Button tmp3 = Button.contain().text("Button Disabled").enabled(false);
+		ButtonElement tmp3 = ButtonElement.contain().text("Button Disabled").enabled(false);
 		content.add(tmp3);
 
-		Button tmp4 = Button.outline().text("Button Focused");
+		ButtonElement tmp4 = ButtonElement.outline().text("Button Focused");
 		tmp4.element().accessKey = "A";
 		tmp4.element().focus();
 		content.add(tmp4);
 
-		Button tmp5 = Button.floating(Icon.icon("add"));
+		ButtonElement tmp5 = ButtonElement.floating(IconElement.icon("add"));
 		content.add(tmp5);
 
-		Button tmp6 = Button.floating(Icon.icon("add")).text("Create");
+		ButtonElement tmp6 = ButtonElement.floating(IconElement.icon("add")).text("Create");
 		tmp6.onClick(evt->DomGlobal.alert("Created"));
 		content.add(tmp6);
 
-		ButtonToggle tmp7 = Button.toggle().text("Toggle");
+		ButtonElementToggle tmp7 = ButtonElement.toggle().text("Toggle");
 		tmp7.onValueChange(evt->{
 			DomGlobal.alert(evt.value()+"");
 		});
@@ -189,24 +188,24 @@ public class Test implements EntryPoint {
 	}
 
 	void TestText() {
-		TextField<String> tmp1 = TextField.textBox().outlined().text("tmp1").before(Icon.icon("favorite")).value("FFF");
+		TextFieldElement<String> tmp1 = TextFieldElement.textBox().outlined().text("tmp1").before(IconElement.icon("favorite")).value("FFF");
 		tmp1.onValueChange(evt->{
 		//	DomGlobal.alert(evt.value());
 		});
 		content.add(tmp1);
-		TextField tmp3 = TextField.textBox().outlined().before(icon("title")).text("Title").style("width: 100%;").required(true);
+		TextFieldElement tmp3 = TextFieldElement.textBox().outlined().before(icon("title")).text("Title").style("width: 100%;").required(true);
 		content.add(tmp3);
 		Scheduler.get().scheduleFixedDelay(()->{
 			tmp3.value("FFFFFFFFFFFFFFFFF");
 			return false;
 		}, 1000);
 		//content.add(TextField.dateBox().outlined().before(icon("today")).text("Date").required(true).value(new JsDate((double) 1595919979408L)));
-		TextField<String> tmp2 = TextField.password().filled().text("tmp2").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
+		TextFieldElement<String> tmp2 = TextFieldElement.password().filled().text("tmp2").before(IconElement.icon("vpn_key")).trailing(IconElement.icon("visibility"));
 		tmp2.onValueChange(evt->{
 			DomGlobal.console.log(evt.value());
 		});
 		content.add(tmp2);
-		TextArea<String> tmp4 = TextArea.textBox().filled().text("tmp4").before(Icon.icon("vpn_key")).trailing(Icon.icon("visibility"));
+		TextAreaElement<String> tmp4 = TextAreaElement.textBox().filled().text("tmp4").before(IconElement.icon("vpn_key")).trailing(IconElement.icon("visibility"));
 		content.add(tmp4);
 	}
 	/*void TestDialog() {
@@ -227,33 +226,33 @@ public class Test implements EntryPoint {
 		dialog2.open();
 	}*/
 	private void TestPage() {
-		Page page = Page.instance().idx(0).show(30).total(1000);
+		PageElement page = PageElement.instance().idx(0).show(30).total(1000);
 		page.sortable("A1", "AC", "CC");
 		content.add(page);
 	}
 
 	private void TestSwtich() {
-		Switch sw = Switch.sw();
+		SwitchElement sw = SwitchElement.sw();
 		content.add(sw);
 		sw.onValueChange(evt->{
 			DomGlobal.alert(evt.value() + "!");
 		});
 	}
 	private void TestTab() {
-		TabBar tab = TabBar.tabBar(TabBar.tab().text("Favorites").icon("favorite"), TabBar.tab().text("Favorites").icon("favorite"), TabBar.tab().text("Favorites").icon("favorite")).activate(0);
+		TabBarElement tab = TabBarElement.tabBar(TabBarElement.tab().text("Favorites").icon("favorite"), TabBarElement.tab().text("Favorites").icon("favorite"), TabBarElement.tab().text("Favorites").icon("favorite")).activate(0);
 		content.add(tab);
 		tab.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
 		});
 	}
 	private void TestSheet() {
-		Sheet sheet = Sheet.builder()
+		SheetElement sheetElement = SheetElement.builder()
 				.columns(ColumnBuilder.string("A").name("A").pattern("^a$").colorConditional("red").colorConditionalBackground("yellow").color("blue").build(),
 						ColumnBuilder.string("B").build(),
 						ColumnBuilder.checkbox("C").build()).build();
-		SheetSelectableSingle.header(sheet);
-		content.add(sheet);
-		sheet.values(new Data[] {
+		SheetElementSelectableSingle.header(sheetElement);
+		content.add(sheetElement);
+		sheetElement.values(new Data[] {
 			new Data("1").put("A", "FFF"), new Data("2").put("A", "a"), new Data("3")
 		});
 	}

@@ -11,10 +11,10 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.EventType.bind;
 
 public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
-	public static Dialog alert(String msg, ButtonText action1) {
+	public static Dialog alert(String msg, ButtonElementText action1) {
 		return alert(msg, action1, null);
 	}
-	public static Dialog alert(String msg, ButtonText action1, ButtonText action2) {
+	public static Dialog alert(String msg, ButtonElementText action1, ButtonElementText action2) {
 		Dialog elem = new Dialog().add(msg).action(action1).action(action2);
 		elem.mdc = inject(elem.element());
 		return elem;
@@ -24,10 +24,10 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 		elem.mdc = inject(elem.element());
 		return elem;
 	}
-	public static Dialog confirmation(String title, ButtonText action1) {
+	public static Dialog confirmation(String title, ButtonElementText action1) {
 		return confirmation(title, action1, null);
 	}
-	public static Dialog confirmation(String title, ButtonText action1, ButtonText action2) {
+	public static Dialog confirmation(String title, ButtonElementText action1, ButtonElementText action2) {
 		Dialog elem = new Dialog().title(title).action(action1).action(action2);
 		elem.mdc = inject(elem.element());
 		return elem;
@@ -74,7 +74,7 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 		layout();
 		return that();
 	}
-	private Dialog action(ButtonText btn) {
+	private Dialog action(ButtonElementText btn) {
 		if(btn == null) return that();
 		if(actions == null) actions = div().css("mdc-dialog__actions");
 		btn.css("mdc-dialog__button");

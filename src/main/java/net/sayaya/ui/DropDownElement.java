@@ -15,17 +15,17 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 import static org.jboss.elemento.EventType.bind;
 
-public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDown> implements HasValueChangeHandlers<String>, HasSelectionChangeHandlers<Integer> {
-	public static DropDown filled(List list) {
-		DropDown elem = new DropDownFilled(div(), list);
+public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement, DropDownElement> implements HasValueChangeHandlers<String>, HasSelectionChangeHandlers<Integer> {
+	public static DropDownElement filled(ListElement listElement) {
+		DropDownElement elem = new DropDownFilled(div(), listElement);
 		bind(elem.element,"DOMNodeInserted", evt->{
 			elem._mdc = inject(elem.element());
 			elem._foundation = foundation(elem._mdc);
 		});
 		return elem;
 	}
-	public static DropDown outlined(List list) {
-		DropDown elem = new DropDownOutlined(div(), list);
+	public static DropDownElement outlined(ListElement listElement) {
+		DropDownElement elem = new DropDownOutlined(div(), listElement);
 		elem._mdc = inject(elem.element());
 		elem._foundation = foundation(elem._mdc);
 		return elem;
@@ -47,10 +47,10 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 	protected final HtmlContentBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg);
 	private final SVGPolygonElement inactive = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
 	private final SVGPolygonElement active = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
-	protected final List<?> list;
-	protected DropDown(HtmlContentBuilder<HTMLDivElement> e, List<?> list) {
+	protected final ListElement<?> listElement;
+	protected DropDownElement(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 		super(e);
-		this.list = list;
+		this.listElement = listElement;
 		String id = DOM.createUniqueId();
 		label.id(id);
 		anchor.attr("aria-labelledby", id);
@@ -67,7 +67,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 		active.setAttribute("fill-rule", "evenodd");
 		active.classList.add("mdc-select__dropdown-icon-active");
 	}
-	public final DropDown text(String label) {
+	public final DropDownElement text(String label) {
 		this.label.textContent(label);
 		return that();
 	}
@@ -75,16 +75,16 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 	public Integer selection() {
 		return _mdc.selectedIndex();
 	}
-	public DropDown select(int idx) {
+	public DropDownElement select(int idx) {
 		_foundation.setSelectedIndex(idx);
 		return that();
 	}
-	public DropDown select(String value) {
-		Integer n = list.indexOf(value);
+	public DropDownElement select(String value) {
+		Integer n = listElement.indexOf(value);
 		if(n != null) select(n);
 		return that();
 	}
-	public final DropDown enabled(boolean enabled) {
+	public final DropDownElement enabled(boolean enabled) {
 		if(!enabled) {
 			css("mdc-select--disable");
 			anchor.attr("aria-disabled", "true");
@@ -112,13 +112,13 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 		return bind(value.element(), "DOMSubtreeModified", wrapper);
 	}
 
-	private final static class DropDownFilled extends DropDown {
+	private final static class DropDownFilled extends DropDownElement {
 		private final HtmlContentBuilder<HTMLElement> ripple = span().css("mdc-select__ripple");
 		private final HtmlContentBuilder<HTMLElement> ripple2 = span().css("mdc-line-ripple");
 		private final HtmlContentBuilder<HTMLDivElement> menu = div().css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth");
 		private final HtmlContentBuilder<HTMLDivElement> _this;
-		public DropDownFilled(HtmlContentBuilder<HTMLDivElement> e, List<?> list) {
-			super(e, list);
+		public DropDownFilled(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
+			super(e, listElement);
 			_this = e;
 			layout();
 		}
@@ -130,7 +130,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 							.add(arrow)
 							.add(label)
 							.add(ripple2))
-					.add(menu.add(list));
+					.add(menu.add(listElement));
 		}
 
 		@Override
@@ -138,15 +138,15 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 			return this;
 		}
 	}
-	private final static class DropDownOutlined extends DropDown {
+	private final static class DropDownOutlined extends DropDownElement {
 		private final HtmlContentBuilder<HTMLElement> outline = span().css("mdc-notched-outline");
 		private final HtmlContentBuilder<HTMLElement> outlineLeading = span().css("mdc-notched-outline__leading");
 		private final HtmlContentBuilder<HTMLElement> outlineNotch = span().css("mdc-notched-outline__notch");
 		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span().css("mdc-notched-outline__trailing");
 		private final HtmlContentBuilder<HTMLDivElement> menu = div().css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth");
 		private final HtmlContentBuilder<HTMLDivElement> _this;
-		public DropDownOutlined(HtmlContentBuilder<HTMLDivElement> e, List<?> list) {
-			super(e, list);
+		public DropDownOutlined(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
+			super(e, listElement);
 			_this = e;
 			layout();
 		}
@@ -155,7 +155,7 @@ public abstract class DropDown extends HTMLElementBuilder<HTMLDivElement, DropDo
 					.add(anchor.add(outline.add(outlineLeading).add(outlineNotch.add(label)).add(outlineTrailing))
 							   .add(value)
 							   .add(arrow))
-					.add(menu.add(list));
+					.add(menu.add(listElement));
 		}
 
 		@Override

@@ -20,9 +20,9 @@ import static net.sayaya.ui.Animation.animate;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
-public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, ChipCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
+public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElement, ChipElementCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-	private static native Chip.MdcChip inject(Element elem) /*-{
+	private static native ChipElement.MdcChip inject(Element elem) /*-{
         return $wnd.mdc.chips.MDCChip.attachTo(elem);
     }-*/;
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-chip__ripple");
@@ -35,9 +35,9 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 															   .add(btn);
 	private IsElement<?> iconTrailing;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	Chip.MdcChip _mdc;
+	ChipElement.MdcChip _mdc;
 	boolean value;
-	ChipCheckable(HtmlContentBuilder<HTMLDivElement> e) {
+	ChipElementCheckable(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -51,27 +51,27 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 		_this.add(cell);
 		if(iconTrailing!=null) _this.add(iconTrailing);
 	}
-	public ChipCheckable text(String text) {
+	public ChipElementCheckable text(String text) {
 		label.textContent(text);
 		return that();
 	}
 	public String text() {
 		return label.element().innerHTML;
 	}
-	public ChipCheckable before(Icon icon) {
-		if(icon!=null) icon.css("mdc-chip__icon", "mdc-chip__icon--leading");
-		this.iconBefore = icon;
+	public ChipElementCheckable before(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading");
+		this.iconBefore = iconElement;
 		layout();
 		return that();
 	}
-	public ChipCheckable trailing(Icon icon) {
-		if(icon!=null) icon.css("mdc-chip__icon", "mdc-chip__icon--trailing");
-		this.iconTrailing = icon;
+	public ChipElementCheckable trailing(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing");
+		this.iconTrailing = iconElement;
 		layout();
 		return that();
 	}
-	public ChipCheckable removable() {
-		Icon remove = Icon.icon("close");
+	public ChipElementCheckable removable() {
+		IconElement remove = IconElement.icon("close");
 		remove.on(EventType.click, evt->{
 			Animation.AnimationImpl fade = animate(element(), 150, JsPropertyMap.of("opacity", "1"), JsPropertyMap.of("opacity", "0"));
 			if(fade!=null) fade.onfinish = () -> element().remove();
@@ -80,7 +80,7 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 		trailing(remove);
 		return this;
 	}
-	public ChipCheckable value(boolean value) {
+	public ChipElementCheckable value(boolean value) {
 		this.value = value;
 		if(_mdc!=null) _mdc.selected = value;
 		return this;
@@ -125,7 +125,7 @@ public final class ChipCheckable extends HTMLElementBuilder<HTMLDivElement, Chip
 		return onDetach(element(), listener);
 	}
 	@Override
-	public ChipCheckable that() {
+	public ChipElementCheckable that() {
 		return this;
 	}
 }

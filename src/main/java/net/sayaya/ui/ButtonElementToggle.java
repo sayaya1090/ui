@@ -1,8 +1,6 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import jsinterop.annotations.JsPackage;
-import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -14,7 +12,7 @@ import java.util.Set;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
-public class ButtonToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonToggle> implements Button, HasValueChangeHandlers<Boolean> {
+public class ButtonElementToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonElementToggle> implements ButtonElement, HasValueChangeHandlers<Boolean> {
 	static native void inject(Element elem) /*-{
         $wnd.mdc.ripple.MDCRipple.attachTo(elem);
     }-*/;
@@ -24,7 +22,7 @@ public class ButtonToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonTo
 	private IsElement<?> iconTrailing;
 	private boolean value;
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	ButtonToggle(HtmlContentBuilder<HTMLButtonElement> e) {
+	ButtonElementToggle(HtmlContentBuilder<HTMLButtonElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -43,28 +41,28 @@ public class ButtonToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonTo
 		else ncss("mdc-button--on");
 	}
 	@Override
-	public final ButtonToggle enabled(boolean enabled) {
+	public final ButtonElementToggle enabled(boolean enabled) {
 		if(enabled) this.attr("disabled", null);
 		else _this.attr("disabled", "true");
 		return that();
 	}
 	@Override
-	public final ButtonToggle text(String text) {
+	public final ButtonElementToggle text(String text) {
 		label.textContent(text);
 		return that();
 	}
 	public String text() {
 		return label.element().innerHTML;
 	}
-	public ButtonToggle before(Icon icon) {
-		if(icon!=null) icon.css("mdc-button__icon");
-		this.iconBefore = icon;
+	public ButtonElementToggle before(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-button__icon");
+		this.iconBefore = iconElement;
 		layout();
 		return that();
 	}
-	public ButtonToggle trailing(Icon icon) {
-		if(icon!=null) icon.css("mdc-button__icon");
-		this.iconTrailing = icon;
+	public ButtonElementToggle trailing(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-button__icon");
+		this.iconTrailing = iconElement;
 		layout();
 		return that();
 	}
@@ -79,17 +77,17 @@ public class ButtonToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonTo
 	}
 
 	@Override
-	public ButtonToggle that() {
+	public ButtonElementToggle that() {
 		return this;
 	}
 
 	@Override
-	public ButtonToggle accessKey(char key) {
+	public ButtonElementToggle accessKey(char key) {
 		element().accessKey = String.valueOf(key);
 		return that();
 	}
 	@Override
-	public ButtonToggle focus() {
+	public ButtonElementToggle focus() {
 		element().focus();
 		return that();
 	}
@@ -97,10 +95,10 @@ public class ButtonToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonTo
 		HasValueChangeHandlers.ValueChangeEvent<Boolean> e = HasValueChangeHandlers.ValueChangeEvent.event(event, value());
 		for(HasValueChangeHandlers.ValueChangeEventListener<Boolean> listener: listeners) listener.handle(e);
 	}
-	public ButtonToggle value(boolean value) {
+	public ButtonElementToggle value(boolean value) {
 		return value(value, new CustomEvent<Boolean>("change"));
 	}
-	public ButtonToggle value(boolean value, Event evt) {
+	public ButtonElementToggle value(boolean value, Event evt) {
 		this.value = value;
 		update();
 		fire(evt);

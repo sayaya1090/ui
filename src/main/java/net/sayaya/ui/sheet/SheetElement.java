@@ -19,16 +19,16 @@ import java.util.Arrays;
 
 import static org.jboss.elemento.Elements.div;
 
-public class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
+public class SheetElement extends HTMLElementBuilder<HTMLDivElement, SheetElement> {
 	public static SheetConfiguration builder() {
 		return new SheetConfiguration();
 	}
 	private final Handsontable table;
 	private final SheetConfiguration configuration;
-	Sheet(SheetConfiguration setting) {
+	SheetElement(SheetConfiguration setting) {
 		this(div(), setting);
 	}
-	private Sheet(HtmlContentBuilder<HTMLDivElement> e, SheetConfiguration setting) {
+	private SheetElement(HtmlContentBuilder<HTMLDivElement> e, SheetConfiguration setting) {
 		super(e);
 		this.configuration = setting;
 		table = new Handsontable(e.element(), setting);
@@ -39,30 +39,30 @@ public class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 		if(data == null) return new Data[]{};
 		else return data;
 	}
-	public Sheet values(Data... data) {
+	public SheetElement values(Data... data) {
 		configuration.data(data);
 		Scheduler.get().scheduleDeferred(()->table.updateSettings(configuration));
 		return that();
 	}
-	public Sheet append(Data data) {
+	public SheetElement append(Data data) {
 		configuration.append(data);
 		Scheduler.get().scheduleDeferred(()->table.updateSettings(configuration));
 		return that();
 	}
-	public Sheet delete(String id) {
+	public SheetElement delete(String id) {
 		configuration.delete(id);
 		Scheduler.get().scheduleDeferred(()->table.updateSettings(configuration));
 		return that();
 	}
-	public Sheet refresh() {
+	public SheetElement refresh() {
 		table.render();
 		return this;
 	}
-	public Sheet selectRow(int start) {
+	public SheetElement selectRow(int start) {
 		table.selectRows(start);
 		return this;
 	}
-	public Sheet selectRows(int start, int end) {
+	public SheetElement selectRows(int start, int end) {
 		table.selectRows(start, end);
 		return this;
 	}
@@ -76,14 +76,14 @@ public class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 		return configuration;
 	}
 	@Override
-	public Sheet that() {
+	public SheetElement that() {
 		return this;
 	}
 
 	@JsType(isNative = true, namespace = JsPackage.GLOBAL, name="Handsontable")
 	public final static class Handsontable {
 		@JsProperty(name="spreadsheet")
-		public Sheet spreadsheet;
+		public SheetElement spreadsheet;
 		public Handsontable(Element element, SheetConfiguration setting) {};
 		public native void render();
 		public native void updateSettings(SheetConfiguration setting);
@@ -197,8 +197,8 @@ public class Sheet extends HTMLElementBuilder<HTMLDivElement, Sheet> {
 			return this;
 		}
 		@JsOverlay
-		public Sheet build() {
-			return new Sheet(this);
+		public SheetElement build() {
+			return new SheetElement(this);
 		}
 	}
 }

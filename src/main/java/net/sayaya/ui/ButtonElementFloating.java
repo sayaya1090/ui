@@ -8,15 +8,15 @@ import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.*;
 
-public class ButtonFloating extends HTMLElementBuilder<HTMLButtonElement, ButtonFloating> implements Button {
+public class ButtonElementFloating extends HTMLElementBuilder<HTMLButtonElement, ButtonElementFloating> implements ButtonElement {
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-button__ripple");
 	private final IsElement<?> icon;
 	private HtmlContentBuilder<HTMLElement> label = null;
-	ButtonFloating (HtmlContentBuilder<HTMLButtonElement> e, Icon icon) {
+	ButtonElementFloating(HtmlContentBuilder<HTMLButtonElement> e, IconElement iconElement) {
 		super(e);
 		_this = e;
-		this.icon = icon.css("mdc-fab__icon");
+		this.icon = iconElement.css("mdc-fab__icon");
 		layout();
 	}
 	private void layout() {
@@ -25,13 +25,13 @@ public class ButtonFloating extends HTMLElementBuilder<HTMLButtonElement, Button
 		if(label!=null) _this.add(label);
 	}
 	@Override
-	public final ButtonFloating enabled(boolean enabled) {
+	public final ButtonElementFloating enabled(boolean enabled) {
 		if(enabled) this.attr("disabled", null);
 		else _this.attr("disabled", "true");
 		return that();
 	}
 	@Override
-	public final ButtonFloating text(String text) {
+	public final ButtonElementFloating text(String text) {
 		if(text == null && label == null) return that();
 		else if(text == null) {
 			ncss("mdc-fab--extended");
@@ -52,17 +52,17 @@ public class ButtonFloating extends HTMLElementBuilder<HTMLButtonElement, Button
 		return label.element().innerHTML;
 	}
 	@Override
-	public ButtonFloating that() {
+	public ButtonElementFloating that() {
 		return this;
 	}
 
 	@Override
-	public ButtonFloating accessKey(char key) {
+	public ButtonElementFloating accessKey(char key) {
 		element().accessKey = String.valueOf(key);
 		return that();
 	}
 	@Override
-	public ButtonFloating focus() {
+	public ButtonElementFloating focus() {
 		element().focus();
 		return that();
 	}

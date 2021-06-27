@@ -14,14 +14,14 @@ import org.jboss.elemento.InputType;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.label;
 
-public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> implements HasValueChangeHandlers<Boolean> {
-	public static CheckBox checkBox(boolean initialValue) {
-		CheckBox elem = new CheckBox(div(), initialValue);
+public class CheckBoxElement extends HTMLElementBuilder<HTMLDivElement, CheckBoxElement> implements HasValueChangeHandlers<Boolean> {
+	public static CheckBoxElement checkBox(boolean initialValue) {
+		CheckBoxElement elem = new CheckBoxElement(div(), initialValue);
 		elem._mdc = inject(elem.element());
 		return elem;
 	}
-	public static CheckBox intermediateCheckBox(boolean initialValue) {
-		CheckBox elem = new CheckBox(div(), initialValue);
+	public static CheckBoxElement intermediateCheckBox(boolean initialValue) {
+		CheckBoxElement elem = new CheckBoxElement(div(), initialValue);
 		elem._mdc = inject(elem.element());
 		return elem;
 	}
@@ -41,7 +41,7 @@ public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> imple
 	private final HtmlContentBuilder<HTMLLabelElement> label = label().attr("for", input.id);
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private MCDCheckbox _mdc;
-	private CheckBox(HtmlContentBuilder<HTMLDivElement> e, boolean initValue) {
+	private CheckBoxElement(HtmlContentBuilder<HTMLDivElement> e, boolean initValue) {
 		super(e);
 		input.checked = initValue;
 		_this = e;
@@ -58,7 +58,7 @@ public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> imple
 		svg.appendChild(path);
 		svg.classList.add("mdc-checkbox__checkmark");
 	}
-	public CheckBox value(boolean value) {
+	public CheckBoxElement value(boolean value) {
 		_mdc.checked = value;
 		return that();
 	}
@@ -66,11 +66,11 @@ public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> imple
 	public Boolean value() {
 		return _mdc.checked;
 	}
-	public CheckBox text(String text) {
+	public CheckBoxElement text(String text) {
 		label.textContent(text);
 		return that();
 	}
-	public CheckBox enabled(boolean enabled) {
+	public CheckBoxElement enabled(boolean enabled) {
 		_mdc.disabled = !enabled;
 		return that();
 	}
@@ -79,7 +79,7 @@ public class CheckBox extends HTMLElementBuilder<HTMLDivElement, CheckBox> imple
 		return onValueChange(input, listener);
 	}
 	@Override
-	public CheckBox that() {
+	public CheckBoxElement that() {
 		return this;
 	}
 	@JsType(isNative = true, namespace = "mdc.checkbox", name="MDCCheckbox")

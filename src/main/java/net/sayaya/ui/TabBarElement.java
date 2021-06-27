@@ -16,9 +16,9 @@ import java.util.Set;
 
 import static org.jboss.elemento.Elements.*;
 
-public class TabBar extends HTMLElementBuilder<HTMLDivElement, TabBar> implements HasValueChangeHandlers<Integer> {
-	public static TabBar tabBar(Tab... tabs) {
-		TabBar elem = new TabBar(div());
+public class TabBarElement extends HTMLElementBuilder<HTMLDivElement, TabBarElement> implements HasValueChangeHandlers<Integer> {
+	public static TabBarElement tabBar(Tab... tabs) {
+		TabBarElement elem = new TabBarElement(div());
 		for(Tab tab: tabs) elem.add(tab);
 		elem._mdc = inject(elem.element());
 		elem.foundation = foundation(elem._mdc);
@@ -41,7 +41,7 @@ public class TabBar extends HTMLElementBuilder<HTMLDivElement, TabBar> implement
 	private MDCTabBar _mdc;
 	private MDCTabBarFoundation foundation;
 	private final Set<ValueChangeEventListener<Integer>> listeners = new HashSet<>();
-	private TabBar(HtmlContentBuilder<HTMLDivElement> e) {
+	private TabBarElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e.css("mdc-tab-bar").attr("role", "tablist"));
 		_this = e;
 		_this.add(scroller);
@@ -53,16 +53,16 @@ public class TabBar extends HTMLElementBuilder<HTMLDivElement, TabBar> implement
 		};
 		element().addEventListener("MDCTabBar:activated", wrapper);
 	}
-	public TabBar add(Tab tab) {
+	public TabBarElement add(Tab tab) {
 		content.add(tab);
 		return that();
 	}
-	public TabBar activate(int idx) {
+	public TabBarElement activate(int idx) {
 		foundation.activateTabAtIndex(idx);
 		return that();
 	}
 	@Override
-	public TabBar that() {
+	public TabBarElement that() {
 		return this;
 	}
 

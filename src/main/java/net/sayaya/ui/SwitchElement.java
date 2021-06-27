@@ -13,9 +13,9 @@ import org.jboss.elemento.InputType;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.input;
 
-public class Switch extends HTMLElementBuilder<HTMLDivElement, Switch> implements HasValueChangeHandlers<Boolean> {
-	public static Switch sw() {
-		Switch elem = new Switch(div());
+public class SwitchElement extends HTMLElementBuilder<HTMLDivElement, SwitchElement> implements HasValueChangeHandlers<Boolean> {
+	public static SwitchElement sw() {
+		SwitchElement elem = new SwitchElement(div());
 		inject(elem.element());
 	//	elem.foundation = foundation(elem._mdc);
 		return elem;
@@ -30,12 +30,12 @@ public class Switch extends HTMLElementBuilder<HTMLDivElement, Switch> implement
 																	 .add(div().css("mdc-switch__thumb"))
 																	 .add(checkbox);
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	public Switch(HtmlContentBuilder<HTMLDivElement> e) {
+	public SwitchElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e.css("mdc-switch"));
 		_this = e;
 		_this.add(track).add(underlay);
 	}
-	public Switch text(String text) {
+	public SwitchElement text(String text) {
 		label.innerHTML = text;
 		return that();
 	}
@@ -49,7 +49,7 @@ public class Switch extends HTMLElementBuilder<HTMLDivElement, Switch> implement
 		return onValueChange(checkbox.element(), listener);
 	}
 	@Override
-	public Switch that() {
+	public SwitchElement that() {
 		return this;
 	}
 }

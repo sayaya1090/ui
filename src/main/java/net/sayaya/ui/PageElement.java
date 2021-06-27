@@ -10,9 +10,9 @@ import java.util.Set;
 
 import static org.jboss.elemento.Elements.*;
 
-public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements HasValueChangeHandlers<Page> {
-	public static Page instance() {
-		return new Page(div().style("display: flex;" +
+public class PageElement extends HTMLElementBuilder<HTMLDivElement, PageElement> implements HasValueChangeHandlers<PageElement> {
+	public static PageElement instance() {
+		return new PageElement(div().style("display: flex;" +
 									"padding-left: 0;" +
 									"list-style: none;" +
 									"border-radius: 0.25rem;"));
@@ -25,17 +25,17 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	private final HtmlContentBuilder<HTMLLabelElement> lblPageMax = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
 	private final HtmlContentBuilder<HTMLLabelElement> lblIdxFirst = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; ");
 	private final HtmlContentBuilder<HTMLLabelElement> lblIdxLast = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
-	private final Button btnPrevious = Button.icon("chevron_left");
-	private final Button btnNext = Button.icon("chevron_right");
-	private final Button btnFirst = Button.icon("first_page");
-	private final Button btnLast = Button.icon("last_page");
+	private final ButtonElement btnPrevious = ButtonElement.icon("chevron_left");
+	private final ButtonElement btnNext = ButtonElement.icon("chevron_right");
+	private final ButtonElement btnFirst = ButtonElement.icon("first_page");
+	private final ButtonElement btnLast = ButtonElement.icon("last_page");
 	private final HtmlContentBuilder<HTMLDivElement> sort = div();
-	private DropDown iptSort = null;
-	private final DropDown iptAsc = DropDown.outlined(List.singleLineList().add(List.singleLine().label("Asc")).add(List.singleLine().label("Desc"))).style("width: 120px;")
+	private DropDownElement iptSort = null;
+	private final DropDownElement iptAsc = DropDownElement.outlined(ListElement.singleLineList().add(ListElement.singleLine().label("Asc")).add(ListElement.singleLine().label("Desc"))).style("width: 120px;")
 			.text("Order");
-	private final TextField<Double> iptPage = TextField.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; font-size: 13px !important;").attr("min", "1");
+	private final TextFieldElement<Double> iptPage = TextFieldElement.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; font-size: 13px !important;").attr("min", "1");
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	public Page(HtmlContentBuilder<HTMLDivElement> e) {
+	public PageElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e.css("page"));
 		_this = e.add(lblIdxFirst)
 				 .add(lblIdxLast)
@@ -88,7 +88,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	public long total() {
 		return total;
 	}
-	public Page total(long total) {
+	public PageElement total(long total) {
 		this.total = total;
 		lblTotal.textContent("of " + total);
 		lblPageMax.textContent("of " + ((total-1)/show+1));
@@ -107,7 +107,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	public int show() {
 		return show;
 	}
-	public Page show(int show) {
+	public PageElement show(int show) {
 		this.show = show;
 		iptPage.value(Math.ceil((idx+1)/(double)show));
 		lblPageMax.textContent("of " + (Math.ceil((total-1)/(double)show)+1));
@@ -124,7 +124,7 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 	public long idx() {
 		return idx;
 	}
-	public Page idx(long idx) {
+	public PageElement idx(long idx) {
 		this.idx = idx;
 		iptPage.value(Math.ceil((idx+1)/(double)show));
 		lblIdxFirst.textContent((idx+1) + " - ");
@@ -152,18 +152,18 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 		idx(show*(page-1));
 		fire();
 	}
-	public Page sortable(String c1, String... columns) {
-		List<List.SingleLineItem> listSort = List.singleLineList();
-		listSort.add(List.singleLine().label(c1));
-		if(columns!=null) for(String column: columns) listSort.add(List.singleLine().label(column));
-		iptSort = DropDown.outlined(listSort).text("Sort column").style("width: 160px;");
+	public PageElement sortable(String c1, String... columns) {
+		ListElement<ListElement.SingleLineItem> listElementSort = ListElement.singleLineList();
+		listElementSort.add(ListElement.singleLine().label(c1));
+		if(columns!=null) for(String column: columns) listElementSort.add(ListElement.singleLine().label(column));
+		iptSort = DropDownElement.outlined(listElementSort).text("Sort column").style("width: 160px;");
 		sort.style("display: flex;margin-left: auto;").add(iptSort).add(iptAsc);
 		iptSort.onSelectionChange(evt->{
 			try { fire(); } catch(Exception ignore){}
 		});
 		return that();
 	}
-	public Page sort(String column, boolean isAsc) {
+	public PageElement sort(String column, boolean isAsc) {
 		if(iptSort == null) return that();
 		iptSort.select(column);
 		if(isAsc) iptAsc.select(0);
@@ -178,12 +178,12 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 		return iptSort.value();
 	}
 	@Override
-	public Page that() {
+	public PageElement that() {
 		return this;
 	}
 
 	@Override
-	public Page value() {
+	public PageElement value() {
 		return that();
 	}
 
@@ -194,12 +194,12 @@ public class Page extends HTMLElementBuilder<HTMLDivElement, Page> implements Ha
 		} catch(Exception e) {
 			evt = new CustomEvent("change");
 		}
-		ValueChangeEvent<Page> e = ValueChangeEvent.event(evt, this);
-		for(ValueChangeEventListener<Page> listener: listeners) listener.handle(e);
+		ValueChangeEvent<PageElement> e = ValueChangeEvent.event(evt, this);
+		for(ValueChangeEventListener<PageElement> listener: listeners) listener.handle(e);
 	}
-	private final Set<ValueChangeEventListener<Page>> listeners = new HashSet<>();
+	private final Set<ValueChangeEventListener<PageElement>> listeners = new HashSet<>();
 	@Override
-	public HandlerRegistration onValueChange(ValueChangeEventListener<Page> listener) {
+	public HandlerRegistration onValueChange(ValueChangeEventListener<PageElement> listener) {
 		listeners.add(listener);
 		return ()->listeners.remove(listener);
 	}

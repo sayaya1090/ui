@@ -9,9 +9,9 @@ import org.jboss.elemento.HtmlContentBuilder;
 import static org.jboss.elemento.Elements.*;
 import static org.jboss.elemento.EventType.bind;
 
-public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
-	public static Drawer drawer() {
-		Drawer elem = new Drawer(aside().css("mdc-drawer mdc-drawer--dismissible"));
+public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement> {
+	public static DrawerElement drawer() {
+		DrawerElement elem = new DrawerElement(aside().css("mdc-drawer mdc-drawer--dismissible"));
 		bind(elem, "DOMNodeInserted", evt->Scheduler.get().scheduleDeferred(()->elem._mdc=inject(elem.element())));
 		return elem;
 	}
@@ -34,7 +34,7 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 	private final HtmlContentBuilder<HTMLElement> _this;
 	private DrawerHeader header;
 	private DrawerContent content;
-	private Drawer(HtmlContentBuilder<HTMLElement> e) {
+	private DrawerElement(HtmlContentBuilder<HTMLElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -44,38 +44,38 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 		if(header!=null) _this.add(header);
 		if(content!=null) _this.add(content);
 	}
-	public Drawer header(DrawerHeader header) {
+	public DrawerElement header(DrawerHeader header) {
 		this.header = header;
 		layout();
 		return this;
 	}
-	public Drawer content(DrawerContent content) {
+	public DrawerElement content(DrawerContent content) {
 		this.content = content;
 		layout();
 		return this;
 	}
-	public Drawer target(HtmlContentBuilder<?> elem) {
+	public DrawerElement target(HtmlContentBuilder<?> elem) {
 		elem.css("mdc-drawer-app-content");
 		return this;
 	}
-	public Drawer target(HTMLElement elem) {
+	public DrawerElement target(HTMLElement elem) {
 		elem.classList.add("mdc-drawer-app-content");
 		return this;
 	}
-	public Drawer open() {
+	public DrawerElement open() {
 		_mdc.open = true;
 		return this;
 	}
-	public Drawer close() {
+	public DrawerElement close() {
 		_mdc.open = false;
 		return this;
 	}
-	public Drawer toggle() {
+	public DrawerElement toggle() {
 		_mdc.open = !_mdc.open;
 		return this;
 	}
 	@Override
-	public Drawer that() {
+	public DrawerElement that() {
 		return this;
 	}
 
@@ -140,7 +140,7 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 
 	public static class DrawerListItem extends HTMLElementBuilder<HTMLAnchorElement, DrawerListItem> {
 		private final HtmlContentBuilder<HTMLAnchorElement> _this;
-		private Icon icon;
+		private IconElement iconElement;
 		private String label;
 		private DrawerListItem(HtmlContentBuilder<HTMLAnchorElement> e) {
 			super(e);
@@ -149,7 +149,7 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 		}
 		private void layout() {
 			clear();
-			if(this.icon!=null) _this.add(icon);
+			if(this.iconElement !=null) _this.add(iconElement);
 			if(this.label!=null) _this.add(label);
 		}
 		public DrawerListItem activate(boolean activated) {
@@ -157,9 +157,9 @@ public class Drawer extends HTMLElementBuilder<HTMLElement, Drawer> {
 			else ncss("mdc-list-item--activated");
 			return this;
 		}
-		public DrawerListItem icon(Icon icon) {
-			if(icon!=null) icon.css("mdc-list-item__graphic").attr("area-hidden", "true");
-			this.icon = icon;
+		public DrawerListItem icon(IconElement iconElement) {
+			if(iconElement !=null) iconElement.css("mdc-list-item__graphic").attr("area-hidden", "true");
+			this.iconElement = iconElement;
 			layout();
 			return this;
 		}

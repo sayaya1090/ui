@@ -7,20 +7,19 @@ import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import static org.jboss.elemento.Elements.*;
 import static org.jboss.elemento.EventType.bind;
 
-public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTMLElementBuilder<HTMLUListElement, List<ListItem>> {
-	public static List<SingleLineItem> singleLineList() {
-		List<SingleLineItem> elem = new List<>(ul());
+public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>> extends HTMLElementBuilder<HTMLUListElement, ListElement<ListItem>> {
+	public static ListElement<SingleLineItem> singleLineList() {
+		ListElement<SingleLineItem> elem = new ListElement<>(ul());
 		elem.css("mdc-list");
 		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
 	}
-	public static List<DoubleLineItem> doubleLineList() {
-		List<DoubleLineItem> elem = new List<>(ul());
+	public static ListElement<DoubleLineItem> doubleLineList() {
+		ListElement<DoubleLineItem> elem = new ListElement<>(ul());
 		elem.css("mdc-list", "mdc-list--two-line");
 		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
@@ -41,7 +40,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
     }-*/;
 	private final HtmlContentBuilder<HTMLUListElement> _this;
 	private final java.util.List<ListItem> children = new ArrayList<>();
-	private List(HtmlContentBuilder<HTMLUListElement> e) {
+	private ListElement(HtmlContentBuilder<HTMLUListElement> e) {
 		super(e);
 		_this = e;
 		_this.attr("role", "listbox");
@@ -50,19 +49,19 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 	private void layout() {
 		clear();
 	}
-	public List<ListItem> add(ListItem item) {
+	public ListElement<ListItem> add(ListItem item) {
 		_this.add(item);
 		children.add(item);
 		if(_this.element().childElementCount <= 1) item.attr("tabindex", "0");
 		return that();
 	}
-	public List<ListItem> clear() {
+	public ListElement<ListItem> clear() {
 		super.clear();
 		while(_this.element().childElementCount > 0) _this.element().firstElementChild.remove();
 		children.clear();
 		return that();
 	}
-	public List<ListItem> divider() {
+	public ListElement<ListItem> divider() {
 		Divider elem = new Divider(li());
 		elem.css("mdc-list-divider").attr("role", "separator");
 		_this.add(elem);
@@ -75,7 +74,7 @@ public class List<ListItem extends List.AbstractListItem<ListItem>> extends HTML
 		return children.stream().filter(child->child.value()!=null).filter(child->child.value().equals(value)).findFirst().map(children::indexOf).orElse(null);
 	}
 	@Override
-	public List<ListItem> that() {
+	public ListElement<ListItem> that() {
 		return this;
 	}
 	static abstract class AbstractListItem<B extends AbstractListItem<B>> extends HTMLElementBuilder<HTMLLIElement, B> implements HasClickHandlers {

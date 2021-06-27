@@ -14,9 +14,9 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 import static org.jboss.elemento.EventType.bind;
 
-public class ProgressBar extends HTMLElementBuilder<HTMLDivElement, ProgressBar> {
-	public static ProgressBar progressBar() {
-		ProgressBar elem = new ProgressBar(div());
+public class ProgressBarElement extends HTMLElementBuilder<HTMLDivElement, ProgressBarElement> {
+	public static ProgressBarElement progressBar() {
+		ProgressBarElement elem = new ProgressBarElement(div());
 		elem.css("mdc-linear-progress")
 			.attr("role", "progressbar")
 			.attr("aria-valuemin", "0")
@@ -36,7 +36,7 @@ public class ProgressBar extends HTMLElementBuilder<HTMLDivElement, ProgressBar>
 	private final HtmlContentBuilder<HTMLDivElement> secondary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__secondary-bar").add(span().css("mdc-linear-progress__bar-inner"));
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private MdcProgressBar _mdc;
-	private ProgressBar(HtmlContentBuilder<HTMLDivElement> e) {
+	private ProgressBarElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -44,34 +44,34 @@ public class ProgressBar extends HTMLElementBuilder<HTMLDivElement, ProgressBar>
 	private void layout() {
 		_this.add(buffer).add(primary).add(secondary);
 	}
-	public ProgressBar open() {
+	public ProgressBarElement open() {
 		_mdc.open();
 		return this;
 	}
-	public ProgressBar close() {
+	public ProgressBarElement close() {
 		_mdc.close();
 		return this;
 	}
-	public ProgressBar determinate(boolean isDetermined) {
+	public ProgressBarElement determinate(boolean isDetermined) {
 		_mdc.determinate = isDetermined;
 		return this;
 	}
-	public ProgressBar progress(double progress) {
+	public ProgressBarElement progress(double progress) {
 		assert progress >= 0 && progress <= 1;
 		_mdc.progress = progress;
 		return this;
 	}
-	public ProgressBar buffer(double buffer) {
+	public ProgressBarElement buffer(double buffer) {
 		assert buffer >= 0 && buffer <= 1;
 		_mdc.buffer = buffer;
 		return this;
 	}
-	public ProgressBar reverse(boolean isReversed) {
+	public ProgressBarElement reverse(boolean isReversed) {
 		_mdc.reverse = isReversed;
 		return this;
 	}
 	@Override
-	public ProgressBar that() {
+	public ProgressBarElement that() {
 		return this;
 	}
 

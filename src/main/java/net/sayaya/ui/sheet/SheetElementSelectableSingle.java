@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.jboss.elemento.EventType.bind;
 
-public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Optional<Data>> {
+public interface SheetElementSelectableSingle extends HasSelectionChangeHandlers<Optional<Data>> {
 	Data[] value();
 	@Override
 	default Optional<Data> selection() {
@@ -19,8 +19,8 @@ public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Option
 				.filter(d->d.state()==Data.DataState.SELECTED)
 				.findAny();
 	}
-	static void header(Sheet sheet) {
-		Sheet.SheetConfiguration config = sheet.configuration();
+	static void header(SheetElement sheetElement) {
+		SheetElement.SheetConfiguration config = sheetElement.configuration();
 		config.afterGetRowHeaderRenderers(renderers->{
 			Data[] data = config.data();
 			String id = "Sheet-row-select-" + Random.nextInt();
@@ -34,7 +34,7 @@ public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Option
 						"type='radio' style='vertical-align: middle; margin: 0px;'/>";
 			});
 		}).rowHeaderWidth(30);
-		sheet.element().addEventListener("click", evt->{
+		sheetElement.element().addEventListener("click", evt->{
 			HTMLElement target = (HTMLElement) evt.target;
 			if(target.classList.contains("row-header-checkbox")) {
 				HTMLTableCellElement th = (HTMLTableCellElement)target;
@@ -43,14 +43,14 @@ public interface SheetSelectableSingle extends HasSelectionChangeHandlers<Option
 				String idx = radio.getAttribute("idx");
 				Arrays.stream(config.data()).forEach(d->d.select(false));
 				Arrays.stream(config.data()).filter(d->idx.equals(d.idx())).findAny().get().select(true);
-				sheet.element().dispatchEvent(new CustomEvent("selection-change"));
+				sheetElement.element().dispatchEvent(new CustomEvent("selection-change"));
 			} else if(target.parentElement!=null && target.parentElement.classList.contains("row-header-checkbox")) {
 				HTMLInputElement radio = (HTMLInputElement) target;
 				radio.checked = true;
 				String idx = radio.getAttribute("idx");
 				Arrays.stream(config.data()).forEach(d->d.select(false));
 				Arrays.stream(config.data()).filter(d->idx.equals(d.idx())).findAny().get().select(true);
-				sheet.element().dispatchEvent(new CustomEvent("selection-change"));
+				sheetElement.element().dispatchEvent(new CustomEvent("selection-change"));
 			}
 		});
 	}

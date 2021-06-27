@@ -8,7 +8,7 @@ import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.*;
 
-public class ButtonText extends HTMLElementBuilder<HTMLButtonElement, ButtonText> implements Button {
+public class ButtonElementText extends HTMLElementBuilder<HTMLButtonElement, ButtonElementText> implements ButtonElement {
 	static native void inject(Element elem) /*-{
         $wnd.mdc.ripple.MDCRipple.attachTo(elem);
     }-*/;
@@ -17,7 +17,7 @@ public class ButtonText extends HTMLElementBuilder<HTMLButtonElement, ButtonText
 	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-button__label");
 	private IsElement<?> iconTrailing;
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	ButtonText(HtmlContentBuilder<HTMLButtonElement> e) {
+	ButtonElementText(HtmlContentBuilder<HTMLButtonElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -30,28 +30,28 @@ public class ButtonText extends HTMLElementBuilder<HTMLButtonElement, ButtonText
 		if(iconTrailing!=null) _this.add(iconTrailing);
 	}
 	@Override
-	public final ButtonText enabled(boolean enabled) {
+	public final ButtonElementText enabled(boolean enabled) {
 		if(enabled) this.attr("disabled", null);
 		else _this.attr("disabled", "true");
 		return that();
 	}
 	@Override
-	public final ButtonText text(String text) {
+	public final ButtonElementText text(String text) {
 		label.textContent(text);
 		return that();
 	}
 	public String text() {
 		return label.element().innerHTML;
 	}
-	public ButtonText before(Icon icon) {
-		if(icon!=null) icon.css("mdc-button__icon");
-		this.iconBefore = icon;
+	public ButtonElementText before(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-button__icon");
+		this.iconBefore = iconElement;
 		layout();
 		return that();
 	}
-	public ButtonText trailing(Icon icon) {
-		if(icon!=null) icon.css("mdc-button__icon");
-		this.iconTrailing = icon;
+	public ButtonElementText trailing(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-button__icon");
+		this.iconTrailing = iconElement;
 		layout();
 		return that();
 	}
@@ -66,17 +66,17 @@ public class ButtonText extends HTMLElementBuilder<HTMLButtonElement, ButtonText
 	}
 
 	@Override
-	public ButtonText that() {
+	public ButtonElementText that() {
 		return this;
 	}
 
 	@Override
-	public ButtonText accessKey(char key) {
+	public ButtonElementText accessKey(char key) {
 		element().accessKey = String.valueOf(key);
 		return that();
 	}
 	@Override
-	public ButtonText focus() {
+	public ButtonElementText focus() {
 		element().focus();
 		return that();
 	}

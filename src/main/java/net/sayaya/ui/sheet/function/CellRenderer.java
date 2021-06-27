@@ -5,11 +5,11 @@ import elemental2.dom.HTMLTableCellElement;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsOverlay;
 import net.sayaya.ui.sheet.Column;
-import net.sayaya.ui.sheet.Sheet;
+import net.sayaya.ui.sheet.SheetElement;
 
 @JsFunction
 public interface CellRenderer {
-	HTMLElement render(Sheet.Handsontable instance, HTMLTableCellElement td, int row, int col, String prop, String value, Column columnInfo);
+	HTMLElement render(SheetElement.Handsontable instance, HTMLTableCellElement td, int row, int col, String prop, String value, Column columnInfo);
 	@JsOverlay
 	default String getFont() {
 		return "'Montserrat', 'Noto Sans KR', sans-serif";

@@ -17,14 +17,14 @@ import org.jboss.elemento.IsElement;
 import static net.sayaya.ui.Animation.animate;
 import static org.jboss.elemento.Elements.*;
 
-public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements HasAttachHandlers, HasDetachHandlers {
-	public static Chip chip(String text) {
-		Chip elem = new Chip(div().css("mdc-chip").attr("role", "row")).text(text);
+public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement> implements HasAttachHandlers, HasDetachHandlers {
+	public static ChipElement chip(String text) {
+		ChipElement elem = new ChipElement(div().css("mdc-chip").attr("role", "row")).text(text);
 		elem._mdc = inject(elem.element());
 		return elem;
 	}
-	public static ChipCheckable check(String text) {
-		ChipCheckable elem = new ChipCheckable(div().css("mdc-chip").attr("role", "row"));
+	public static ChipElementCheckable check(String text) {
+		ChipElementCheckable elem = new ChipElementCheckable(div().css("mdc-chip").attr("role", "row"));
 		elem.text(text);
 		// elem._mdc = inject(elem.element());
 		return elem;
@@ -42,7 +42,7 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
 	private IsElement<?> iconTrailing;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private MdcChip _mdc;
-	private Chip(HtmlContentBuilder<HTMLDivElement> e) {
+	private ChipElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -54,27 +54,27 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
 		_this.add(cell);
 		if(iconTrailing!=null) _this.add(iconTrailing);
 	}
-	public Chip text(String text) {
+	public ChipElement text(String text) {
 		label.textContent(text);
 		return that();
 	}
 	public String text() {
 		return label.element().innerHTML;
 	}
-	public Chip before(Icon icon) {
-		if(icon!=null) icon.css("mdc-chip__icon", "mdc-chip__icon--leading");
-		this.iconBefore = icon;
+	public ChipElement before(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading");
+		this.iconBefore = iconElement;
 		layout();
 		return that();
 	}
-	public Chip trailing(Icon icon) {
-		if(icon!=null) icon.css("mdc-chip__icon", "mdc-chip__icon--trailing");
-		this.iconTrailing = icon;
+	public ChipElement trailing(IconElement iconElement) {
+		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing");
+		this.iconTrailing = iconElement;
 		layout();
 		return that();
 	}
-	public Chip removable() {
-		Icon remove = Icon.icon("close");
+	public ChipElement removable() {
+		IconElement remove = IconElement.icon("close");
 		remove.on(EventType.click, evt->{
 			Animation.AnimationImpl fade = animate(element(), 150, JsPropertyMap.of("opacity", "1"), JsPropertyMap.of("opacity", "0"));
 			if(fade!=null) fade.onfinish = () -> element().remove();
@@ -85,10 +85,10 @@ public class Chip extends HTMLElementBuilder<HTMLDivElement, Chip> implements Ha
 	}
 
 	@Override
-	public Chip that() {
+	public ChipElement that() {
 		return this;
 	}
-	public Chip removeFocus() {
+	public ChipElement removeFocus() {
 		_mdc.removeFocus();
 		return that();
 	}

@@ -1,6 +1,8 @@
 package net.sayaya.ui;
 
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.DOM;
+import elemental2.core.JsDate;
 import elemental2.dom.*;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -13,6 +15,7 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.*;
 
+import java.util.Date;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -20,33 +23,66 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 import static org.jboss.elemento.EventType.bind;
 
-public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, TextArea<V>> implements HasValueChangeHandlers<V>, HasClickHandlers {
+public abstract class TextFieldElement<V> extends HTMLElementBuilder<HTMLLabelElement, TextFieldElement<V>> implements HasValueChangeHandlers<V>, HasClickHandlers {
 	@Setter
 	@Accessors(fluent = true)
 	public final static class TextFieldBuilder<V> {
-		private TextContentBuilder<HTMLTextAreaElement> input;
+		private InputBuilder<HTMLInputElement> input;
 		@Setter(AccessLevel.PRIVATE)
 		private Supplier<V> getter;
 		@Setter(AccessLevel.PRIVATE)
 		private Function<V, String> setter;
 
-		public TextArea<V> filled() {
+		public TextFieldElement<V> filled() {
 			TextFieldFilled<V> elem = new TextFieldFilled<>(Elements.label(), input, getter, setter);
-			elem.css("mdc-text-field", "mdc-text-field--textarea", "mdc-text-field--filled");
+			elem.css("mdc-text-field", "mdc-text-field--filled");
 			bind(elem, "DOMNodeInserted", evt->elem.initialize());
 			return elem;
 		}
 
-		public TextArea<V> outlined() {
+		public TextFieldElement<V> outlined() {
 			new TextFieldBuilder<String>();
 			TextFieldOutlined<V> elem = new TextFieldOutlined<>(Elements.label(), input, getter, setter);
-			elem.css("mdc-text-field", "mdc-text-field--textarea", "mdc-text-field--outlined");
+			elem.css("mdc-text-field", "mdc-text-field--outlined");
 			bind(elem, "DOMNodeInserted", evt->elem.initialize());
 			return elem;
 		}
 	}
 	public static TextFieldBuilder<String> textBox() {
-		TextContentBuilder<HTMLTextAreaElement> input = Elements.textarea().css("mdc-text-field__input");
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.text).css("mdc-text-field__input");
+		return new TextFieldBuilder<String>().input(input)
+											 .setter(v->v!=null?v:"")
+											 .getter(()->input.element().value);
+	}
+	public static TextFieldBuilder<Double> numberBox() {
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input").style("text-align: right; padding-right: 0px;");
+		return new TextFieldBuilder<Double>().input(input)
+											 .setter(v->v!=null?String.valueOf(v):"")
+											 .getter(()->input.element().valueAsNumber);
+	}
+	public static TextFieldBuilder<String> emailBox() {
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.email).css("mdc-text-field__input");
+		return new TextFieldBuilder<String>().input(input)
+											 .setter(v->v!=null?v:"")
+											 .getter(()->input.element().value);
+	}
+	private final static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd");
+	public static TextFieldBuilder<JsDate> dateBox() {
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.date).css("mdc-text-field__input");
+		return new TextFieldBuilder<JsDate>().input(input)
+											 .setter(v->{
+											 	if(v==null) return "";
+											 	return DTF.format(new Date((long) v.getTime()));
+											 }).getter(()->input.element().valueAsDate);
+	}
+	public static TextFieldBuilder<String> fileBox() {
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
+		return new TextFieldBuilder<String>().input(input)
+											 .setter(v->v!=null?v:"")
+											 .getter(()->input.element().value);
+	}
+	public static TextFieldBuilder<String> password() {
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.password).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
 											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
@@ -71,19 +107,19 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 	@Delegate
 	protected MDCTextField _mdc;
 	protected MDCTextFieldFoundation _foundation;
-	public TextArea(HtmlContentBuilder<HTMLLabelElement> e, Supplier<V> getter, Function<V, String> setter) {
+	public TextFieldElement(HtmlContentBuilder<HTMLLabelElement> e, Supplier<V> getter, Function<V, String> setter) {
 		super(e);
 		_this = e;
 		this.getter = getter;
 		this.setter = setter;
 	}
-	public TextArea<V> initialize() {
+	public TextFieldElement<V> initialize() {
 		_mdc = inject(_this.element());
 		_foundation = foundation(_mdc);
 		return that();
 	}
 	protected abstract void layout();
-	public abstract TextContentBuilder<HTMLTextAreaElement> input();
+	public abstract InputBuilder<HTMLInputElement> input();
 	@Override
 	public final HandlerRegistration onClick(EventListener listener) {
 		return onClick(input().element(), listener);
@@ -92,27 +128,27 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 	public final V value() {
 		return getter.get();
 	}
-	public final TextArea<V> value(V value) {
+	public final TextFieldElement<V> value(V value) {
 		this._mdc.value=setter.apply(value);
 		return that();
 	}
-	public abstract TextArea<V> text(String label);
+	public abstract TextFieldElement<V> text(String label);
 	public String text() {
 		return this.element().innerHTML;
 	}
-	public TextArea<V> before(Icon icon) {
-		if(icon!=null) icon.attr("role", "button").css("mdc-text-field__icon", "mdc-text-field__icon--leading");
-		this.iconBefore = icon;
+	public TextFieldElement<V> before(IconElement iconElement) {
+		if(iconElement !=null) iconElement.attr("role", "button").css("mdc-text-field__icon", "mdc-text-field__icon--leading");
+		this.iconBefore = iconElement;
 		layout();
 		return that();
 	}
-	public TextArea<V> trailing(Icon icon) {
-		if(icon!=null) icon.attr("role", "button").css("mdc-text-field__icon", "mdc-text-field__icon--trailing");
-		this.iconTrailing = icon;
+	public TextFieldElement<V> trailing(IconElement iconElement) {
+		if(iconElement !=null) iconElement.attr("role", "button").css("mdc-text-field__icon", "mdc-text-field__icon--trailing");
+		this.iconTrailing = iconElement;
 		layout();
 		return that();
 	}
-	public final TextArea<V> enabled(boolean enabled) {
+	public final TextFieldElement<V> enabled(boolean enabled) {
 		if(!enabled) {
 			css("mdc-text-field--disabled");
 			input().attr("disabled", "true");
@@ -127,27 +163,27 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 		input().aria("labelledby", id).aria("controls", id).aria("describedby", id);
 		return new TextFieldHelper(id, div()).text(msg);
 	}
-	public final TextArea<V> fire(Event evt) {
+	public final TextFieldElement<V> fire(Event evt) {
 		input().element().dispatchEvent(evt);
 		return that();
 	}
-	public final TextArea<V> required(boolean required) {
-		input().element().setAttribute("required", required);
+	public final TextFieldElement<V> required(boolean required) {
+		input().required(required);
 		return that();
 	}
-	public final TextArea<V> autocomplete(String autocomplete) {
-		input().element().setAttribute("autocomplete", autocomplete);
+	public final TextFieldElement<V> autocomplete(String autocomplete) {
+		input().autocomplete(autocomplete);
 		return that();
 	}
-	public final TextArea<V> autofocus(boolean autofocus) {
-		input().element().autofocus = autofocus;
+	public final TextFieldElement<V> autofocus(boolean autofocus) {
+		input().autofocus(autofocus);
 		return that();
 	}
-	public final TextArea<V> readOnly(boolean readOnly) {
-		input().element().readOnly = readOnly;
+	public final TextFieldElement<V> readOnly(boolean readOnly) {
+		input().readOnly(readOnly);
 		return that();
 	}
-	public TextArea<V> floatLabel(boolean shouldFloat) {
+	public TextFieldElement<V> floatLabel(boolean shouldFloat) {
 		_foundation.floatLabel(shouldFloat);
 		return that();
 	}
@@ -159,6 +195,9 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 	}
 	public final void blur() {
 		input().element().blur();
+	}
+	public final void click() {
+		input().element().click();
 	}
 	public final void focus() {
 		input().element().focus();
@@ -200,14 +239,13 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 			return this;
 		}
 	}
-	private static class TextFieldFilled<V> extends TextArea<V> {
+	private static class TextFieldFilled<V> extends TextFieldElement<V> {
 		private final HtmlContentBuilder<HTMLLabelElement> _this;
-		private final TextContentBuilder<HTMLTextAreaElement> input;
-		private final HtmlContentBuilder<HTMLElement> resizer = span().css("mdc-text-field__resizer");
+		private final InputBuilder<HTMLInputElement> input;
 		private final HtmlContentBuilder<HTMLElement> rippleInput = span().css("mdc-text-field__ripple");
 		private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 		private final HtmlContentBuilder<HTMLElement> rippleLine = span().css("mdc-line-ripple");
-		public TextFieldFilled(HtmlContentBuilder<HTMLLabelElement> e, TextContentBuilder<HTMLTextAreaElement> i, Supplier<V> getter, Function<V, String> setter) {
+		public TextFieldFilled(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, getter, setter);
 			_this = e;
 			this.input = i;
@@ -224,7 +262,7 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 				css("mdc-text-field--with-leading-icon");
 			} else ncss("mdc-text-field--with-leading-icon");
 			_this.add(rippleInput)
-				 .add(resizer.add(input));
+				 .add(input);
 			if(iconTrailing!=null) {
 				_this.add(iconTrailing);
 				css("mdc-text-field--with-trailing-icon");
@@ -238,7 +276,7 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 			return that();
 		}
 		@Override
-		public TextContentBuilder<HTMLTextAreaElement> input() {
+		public InputBuilder<HTMLInputElement> input() {
 			return input;
 		}
 
@@ -247,16 +285,15 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 			return this;
 		}
 	}
-	private static class TextFieldOutlined<V> extends TextArea<V> {
+	private static class TextFieldOutlined<V> extends TextFieldElement<V> {
 		private final HtmlContentBuilder<HTMLLabelElement> _this;
-		private final TextContentBuilder<HTMLTextAreaElement> input;
-		private final HtmlContentBuilder<HTMLElement> resizer = span().css("mdc-text-field__resizer");
+		private final InputBuilder<HTMLInputElement> input;
 		private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 		private final HtmlContentBuilder<HTMLElement> outline = span().css("mdc-notched-outline");
 		private final HtmlContentBuilder<HTMLElement> outlineLeading = span().css("mdc-notched-outline__leading");
 		private final HtmlContentBuilder<HTMLElement> outlineNotch = span().css("mdc-notched-outline__notch");
 		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span().css("mdc-notched-outline__trailing");
-		public TextFieldOutlined(HtmlContentBuilder<HTMLLabelElement> e, TextContentBuilder<HTMLTextAreaElement> i, Supplier<V> getter, Function<V, String> setter) {
+		public TextFieldOutlined(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, getter, setter);
 			_this = e;
 			this.input = i;
@@ -274,7 +311,7 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 				_this.add(iconBefore);
 				css("mdc-text-field--with-leading-icon");
 			} else ncss("mdc-text-field--with-leading-icon");
-			_this.add(resizer.add(input));
+			_this.add(input);
 			if(iconTrailing!=null) {
 				_this.add(iconTrailing);
 				css("mdc-text-field--with-trailing-icon");
@@ -286,13 +323,13 @@ public abstract class TextArea<V> extends HTMLElementBuilder<HTMLLabelElement, T
 			this.label.textContent(label);
 			return that();
 		}
-		public final TextArea<V> floatLabel(boolean shouldFloat) {
+		public final TextFieldElement<V> floatLabel(boolean shouldFloat) {
 			super.floatLabel(shouldFloat);
 			if(shouldFloat) outline.css("mdc-notched-outline--notched");
 			return that();
 		}
 		@Override
-		public TextContentBuilder<HTMLTextAreaElement> input() {
+		public InputBuilder<HTMLInputElement> input() {
 			return input;
 		}
 		@Override

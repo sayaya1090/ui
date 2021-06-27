@@ -11,27 +11,27 @@ import org.jboss.elemento.IsElement;
 import static org.jboss.elemento.Elements.*;
 import static org.jboss.elemento.EventType.bind;
 
-public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
-	public static TopBar topBar() {
-		TopBar elem = new TopBar(header());
+public class TopBarElement extends HTMLElementBuilder<HTMLElement, TopBarElement> {
+	public static TopBarElement topBar() {
+		TopBarElement elem = new TopBarElement(header());
 		elem.css("mdc-top-app-bar");
 		elem._mdc=inject(elem.element());
 		return elem;
 	}
-	public static TopBar topBarFixed() {
-		TopBar elem = new TopBar(header());
+	public static TopBarElement topBarFixed() {
+		TopBarElement elem = new TopBarElement(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--fixed");
 		elem._mdc=inject(elem.element());
 		return elem;
 	}
-	public static TopBar topBarShort() {
-		TopBar elem = new TopBar(header());
+	public static TopBarElement topBarShort() {
+		TopBarElement elem = new TopBarElement(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--short");
 		elem._mdc=inject(elem.element());
 		return elem;
 	}
-	public static TopBar topBarDense() {
-		TopBar elem = new TopBar(header());
+	public static TopBarElement topBarDense() {
+		TopBarElement elem = new TopBarElement(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--dense");
 		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
 		return elem;
@@ -57,7 +57,7 @@ public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
 	private final HtmlContentBuilder<HTMLDivElement> row = div().css("mdc-top-app-bar__row");
 	private final HtmlContentBuilder<HTMLElement> _this;
 	private MDCTopAppBar _mdc;
-	private TopBar(HtmlContentBuilder<HTMLElement> e) {
+	private TopBarElement(HtmlContentBuilder<HTMLElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -65,22 +65,22 @@ public class TopBar extends HTMLElementBuilder<HTMLElement, TopBar> {
 	private void layout() {
 		_this.add(row);
 	}
-	public TopBar add(TopBarSection section) {
+	public TopBarElement add(TopBarSection section) {
 		row.add(section);
 		return this;
 	}
-	public TopBar target(HtmlContentBuilder<?> elem) {
+	public TopBarElement target(HtmlContentBuilder<?> elem) {
 		elem.css("mdc-top-app-bar--fixed-adjust");
 		_mdc.setScrollTarget(elem.element());
 		return this;
 	}
-	public TopBar target(HTMLElement elem) {
+	public TopBarElement target(HTMLElement elem) {
 		elem.classList.add("mdc-top-app-bar--fixed-adjust");
 		_mdc.setScrollTarget(elem);
 		return this;
 	}
 	@Override
-	public TopBar that() {
+	public TopBarElement that() {
 		return this;
 	}
 	@JsType(isNative = true, namespace = "mdc.topAppBar", name="MDCTopAppBar")

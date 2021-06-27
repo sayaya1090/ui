@@ -13,9 +13,9 @@ import org.jboss.elemento.InputType;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.input;
 
-public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> implements Focusable<Radio<V>>, HasValueChangeHandlers<V>, HasSelectionChangeHandlers<V> {
-	public static <V> Radio<V> radio(String group, V value) {
-		Radio<V> elem = new Radio<>(div(), group, value);
+public class RadioElement<V> extends HTMLElementBuilder<HTMLDivElement, RadioElement<V>> implements Focusable<RadioElement<V>>, HasValueChangeHandlers<V>, HasSelectionChangeHandlers<V> {
+	public static <V> RadioElement<V> radio(String group, V value) {
+		RadioElement<V> elem = new RadioElement<>(div(), group, value);
 		elem.css("mdc-radio");
 		elem._mdc = inject(elem.element());
 		return elem;
@@ -31,7 +31,7 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private final V value;
 	private MCDRadio _mdc;
-	private Radio(HtmlContentBuilder<HTMLDivElement> e, String group, V value) {
+	private RadioElement(HtmlContentBuilder<HTMLDivElement> e, String group, V value) {
 		super(e);
 		_this = e;
 		this.value = value;
@@ -43,12 +43,12 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 		_this.add(input).add(background).add(ripple);
 	}
 	@Override
-	public Radio<V> accessKey(char key) {
+	public RadioElement<V> accessKey(char key) {
 		return null;
 	}
 
 	@Override
-	public Radio<V> focus() {
+	public RadioElement<V> focus() {
 		return null;
 	}
 
@@ -63,7 +63,7 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 		return onValueChange(input.element(), listener);
 	}
 	@Override
-	public Radio<V> that() {
+	public RadioElement<V> that() {
 		return this;
 	}
 
@@ -71,7 +71,7 @@ public class Radio<V> extends HTMLElementBuilder<HTMLDivElement, Radio<V>> imple
 	public V selection() {
 		return value();
 	}
-	public Radio<V> enabled(boolean enabled) {
+	public RadioElement<V> enabled(boolean enabled) {
 		_mdc.disabled = !enabled;
 		return that();
 	}
