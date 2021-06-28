@@ -2,13 +2,11 @@ package net.sayaya.ui;
 
 import elemental2.dom.*;
 import jsinterop.annotations.JsType;
-import lombok.experimental.Delegate;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.div;
-import static org.jboss.elemento.EventType.bind;
 
 public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	public static Dialog alert(String msg, ButtonElementText action1) {
@@ -34,12 +32,13 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	}
 	private static native MCDDialog inject(Element elem) /*-{
         var mdc = $wnd.mdc.dialog.MDCDialog.attachTo(elem);
-        var contentElement = elem.querySelector("mdc-dialog__content");
         mdc.listen('MDCDialog:opened', function() {
-            contentElement.setAttribute('aria-hidden', 'true');
+        	var contentElement = elem.querySelector("mdc-dialog__content");
+            if(contentElement!=null) contentElement.setAttribute('aria-hidden', 'true');
         });
         mdc.listen('MDCDialog:closing', function() {
-			contentElement.removeAttribute('aria-hidden');
+        	var contentElement = elem.querySelector("mdc-dialog__content");
+			if(contentElement!=null) contentElement.removeAttribute('aria-hidden');
 		});
 		return mdc;
     }-*/;
@@ -106,7 +105,7 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 
 	@JsType(isNative = true, namespace = "mdc.dialog", name="MDCDialog")
 	private final static class MCDDialog {
-	//	public native void layout();
+		//	public native void layout();
 		public native void open();
 		public native void close();
 	}
