@@ -1,5 +1,6 @@
 package net.sayaya.ui;
 
+import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLInputElement;
@@ -10,12 +11,18 @@ import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputBuilder;
 import org.jboss.elemento.InputType;
 
+import java.util.concurrent.ScheduledExecutorService;
+
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.input;
 
 public class SwitchElement extends HTMLElementBuilder<HTMLDivElement, SwitchElement> implements HasValueChangeHandlers<Boolean> {
 	public static SwitchElement sw() {
+		return sw(false);
+	}
+	public static SwitchElement sw(boolean init) {
 		SwitchElement elem = new SwitchElement(div());
+		elem.checkbox.checked(init);
 		inject(elem.element());
 	//	elem.foundation = foundation(elem._mdc);
 		return elem;

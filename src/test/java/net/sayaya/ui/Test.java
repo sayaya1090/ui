@@ -22,18 +22,18 @@ public class Test implements EntryPoint {
 		TestBreadcumb();
 		ProgressTest();
 		RadioTest();
-		TestSwtich();
+		TestSwitch();
 		AnimationTest();
 		TestButton();
 		TestCheckBox();
 		TestDropDown();
 		TestText();
 		TestChip();
-		TestList();
+		//TestList();
 		// TestDialog();
-		TestPage();
+		//TestPage();
 		//TestTab();*/
-		TestSheet();
+		//TestSheet();
 	}
 
 	void LayoutTest() {
@@ -101,7 +101,7 @@ public class Test implements EntryPoint {
 		ListGroupElement group = ListGroupElement.group();
 		group.add(ListGroupElement.header(3).textContent("List Single line"))
 			 .add(ListElement.singleLineList()
-					  .add(ListElement.singleLine().label("AA").trailing(SwitchElement.sw()))
+					  .add(ListElement.singleLine().label("AA").trailing(SwitchElement.sw(false)))
 					  .add(ListElement.singleLine().label("BB"))
 					  .add(ListElement.singleLine().label("CC"))
 					  .divider()
@@ -231,8 +231,8 @@ public class Test implements EntryPoint {
 		content.add(page);
 	}
 
-	private void TestSwtich() {
-		SwitchElement sw = SwitchElement.sw();
+	private void TestSwitch() {
+		SwitchElement sw = SwitchElement.sw(true);
 		content.add(sw);
 		sw.onValueChange(evt->{
 			DomGlobal.alert(evt.value() + "!");
