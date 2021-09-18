@@ -30,14 +30,14 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		elem._foundation = foundation(elem._mdc);
 		return elem;
 	}
-	private static native MCDDropdown inject(Element elem) /*-{
+	private static native MDCDropdown inject(Element elem) /*-{
         return $wnd.mdc.select.MDCSelect.attachTo(elem);
     }-*/;
-	private static native MCDDropdownFoundation foundation(MCDDropdown mdc) /*-{
+	private static native MCDDropdownFoundation foundation(MDCDropdown mdc) /*-{
         return mdc.foundation;
     }-*/;
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-	protected MCDDropdown _mdc;
+	protected MDCDropdown _mdc;
 	protected MCDDropdownFoundation _foundation;
 	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor").style("width: 100%;");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
@@ -164,7 +164,7 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		}
 	}
 	@JsType(isNative = true, namespace = "mdc.select", name="MDCSelect")
-	private final static class MCDDropdown {
+	private final static class MDCDropdown {
 		@JsProperty
 		private String value;
 		@JsProperty

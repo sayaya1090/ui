@@ -19,7 +19,8 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
-		TestBreadcumb();
+		TestMenu();
+		/*TestBreadcumb();
 		ProgressTest();
 		RadioTest();
 		TestSwitch();
@@ -35,7 +36,6 @@ public class Test implements EntryPoint {
 		//TestTab();*/
 		//TestSheet();
 	}
-
 	void LayoutTest() {
 		TopBarElement.TopBarButton menu = TopBarElement.buttonNavigation("menu");
 		TopBarElement top = TopBarElement.topBarFixed()
@@ -56,6 +56,18 @@ public class Test implements EntryPoint {
 		Elements.body().add(drawer);
 		Elements.body().add(div);
 		menu.onClick(evt->drawer.toggle());
+	}
+	void TestMenu() {
+		ListElement list = ListElement.singleLineList()
+									  .add(ListElement.singleLine().label("AA").trailing(SwitchElement.sw(false)))
+									  .add(ListElement.singleLine().label("BB"))
+									  .add(ListElement.singleLine().label("CC"))
+									  .divider()
+									  .add(ListElement.singleLine().label("DD"))
+									  .add(ListElement.singleLine().label("EE"));
+		MenuElement elem = MenuElement.build(list);
+		content.add(elem);
+		elem.positionFixed(true).open();
 	}
 	void TestBreadcumb() {
 		BreadcumbElement elem = BreadcumbElement.home(IconElement.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(IconElement.icon("article"), evt->{});
