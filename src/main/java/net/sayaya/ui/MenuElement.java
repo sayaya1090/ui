@@ -2,12 +2,8 @@ package net.sayaya.ui;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
-import jsinterop.annotations.JsIgnore;
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import net.sayaya.ui.event.HasSelectionChangeHandlers;
-import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;
