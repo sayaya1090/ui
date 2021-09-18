@@ -2,6 +2,7 @@ plugins {
     id "org.wisepersist.gwt" version "1.1.12"
 }
 apply plugin: "java"
+apply plugin: "maven-publish"
 if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     apply plugin: "war"
     apply plugin: "gwt"
@@ -9,9 +10,6 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     sourceSets.main.java.srcDirs += 'src/test/java'
 } else {
     apply plugin: "gwt-base"
-    if(project.gradle.startParameter.taskNames.contains("install")) {
-        apply plugin: "maven"
-    }
 }
 
 group "net.sayaya"
