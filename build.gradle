@@ -16,6 +16,7 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
                 groupId 'net.sayaya'
                 artifactId 'ui'
                 version "3.1"
+                from components.java
             }
         }
     }
