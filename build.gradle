@@ -10,6 +10,15 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     sourceSets.main.java.srcDirs += 'src/test/java'
 } else {
     apply plugin: "gwt-base"
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId 'net.sayaya'
+                artifactId 'ui'
+                version "3.1"
+            }
+        }
+    }
 }
 
 group "net.sayaya"
