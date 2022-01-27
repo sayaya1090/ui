@@ -4,6 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;
@@ -27,6 +28,16 @@ public class MenuElement extends HTMLElementBuilder<HTMLDivElement, MenuElement>
 		super(e.css("mdc-menu", "mdc-menu-surface"));
 		this.listElement = listElement;
 		e.add(listElement);
+	}
+	public void _for(Element e) {
+		e.addEventListener("DOMNodeInserted", evt->{
+			if(evt.target != e) return;
+			Elements.body().add(this);
+			e.addEventListener("DOMNodeRemoved", evt2->{
+				if(evt.target != e) return;
+				element().remove();
+			});
+		});
 	}
 	@Override
 	public MenuElement that() {
