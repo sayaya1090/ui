@@ -3,7 +3,7 @@ package net.sayaya.ui;
 import elemental2.dom.*;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasClickHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;

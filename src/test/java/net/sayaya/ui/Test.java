@@ -1,13 +1,10 @@
 package net.sayaya.ui;
 
-import com.google.gwt.core.client.*;
+import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
-import net.sayaya.ui.sheet.Data;
-import net.sayaya.ui.sheet.SheetElement;
-import net.sayaya.ui.sheet.SheetElementSelectableSingle;
-import net.sayaya.ui.sheet.column.ColumnBuilder;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 
@@ -21,14 +18,14 @@ public class Test implements EntryPoint {
 		LayoutTest();
 		TestBreadcumb();
 		ProgressTest();
-		RadioTest();
-		TestSwitch();
-		AnimationTest();
-		TestButton();
-		TestCheckBox();
+		//RadioTest();
+		// TestSwitch();
+		// AnimationTest();
+		//TestButton();
+		//TestCheckBox();
 		TestDropDown();
-		TestText();
-		TestChip();
+		//TestText();
+		//TestChip();
 		//TestList();
 		// TestDialog();
 		//TestPage();
@@ -58,7 +55,7 @@ public class Test implements EntryPoint {
 		menu.onClick(evt->drawer.toggle());
 	}
 	void TestBreadcumb() {
-		BreadcumbElement elem = BreadcumbElement.home(IconElement.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(IconElement.icon("article"), evt->{});
+		BreadcrumbElement elem = BreadcrumbElement.home(IconElement.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(IconElement.icon("article"), evt->{});
 		content.add(elem);
 	}
 	void ProgressTest() {
@@ -85,7 +82,7 @@ public class Test implements EntryPoint {
 		// Scheduler.get().scheduleFixedDelay(()->{t.finish(); return false;}, 1000);
 		DomGlobal.console.info(t);
 		if(t!=null) t.onfinish = ()->{
-			GWT.log("A");
+			DomGlobal.console.log("A");
 		};
 	}
 	void TestChip() {
@@ -146,6 +143,8 @@ public class Test implements EntryPoint {
 		DropDownElement dropdown2 = DropDownElement.filled(listElement2);
 		content.add(dropdown2);
 		dropdown2.onSelectionChange(evt->{
+			evt.event().stopPropagation();
+			evt.event().preventDefault();
 			DomGlobal.alert(dropdown2.value());
 		});
 	}
@@ -243,17 +242,6 @@ public class Test implements EntryPoint {
 		content.add(tab);
 		tab.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
-		});
-	}
-	private void TestSheet() {
-		SheetElement sheetElement = SheetElement.builder()
-				.columns(ColumnBuilder.string("A").name("A").pattern("^a$").colorConditional("red").colorConditionalBackground("yellow").color("blue").build(),
-						ColumnBuilder.string("B").build(),
-						ColumnBuilder.checkbox("C").build()).build();
-		SheetElementSelectableSingle.header(sheetElement);
-		content.add(sheetElement);
-		sheetElement.values(new Data[] {
-			new Data("1").put("A", "FFF"), new Data("2").put("A", "a"), new Data("3")
 		});
 	}
 }

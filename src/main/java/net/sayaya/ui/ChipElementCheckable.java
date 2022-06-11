@@ -8,7 +8,7 @@ import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;

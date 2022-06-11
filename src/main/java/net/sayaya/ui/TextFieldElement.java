@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.*;
 
 import java.util.Date;

@@ -9,7 +9,7 @@ import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;

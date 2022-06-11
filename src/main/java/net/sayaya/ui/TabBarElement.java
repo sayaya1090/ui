@@ -8,7 +8,7 @@ import jsinterop.base.Js;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.HashSet;

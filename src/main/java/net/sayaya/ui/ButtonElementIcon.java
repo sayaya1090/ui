@@ -1,7 +1,7 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;

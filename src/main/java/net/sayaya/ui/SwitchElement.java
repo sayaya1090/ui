@@ -6,7 +6,7 @@ import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLInputElement;
 import elemental2.dom.HTMLLabelElement;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputBuilder;
 import org.jboss.elemento.InputType;

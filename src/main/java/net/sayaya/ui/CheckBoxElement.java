@@ -6,7 +6,7 @@ import elemental2.svg.SVGPathElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputType;

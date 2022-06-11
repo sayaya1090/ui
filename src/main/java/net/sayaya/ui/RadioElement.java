@@ -5,7 +5,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import org.gwtproject.event.shared.HandlerRegistration;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputBuilder;
 import org.jboss.elemento.InputType;
