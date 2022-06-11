@@ -10,7 +10,16 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     sourceSets.main.java.srcDirs += 'src/test/java'
 } else {
     apply plugin: "gwt-base"
-
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                groupId 'net.sayaya'
+                artifactId 'ui'
+                version "4.0"
+                from components.java
+            }
+        }
+    }
 }
 
 group "net.sayaya"
@@ -48,7 +57,7 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
 } else {
     jar {
         from sourceSets.main.allSource
-        archiveFileName = "sayaya-${archivesBaseName}.jar"
+        archiveName "${archivesBaseName}.jar"
     }
 }
 compileGwt {
