@@ -3,26 +3,22 @@ package net.sayaya.ui;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import elemental2.dom.*;
 
+import net.sayaya.ui.mdc.MDCRipple;
 import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.*;
 
 public class ButtonElementFloating extends HTMLElementBuilder<HTMLButtonElement, ButtonElementFloating> implements ButtonElement {
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-button__ripple");
-	private final IsElement<?> icon;
-	private HtmlContentBuilder<HTMLElement> label = null;
 	ButtonElementFloating(HtmlContentBuilder<HTMLButtonElement> e, IconElement iconElement) {
 		super(e);
 		_this = e;
-		this.icon = iconElement.css("mdc-fab__icon");
-		layout();
-	}
-	private void layout() {
-		clear();
-		_this.add(ripple).add(icon);
-		if(label!=null) _this.add(label);
+		var icon = span().add(iconElement.element().textContent);
+		for(var css: iconElement.element().classList.asList()) icon.css(css);
+		_this.css("mdc-fab")
+				.add(div().css("mdc-fab__ripple"))
+				.add(icon.css("mdc-fab__icon"));
+		new MDCRipple(element());
 	}
 	@Override
 	public final ButtonElementFloating enabled(boolean enabled) {
@@ -32,24 +28,25 @@ public class ButtonElementFloating extends HTMLElementBuilder<HTMLButtonElement,
 	}
 	@Override
 	public final ButtonElementFloating text(String text) {
-		if(text == null && label == null) return that();
-		else if(text == null) {
-			ncss("mdc-fab--extended");
-			label = null;
-			layout();
-			return that();
-		} else if(label == null) {
-			css("mdc-fab--extended");
-			label = span().css("mdc-fab__label");
-			layout();
-		}
-		label.textContent(text);
+		var labels = element().getElementsByClassName("mdc-fab__label");
+		HTMLElement label = null;
+		if(labels==null || labels.length<=0) {
+			label = span().css("mdc-fab__label").element();
+			element().appendChild(label);
+			element().classList.add("mdc-fab--extended");
+		} else label = (HTMLElement) labels.item(0);
+		if(text==null || text.isEmpty()) {
+			label.remove();
+			element().classList.remove("mdc-fab--extended");
+		} else label.textContent = text;
 		return that();
 	}
 	@Override
 	public String text() {
-		if(label==null) return null;
-		return label.element().innerHTML;
+		var labels = element().getElementsByClassName("mdc-fab__label");
+		HTMLElement label = null;
+		if(labels==null && labels.length<=0) return null;
+		else return labels.item(0).textContent;
 	}
 	@Override
 	public ButtonElementFloating that() {

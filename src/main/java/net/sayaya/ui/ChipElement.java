@@ -1,12 +1,10 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
 import com.google.web.bindery.event.shared.HandlerRegistration;
@@ -19,40 +17,31 @@ import static org.jboss.elemento.Elements.*;
 
 public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement> implements HasAttachHandlers, HasDetachHandlers {
 	public static ChipElement chip(String text) {
-		ChipElement elem = new ChipElement(div().css("mdc-chip").attr("role", "row")).text(text);
-		elem._mdc = inject(elem.element());
-		return elem;
+		return new ChipElement(div()).text(text);
 	}
 	public static ChipElementCheckable check(String text) {
-		ChipElementCheckable elem = new ChipElementCheckable(div().css("mdc-chip").attr("role", "row"));
-		elem.text(text);
-		// elem._mdc = inject(elem.element());
-		return elem;
+		return new ChipElementCheckable(div()).text(text);
 	}
-	private static native MdcChip inject(Element elem) /*-{
-        return $wnd.mdc.chips.MDCChip.attachTo(elem);
-    }-*/;
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-chip__ripple");
+	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
 	private IsElement<?> iconBefore;
-	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-chip__text");
-	private final HtmlContentBuilder<HTMLElement> btn = span().css("mdc-chip__primary-action").attr("role", "button").attr("tabindex", "0")
-															  .add(label);
-	private final HtmlContentBuilder<HTMLElement> cell = span().attr("role", "gridcell")
-															   .add(btn);
+	private final HtmlContentBuilder<HTMLElement> label = span();
+	private final HtmlContentBuilder<HTMLElement> btn = span().add(label);
+	private final HtmlContentBuilder<HTMLElement> cell = span();
 	private IsElement<?> iconTrailing;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	private MdcChip _mdc;
+	private final MDCChip _mdc;
 	private ChipElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e;
-		layout();
-	}
-	protected void layout() {
-		clear();
-		_this.add(ripple);
+		_this.css("mdc-chip").attr("role", "row")
+				.add(ripple.css("mdc-chip__ripple"));
 		if(iconBefore!=null) _this.add(iconBefore);
-		_this.add(cell);
+		_this.add(cell.attr("role", "gridcell")
+				.add(btn.css("mdc-chip__primary-action").attr("role", "button").attr("tabindex", "0")
+						.add(label.css("mdc-chip__text"))));
 		if(iconTrailing!=null) _this.add(iconTrailing);
+
+		_mdc = new MDCChip(element());
 	}
 	public ChipElement text(String text) {
 		label.textContent(text);
@@ -64,13 +53,11 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 	public ChipElement before(IconElement iconElement) {
 		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading");
 		this.iconBefore = iconElement;
-		layout();
 		return that();
 	}
 	public ChipElement trailing(IconElement iconElement) {
 		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing");
 		this.iconTrailing = iconElement;
-		layout();
 		return that();
 	}
 	public ChipElement removable() {
@@ -101,11 +88,10 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 		return onDetach(element(), listener);
 	}
 
-	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_ = {@JsOverlay})
-	@Accessors(fluent=true)
-	static final class MdcChip {
-		public boolean selected;
+	@JsType(isNative = true, namespace="mdc.chips")
+	static final class MDCChip {
+		@JsProperty public boolean selected;
+		public MDCChip(Element elem){}
 		public native void beginExit();
 		public native void focusPrimaryAction();
 		public native void focusTrailingAction();

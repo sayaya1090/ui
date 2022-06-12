@@ -3,31 +3,23 @@ package net.sayaya.ui;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import elemental2.dom.*;
 
+import net.sayaya.ui.mdc.MDCRipple;
+import net.sayaya.ui.util.ElementUtil;
 import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.*;
 
 public class ButtonElementText extends HTMLElementBuilder<HTMLButtonElement, ButtonElementText> implements ButtonElement {
-	static native void inject(Element elem) /*-{
-        $wnd.mdc.ripple.MDCRipple.attachTo(elem);
-    }-*/;
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-button__ripple");
-	private IsElement<?> iconBefore;
-	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-button__label");
-	private IsElement<?> iconTrailing;
+	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
+	private final HtmlContentBuilder<HTMLElement> label = span();
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
 	ButtonElementText(HtmlContentBuilder<HTMLButtonElement> e) {
 		super(e);
 		_this = e;
-		layout();
-	}
-    private void layout() {
-		clear();
-		_this.add(ripple);
-		if(iconBefore!=null) _this.add(iconBefore);
-		_this.add(label);
-		if(iconTrailing!=null) _this.add(iconTrailing);
+		_this.css("mdc-button")
+				.add(ripple.css("mdc-button__ripple"))
+				.add(label.css("mdc-button__label"));
+		new MDCRipple(element());
 	}
 	@Override
 	public final ButtonElementText enabled(boolean enabled) {
@@ -44,15 +36,19 @@ public class ButtonElementText extends HTMLElementBuilder<HTMLButtonElement, But
 		return label.element().innerHTML;
 	}
 	public ButtonElementText before(IconElement iconElement) {
-		if(iconElement !=null) iconElement.css("mdc-button__icon");
-		this.iconBefore = iconElement;
-		layout();
+		if(iconElement !=null) element().insertBefore(iconElement.css("mdc-button__icon").element(), label.element());
+		else {
+			var icons = element().getElementsByClassName("mdc-button__icon");
+			if(icons!=null) for(var icon: icons.asList()) if(ElementUtil.isPrev(icon, label.element())) icon.remove();
+		}
 		return that();
 	}
 	public ButtonElementText trailing(IconElement iconElement) {
-		if(iconElement !=null) iconElement.css("mdc-button__icon");
-		this.iconTrailing = iconElement;
-		layout();
+		if(iconElement !=null) label.element().insertAdjacentElement("afterend", iconElement.css("mdc-button__icon").element());
+		else {
+			var icons = element().getElementsByClassName("mdc-button__icon");
+			if(icons!=null) for(var icon: icons.asList()) if(ElementUtil.isNext(icon, label.element())) icon.remove();
+		}
 		return that();
 	}
 	@Override

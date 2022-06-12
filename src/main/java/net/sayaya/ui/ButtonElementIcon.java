@@ -2,6 +2,7 @@ package net.sayaya.ui;
 
 import elemental2.dom.*;
 import com.google.web.bindery.event.shared.HandlerRegistration;
+import net.sayaya.ui.mdc.MDCRipple;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;
@@ -11,7 +12,10 @@ public class ButtonElementIcon extends HTMLElementBuilder<HTMLButtonElement, But
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
 	ButtonElementIcon(HtmlContentBuilder<HTMLButtonElement> e, String icon) {
 		super(e);
-		_this = e.css("mdc-icon-button", "material-icons").add(icon);
+		_this = e.css("mdc-icon-button", "material-icons")
+				.add(div().css("mdc-icon-button__ripple"))
+				.add(icon);
+		new MDCRipple(element()).unbounded = true;
 	}
 	@Override
 	public final ButtonElementIcon enabled(boolean enabled) {

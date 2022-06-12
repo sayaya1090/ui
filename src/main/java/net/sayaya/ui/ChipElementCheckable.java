@@ -22,7 +22,7 @@ import static org.jboss.elemento.Elements.span;
 
 public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElement, ChipElementCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-	private static native ChipElement.MdcChip inject(Element elem) /*-{
+	private static native ChipElement.MDCChip inject(Element elem) /*-{
         return $wnd.mdc.chips.MDCChip.attachTo(elem);
     }-*/;
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-chip__ripple");
@@ -35,7 +35,7 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 															   .add(btn);
 	private IsElement<?> iconTrailing;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	ChipElement.MdcChip _mdc;
+	ChipElement.MDCChip _mdc;
 	boolean value;
 	ChipElementCheckable(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);

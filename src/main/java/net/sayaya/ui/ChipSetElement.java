@@ -2,11 +2,9 @@ package net.sayaya.ui;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -19,39 +17,30 @@ import static org.jboss.elemento.EventType.bind;
 
 public class ChipSetElement extends HTMLElementBuilder<HTMLDivElement, ChipSetElement> implements HasValueChangeHandlers<ChipElement[]> {
 	public static ChipSetElement chips() {
-		ChipSetElement elem =  new ChipSetElement(div().css("mdc-chip-set").attr("role", "grid"));
-		bind(elem, "DOMNodeInserted", evt->{
-			elem._mdc = inject(elem.element());
-		});
+		ChipSetElement elem =  new ChipSetElement(div());
 		return elem;
 	}
 	public static ChipSetElement choices() {
-		ChipSetElement elem =  new ChipSetElement(div().css("mdc-chip-set", "mdc-chip-set--choice").attr("role", "grid"));
-		bind(elem, "DOMNodeInserted", evt->{
-			elem._mdc = inject(elem.element());
-		});
+		ChipSetElement elem =  new ChipSetElement(div().css("mdc-chip-set--choice"));
 		return elem;
 	}
 	public static ChipSetElement filters(ChipElementCheckable... chips) {
-		ChipSetElement elem =  new ChipSetElement(div().css("mdc-chip-set", "mdc-chip-set--filter").attr("role", "grid"));
+		ChipSetElement elem =  new ChipSetElement(div().css("mdc-chip-set--filter"));
 		for(ChipElementCheckable c: chips) elem.add(c);
-		elem._mdc = inject(elem.element());
 		for(int i = 0; i < chips.length; ++i) {
 			chips[i]._mdc = elem._mdc.chips[i];
 			if(chips[i].value) chips[i].value(true);
 		}
 		return elem;
 	}
-	native static MdcChipSet inject(Element elem) /*-{
-        return $wnd.mdc.chips.MDCChipSet.attachTo(elem);
-    }-*/;
 	private final Set<ValueChangeEventListener<ChipElement[]>> listeners = new HashSet<>();
 	private final Set<ChipElement> chips = new HashSet<>();
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	private MdcChipSet _mdc;
+	private final MDCChipSet _mdc;
 	private ChipSetElement(HtmlContentBuilder<HTMLDivElement> element) {
 		super(element);
-		_this = element;
+		_this = element.css("mdc-chip-set").attr("role", "grid");
+		_mdc = new MDCChipSet(element());
 	}
 	public final ChipSetElement add(final ChipElement chip) {
 		if(_mdc!=null) _mdc.addChip(chip.element());
@@ -94,11 +83,10 @@ public class ChipSetElement extends HTMLElementBuilder<HTMLDivElement, ChipSetEl
 		return this;
 	}
 
-	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_ = {@JsOverlay})
-	@Accessors(fluent=true)
-	private static final class MdcChipSet {
-		private ChipElement.MdcChip[] chips;
+	@JsType(isNative = true, namespace= "mdc.chips")
+	private static final class MDCChipSet {
+		@JsProperty private ChipElement.MDCChip[] chips;
+		public MDCChipSet(Element elem){}
 		public native void addChip(Element elem);
 	}
 }

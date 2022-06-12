@@ -13,8 +13,8 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     publishing {
         publications {
             maven(MavenPublication) {
-                groupId 'net.sayaya'
-                artifactId 'ui'
+                groupId "net.sayaya"
+                artifactId "ui"
                 version "4.0"
                 from components.java
             }
@@ -44,12 +44,15 @@ dependencies {
 
     implementation("javax.validation:validation-api:2.0.1.Final")
 }
-
 ext {
     lombok = project.configurations.annotationProcessor.find { it.name.startsWith("lombok") }
 }
+
 if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     gwtDev {
+        sourceLevel = "auto"
+        minHeapSize = "4096M"
+        maxHeapSize = "4096M"
         jvmArgs "-XX:ReservedCodeCacheSize=512M","-javaagent:${lombok}=ECJ"
         port 8888
         war file("src/test/webapp")
@@ -61,7 +64,9 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
     }
 }
 compileGwt {
-    minHeapSize = "2048M"
+    gwtVersion = "2.10.0"
+    sourceLevel = "auto"
+    minHeapSize = "4096M"
     maxHeapSize = "4096M"
     jvmArgs "-XX:ReservedCodeCacheSize=512M","-Xss2M","-javaagent:${lombok}=ECJ"
 }

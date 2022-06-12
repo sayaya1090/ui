@@ -3,6 +3,7 @@ package net.sayaya.ui;
 import elemental2.dom.*;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import com.google.web.bindery.event.shared.HandlerRegistration;
+import net.sayaya.ui.mdc.MDCRipple;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
@@ -13,9 +14,6 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonElementToggle> implements ButtonElement, HasValueChangeHandlers<Boolean> {
-	static native void inject(Element elem) /*-{
-        $wnd.mdc.ripple.MDCRipple.attachTo(elem);
-    }-*/;
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-button__ripple");
 	private IsElement<?> iconBefore;
 	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-button__label");
@@ -27,10 +25,11 @@ public class ButtonElementToggle extends HTMLElementBuilder<HTMLButtonElement, B
 		_this = e;
 		layout();
 		onClick(evt->value(!value, evt));
+		new MDCRipple(element());
 	}
     private void layout() {
 		clear();
-		_this.add(ripple);
+		_this.css("mdc-button", "mdc-button--outlined", "mdc-button-toggle").add(ripple);
 		if(iconBefore!=null) _this.add(iconBefore);
 		_this.add(label);
 		if(iconTrailing!=null) _this.add(iconTrailing);

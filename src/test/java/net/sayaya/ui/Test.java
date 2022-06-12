@@ -6,6 +6,7 @@ import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
+import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static net.sayaya.ui.IconElement.icon;
@@ -16,17 +17,17 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
-		TestMenu();
-		/*TestBreadcumb();
-		ProgressTest();
+		//TestMenu();
+		//TestBreadcrumb();
+		//ProgressTest();
 		//RadioTest();
 		// TestSwitch();
 		// AnimationTest();
-		//TestButton();
-		//TestCheckBox();
-		TestDropDown();
+		// TestButton();
+		// TestCheckBox();
+		//TestDropDown();
 		//TestText();
-		//TestChip();
+		TestChip();
 		//TestList();
 		// TestDialog();
 		//TestPage();
@@ -66,7 +67,7 @@ public class Test implements EntryPoint {
 		content.add(elem);
 		elem.positionFixed(true).open();
 	}
-	void TestBreadcumb() {
+	void TestBreadcrumb() {
 		BreadcrumbElement elem = BreadcrumbElement.home(IconElement.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(IconElement.icon("article"), evt->{});
 		content.add(elem);
 	}
@@ -98,7 +99,6 @@ public class Test implements EntryPoint {
 		};
 	}
 	void TestChip() {
-
 		ChipElementCheckable chip3 = ChipElement.check("Chip 3").before(IconElement.icon("face")).value(true);
 		ChipElementCheckable chip4 = ChipElement.check("Chip 4").before(IconElement.icon("face"));
 		ChipSetElement chips = ChipSetElement.filters(chip3, chip4);
@@ -126,15 +126,14 @@ public class Test implements EntryPoint {
 					  .add(ListElement.doubleLine().primary("EE").secondary("CCCCCCCCC")));
 		content.add(group);
 	}
-	private void TestCheckBox() {
+	void TestCheckBox() {
 		CheckBoxElement checkBoxElement = CheckBoxElement.checkBox(true).text("Test");
 		content.add(checkBoxElement);
 		checkBoxElement.onValueChange(evt->
 			DomGlobal.console.log(evt.value() + ", " + checkBoxElement.value())
 		);
 	}
-
-	private void TestDropDown() {
+	void TestDropDown() {
 		ListElement<ListElement.SingleLineItem> listElement = ListElement.singleLineList()
 				.add(ListElement.singleLine().label("AA"))
 				.add(ListElement.singleLine().label("BB"))
@@ -161,41 +160,51 @@ public class Test implements EntryPoint {
 		});
 	}
 	void TestButton() {
-		ButtonElement tmp = ButtonElement.contain().text("Text Button");
-		HandlerRegistration handler = tmp.onClick(evt->{
+		var tmp = ButtonElement.contain();
+		tmp.text("Contained Text Button");
+		tmp.onClick(evt->{
 			DomGlobal.alert("Hello, World!!");
+			tmp.rise();
 		});
+		tmp.on(EventType.mouseenter, evt->tmp.rise());
+		tmp.on(EventType.mouseleave, evt->tmp.unelevate());
 		content.add(tmp);
 
-		ButtonElement tmp2 = ButtonElement.flat().text("Button Enabled")
+		var tmp2 = ButtonElement.flat().text("Flat Icon Button")
 							.before(IconElement.icon("sync"))
 							.enabled(true);
+		tmp2.onClick(evt->tmp2.before(null).trailing(IconElement.icon("sync")));
 		content.add(tmp2);
 
-		ButtonElement tmp3 = ButtonElement.contain().text("Button Disabled").enabled(false);
+		var tmp3 = ButtonElement.contain().text("Enabled");
+		tmp3.onClick(evt->{
+			tmp3.enabled(false).text("Disabled");
+		});
 		content.add(tmp3);
 
-		ButtonElement tmp4 = ButtonElement.outline().text("Button Focused");
+		var tmp4 = ButtonElement.outline().text("Outline Button Focused");
 		tmp4.element().accessKey = "A";
 		tmp4.element().focus();
 		content.add(tmp4);
 
-		ButtonElement tmp5 = ButtonElement.floating(IconElement.icon("add"));
+		var tmp5 = ButtonElement.floating(IconElement.icon("add"));
 		content.add(tmp5);
 
-		ButtonElement tmp6 = ButtonElement.floating(IconElement.icon("add")).text("Create");
+		var tmp6 = ButtonElement.floating(IconElement.icon("add")).text("Flating Button");
 		tmp6.onClick(evt->DomGlobal.alert("Created"));
 		content.add(tmp6);
 
-		ButtonElementToggle tmp7 = ButtonElement.toggle().text("Toggle");
+		var tmp7 = ButtonElement.toggle().text("Toggle");
 		tmp7.onValueChange(evt->{
 			DomGlobal.alert(evt.value()+"");
 		});
-		Scheduler.get().scheduleFixedDelay(()->{
-			tmp7.value(true);
-			return false;
-		}, 1000);
 		content.add(tmp7);
+
+		var tmp8 = ButtonElement.outline().text("Touch");
+		content.add(tmp8.touchable());
+
+		var tmp9 = ButtonElement.icon("favorite");
+		content.add(tmp9);
 	}
 
 	void TestText() {

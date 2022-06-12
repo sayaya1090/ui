@@ -7,7 +7,7 @@ import static org.jboss.elemento.Elements.i;
 
 public class IconElement extends HTMLElementBuilder<HTMLElement, IconElement> {
 	public static IconElement icon(String icon) {
-		return new IconElement(i().css("material-icons")).value(icon);
+		return new IconElement(i().attr("aria-hidden", "true").css("material-icons")).value(icon);
 	}
 	private final HtmlContentBuilder<? extends HTMLElement> _this;
 	protected IconElement(HtmlContentBuilder<HTMLElement> e) {
