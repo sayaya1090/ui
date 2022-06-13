@@ -2,15 +2,16 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.Scheduler;
-import elemental2.dom.*;
+import elemental2.dom.DomGlobal;
+import elemental2.dom.HTMLDivElement;
 import jsinterop.base.JsPropertyMap;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static net.sayaya.ui.IconElement.icon;
-import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.label;
 
 public class Test implements EntryPoint {
 	private final HtmlContentBuilder<HTMLDivElement> content = div();
