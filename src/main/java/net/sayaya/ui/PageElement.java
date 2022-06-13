@@ -1,14 +1,16 @@
 package net.sayaya.ui;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import elemental2.dom.*;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.label;
 
 public class PageElement extends HTMLElementBuilder<HTMLDivElement, PageElement> implements HasValueChangeHandlers<PageElement> {
 	public static PageElement instance() {
@@ -159,7 +161,7 @@ public class PageElement extends HTMLElementBuilder<HTMLDivElement, PageElement>
 		iptSort = DropDownElement.outlined(listElementSort).text("Sort column").style("width: 160px;");
 		sort.style("display: flex;margin-left: auto;").add(iptSort).add(iptAsc);
 		iptSort.onSelectionChange(evt->{
-			try { fire(); } catch(Exception ignore){}
+			try { Scheduler.get().scheduleDeferred(this::fire); } catch(Exception ignore){}
 		});
 		return that();
 	}

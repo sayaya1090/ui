@@ -49,6 +49,9 @@ ext {
 }
 
 if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
+    war {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
     gwtDev {
         sourceLevel = "auto"
         minHeapSize = "4096M"
