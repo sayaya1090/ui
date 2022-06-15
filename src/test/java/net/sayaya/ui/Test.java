@@ -100,12 +100,13 @@ public class Test implements EntryPoint {
 		};
 	}
 	void TestChip() {
+		ChipElement chip1 = ChipElement.chip("Chip 3").before(IconElement.icon("face")).removable();
+		ChipElement chip2 = ChipElement.chip("Chip 4").before(IconElement.icon("face")).removeFocus();
+		content.add(ChipSetElement.chips().add(chip1).add(chip2));
+
 		ChipElementCheckable chip3 = ChipElement.check("Chip 3").before(IconElement.icon("face")).value(true);
 		ChipElementCheckable chip4 = ChipElement.check("Chip 4").before(IconElement.icon("face"));
-		ChipSetElement chips = ChipSetElement.filters(chip3, chip4);
-		content.add(chips);
-		//chips.add(chip3).add(chip4);
-
+		content.add(ChipSetElement.filters(chip3, chip4));
 	}
 	void TestList() {
 		ListGroupElement group = ListGroupElement.group();

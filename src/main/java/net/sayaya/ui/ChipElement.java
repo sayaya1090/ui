@@ -1,19 +1,21 @@
 package net.sayaya.ui;
 
-import elemental2.dom.*;
-import jsinterop.annotations.JsPackage;
+import com.google.web.bindery.event.shared.HandlerRegistration;
+import elemental2.dom.Element;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.IsElement;
 
 import static net.sayaya.ui.Animation.animate;
-import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.span;
 
 public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement> implements HasAttachHandlers, HasDetachHandlers {
 	public static ChipElement chip(String text) {
@@ -23,24 +25,21 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 		return new ChipElementCheckable(div()).text(text);
 	}
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
-	private IsElement<?> iconBefore;
 	private final HtmlContentBuilder<HTMLElement> label = span();
-	private final HtmlContentBuilder<HTMLElement> btn = span().add(label);
+	private final HtmlContentBuilder<HTMLElement> btn = span();
 	private final HtmlContentBuilder<HTMLElement> cell = span();
-	private IsElement<?> iconTrailing;
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private final MDCChip _mdc;
 	private ChipElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e;
 		_this.css("mdc-chip").attr("role", "row")
-				.add(ripple.css("mdc-chip__ripple"));
-		if(iconBefore!=null) _this.add(iconBefore);
-		_this.add(cell.attr("role", "gridcell")
+				.add(ripple.css("mdc-chip__ripple"))
+		//if(iconBefore!=null) _this.add(iconBefore);
+				.add(cell.attr("role", "gridcell")
 				.add(btn.css("mdc-chip__primary-action").attr("role", "button").attr("tabindex", "0")
 						.add(label.css("mdc-chip__text"))));
-		if(iconTrailing!=null) _this.add(iconTrailing);
-
+		//if(iconTrailing!=null) _this.add(iconTrailing);
 		_mdc = new MDCChip(element());
 	}
 	public ChipElement text(String text) {
@@ -51,13 +50,19 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 		return label.element().innerHTML;
 	}
 	public ChipElement before(IconElement iconElement) {
-		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading");
-		this.iconBefore = iconElement;
+		if(iconElement !=null) element().insertBefore(iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading").element(), cell.element());
+		else {
+			var icons = element().getElementsByClassName("mdc-chip__icon--leading");
+			if(icons!=null) for(var icon: icons.asList()) icon.remove();
+		}
 		return that();
 	}
 	public ChipElement trailing(IconElement iconElement) {
-		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing");
-		this.iconTrailing = iconElement;
+		if(iconElement !=null) btn.element().insertAdjacentElement("afterend", iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing").element());
+		else {
+			var icons = element().getElementsByClassName("mdc-chip__icon--trailing");
+			if(icons!=null) for(var icon: icons.asList()) icon.remove();
+		}
 		return that();
 	}
 	public ChipElement removable() {
