@@ -25,7 +25,7 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	protected MDCDropdown _mdc;
 	protected MCDDropdownFoundation _foundation;
-	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor").style("width: 100%;");
+	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
 	private final SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
