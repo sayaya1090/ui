@@ -2,13 +2,13 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.DOM;
+import com.google.web.bindery.event.shared.HandlerRegistration;
 import elemental2.dom.*;
 import elemental2.svg.SVGElement;
 import elemental2.svg.SVGPolygonElement;
 import jsinterop.annotations.*;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;
@@ -17,32 +17,17 @@ import static org.jboss.elemento.EventType.bind;
 
 public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement, DropDownElement> implements HasValueChangeHandlers<String>, HasSelectionChangeHandlers<Integer> {
 	public static DropDownElement filled(ListElement listElement) {
-		DropDownElement elem = new DropDownFilled(div(), listElement);
-		bind(elem.element,"DOMNodeInserted", evt->{
-			elem._mdc = inject(elem.element());
-			elem._foundation = foundation(elem._mdc);
-		});
-		return elem;
+		return new DropDownFilled(div(), listElement);
 	}
 	public static DropDownElement outlined(ListElement listElement) {
-		DropDownElement elem = new DropDownOutlined(div(), listElement);
-		elem._mdc = inject(elem.element());
-		elem._foundation = foundation(elem._mdc);
-		return elem;
+		return new DropDownOutlined(div(), listElement);
 	}
-	private static native MDCDropdown inject(Element elem) /*-{
-        return $wnd.mdc.select.MDCSelect.attachTo(elem);
-    }-*/;
-	private static native MCDDropdownFoundation foundation(MDCDropdown mdc) /*-{
-        return mdc.foundation;
-    }-*/;
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	protected MDCDropdown _mdc;
 	protected MCDDropdownFoundation _foundation;
 	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor").style("width: 100%;");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
-	// protected final HtmlContentBuilder<HTMLElement> container = span().css("mdc-select__selected-text-container").add(value);
 	private final SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
 	protected final HtmlContentBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg);
 	private final SVGPolygonElement inactive = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
@@ -113,24 +98,27 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	}
 
 	private final static class DropDownFilled extends DropDownElement {
-		private final HtmlContentBuilder<HTMLElement> ripple = span().css("mdc-select__ripple");
-		private final HtmlContentBuilder<HTMLElement> ripple2 = span().css("mdc-line-ripple");
-		private final HtmlContentBuilder<HTMLDivElement> menu = div().css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth");
+		private final HtmlContentBuilder<HTMLElement> ripple = span();
+		private final HtmlContentBuilder<HTMLElement> ripple2 = span();
+		private final HtmlContentBuilder<HTMLDivElement> menu = div();
 		private final HtmlContentBuilder<HTMLDivElement> _this;
 		public DropDownFilled(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 			super(e, listElement);
 			_this = e;
 			layout();
+			_mdc = new MDCDropdown(element());
+			_foundation = _mdc.foundation;
 		}
 
 		private void layout() {
 			_this.css("mdc-select", "mdc-select--filled")
-					.add(anchor.add(ripple)
+					.add(anchor.add(ripple.css("mdc-select__ripple"))
 							.add(value)
 							.add(arrow)
 							.add(label)
-							.add(ripple2))
-					.add(menu.add(listElement));
+							.add(ripple2.css("mdc-line-ripple")))
+					.add(menu.css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth")
+							.add(listElement));
 		}
 
 		@Override
@@ -139,23 +127,30 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		}
 	}
 	private final static class DropDownOutlined extends DropDownElement {
-		private final HtmlContentBuilder<HTMLElement> outline = span().css("mdc-notched-outline");
-		private final HtmlContentBuilder<HTMLElement> outlineLeading = span().css("mdc-notched-outline__leading");
-		private final HtmlContentBuilder<HTMLElement> outlineNotch = span().css("mdc-notched-outline__notch");
-		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span().css("mdc-notched-outline__trailing");
-		private final HtmlContentBuilder<HTMLDivElement> menu = div().css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth");
+		private final HtmlContentBuilder<HTMLElement> outline = span();
+		private final HtmlContentBuilder<HTMLElement> outlineLeading = span();
+		private final HtmlContentBuilder<HTMLElement> outlineNotch = span();
+		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span();
+		private final HtmlContentBuilder<HTMLDivElement> menu = div();
 		private final HtmlContentBuilder<HTMLDivElement> _this;
 		public DropDownOutlined(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 			super(e, listElement);
 			_this = e;
 			layout();
+			_mdc = new MDCDropdown(element());
+			_foundation = _mdc.foundation;
 		}
 		private void layout() {
 			_this.css("mdc-select", "mdc-select--outlined")
-					.add(anchor.add(outline.add(outlineLeading).add(outlineNotch.add(label)).add(outlineTrailing))
+					.add(anchor.add(outline.css("mdc-notched-outline")
+									.add(outlineLeading.css("mdc-notched-outline__leading"))
+									.add(outlineNotch.css("mdc-notched-outline__notch")
+											.add(label))
+									.add(outlineTrailing.css("mdc-notched-outline__trailing")))
 							   .add(value)
 							   .add(arrow))
-					.add(menu.add(listElement));
+					.add(menu.css("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fixed", "mdc-menu-surface--fullwidth")
+							.add(listElement));
 		}
 
 		@Override
@@ -165,16 +160,13 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	}
 	@JsType(isNative = true, namespace = "mdc.select", name="MDCSelect")
 	private final static class MDCDropdown {
-		@JsProperty
-		private String value;
-		@JsProperty
-		private Double selectedIndex;
-		@JsProperty
-		private boolean disabled;
-		@JsProperty
-		private boolean required;
-		@JsProperty
-		private boolean valid;
+		@JsProperty public String value;
+		@JsProperty public boolean disabled;
+		@JsProperty public boolean required;
+		@JsProperty public boolean valid;
+		@JsProperty public MCDDropdownFoundation foundation;
+		@JsProperty private Double selectedIndex;
+		public MDCDropdown(Element elem){}
 		@JsOverlay
 		@JsIgnore
 		public int selectedIndex() {
