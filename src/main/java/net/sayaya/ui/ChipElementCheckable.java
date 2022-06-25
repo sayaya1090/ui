@@ -22,34 +22,24 @@ import static org.jboss.elemento.Elements.span;
 
 public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElement, ChipElementCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
 	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-	private static native ChipElement.MDCChip inject(Element elem) /*-{
-        return $wnd.mdc.chips.MDCChip.attachTo(elem);
-    }-*/;
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-chip__ripple");
-	private IsElement<?> iconBefore;
-	private final IsElement<?> check = span().css("mdc_chip__checkmark").add(checkmark());
-	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-chip__text");
-	private final HtmlContentBuilder<HTMLElement> btn = span().css("mdc-chip__primary-action").attr("role", "check").attr("tabindex", "0")
-															  .add(label);
-	private final HtmlContentBuilder<HTMLElement> cell = span().attr("role", "gridcell")
-															   .add(btn);
-	private IsElement<?> iconTrailing;
+	private final HtmlContentBuilder<HTMLElement> ripple = span();
+	private final HtmlContentBuilder<HTMLElement> graphic = span();
+	private final HtmlContentBuilder<HTMLElement> check = span();
+	private final HtmlContentBuilder<HTMLElement> label = span();
+	private final HtmlContentBuilder<HTMLElement> btn = span();
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	ChipElement.MDCChip _mdc;
-	boolean value;
+	private boolean value;
 	ChipElementCheckable(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
-		_this = e;
-		layout();
-		on(EventType.click, evt->Scheduler.get().scheduleDeferred(()->fire()));
-	}
-	protected void layout() {
-		clear();
-		_this.add(ripple);
-		if(iconBefore!=null) _this.add(iconBefore);
-		_this.add(check);
-		_this.add(cell);
-		if(iconTrailing!=null) _this.add(iconTrailing);
+		_this = e.css("mdc-chip")
+				.add(btn.css("mdc-chip__action", "mdc-chip__action--primary").attr("role", "option").attr("tabindex", "0")
+						.add(ripple.css("mdc-chip__ripple", "mdc-chip__ripple--primary"))
+						.add(graphic.css("mdc-chip__graphic").add(check.css("mdc_chip__checkmark").add(checkmark())))
+						.add(label.css("mdc-chip__text-label")));
+		on(EventType.click, evt->{
+			this.value = !value;
+			Scheduler.get().scheduleDeferred(this::fire);
+		});
 	}
 	public ChipElementCheckable text(String text) {
 		label.textContent(text);
@@ -59,15 +49,19 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		return label.element().innerHTML;
 	}
 	public ChipElementCheckable before(IconElement iconElement) {
-		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading");
-		this.iconBefore = iconElement;
-		layout();
+		if(iconElement !=null) graphic.element().append(iconElement.css("mdc-chip__icon", "mdc-chip__icon--leading").element());
+		else {
+			var icons = element().getElementsByClassName("mdc-chip__icon--leading");
+			if(icons!=null) for(var icon: icons.asList()) icon.remove();
+		}
 		return that();
 	}
 	public ChipElementCheckable trailing(IconElement iconElement) {
-		if(iconElement !=null) iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing");
-		this.iconTrailing = iconElement;
-		layout();
+		if(iconElement !=null) label.element().insertAdjacentElement("afterend", iconElement.css("mdc-chip__icon", "mdc-chip__icon--trailing").element());
+		else {
+			var icons = element().getElementsByClassName("mdc-chip__icon--trailing");
+			if(icons!=null) for(var icon: icons.asList()) icon.remove();
+		}
 		return that();
 	}
 	public ChipElementCheckable removable() {
@@ -81,16 +75,17 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		return this;
 	}
 	public ChipElementCheckable value(boolean value) {
+		//_mdc.selected = value;
 		this.value = value;
-		if(_mdc!=null) _mdc.selected = value;
 		return this;
 	}
 	public Boolean value() {
-		if(_mdc!=null) return _mdc.selected;
-		else return value;
+		// return _mdc.selected;
+		return this.value;
 	}
 	private void fire() {
 		CustomEvent<Boolean> evt = new CustomEvent<>("change");
+		DomGlobal.console.log(value());
 		evt.detail = value();
 		ValueChangeEvent<Boolean> e = ValueChangeEvent.event(evt, value());
 		for(ValueChangeEventListener<Boolean> listener: listeners) listener.handle(e);

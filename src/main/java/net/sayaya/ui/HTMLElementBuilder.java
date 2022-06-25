@@ -34,7 +34,6 @@ public abstract class HTMLElementBuilder<E extends HTMLElement, B extends HTMLEl
 	public B clear() {
 		E elem = element();
 		elem.childNodes.setLength(0);
-		// elem.childNodes.forEach((n, i, l)->elem.removeChild(n));
 		return that();
 	}
 }

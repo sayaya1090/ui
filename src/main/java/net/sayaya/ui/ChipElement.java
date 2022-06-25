@@ -35,11 +35,9 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 		_this = e;
 		_this.css("mdc-chip").attr("role", "row")
 				.add(ripple.css("mdc-chip__ripple"))
-		//if(iconBefore!=null) _this.add(iconBefore);
 				.add(cell.attr("role", "gridcell")
 				.add(btn.css("mdc-chip__primary-action").attr("role", "button").attr("tabindex", "0")
 						.add(label.css("mdc-chip__text"))));
-		//if(iconTrailing!=null) _this.add(iconTrailing);
 		_mdc = new MDCChip(element());
 	}
 	public ChipElement text(String text) {

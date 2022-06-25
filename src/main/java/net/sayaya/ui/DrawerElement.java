@@ -1,6 +1,5 @@
 package net.sayaya.ui;
 
-import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -11,26 +10,18 @@ import static org.jboss.elemento.EventType.bind;
 
 public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement> {
 	public static DrawerElement drawer() {
-		DrawerElement elem = new DrawerElement(aside().css("mdc-drawer mdc-drawer--dismissible"));
-		bind(elem, "DOMNodeInserted", evt->Scheduler.get().scheduleDeferred(()->elem._mdc=inject(elem.element())));
-		return elem;
+		return new DrawerElement(aside().css("mdc-drawer mdc-drawer--dismissible"));
 	}
 	public static DrawerHeader header() {
-		DrawerHeader elem = new DrawerHeader(div().css("mdc-drawer__header"));
-		return elem;
+		return new DrawerHeader(div().css("mdc-drawer__header"));
 	}
 	public static DrawerContent content() {
-		DrawerContent elem = new DrawerContent(div().css("mdc-drawer__content"));
-		return elem;
+		return new DrawerContent(div().css("mdc-drawer__content"));
 	}
 	public static DrawerListItem item() {
-		DrawerListItem elem = new DrawerListItem(a().css("mdc-list-item").attr("href", "#"));
-		return elem;
+		return new DrawerListItem(a().css("mdc-list-item").attr("href", "#"));
 	}
-	private native static MCDDrawer inject(Element elem) /*-{
-        return $wnd.mdc.drawer.MDCDrawer.attachTo(elem);
-    }-*/;
-	private MCDDrawer _mdc;
+	private MDCDrawer _mdc;
 	private final HtmlContentBuilder<HTMLElement> _this;
 	private DrawerHeader header;
 	private DrawerContent content;
@@ -38,6 +29,7 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		super(e);
 		_this = e;
 		layout();
+		bind(element(), "DOMNodeInserted", evt-> _mdc = new MDCDrawer(element()));
 	}
 	private void layout() {
 		clear();
@@ -80,9 +72,9 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 	}
 
 	@JsType(isNative = true, namespace = "mdc.drawer", name="MDCDrawer")
-	private final static class MCDDrawer {
-		@JsProperty
-		private boolean open;
+	private final static class MDCDrawer {
+		@JsProperty private boolean open;
+		public MDCDrawer(Element elem){}
 	}
 	public static class DrawerHeader extends HTMLElementBuilder<HTMLDivElement, DrawerHeader> {
 		private final HtmlContentBuilder<HTMLDivElement> _this;

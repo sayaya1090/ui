@@ -27,10 +27,6 @@ public class ChipSetElement extends HTMLElementBuilder<HTMLDivElement, ChipSetEl
 	public static ChipSetElement filters(ChipElementCheckable... chips) {
 		ChipSetElement elem =  new ChipSetElement(div().css("mdc-chip-set--filter"));
 		for(ChipElementCheckable c: chips) elem.add(c);
-		for(int i = 0; i < chips.length; ++i) {
-			chips[i]._mdc = elem._mdc.chips[i];
-			if(chips[i].value) chips[i].value(true);
-		}
 		return elem;
 	}
 	private final Set<ValueChangeEventListener<ChipElement[]>> listeners = new HashSet<>();

@@ -28,7 +28,7 @@ public class Test implements EntryPoint {
 		// TestCheckBox();
 		//TestDropDown();
 		//TestText();
-		TestChip();
+		// TestChip();
 		//TestList();
 		// TestDialog();
 		//TestPage();
@@ -104,8 +104,9 @@ public class Test implements EntryPoint {
 		ChipElement chip2 = ChipElement.chip("Chip 4").before(IconElement.icon("face")).removeFocus();
 		content.add(ChipSetElement.chips().add(chip1).add(chip2));
 
-		ChipElementCheckable chip3 = ChipElement.check("Chip 3").before(IconElement.icon("face")).value(true);
-		ChipElementCheckable chip4 = ChipElement.check("Chip 4").before(IconElement.icon("face"));
+		// set value(true)일 때 display와 일치하지 않는 버그 있음
+		ChipElementCheckable chip3 = ChipElement.check("Chip 3").value(true);
+		ChipElementCheckable chip4 = ChipElement.check("Chip 4");
 		content.add(ChipSetElement.filters(chip3, chip4));
 	}
 	void TestList() {
@@ -230,23 +231,23 @@ public class Test implements EntryPoint {
 		TextAreaElement<String> tmp4 = TextAreaElement.textBox().filled().text("tmp4").before(IconElement.icon("vpn_key")).trailing(IconElement.icon("visibility"));
 		content.add(tmp4);
 	}
-	/*void TestDialog() {
-		ButtonText close1 = Button.flat().text("Cancel");
-		ButtonText close2 = Button.flat().text("OK");
+	void TestDialog() {
+		/*var close1 = ButtonElement.flat().text("Cancel");
+		var close2 = ButtonElement.flat().text("OK");
 		Dialog dialog1 = Dialog.alert("Alert", close1, close2);
+		content.add(dialog1);
 		close1.onClick(evt->dialog1.close());
 		close2.onClick(evt->dialog1.close());
-		content.add(dialog1);
-		dialog1.open();
+		dialog1.open();*/
 
-		ButtonText close3 = Button.flat().text("Cancel");
-		ButtonText close4 = Button.flat().text("OK");
+		var close3 = ButtonElement.flat().text("Cancel");
+		var close4 = ButtonElement.flat().text("OK");
 		Dialog dialog2 = Dialog.confirmation("Confirmation", close3, close4).add("Content");
+		content.add(dialog2);
 		close3.onClick(evt->dialog2.close());
 		close4.onClick(evt->dialog2.close());
-		content.add(dialog2);
 		dialog2.open();
-	}*/
+	}
 	private void TestPage() {
 		PageElement page = PageElement.instance().idx(0).show(30).total(1000);
 		page.sortable("A1", "AC", "CC");
