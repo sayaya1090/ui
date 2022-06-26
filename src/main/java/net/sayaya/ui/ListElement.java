@@ -1,27 +1,26 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
+import jsinterop.annotations.JsType;
+import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasClickHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
 
 import java.util.ArrayList;
 
 import static org.jboss.elemento.Elements.*;
-import static org.jboss.elemento.EventType.bind;
 
-public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>> extends HTMLElementBuilder<HTMLUListElement, ListElement<ListItem>> {
+public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>> extends HTMLElementBuilder<HTMLUListElement, ListElement<ListItem>> implements HasAttachHandlers {
 	public static ListElement<SingleLineItem> singleLineList() {
 		ListElement<SingleLineItem> elem = new ListElement<>(ul());
 		elem.css("mdc-list");
-		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
 	}
 	public static ListElement<DoubleLineItem> doubleLineList() {
 		ListElement<DoubleLineItem> elem = new ListElement<>(ul());
 		elem.css("mdc-list", "mdc-list--two-line");
-		bind(elem, "DOMNodeInserted", evt->inject(elem.element()));
 		return elem;
 	}
 	public static SingleLineItem singleLine() {
@@ -34,20 +33,12 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		elem.css("mdc-list-item");
 		return elem;
 	}
-	private native static void inject(Element elem) /*-{
-        var mdc = $wnd.mdc.list.MDCList.attachTo(elem);
-        // mdc.singleSelection = true;
-    }-*/;
 	private final HtmlContentBuilder<HTMLUListElement> _this;
 	private final java.util.List<ListItem> children = new ArrayList<>();
 	private ListElement(HtmlContentBuilder<HTMLUListElement> e) {
 		super(e);
-		_this = e;
-		_this.attr("role", "listbox");
-		layout();
-	}
-	private void layout() {
-		clear();
+		_this = e.attr("role", "listbox");
+		onAttach(evt->new MDCList(element()));
 	}
 	public ListElement<ListItem> add(ListItem item) {
 		_this.add(item);
@@ -77,6 +68,12 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 	public ListElement<ListItem> that() {
 		return this;
 	}
+
+	@Override
+	public HandlerRegistration onAttach(EventListener listener) {
+		return onAttach(element(), listener);
+	}
+
 	static abstract class AbstractListItem<B extends AbstractListItem<B>> extends HTMLElementBuilder<HTMLLIElement, B> implements HasClickHandlers {
 		private final HtmlContentBuilder<HTMLElement> ripple = span().css("mdc-list-item__ripple");
 		private HtmlContentBuilder<HTMLElement> leading;
@@ -178,5 +175,9 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		public Divider that() {
 			return this;
 		}
+	}
+	@JsType(isNative = true, namespace="mdc.list")
+	static final class MDCList {
+		public MDCList(Element elem){}
 	}
 }

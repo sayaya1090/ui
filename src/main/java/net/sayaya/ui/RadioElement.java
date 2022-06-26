@@ -1,11 +1,13 @@
 package net.sayaya.ui;
 
-import elemental2.dom.*;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLInputElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputBuilder;
 import org.jboss.elemento.InputType;

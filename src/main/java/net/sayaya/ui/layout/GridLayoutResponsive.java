@@ -1,8 +1,11 @@
 package net.sayaya.ui.layout;
 
 import elemental2.dom.DomGlobal;
-import lombok.*;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import org.gwtproject.event.shared.HandlerRegistration;
 
 import java.util.LinkedList;
 import java.util.List;

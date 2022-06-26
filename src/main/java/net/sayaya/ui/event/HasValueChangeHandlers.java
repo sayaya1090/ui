@@ -3,7 +3,7 @@ package net.sayaya.ui.event;
 import elemental2.dom.Event;
 import elemental2.dom.EventListener;
 import elemental2.dom.EventTarget;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 
 import static org.jboss.elemento.EventType.bind;
 

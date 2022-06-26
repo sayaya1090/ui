@@ -2,7 +2,7 @@ package net.sayaya.ui.event;
 
 import elemental2.dom.CustomEvent;
 import elemental2.dom.Event;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 
 import java.util.Collection;
 

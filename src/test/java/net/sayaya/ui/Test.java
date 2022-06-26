@@ -29,7 +29,7 @@ public class Test implements EntryPoint {
 		//TestDropDown();
 		//TestText();
 		// TestChip();
-		//TestList();
+		TestList();
 		// TestDialog();
 		//TestPage();
 		//TestTab();*/

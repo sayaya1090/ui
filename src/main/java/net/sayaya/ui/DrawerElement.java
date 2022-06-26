@@ -1,14 +1,16 @@
 package net.sayaya.ui;
 
+import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
+import net.sayaya.ui.event.HasAttachHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.*;
-import static org.jboss.elemento.EventType.bind;
 
-public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement> {
+public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement> implements HasAttachHandlers {
 	public static DrawerElement drawer() {
 		return new DrawerElement(aside().css("mdc-drawer mdc-drawer--dismissible"));
 	}
@@ -29,7 +31,7 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		super(e);
 		_this = e;
 		layout();
-		bind(element(), "DOMNodeInserted", evt-> _mdc = new MDCDrawer(element()));
+		onAttach(evt->Scheduler.get().scheduleDeferred(()->_mdc = new MDCDrawer(element())));
 	}
 	private void layout() {
 		clear();
@@ -69,6 +71,11 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 	@Override
 	public DrawerElement that() {
 		return this;
+	}
+
+	@Override
+	public HandlerRegistration onAttach(EventListener listener) {
+		return onAttach(element(), listener);
 	}
 
 	@JsType(isNative = true, namespace = "mdc.drawer", name="MDCDrawer")

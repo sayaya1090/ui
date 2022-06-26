@@ -1,12 +1,12 @@
 package net.sayaya.ui;
 
-import elemental2.dom.*;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLButtonElement;
 import net.sayaya.ui.mdc.MDCRipple;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;
-import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementIcon extends HTMLElementBuilder<HTMLButtonElement, ButtonElementIcon> implements ButtonElement {
 	private final HtmlContentBuilder<HTMLButtonElement> _this;

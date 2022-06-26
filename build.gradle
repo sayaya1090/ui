@@ -31,7 +31,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    implementation('org.jboss.elemento:elemento-core:1.0.10-gwtcom')
+    implementation("org.jboss.elemento:elemento-core:1.0.10")
     implementation("com.google.elemental2:elemental2-svg:1.1.0")
     compileOnly("org.gwtproject:gwt-dev:2.10.0")
     implementation("org.gwtproject:gwt-user:2.10.0")
@@ -39,15 +39,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.24")
     testCompileOnly("org.projectlombok:lombok:1.18.24")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.24")
-
     implementation("javax.validation:validation-api:2.0.1.Final")
-}
-configurations {
-    all {
-        exclude group: "com.google.gwt", module:"gwt-user"
-        exclude group: "com.google.gwt", module:"gwt-dev"
-        exclude group: "com.google.gwt", module:"gwt-servlet"
-    }
 }
 ext {
     lombok = project.configurations.annotationProcessor.find { it.name.startsWith("lombok") }

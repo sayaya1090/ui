@@ -2,18 +2,16 @@ package net.sayaya.ui;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
-import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.jboss.elemento.Elements.div;
-import static org.jboss.elemento.EventType.bind;
 
 public class ChipSetElement extends HTMLElementBuilder<HTMLDivElement, ChipSetElement> implements HasValueChangeHandlers<ChipElement[]> {
 	public static ChipSetElement chips() {

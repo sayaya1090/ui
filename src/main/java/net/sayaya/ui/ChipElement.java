@@ -1,6 +1,5 @@
 package net.sayaya.ui;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
 import elemental2.dom.Element;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLDivElement;
@@ -10,6 +9,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
 

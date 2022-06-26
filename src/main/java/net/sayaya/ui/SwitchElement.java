@@ -1,17 +1,14 @@
 package net.sayaya.ui;
 
-import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLInputElement;
 import elemental2.dom.HTMLLabelElement;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputBuilder;
 import org.jboss.elemento.InputType;
-
-import java.util.concurrent.ScheduledExecutorService;
 
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.input;

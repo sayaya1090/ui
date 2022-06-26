@@ -2,13 +2,13 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.DOM;
-import com.google.web.bindery.event.shared.HandlerRegistration;
 import elemental2.dom.*;
 import elemental2.svg.SVGElement;
 import elemental2.svg.SVGPolygonElement;
 import jsinterop.annotations.*;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;

@@ -1,12 +1,14 @@
 package net.sayaya.ui;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-import elemental2.dom.*;
-
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLButtonElement;
+import elemental2.dom.HTMLElement;
 import net.sayaya.ui.mdc.MDCRipple;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
-import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementFloating extends HTMLElementBuilder<HTMLButtonElement, ButtonElementFloating> implements ButtonElement {
 	private final HtmlContentBuilder<HTMLButtonElement> _this;

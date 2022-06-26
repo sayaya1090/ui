@@ -8,16 +8,14 @@ import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.IsElement;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static net.sayaya.ui.Animation.animate;
-import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
 public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElement, ChipElementCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {

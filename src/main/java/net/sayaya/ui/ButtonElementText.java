@@ -1,13 +1,16 @@
 package net.sayaya.ui;
 
-import com.google.web.bindery.event.shared.HandlerRegistration;
-import elemental2.dom.*;
-
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLButtonElement;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLElement;
 import net.sayaya.ui.mdc.MDCRipple;
 import net.sayaya.ui.util.ElementUtil;
+import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
-import static org.jboss.elemento.Elements.*;
+import static org.jboss.elemento.Elements.div;
+import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementText extends HTMLElementBuilder<HTMLButtonElement, ButtonElementText> implements ButtonElement {
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div();

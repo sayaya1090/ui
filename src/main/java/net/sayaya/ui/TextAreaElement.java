@@ -10,8 +10,11 @@ import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
-import com.google.web.bindery.event.shared.HandlerRegistration;
-import org.jboss.elemento.*;
+import org.gwtproject.event.shared.HandlerRegistration;
+import org.jboss.elemento.Elements;
+import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.IsElement;
+import org.jboss.elemento.TextContentBuilder;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
