@@ -1,6 +1,9 @@
 package net.sayaya.ui;
 
-import elemental2.dom.*;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLElement;
+import elemental2.dom.Node;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsType;
 import org.jboss.elemento.Elements;
@@ -27,7 +30,7 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	}
 	private final HtmlContentBuilder<HTMLDivElement> content = div().id();
 	private final HtmlContentBuilder<HTMLDivElement> surface = div();
-	private final MCDDialog mdc;
+	private final MDCDialog mdc;
 	private Dialog() {
 		this(div());
 	}
@@ -37,19 +40,19 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 			.add(div().css("mdc-dialog__container")
 					.add(surface.css("mdc-dialog__surface")
 							.attr("role", "alertdialog")
-							.attr("area-modal", "true")
-							.attr("aria-describedby", content.element().id)
+							.aria("modal", "true")
+							.aria("describedby", content.element().id)
 							.add(content.css("mdc-dialog__content"))))
 			.add(div().css("mdc-dialog__scrim"));
-		mdc = new MCDDialog(element());
-		mdc.listen("MDCDialog:opened", ()->content.attr("aria-hidden", "true"));
+		mdc = new MDCDialog(element());
+		mdc.listen("MDCDialog:opened", ()->content.aria("hidden", "true"));
 		mdc.listen("MDCDialog:closing", ()-> content.element().removeAttribute("aria-hidden"));
 	}
 	public Dialog title(String title) {
 		if(title != null && !title.trim().isEmpty()) {
 			var elemTitle = Elements.htmlElement("h2", HTMLElement.class).css("mdc-dialog__title").id().add(title);
-			surface.attr("aria-labelledby", elemTitle.element().id)
-					.element().insertBefore(elemTitle.element(), content.element());
+			surface.aria("labelledby", elemTitle.element().id).element()
+					.insertBefore(elemTitle.element(), content.element());
 		} else {
 			var elemTitle = element().getElementsByClassName("mdc-dialog__title");
 			if(elemTitle!=null) for(var e: elemTitle.asList()) e.remove();
@@ -93,8 +96,8 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	}
 
 	@JsType(isNative = true, namespace = "mdc.dialog", name="MDCDialog")
-	private final static class MCDDialog {
-		public MCDDialog(Element elem){}
+	private final static class MDCDialog {
+		public MDCDialog(Element elem){}
 		public native void listen(String msg, DialogEventHandler handler);
 		public native void open();
 		public native void close();

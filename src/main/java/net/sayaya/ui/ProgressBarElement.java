@@ -2,47 +2,31 @@ package net.sayaya.ui;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
-import jsinterop.annotations.JsOverlay;
-import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
-import static org.jboss.elemento.EventType.bind;
 
 public class ProgressBarElement extends HTMLElementBuilder<HTMLDivElement, ProgressBarElement> {
 	public static ProgressBarElement progressBar() {
-		ProgressBarElement elem = new ProgressBarElement(div());
-		elem.css("mdc-linear-progress")
-			.attr("role", "progressbar")
-			.attr("aria-valuemin", "0")
-			.attr("aria-valuemax", "1")
-			.attr("aria-valuenow", "0");
-		elem._mdc=inject(elem.element());
-		// bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
-		return elem;
+		return new ProgressBarElement(div());
 	}
-	private native static MdcProgressBar inject(Element elem) /*-{
-        return $wnd.mdc.linearProgress.MDCLinearProgress.attachTo(elem);
-    }-*/;
-	private final HtmlContentBuilder<HTMLDivElement> buffer = div().css("mdc-linear-progress__buffer")
-																   .add(div().css("mdc-linear-progress__buffer-bar"))
-																   .add(div().css("mdc-linear-progress__buffer-dots"));
-	private final HtmlContentBuilder<HTMLDivElement> primary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__primary-bar").add(span().css("mdc-linear-progress__bar-inner"));
-	private final HtmlContentBuilder<HTMLDivElement> secondary = div().css("mdc-linear-progress__bar", "mdc-linear-progress__secondary-bar").add(span().css("mdc-linear-progress__bar-inner"));
-	private final HtmlContentBuilder<HTMLDivElement> _this;
-	private MdcProgressBar _mdc;
+	private MDCProgressBar _mdc;
 	private ProgressBarElement(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
-		_this = e;
-		layout();
-	}
-	private void layout() {
-		_this.add(buffer).add(primary).add(secondary);
+		e.css("mdc-linear-progress")
+		.aria("valuemin", "0").aria("valuemax", "1").aria("valuenow", "0")
+		.attr("role", "progressbar")
+		.add(div().css("mdc-linear-progress__buffer")
+				.add(div().css("mdc-linear-progress__buffer-bar"))
+				.add(div().css("mdc-linear-progress__buffer-dots")))
+		.add(div().css("mdc-linear-progress__bar", "mdc-linear-progress__primary-bar")
+				.add(span().css("mdc-linear-progress__bar-inner")))
+		.add(div().css("mdc-linear-progress__bar", "mdc-linear-progress__secondary-bar")
+				.add(span().css("mdc-linear-progress__bar-inner")));
+		_mdc = new MDCProgressBar(element());
 	}
 	public ProgressBarElement open() {
 		_mdc.open();
@@ -75,30 +59,14 @@ public class ProgressBarElement extends HTMLElementBuilder<HTMLDivElement, Progr
 		return this;
 	}
 
-	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_ = {@JsOverlay})
-	@Accessors(fluent=true)
-	private static final class MdcProgressBar {
-		@JsProperty
-		private boolean determinate;
-		@JsProperty
-		private double progress;
-		@JsProperty
-		private double buffer;
-		@JsProperty
-		private boolean reverse;
+	@JsType(isNative = true, namespace="mdc.linearProgress", name="MDCLinearProgress")
+	private static final class MDCProgressBar {
+		@JsProperty private boolean determinate;
+		@JsProperty private double progress;
+		@JsProperty private double buffer;
+		@JsProperty private boolean reverse;
+		public MDCProgressBar(Element element){}
 		public native void open();
 		public native void close();
-		// public native MdcProgressBarFoundation getDefaultFoundation();
-	}
-
-	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_ = {@JsOverlay})
-	@Accessors(fluent=true)
-	private static final class MdcProgressBarFoundation {
-		public native void setDeterminate(boolean isDetermined);
-		public native void setProgress(double progress);
-		public native void setBuffer(double buffer);
-		public native void setReverse(boolean isReversed);
 	}
 }

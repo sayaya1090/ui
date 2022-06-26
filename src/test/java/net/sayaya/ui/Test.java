@@ -18,18 +18,18 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
-		//TestMenu();
-		//TestBreadcrumb();
-		//ProgressTest();
-		//RadioTest();
-		TestSwitch();
+		TestMenu();
+		// TestBreadcrumb();
+		// ProgressTest();
+		RadioTest();
+		//TestSwitch();
 		// AnimationTest();
 		// TestButton();
 		//TestCheckBox();
 		// TestDropDown();
 		//TestText();
-		TestChip();
-		TestList();
+		//TestChip();
+		//TestList();
 		// TestDialog();
 		//TestPage();
 		//TestTab();*/
@@ -65,8 +65,12 @@ public class Test implements EntryPoint {
 									  .add(ListElement.singleLine().label("DD"))
 									  .add(ListElement.singleLine().label("EE"));
 		MenuElement elem = MenuElement.build(list);
-		content.add(elem);
-		elem.positionFixed(true).open();
+		elem.with(content);
+		content.on(EventType.contextmenu, evt->{
+			evt.preventDefault();
+			elem.position((int)evt.x-5, (int)evt.y-5).open();
+		});
+		elem.on(EventType.mouseleave, evt->elem.close());
 	}
 	void TestBreadcrumb() {
 		BreadcrumbElement elem = BreadcrumbElement.home(IconElement.icon("home"), evt->{}).add("Text", evt->{}, "http://href").add(IconElement.icon("article"), evt->{});
@@ -81,9 +85,9 @@ public class Test implements EntryPoint {
 		RadioElement<String> b = RadioElement.radio("RADIO", "B");
 		RadioElement<String> c = RadioElement.radio("RADIO", "C");
 		RadioElement<String> d = RadioElement.radio("RADIO", "D");
-		a.onValueChange(evt->{
+		/*a.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
-		});
+		});*/
 		content.add(a).add(b).add(c).add(d).element();
 	}
 	void AnimationTest() {

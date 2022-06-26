@@ -157,7 +157,7 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 			return this;
 		}
 		public DrawerListItem icon(IconElement iconElement) {
-			if(iconElement !=null) iconElement.css("mdc-list-item__graphic").attr("area-hidden", "true");
+			if(iconElement !=null) iconElement.css("mdc-list-item__graphic").aria("hidden", "true");
 			this.iconElement = iconElement;
 			layout();
 			return this;

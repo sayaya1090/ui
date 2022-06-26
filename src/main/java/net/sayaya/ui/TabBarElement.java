@@ -1,12 +1,9 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
-import lombok.Setter;
-import lombok.experimental.Accessors;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
@@ -96,7 +93,7 @@ public class TabBarElement extends HTMLElementBuilder<HTMLDivElement, TabBarElem
 			if(label!=null) content.add(label);
 		}
 		public Tab icon(String icon) {
-			if(icon != null) this.icon = span().css("mdc-tab__icon", "material-icons").attr("aria-hidden", "true").add(icon);
+			if(icon != null) this.icon = span().css("mdc-tab__icon", "material-icons").aria("hidden", "true").add(icon);
 			else this.icon = null;
 			layout();
 			return that();
@@ -113,16 +110,12 @@ public class TabBarElement extends HTMLElementBuilder<HTMLDivElement, TabBarElem
 		}
 	}
 	@JsType(isNative = true, namespace = "mdc.tabbar", name="MDCTabBar")
-	@Setter(onMethod_ = {@JsOverlay})
-	@Accessors(fluent=true)
 	private static final class MDCTabBar {
 		public native int getFocusedTabIndex();
 		public native void addEventListener(String type, EventListener listener);
 		public native void removeEventListener(String type, EventListener listener);
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	@Setter(onMethod_ = {@JsOverlay})
-	@Accessors(fluent=true)
 	private static final class MDCTabBarFoundation {
 		public native void activateTabAtIndex(int index);
 		public native void setUseAutomaticActivation(boolean a);

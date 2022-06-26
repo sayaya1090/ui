@@ -33,7 +33,7 @@ public class SwitchElement extends HTMLElementBuilder<HTMLButtonElement, SwitchE
 	private final HtmlContentBuilder<HTMLDivElement> underlay = div();
 	public SwitchElement(HtmlContentBuilder<HTMLButtonElement> e) {
 		super(e);
-		e.css("mdc-switch", "mdc-switch--unselected").attr("role", "switch").attr("aria-checked", "false")
+		e.css("mdc-switch", "mdc-switch--unselected").attr("role", "switch").aria("checked", "false")
 				.add(track.css("mdc-switch__track").add(label))
 				.add(underlay.css("mdc-switch__handle-track")
 						.add(div().css("mdc-switch__handle")

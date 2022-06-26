@@ -6,37 +6,38 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.div;
-import static org.jboss.elemento.EventType.bind;
 
 public class MenuElement extends HTMLElementBuilder<HTMLDivElement, MenuElement> {
 	public static MenuElement build(ListElement listElement) {
 		MenuElement elem = new MenuElement(div(), listElement);
-		bind(elem.element,"DOMNodeInserted", evt->{
-			elem._mdc = inject(elem.element());
-		//	elem._foundation = foundation(elem._mdc);
-		});
 		return elem;
 	}
-	private static native MDCMenu inject(Element elem) /*-{
-        return $wnd.mdc.menu.MDCMenu.attachTo(elem);
-    }-*/;
 	private final ListElement<?> listElement;
 	private MDCMenu _mdc;
 	private MenuElement(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 		super(e.css("mdc-menu", "mdc-menu-surface"));
 		this.listElement = listElement;
 		e.add(listElement);
+		_mdc = new MDCMenu(element());
 	}
-	public void _for(Element e) {
-		e.addEventListener("DOMNodeInserted", evt->{
-			if(evt.target != e) return;
+	public void with(IsElement<?> e) {
+		with(e.element());
+	}
+	public void with(Element e) {
+		var attach = (elemental2.dom.EventListener) evt->{
 			Elements.body().add(this);
 			e.addEventListener("DOMNodeRemoved", evt2->{
 				if(evt.target != e) return;
 				element().remove();
 			});
+		};
+		if(e.isConnected) attach.handleEvent(null);
+		else e.addEventListener("DOMNodeInserted", evt->{
+			if(evt.target != e) return;
+			else attach.handleEvent(evt);
 		});
 	}
 	@Override
@@ -58,26 +59,11 @@ public class MenuElement extends HTMLElementBuilder<HTMLDivElement, MenuElement>
 		return that();
 	}
 
-	@JsType(isNative = true, namespace = "mdc.menu", name="MDCMenu")
+	@JsType(isNative = true, namespace = "mdc.menu")
 	private final static class MDCMenu {
-		@JsProperty
-		private boolean open;
+		@JsProperty private boolean open;
+		public MDCMenu(Element element){}
 		public native void setFixedPosition(boolean fixedPosition);
 		public native void setAbsolutePosition(int x, int y);
 	}
 }
-
-/*
-<div class="mdc-menu mdc-menu-surface">
-  <ul class="mdc-list" role="menu" aria-hidden="true" aria-orientation="vertical" tabindex="-1">
-    <li class="mdc-list-item" role="menuitem">
-      <span class="mdc-list-item__ripple"></span>
-      <span class="mdc-list-item__text">A Menu Item</span>
-    </li>
-    <li class="mdc-list-item" role="menuitem">
-      <span class="mdc-list-item__ripple"></span>
-      <span class="mdc-list-item__text">Another Menu Item</span>
-    </li>
-  </ul>
-</div>
- */

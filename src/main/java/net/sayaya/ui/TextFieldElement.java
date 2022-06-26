@@ -251,7 +251,7 @@ public abstract class TextFieldElement<V> extends HTMLElementBuilder<HTMLLabelEl
 			this.input = i;
 			String id = DOM.createUniqueId();
 			label.id(id);
-			i.attr("aria-labelledby", id);
+			i.aria("labelledby", id);
 			layout();
 		}
 		@Override
@@ -299,7 +299,7 @@ public abstract class TextFieldElement<V> extends HTMLElementBuilder<HTMLLabelEl
 			this.input = i;
 			String id = DOM.createUniqueId();
 			label.id(id);
-			i.attr("aria-labelledby", id);
+			i.aria("labelledby", id);
 			outline.add(outlineLeading).add(outlineNotch).add(outlineTrailing);
 			outlineNotch.add(label);
 			layout();

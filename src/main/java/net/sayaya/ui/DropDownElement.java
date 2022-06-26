@@ -28,7 +28,7 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		return new DropDownOutlined(div(), listElement);
 	}
 	protected MDCDropdown _mdc;
-	protected MCDDropdownFoundation _foundation;
+	protected MDCDropdownFoundation _foundation;
 	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
@@ -64,11 +64,11 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	public final DropDownElement enabled(boolean enabled) {
 		if(!enabled) {
 			css("mdc-select--disable");
-			anchor.attr("aria-disabled", "true");
+			anchor.aria("disabled", "true");
 			_mdc.disabled = true;
 		} else {
 			ncss("mdc-select--disable");
-			anchor.attr("aria-disabled", null);
+			anchor.aria("disabled", null);
 			_mdc.disabled = false;
 		}
 		return that();
@@ -156,7 +156,7 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		@JsProperty public boolean disabled;
 		@JsProperty public boolean required;
 		@JsProperty public boolean valid;
-		@JsProperty public MCDDropdownFoundation foundation;
+		@JsProperty public MDCDropdownFoundation foundation;
 		@JsProperty private Double selectedIndex;
 		public MDCDropdown(Element elem){}
 		@JsOverlay
@@ -167,7 +167,7 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		}
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
-	private final static class MCDDropdownFoundation {
+	private final static class MDCDropdownFoundation {
 		public native void setSelectedIndex(int idx);
 	}
 }
