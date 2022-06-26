@@ -1,8 +1,8 @@
 package net.sayaya.ui.svg;
 
-import elemental2.svg.SVGPathElement;
+import elemental2.svg.SVGPolygonElement;
 
-public class SvgPolygonBuilder extends AbstractSvgBuilder<SVGPathElement, SvgPolygonBuilder> {
+public class SvgPolygonBuilder extends AbstractSvgBuilder<SVGPolygonElement, SvgPolygonBuilder> {
     public static SvgPolygonBuilder polygon() {
         return new SvgPolygonBuilder();
     }
