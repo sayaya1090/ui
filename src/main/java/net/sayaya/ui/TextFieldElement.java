@@ -178,7 +178,7 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 		return that();
 	}
 	public B floatLabel(boolean shouldFloat) {
-		_mdc.foundation.floatLabel(shouldFloat);
+		_mdc.foundation.adapter.floatLabel(shouldFloat);
 		return that();
 	}
 	public final boolean checkValidity() {
@@ -280,10 +280,14 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 	}
 	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
 	private final static class MDCTextFieldFoundation {
+		@JsProperty private MDCTextFieldFoundationAdapter adapter;
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	private final static class MDCTextFieldFoundationAdapter {
 		public native void activateLineRipple();
 		public native void deactivateLineRipple();
-		public native void shakeLabel(boolean shouldShake);
 		public native void floatLabel(boolean shouldFloat);
+		public native void shakeLabel(boolean shouldShake);
 	}
 	@JsType(isNative = true, namespace="mdc.textField")
 	private final static class MDCTextFieldHelperText {
