@@ -18,21 +18,21 @@ public class Test implements EntryPoint {
 	@Override
 	public void onModuleLoad() {
 		LayoutTest();
-		TestMenu();
+		// TestMenu();
 		// TestBreadcrumb();
 		// ProgressTest();
-		RadioTest();
+		// RadioTest();
 		//TestSwitch();
 		// AnimationTest();
 		// TestButton();
 		//TestCheckBox();
 		// TestDropDown();
-		//TestText();
+		TestText();
 		//TestChip();
 		//TestList();
 		// TestDialog();
 		//TestPage();
-		//TestTab();*/
+		// TestTab();
 		//TestSheet();
 	}
 	void LayoutTest() {
@@ -215,19 +215,19 @@ public class Test implements EntryPoint {
 	}
 
 	void TestText() {
-		TextFieldElement<String> tmp1 = TextFieldElement.textBox().outlined().text("tmp1").before(IconElement.icon("favorite")).value("FFF");
+		var tmp1 = TextFieldElement.textBox().outlined().text("tmp1").before(IconElement.icon("favorite")).value("FFF");
 		tmp1.onValueChange(evt->{
 		//	DomGlobal.alert(evt.value());
 		});
 		content.add(tmp1);
-		TextFieldElement tmp3 = TextFieldElement.textBox().outlined().before(icon("title")).text("Title").style("width: 100%;").required(true);
+		var tmp3 = TextFieldElement.textBox().outlined().before(icon("title")).text("Title").style("width: 100%;").required(true);
 		content.add(tmp3);
 		Scheduler.get().scheduleFixedDelay(()->{
 			tmp3.value("FFFFFFFFFFFFFFFFF");
 			return false;
 		}, 1000);
 		//content.add(TextField.dateBox().outlined().before(icon("today")).text("Date").required(true).value(new JsDate((double) 1595919979408L)));
-		TextFieldElement<String> tmp2 = TextFieldElement.password().filled().text("tmp2").before(IconElement.icon("vpn_key")).trailing(IconElement.icon("visibility"));
+		var tmp2 = TextFieldElement.password().filled().text("tmp2").before(IconElement.icon("vpn_key")).trailing(IconElement.icon("visibility"));
 		tmp2.onValueChange(evt->{
 			DomGlobal.console.log(evt.value());
 		});
@@ -266,7 +266,11 @@ public class Test implements EntryPoint {
 		});
 	}
 	private void TestTab() {
-		TabBarElement tab = TabBarElement.tabBar(TabBarElement.tab().text("Favorites").icon("favorite"), TabBarElement.tab().text("Favorites").icon("favorite"), TabBarElement.tab().text("Favorites").icon("favorite")).activate(0);
+		TabBarElement tab = TabBarElement.tabBar(
+				TabBarElement.tab().text("Favorites").icon("favorite"),
+				TabBarElement.tab().text("Favorites").icon("favorite"),
+				TabBarElement.tab().text("Favorites").icon("favorite"))
+				.activate(0);
 		content.add(tab);
 		tab.onValueChange(evt->{
 			DomGlobal.alert(evt.value());
