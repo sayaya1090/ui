@@ -2,15 +2,20 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.DOM;
-import elemental2.dom.*;
-import elemental2.svg.SVGElement;
-import elemental2.svg.SVGPolygonElement;
+import elemental2.dom.Element;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLElement;
 import jsinterop.annotations.*;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
+import net.sayaya.ui.svg.SvgBuilder;
+import net.sayaya.ui.svg.SvgPolygonBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 
+import static net.sayaya.ui.svg.SvgBuilder.svg;
+import static net.sayaya.ui.svg.SvgPolygonBuilder.polygon;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 import static org.jboss.elemento.EventType.bind;
@@ -22,35 +27,22 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	public static DropDownElement outlined(ListElement listElement) {
 		return new DropDownOutlined(div(), listElement);
 	}
-	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	protected MDCDropdown _mdc;
 	protected MCDDropdownFoundation _foundation;
 	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
 	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
 	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
-	private final SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
-	protected final HtmlContentBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg);
-	private final SVGPolygonElement inactive = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
-	private final SVGPolygonElement active = (SVGPolygonElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "polygon");
+	private final SvgPolygonBuilder inactive = polygon().css("mdc-select__dropdown-icon-inactive").points("7 10 12 15 17 10").stroke("none").fillRule("evenodd");
+	private final SvgPolygonBuilder active = polygon().css("mdc-select__dropdown-icon-active").points("7 15 12 10 17 15").stroke("none").fillRule("evenodd");
+	private final SvgBuilder svg = svg().viewBox(7,10,10,5).css("mdc-select__dropdown-icon-graphic").add(inactive).add(active);
+	protected final HtmlContentBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg.element());
 	protected final ListElement<?> listElement;
 	protected DropDownElement(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 		super(e);
 		this.listElement = listElement;
 		String id = DOM.createUniqueId();
 		label.id(id);
-		anchor.attr("aria-labelledby", id);
-		svg.setAttribute( "viewBox", "7 10 10 5");
-		svg.classList.add("mdc-select__dropdown-icon-graphic");
-		svg.appendChild(inactive);
-		svg.appendChild(active);
-		inactive.setAttribute("points", "7 10 12 15 17 10");
-		inactive.setAttribute("stroke", "none");
-		inactive.setAttribute("fill-rule", "evenodd");
-		inactive.classList.add("mdc-select__dropdown-icon-inactive");
-		active.setAttribute("points", "7 15 12 10 17 15");
-		active.setAttribute("stroke", "none");
-		active.setAttribute("fill-rule", "evenodd");
-		active.classList.add("mdc-select__dropdown-icon-active");
+		anchor.aria("labelledby", id);
 	}
 	public final DropDownElement text(String label) {
 		this.label.textContent(label);

@@ -1,17 +1,22 @@
 package net.sayaya.ui;
 
-import elemental2.dom.*;
-import elemental2.svg.SVGElement;
-import elemental2.svg.SVGPathElement;
+import elemental2.dom.Element;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLInputElement;
+import elemental2.dom.HTMLLabelElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import net.sayaya.ui.mdc.MDCFormField;
+import net.sayaya.ui.svg.SvgBuilder;
+import net.sayaya.ui.svg.SvgPathBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.InputType;
 
+import static net.sayaya.ui.svg.SvgBuilder.svg;
+import static net.sayaya.ui.svg.SvgPathBuilder.path;
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.label;
 
@@ -23,9 +28,8 @@ public class CheckBoxElement extends HTMLElementBuilder<HTMLDivElement, CheckBox
 		return new CheckBoxElement(div(), initialValue);
 	}
 	private final HTMLInputElement input = Elements.input(InputType.checkbox).css("mdc-checkbox__native-control").id().element();
-	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
-	private final SVGPathElement path = (SVGPathElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "path");
-	private final SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
+	private final SvgPathBuilder path = path();
+	private final SvgBuilder svg = svg();
 	private final HtmlContentBuilder<HTMLDivElement> mixedmark = div();
 	private final HtmlContentBuilder<HTMLDivElement> background = div();
 	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
@@ -41,16 +45,13 @@ public class CheckBoxElement extends HTMLElementBuilder<HTMLDivElement, CheckBox
 				.add(checkbox.css("mdc-checkbox")
 						.add(input)
 						.add(background.css("mdc-checkbox__background")
-								.add(svg)
+								.add(svg.css("mdc-checkbox__checkmark").viewBox(0, 0, 24, 24)
+										.add(path.css("mdc-checkbox__checkmark-path")
+												.d("M1.73,12.91 8.1,19.28 22.79,4.59")
+												.fill("none")).element())
 								.add(mixedmark.css("mdc-checkbox__mixedmark")))
 						.add(ripple.css("mdc-checkbox__ripple")))
 				.add(label);
-		svg.classList.add("mdc-checkbox__checkmark");
-		svg.setAttribute( "viewBox", "0 0 24 24");
-		svg.appendChild(path);
-		path.classList.add("mdc-checkbox__checkmark-path");
-		path.setAttribute("d", "M1.73,12.91 8.1,19.28 22.79,4.59");
-		path.setAttribute("fill", "none");
 		_mdc = new MDCCheckbox(checkbox.element());
 		new MDCFormField(element());
 	}

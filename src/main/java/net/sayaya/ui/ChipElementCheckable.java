@@ -2,8 +2,6 @@ package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
-import elemental2.svg.SVGElement;
-import elemental2.svg.SVGPathElement;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
@@ -16,10 +14,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import static net.sayaya.ui.Animation.animate;
+import static net.sayaya.ui.svg.SvgBuilder.svg;
+import static net.sayaya.ui.svg.SvgPathBuilder.path;
 import static org.jboss.elemento.Elements.span;
 
 public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElement, ChipElementCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
-	private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
 	private final HtmlContentBuilder<HTMLElement> ripple = span();
 	private final HtmlContentBuilder<HTMLElement> graphic = span();
 	private final HtmlContentBuilder<HTMLElement> check = span();
@@ -32,7 +31,12 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		_this = e.css("mdc-chip")
 				.add(btn.css("mdc-chip__action", "mdc-chip__action--primary").attr("role", "option").attr("tabindex", "0")
 						.add(ripple.css("mdc-chip__ripple", "mdc-chip__ripple--primary"))
-						.add(graphic.css("mdc-chip__graphic").add(check.css("mdc_chip__checkmark").add(checkmark())))
+						.add(graphic.css("mdc-chip__graphic")
+								.add(check.css("mdc_chip__checkmark")
+										.add(svg().css("mdc-chip__checkmark-svg").viewBox(-2, -3, 30, 30)
+												.add(path().css("mdc-chip__checkmark-path")
+														.d("M1.73,12.91 8.1,19.28 22.79,4.59")
+														.fill("none").stroke("black")).element())))
 						.add(label.css("mdc-chip__text-label")));
 		on(EventType.click, evt->{
 			this.value = !value;
@@ -94,21 +98,6 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		listeners.add(listener);
 		return ()->listeners.remove(listener);
 	}
-
-	private static SVGElement checkmark() {
-		SVGPathElement path = (SVGPathElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "path");
-		path.classList.add("mdc-chip__checkmark-path");
-		path.setAttribute("d", "M1.73,12.91 8.1,19.28 22.79,4.59");
-		path.setAttribute("fill", "none");
-		path.setAttribute("stroke", "black");
-
-		SVGElement svg = (SVGElement) DomGlobal.document.createElementNS(SVG_NAMESPACE, "svg");
-		svg.classList.add("mdc-chip__checkmark-svg");
-		svg.setAttribute( "viewBox", "-2 -3 30 30");
-		svg.appendChild(path);
-		return svg;
-	}
-
 	@Override
 	public HandlerRegistration onAttach(EventListener listener) {
 		return onAttach(element(), listener);

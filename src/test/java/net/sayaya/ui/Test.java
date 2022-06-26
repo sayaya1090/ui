@@ -22,13 +22,13 @@ public class Test implements EntryPoint {
 		//TestBreadcrumb();
 		//ProgressTest();
 		//RadioTest();
-		// TestSwitch();
+		TestSwitch();
 		// AnimationTest();
 		// TestButton();
-		// TestCheckBox();
-		//TestDropDown();
+		//TestCheckBox();
+		// TestDropDown();
 		//TestText();
-		// TestChip();
+		TestChip();
 		TestList();
 		// TestDialog();
 		//TestPage();

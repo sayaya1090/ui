@@ -4,6 +4,7 @@ import elemental2.dom.*;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasClickHandlers;
+import net.sayaya.ui.util.ElementUtil;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
@@ -14,30 +15,24 @@ import static org.jboss.elemento.Elements.*;
 
 public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>> extends HTMLElementBuilder<HTMLUListElement, ListElement<ListItem>> implements HasAttachHandlers {
 	public static ListElement<SingleLineItem> singleLineList() {
-		ListElement<SingleLineItem> elem = new ListElement<>(ul());
-		elem.css("mdc-list");
-		return elem;
+		return new ListElement<>(ul());
 	}
 	public static ListElement<DoubleLineItem> doubleLineList() {
 		ListElement<DoubleLineItem> elem = new ListElement<>(ul());
-		elem.css("mdc-list", "mdc-list--two-line");
+		elem.css("mdc-list--two-line");
 		return elem;
 	}
 	public static SingleLineItem singleLine() {
-		SingleLineItem elem = new SingleLineItem(li());
-		elem.css("mdc-list-item");
-		return elem;
+		return new SingleLineItem(li());
 	}
 	public static DoubleLineItem doubleLine() {
-		DoubleLineItem elem = new DoubleLineItem(li());
-		elem.css("mdc-list-item");
-		return elem;
+		return new DoubleLineItem(li());
 	}
 	private final HtmlContentBuilder<HTMLUListElement> _this;
 	private final java.util.List<ListItem> children = new ArrayList<>();
 	private ListElement(HtmlContentBuilder<HTMLUListElement> e) {
 		super(e);
-		_this = e.attr("role", "listbox");
+		_this = e.css("mdc-list").attr("role", "listbox");
 		onAttach(evt->new MDCList(element()));
 	}
 	public ListElement<ListItem> add(ListItem item) {
@@ -74,54 +69,48 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		return onAttach(element(), listener);
 	}
 
-	static abstract class AbstractListItem<B extends AbstractListItem<B>> extends HTMLElementBuilder<HTMLLIElement, B> implements HasClickHandlers {
-		private final HtmlContentBuilder<HTMLElement> ripple = span().css("mdc-list-item__ripple");
-		private HtmlContentBuilder<HTMLElement> leading;
-		private final HtmlContentBuilder<HTMLElement> text = span().css("mdc-list-item__text");
-		private HtmlContentBuilder<HTMLElement> trailing;
+	static abstract class AbstractListItem<L extends AbstractListItem<L>> extends HTMLElementBuilder<HTMLLIElement, L> implements HasClickHandlers {
+		private final HtmlContentBuilder<HTMLElement> ripple = span();
+		protected final HtmlContentBuilder<HTMLElement> text = span();
 		protected final HtmlContentBuilder<HTMLLIElement> _this;
 		public AbstractListItem(HtmlContentBuilder<HTMLLIElement> e) {
 			super(e);
-			_this = e;
-			_this.attr("role", "option");
-			layout();
-			layout(text);
+			_this = e.css("mdc-list-item").attr("role", "option")
+					.add(ripple.css("mdc-list-item__ripple"))
+					.add(text.css("mdc-list-item__text"));
 		}
-		private void layout() {
-			_this.element().innerHTML = "";
-			_this.add(ripple);
-			if(leading!=null) _this.add(leading);
-			_this.add(text);
-			if(trailing!=null) _this.add(trailing);
-		}
-		public B leading(IsElement<?> element) {
-			if(element!=null) leading = span().css("mdc-list-item__graphic").add(element);
-			else leading = null;
-			layout();
+		public L leading(IsElement<?> element) {
+			if(element !=null) element().insertBefore(span().css("mdc-list-item__graphic").add(element).element(), text.element());
+			else {
+				var containers = element().getElementsByClassName("mdc-list-item__graphic");
+				if(containers!=null) for(var container: containers.asList()) if(ElementUtil.isPrev(container, text.element())) container.remove();
+			}
 			return that();
 		}
-		public B trailing(IsElement<?> element) {
-			if(element!=null) trailing = span().css("mdc-list-item__meta").add(element);
-			else trailing = null;
-			layout();
+		public L trailing(IsElement<?> element) {
+			if(element !=null) {
+				element.element().classList.add("mdc-list-item__meta");
+				text.element().insertAdjacentElement("afterend", element.element());
+			} else {
+				var containers = element().getElementsByClassName("mdc-list-item__meta");
+				if(containers!=null) for(var container: containers.asList()) if(ElementUtil.isNext(container, text.element())) container.remove();
+			}
 			return that();
 		}
 		public String value() {
 			return element().getAttribute("data-value");
 		}
-		public B enabled(boolean enabled) {
+		public L enabled(boolean enabled) {
 			if(!enabled) css("mdc-list-item--disabled");
 			else ncss("mdc-list-item--disabled");
 			return that();
 		}
-		protected abstract void layout(HtmlContentBuilder<HTMLElement> text);
 		@Override
 		public final HandlerRegistration onClick(EventListener listener) {
 			return onClick(that().element, listener);
 		}
 	}
 	public static class SingleLineItem extends AbstractListItem<SingleLineItem> {
-		private HtmlContentBuilder<HTMLElement> text;
 		private SingleLineItem(HtmlContentBuilder<HTMLLIElement> e) {
 			super(e);
 		}
@@ -131,25 +120,17 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 			return that();
 		}
 		@Override
-		protected void layout(HtmlContentBuilder<HTMLElement> text) {
-			this.text = text;
-		}
-		@Override
 		public SingleLineItem that() {
 			return this;
 		}
 	}
 	public static class DoubleLineItem extends AbstractListItem<DoubleLineItem> {
-		private HtmlContentBuilder<HTMLElement> primary;
-		private HtmlContentBuilder<HTMLElement> secondary;
+		private final HtmlContentBuilder<HTMLElement> primary = span();
+		private final HtmlContentBuilder<HTMLElement> secondary = span();
 		public DoubleLineItem(HtmlContentBuilder<HTMLLIElement> e) {
 			super(e);
-		}
-		@Override
-		protected void layout(HtmlContentBuilder<HTMLElement> text) {
-			primary = span().css("mdc-list-item__primary-text");
-			secondary = span().css("mdc-list-item__secondary-text");
-			text.add(primary).add(secondary);
+			text.add(primary.css("mdc-list-item__primary-text"))
+					.add(secondary.css("mdc-list-item__secondary-text"));
 		}
 		public DoubleLineItem primary(String msg) {
 			primary.element().textContent = msg;
@@ -169,8 +150,6 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		public Divider(HtmlContentBuilder<HTMLLIElement> e) {
 			super(e);
 		}
-		@Override
-		protected void layout(HtmlContentBuilder<HTMLElement> text) {}
 		@Override
 		public Divider that() {
 			return this;
