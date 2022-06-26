@@ -2,7 +2,6 @@ package net.sayaya.ui;
 
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLButtonElement;
-import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLElement;
 import net.sayaya.ui.mdc.MDCRipple;
 import net.sayaya.ui.util.ElementUtil;
@@ -13,14 +12,14 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementText extends HTMLElementBuilder<HTMLButtonElement, ButtonElementText> implements ButtonElement {
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
-	private final HtmlContentBuilder<HTMLElement> label = span();
+	private final HtmlContentBuilder<HTMLElement> label;
 	private final HtmlContentBuilder<HTMLButtonElement> _this;
 	ButtonElementText(HtmlContentBuilder<HTMLButtonElement> e) {
 		super(e);
 		_this = e;
+		label = span();
 		_this.css("mdc-button")
-				.add(ripple.css("mdc-button__ripple"))
+				.add(div().css("mdc-button__ripple"))
 				.add(label.css("mdc-button__label"));
 		new MDCRipple(element());
 	}
