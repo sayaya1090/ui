@@ -70,14 +70,14 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 											 	return DTF.format(new Date((long) v.getTime()));
 											 }).getter(()->input.element().valueAsDate);
 	}
-	private final static DateTimeFormat DTF2 = DateTimeFormat.getFormat("yyyy-MM-dd ");
+	private final static DateTimeFormat DTF2 = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm");
 	public static TextFieldBuilder<JsDate> datetimeBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input").attr("type", "datetime-local");
 		return new TextFieldBuilder<JsDate>().input(input)
-				.setter(v->{
-					if(v==null) return "";
-					return DTF.format(new Date((long) v.getTime()));
-				}).getter(()->input.element().valueAsDate);
+											 .setter(v->{
+												if(v==null) return "";
+												return DTF2.format(new Date((long) v.getTime()));
+											 }).getter(()->new JsDate((double)(DTF2.parse(input.element().value).getTime())));
 	}
 	public static TextFieldBuilder<String> fileBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
