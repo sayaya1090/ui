@@ -70,6 +70,14 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 											 	return DTF.format(new Date((long) v.getTime()));
 											 }).getter(()->input.element().valueAsDate);
 	}
+	public static TextFieldBuilder<JsDate> datetimeBox() {
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input");
+		return new TextFieldBuilder<JsDate>().input(input)
+				.setter(v->{
+					if(v==null) return "";
+					return DTF.format(new Date((long) v.getTime()));
+				}).getter(()->input.element().valueAsDate);
+	}
 	public static TextFieldBuilder<String> fileBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
 		return new TextFieldBuilder<String>().input(input)
