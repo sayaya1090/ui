@@ -70,8 +70,9 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 											 	return DTF.format(new Date((long) v.getTime()));
 											 }).getter(()->input.element().valueAsDate);
 	}
+	private final static DateTimeFormat DTF2 = DateTimeFormat.getFormat("yyyy-MM-dd ");
 	public static TextFieldBuilder<JsDate> datetimeBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input");
+		InputBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input").attr("type", "datetime-local");
 		return new TextFieldBuilder<JsDate>().input(input)
 				.setter(v->{
 					if(v==null) return "";
