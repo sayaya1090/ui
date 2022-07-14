@@ -43,8 +43,10 @@ public class RadioElement<V> extends HTMLElementBuilder<HTMLDivElement, RadioEle
 	}
 	@Override
 	public V value() {
-		if(_mdc.checked) return value;
-		return null;
+		return value;
+	}
+	public boolean isSelected() {
+		return _mdc.checked;
 	}
 	public RadioElement<V> select(boolean value) {
 		_mdc.checked = value;
