@@ -21,7 +21,7 @@ public class Test implements EntryPoint {
 		// TestMenu();
 		// TestBreadcrumb();
 		// ProgressTest();
-		// RadioTest();
+		RadioTest();
 		//TestSwitch();
 		// AnimationTest();
 		// TestButton();
@@ -83,12 +83,12 @@ public class Test implements EntryPoint {
 	void RadioTest() {
 		RadioElement<String> a = RadioElement.radio("RADIO", "A");
 		RadioElement<String> b = RadioElement.radio("RADIO", "B");
-		RadioElement<String> c = RadioElement.radio("RADIO", "C");
+		RadioElement<String> c = RadioElement.radio("RADIO", "C").select(true);
 		RadioElement<String> d = RadioElement.radio("RADIO", "D");
-		/*a.onValueChange(evt->{
-			DomGlobal.alert(evt.value());
-		});*/
 		content.add(a).add(b).add(c).add(d).element();
+		c.onValueChange(evt->{
+			DomGlobal.alert(evt.value());
+		});
 	}
 	void AnimationTest() {
 		ButtonElement tmp = ButtonElement.contain().text("Text Button").style("position: relative");
