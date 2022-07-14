@@ -74,10 +74,12 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 	public static TextFieldBuilder<JsDate> datetimeBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input").attr("type", "datetime-local");
 		return new TextFieldBuilder<JsDate>().input(input)
-											 .setter(v->{
-												if(v==null) return "";
-												return DTF2.format(new Date((long) v.getTime()));
-											 }).getter(()->new JsDate((double)(DTF2.parse(input.element().value).getTime())));
+				.setter(v->{
+					if(v==null) return "";
+					return DTF2.format(new Date((long) v.getTime()));
+				}).getter(()->{try {
+					return new JsDate((double)(DTF2.parse(input.element().value).getTime()));
+				} catch(Exception e) {return null;}});
 	}
 	public static TextFieldBuilder<String> fileBox() {
 		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
