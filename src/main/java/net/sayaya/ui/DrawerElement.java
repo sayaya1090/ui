@@ -68,6 +68,9 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		_mdc.open = !_mdc.open;
 		return this;
 	}
+	public boolean isOpened() {
+		return _mdc.open;
+	}
 	@Override
 	public DrawerElement that() {
 		return this;
