@@ -1,7 +1,10 @@
 package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
-import elemental2.dom.*;
+import elemental2.dom.CustomEvent;
+import elemental2.dom.EventListener;
+import elemental2.dom.HTMLDivElement;
+import elemental2.dom.HTMLElement;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
@@ -25,8 +28,7 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 	private final HtmlContentBuilder<HTMLElement> label = span();
 	private final HtmlContentBuilder<HTMLElement> btn = span();
 	private final HtmlContentBuilder<HTMLDivElement> _this;
-	private boolean value;
-	private final MDCChip _mdc;
+	private ChipElement.MDCChip _mdc;
 	ChipElementCheckable(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e.css("mdc-chip")
@@ -34,16 +36,13 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 						.add(ripple.css("mdc-chip__ripple", "mdc-chip__ripple--primary"))
 						.add(graphic.css("mdc-chip__graphic")
 								.add(check.css("mdc_chip__checkmark")
-										.add(svg().css("mdc-chip__checkmark-svg").viewBox(-2, -3, 30, 30)
+										.add(svg().css("mdc-chip__checkmark-svg").viewBox(-2, -8, 30, 30)
 												.add(path().css("mdc-chip__checkmark-path")
 														.d("M1.73,12.91 8.1,19.28 22.79,4.59")
 														.fill("none").stroke("black")).element())))
-						.add(label.css("mdc-chip__text-label")));
-		_mdc = new MDCChip(element());
-		on(EventType.click, evt->{
-			this.value = !value;
-			Scheduler.get().scheduleDeferred(this::fire);
-		});
+						.add(label.css("mdc-chip__text-label").style("line-height: 2em;")));
+		onAttach(evt->_mdc = new ChipElement.MDCChip(element()));
+		on(EventType.click, evt-> Scheduler.get().scheduleDeferred(this::fire));
 	}
 	public ChipElementCheckable text(String text) {
 		label.textContent(text);
@@ -79,13 +78,12 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		return this;
 	}
 	public ChipElementCheckable value(boolean value) {
-		//_mdc.selected = value;
-		this.value = value;
+		_mdc.selected = value;
+		fire();
 		return this;
 	}
 	public Boolean value() {
-		// return _mdc.selected;
-		return this.value;
+		return _mdc.selected;
 	}
 	private void fire() {
 		CustomEvent<Boolean> evt = new CustomEvent<>("change");
