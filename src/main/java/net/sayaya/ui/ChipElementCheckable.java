@@ -26,6 +26,7 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 	private final HtmlContentBuilder<HTMLElement> btn = span();
 	private final HtmlContentBuilder<HTMLDivElement> _this;
 	private boolean value;
+	private final MDCChip _mdc;
 	ChipElementCheckable(HtmlContentBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e.css("mdc-chip")
@@ -38,6 +39,7 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 														.d("M1.73,12.91 8.1,19.28 22.79,4.59")
 														.fill("none").stroke("black")).element())))
 						.add(label.css("mdc-chip__text-label")));
+		_mdc = new MDCChip(element());
 		on(EventType.click, evt->{
 			this.value = !value;
 			Scheduler.get().scheduleDeferred(this::fire);
@@ -87,7 +89,6 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 	}
 	private void fire() {
 		CustomEvent<Boolean> evt = new CustomEvent<>("change");
-		DomGlobal.console.log(value());
 		evt.detail = value();
 		ValueChangeEvent<Boolean> e = ValueChangeEvent.event(evt, value());
 		for(ValueChangeEventListener<Boolean> listener: listeners) listener.handle(e);
