@@ -34,11 +34,11 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 						.add(ripple.css("mdc-chip__ripple", "mdc-chip__ripple--primary"))
 						.add(graphic.css("mdc-chip__graphic")
 								.add(check.css("mdc_chip__checkmark")
-										.add(svg().css("mdc-chip__checkmark-svg").viewBox(-2, -3, 30, 30)
+										.add(svg().css("mdc-chip__checkmark-svg").viewBox(-2, -8, 30, 30)
 												.add(path().css("mdc-chip__checkmark-path")
 														.d("M1.73,12.91 8.1,19.28 22.79,4.59")
 														.fill("none").stroke("black")).element())))
-						.add(label.css("mdc-chip__text-label")));
+						.add(label.css("mdc-chip__text-label").style("line-height: 2em;")));
 		_mdc = new MDCChip(element());
 		on(EventType.click, evt->{
 			this.value = !value;
@@ -79,7 +79,8 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		return this;
 	}
 	public ChipElementCheckable value(boolean value) {
-		//_mdc.selected = value;
+		_mdc.selected = value;
+		DomGlobal.console.log(_mdc);
 		this.value = value;
 		return this;
 	}

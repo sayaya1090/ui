@@ -6,6 +6,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasAttachHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
+import org.jboss.elemento.EmptyContentBuilder;
 import org.jboss.elemento.HtmlContentBuilder;
 
 import static org.jboss.elemento.Elements.*;
@@ -16,6 +17,12 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 	}
 	public static DrawerHeader header() {
 		return new DrawerHeader(div().css("mdc-drawer__header"));
+	}
+	public static HtmlContentBuilder<HTMLLabelElement> subheader(String label) {
+		return label().css("mdc-list-group__subheader").add(label);
+	}
+	public static EmptyContentBuilder<HTMLHRElement> subdivider() {
+		return hr().css("mdc-list-divider");
 	}
 	public static DrawerContent content() {
 		return new DrawerContent(div().css("mdc-drawer__content"));
@@ -123,7 +130,10 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 			_this.add(list);
 		}
 		public DrawerContent header(String header) {
-			list.add(label().css("mdc-list-group__subheader").add(header));
+			return header(subheader(header));
+		}
+		public DrawerContent header(HtmlContentBuilder<HTMLLabelElement> header) {
+			list.add(header);
 			return this;
 		}
 		public DrawerContent add(DrawerListItem item) {
@@ -131,7 +141,10 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 			return this;
 		}
 		public DrawerContent divider() {
-			list.add(hr().css("mdc-list-divider"));
+			return divider(subdivider());
+		}
+		public DrawerContent divider(EmptyContentBuilder<HTMLHRElement> divider) {
+			list.add(divider);
 			return this;
 		}
 		@Override
