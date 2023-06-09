@@ -78,8 +78,10 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		return this;
 	}
 	public ChipElementCheckable value(boolean value) {
-		_mdc.selected = value;
-		fire();
+		Scheduler.get().scheduleDeferred(()->{
+			_mdc.foundation.setSelected(value);
+			fire();
+		});
 		return this;
 	}
 	public Boolean value() {
@@ -87,8 +89,9 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 	}
 	private void fire() {
 		CustomEvent<Boolean> evt = new CustomEvent<>("change");
-		evt.detail = value();
-		ValueChangeEvent<Boolean> e = ValueChangeEvent.event(evt, value());
+		var value = value();
+		evt.detail = value;
+		ValueChangeEvent<Boolean> e = ValueChangeEvent.event(evt, value);
 		for(ValueChangeEventListener<Boolean> listener: listeners) listener.handle(e);
 	}
 	private final Set<ValueChangeEventListener<Boolean>> listeners = new HashSet<>();

@@ -4,6 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.EventListener;
 import elemental2.dom.HTMLDivElement;
 import elemental2.dom.HTMLElement;
+import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import jsinterop.base.JsPropertyMap;
@@ -94,11 +95,16 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 	@JsType(isNative = true, namespace="mdc.chips")
 	static final class MDCChip {
 		@JsProperty public boolean selected;
+		@JsProperty public MDCChipFoundation foundation;
 		public MDCChip(Element elem){}
 		public native void beginExit();
 		public native void focusPrimaryAction();
 		public native void focusTrailingAction();
 		public native void removeFocus();
 		public native void setSelectedFromChipSet(boolean selected);
+	}
+	@JsType(isNative = true, namespace= JsPackage.GLOBAL, name="Object")
+	static final class MDCChipFoundation {
+		public native void setSelected(boolean selected);
 	}
 }
