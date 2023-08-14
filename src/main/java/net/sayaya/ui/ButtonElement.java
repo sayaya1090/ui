@@ -1,39 +1,52 @@
 package net.sayaya.ui;
 
-import elemental2.dom.HTMLButtonElement;
-import elemental2.dom.HTMLDivElement;
-import net.sayaya.ui.event.HasClickHandlers;
-import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.IsElement;
+import elemental2.dom.*;
+import jsinterop.annotations.JsOverlay;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
+import net.sayaya.ui.button.*;
 
-import static org.jboss.elemento.Elements.*;
-
-public interface ButtonElement extends IsElement<HTMLButtonElement>, HasClickHandlers, Focusable<ButtonElement> {
-	static ButtonElementText flat() {
-		return new ButtonElementText(button());
-	}
-	static ButtonElementText outline() {
-		return new ButtonElementText(button()).css("mdc-button--outlined");
-	}
-	static ButtonElementTextContained contain() {
-		return new ButtonElementTextContained(button()).unelevate();
-	}
-	static ButtonElementFloating floating(IconElement iconElement) {
-		return new ButtonElementFloating(button(), iconElement);
-	}
-	static ButtonElementIcon icon(String icon) {
-		var elem = new ButtonElementIcon(button(), icon);
-		return elem;
-	}
-	static ButtonElementToggle toggle() {
-		return new ButtonElementToggle(button());
-	}
-	default HtmlContentBuilder<HTMLDivElement> touchable() {
-		this.element().classList.add("mdc-button--touch");
-		element().appendChild(span().css("mdc-button__touch").element());
-		return div().css("mdc-touch-target-wrapper").add(this);
-	}
-	ButtonElement enabled(boolean enabled);
-	ButtonElement text(String text);
-	String text();
+@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+public abstract class ButtonElement extends HTMLElement {
+    @JsOverlay
+    public static ElevatedButtonElementBuilder elevatedButton() {
+        return new ElevatedButtonElementBuilder();
+    }
+    @JsOverlay
+    public static FilledButtonElementBuilder filledButton() {
+        return new FilledButtonElementBuilder();
+    }
+    @JsOverlay
+    public static FilledTonalButtonElementBuilder tonalButton() {
+        return new FilledTonalButtonElementBuilder();
+    }
+    @JsOverlay
+    public static OutlinedButtonElementBuilder outlinedButton() {
+        return new OutlinedButtonElementBuilder();
+    }
+    @JsOverlay
+    public static TextButtonElementBuilder textButton() {
+        return new TextButtonElementBuilder();
+    }
+    public String accessKey;
+    public boolean autofocus;
+    public boolean disabled;
+    public HTMLFormElement form;
+    public String formAction;
+    public String formEnctype;
+    public String formMethod;
+    public String formTarget;
+    public NodeList<HTMLLabelElement> labels;
+    public String name;
+    public int tabIndex;
+    public String type;
+    public String validationMessage;
+    public ValidityState validity;
+    public String value;
+    public boolean willValidate;
+    @JsOverlay
+    public final ButtonElement label(String label) {
+        this.append(label);
+        return this;
+    }
 }

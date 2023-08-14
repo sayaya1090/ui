@@ -1,30 +1,33 @@
 package net.sayaya.ui;
 
 import elemental2.dom.HTMLElement;
+import jsinterop.annotations.JsOverlay;
+import jsinterop.annotations.JsPackage;
+import jsinterop.annotations.JsType;
+import jsinterop.base.Js;
+import lombok.experimental.Delegate;
+import org.jboss.elemento.HtmlContent;
 import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.IsElement;
 
-import static org.jboss.elemento.Elements.i;
+import static org.jboss.elemento.Elements.htmlElement;
 
-public class IconElement extends HTMLElementBuilder<HTMLElement, IconElement> {
-	public static IconElement icon(String icon) {
-		return new IconElement(i().aria("hidden", "true").css("material-icons")).value(icon);
-	}
-	private final HtmlContentBuilder<? extends HTMLElement> _this;
-	protected IconElement(HtmlContentBuilder<HTMLElement> e) {
-		super(e);
-		_this = e;
-	}
-	public IconElement value(String icon) {
-		element().textContent = icon;
-		return this;
-	}
-	public IconElement selectable() {
-		element().tabIndex = 0;
-		style("outline: none;");
-		return this;
-	}
-	@Override
-	public IconElement that() {
-		return this;
-	}
+@JsType(isNative = true, namespace = JsPackage.GLOBAL)
+public class IconElement extends HTMLElement {
+    @JsOverlay
+    public static IconElementBuilder icon(String icon) {
+        return new IconElementBuilder(icon);
+    }
+    public static class IconElementBuilder implements HtmlContent<HTMLElement, HtmlContentBuilder<HTMLElement>> {
+        @Delegate(excludes = IsElement.class)
+        private final HtmlContentBuilder<HTMLElement> delegate;
+        private IconElementBuilder(String icon) {
+            delegate = htmlElement("md-icon", HTMLElement.class);
+            delegate.add(icon);
+        }
+        @Override
+        public IconElement element() {
+            return Js.uncheckedCast(delegate.element());
+        }
+    }
 }

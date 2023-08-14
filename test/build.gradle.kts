@@ -9,13 +9,13 @@ repositories {
     mavenLocal()
 }
 group = "net.sayaya"
-version = "4.0"
+version = "material3"
 java.sourceCompatibility = JavaVersion.VERSION_17
 java.targetCompatibility = JavaVersion.VERSION_17
 
 dependencies {
     implementation(project(":"))
-    implementation("org.jboss.elemento:elemento-core:1.0.11")
+    implementation("org.jboss.elemento:elemento-core:1.0.13")
     implementation("com.google.elemental2:elemental2-svg:1.1.0")
     implementation("org.gwtproject:gwt-user:2.10.0")
     compileOnly("org.gwtproject:gwt-dev:2.10.0")
