@@ -40,6 +40,12 @@ tasks {
         from(sourceSets.main.get().allSource)
     }
     publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/sayaya1090/maven")
+            }
+        }
         publications {
             register("maven", MavenPublication::class) {
                 groupId = "net.sayaya"

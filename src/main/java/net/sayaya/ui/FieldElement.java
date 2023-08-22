@@ -5,5 +5,5 @@ import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
-public abstract class TextFieldElement extends HTMLElement {
+public abstract class FieldElement extends HTMLElement {
 }
