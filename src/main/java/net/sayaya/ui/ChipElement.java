@@ -17,47 +17,47 @@ import static org.jboss.elemento.Elements.htmlElement;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public abstract class ChipElement extends HTMLElement {
+    @JsOverlay
+    public static ChipElementFactory chip() {
+        return new ChipElementFactory();
+    }
+
     public String label;
     public String ariaLabel;
     public boolean disabled;
     public boolean elevated;
     public String href;
 
-    @JsOverlay
-    public static ChipElementBuilder chip() {return new ChipElementBuilder();}
-
-    public static class ChipElementBuilder {
-        public String label;
-        public IsElement<HTMLElement> icon;
-        protected ChipElementBuilder() {}
+    public static class ChipElementFactory {
         public AssistChipElement.AssistChipElementBuilder assist() {
-            var builder = new AssistChipElement.AssistChipElementBuilder();
-            builder.clone(this);
-            return builder;
+            return new AssistChipElement.AssistChipElementBuilder();
         }
         public FilterChipElement.FilterChipElementBuilder filter() {
-            var builder = new FilterChipElement.FilterChipElementBuilder();
-            builder.clone(this);
-            return builder;
+            return new FilterChipElement.FilterChipElementBuilder();
         }
-        protected final void clone(ChipElementBuilder parent) {
-            this.label = parent.label;
-            this.icon = parent.icon;
-        }
-        public ChipElementBuilder icon(IsElement<HTMLElement> icon) {
+    }
+
+    public static abstract class ChipElementBuilder<T extends ChipElement, SELF extends ChipElementBuilder<T, SELF>> implements HtmlContent<T, HtmlContentBuilder<T>> {
+        protected ChipElementBuilder() {}
+        public SELF icon(IsElement<HTMLElement> icon) {
             icon.element().slot = "icon";
-            this.icon = icon;
-            return this;
+            add(icon);
+            return _this();
         }
-        protected <T extends ChipElement> void build(HtmlContent<T, HtmlContentBuilder<T>> builder) {
-            if(label!=null) {
-                builder.add(label);
-                label = null;
-            }
-            if(icon!=null) {
-                builder.add(icon);
-                icon = null;
-            }
+        public SELF label(String label) {
+            element().label = label;
+            return _this();
+        }
+        public SELF enabled(boolean enabled) {
+            element().disabled = !enabled;
+            return _this();
+        }
+        public SELF href(String url) {
+            element().href = url;
+            return _this();
+        }
+        private SELF _this() {
+            return (SELF) this;
         }
     }
     @JsType(isNative = true, namespace = JsPackage.GLOBAL)

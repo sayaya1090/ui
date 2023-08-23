@@ -1,7 +1,7 @@
 package net.sayaya.ui.chip;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
-import jsinterop.annotations.JsOverlay;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
@@ -16,11 +16,7 @@ import static org.jboss.elemento.Elements.htmlElement;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class FilterChipElement extends ChipElement {
-    @JsOverlay
-    public static HtmlContentBuilder<FilterChipElement> filter() {
-        return htmlElement("md-filter-chip", FilterChipElement.class);
-    }
-    public static class FilterChipElementBuilder extends ChipElementBuilder implements HtmlContent<FilterChipElement, HtmlContentBuilder<FilterChipElement>> {
+    public static class FilterChipElementBuilder extends ChipElementBuilder<FilterChipElement, FilterChipElementBuilder> {
         @Delegate(excludes = { IsElement.class, TypedBuilder.class, HtmlContent.class })
         private final HtmlContentBuilder<HTMLElement> delegate;
         private final HtmlContentBuilder<FilterChipElement> that;
@@ -30,7 +26,7 @@ public class FilterChipElement extends ChipElement {
         }
         @Override
         public FilterChipElement element() {
-            super.build(this);
+            DomGlobal.console.log("1");
             return Js.uncheckedCast(delegate.element());
         }
         @Override

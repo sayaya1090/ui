@@ -1,5 +1,6 @@
 package net.sayaya.ui.chip;
 
+import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -16,7 +17,7 @@ import static org.jboss.elemento.Elements.htmlElement;
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class AssistChipElement extends ChipElement {
 
-    public static class AssistChipElementBuilder extends ChipElementBuilder implements HtmlContent<AssistChipElement, HtmlContentBuilder<AssistChipElement>>{
+    public static class AssistChipElementBuilder extends ChipElementBuilder<AssistChipElement, AssistChipElementBuilder> {
         @Delegate(excludes = { IsElement.class, TypedBuilder.class, HtmlContent.class })
         private final HtmlContentBuilder<HTMLElement> delegate;
         private final HtmlContentBuilder<AssistChipElement> that;
@@ -26,7 +27,7 @@ public class AssistChipElement extends ChipElement {
         }
         @Override
         public AssistChipElement element() {
-            super.build(this);
+            DomGlobal.console.log("2");
             return Js.uncheckedCast(delegate.element());
         }
         @Override
