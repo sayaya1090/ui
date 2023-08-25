@@ -1,6 +1,5 @@
 package net.sayaya.ui.chip;
 
-import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLElement;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
@@ -16,6 +15,11 @@ import static org.jboss.elemento.Elements.htmlElement;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
 public class FilterChipElement extends ChipElement {
+    public String label;
+    public String ariaLabel;
+    public boolean disabled;
+    public boolean elevated;
+    public String href;
     public static class FilterChipElementBuilder extends ChipElementBuilder<FilterChipElement, FilterChipElementBuilder> {
         @Delegate(excludes = { IsElement.class, TypedBuilder.class, HtmlContent.class })
         private final HtmlContentBuilder<HTMLElement> delegate;
@@ -24,9 +28,20 @@ public class FilterChipElement extends ChipElement {
             delegate = htmlElement("md-filter-chip", HTMLElement.class);
             that = new HtmlContentBuilder<>(element());
         }
+        public FilterChipElementBuilder label(String label) {
+            element().label = label;
+            return this;
+        }
+        public FilterChipElementBuilder enabled(boolean enabled) {
+            element().disabled = !enabled;
+            return this;
+        }
+        public FilterChipElementBuilder href(String url) {
+            element().href = url;
+            return this;
+        }
         @Override
         public FilterChipElement element() {
-            DomGlobal.console.log("1");
             return Js.uncheckedCast(delegate.element());
         }
         @Override

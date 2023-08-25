@@ -8,6 +8,8 @@ import jsinterop.base.Js;
 import lombok.experimental.Delegate;
 import net.sayaya.ui.chip.AssistChipElement;
 import net.sayaya.ui.chip.FilterChipElement;
+import net.sayaya.ui.chip.InputChipElement;
+import net.sayaya.ui.chip.SuggestionChipElement;
 import org.jboss.elemento.HtmlContent;
 import org.jboss.elemento.HtmlContentBuilder;
 import org.jboss.elemento.IsElement;
@@ -22,12 +24,6 @@ public abstract class ChipElement extends HTMLElement {
         return new ChipElementFactory();
     }
 
-    public String label;
-    public String ariaLabel;
-    public boolean disabled;
-    public boolean elevated;
-    public String href;
-
     public static class ChipElementFactory {
         public AssistChipElement.AssistChipElementBuilder assist() {
             return new AssistChipElement.AssistChipElementBuilder();
@@ -35,25 +31,18 @@ public abstract class ChipElement extends HTMLElement {
         public FilterChipElement.FilterChipElementBuilder filter() {
             return new FilterChipElement.FilterChipElementBuilder();
         }
+        public InputChipElement.InputChipElementBuilder input() {
+            return new InputChipElement.InputChipElementBuilder();
+        }
+        public SuggestionChipElement.SuggestionChipElementBuilder suggestion() {
+            return new SuggestionChipElement.SuggestionChipElementBuilder();
+        }
     }
-
     public static abstract class ChipElementBuilder<T extends ChipElement, SELF extends ChipElementBuilder<T, SELF>> implements HtmlContent<T, HtmlContentBuilder<T>> {
         protected ChipElementBuilder() {}
         public SELF icon(IsElement<HTMLElement> icon) {
             icon.element().slot = "icon";
             add(icon);
-            return _this();
-        }
-        public SELF label(String label) {
-            element().label = label;
-            return _this();
-        }
-        public SELF enabled(boolean enabled) {
-            element().disabled = !enabled;
-            return _this();
-        }
-        public SELF href(String url) {
-            element().href = url;
             return _this();
         }
         private SELF _this() {
