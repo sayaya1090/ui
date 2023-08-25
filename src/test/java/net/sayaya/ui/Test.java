@@ -66,8 +66,10 @@ public class Test implements EntryPoint {
 				.plain());
 	}
 	void TestChip() {
-		body().add(chip().assist().icon(icon("search")).label("Assist Chip"));
+		body().add(chip().assist().icon(icon("search")).label("Assist Chip").enabled(false));
 		body().add(chip().filter().icon(icon("search")).label("Filter Chip"));
+		body().add(chip().input().icon(icon("search")).label("Input Chip"));
+		body().add(chip().suggestion().icon(icon("search")).label("Suggestion Chip").href("https://google.com"));
 	}
 	void TestDivider() {
 		body().add(div()

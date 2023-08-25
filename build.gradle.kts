@@ -1,9 +1,10 @@
+import org.wisepersist.gradle.plugins.gwt.GwtDev
+
 plugins {
     id("java")
     id("org.wisepersist.gwt") version "1.1.19"
     id("maven-publish")
 }
-apply(plugin="gwt-base")
 repositories {
     mavenCentral()
     mavenLocal()
@@ -22,6 +23,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.24")
 }
 
+
 tasks {
     withType<Delete> { doFirst { delete("build/") } }
     withType<JavaCompile> {
@@ -36,22 +38,50 @@ tasks {
         val lombok: File = project.configurations.annotationProcessor.get().filter { it.name.startsWith("lombok") }.single()
         extraJvmArgs = listOf("-XX:ReservedCodeCacheSize=512M", "-javaagent:${lombok}=ECJ")
     }
-    jar {
-        from(sourceSets.main.get().allSource)
-    }
-    publishing {
-        repositories {
-            maven {
-                name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/sayaya1090/maven")
-            }
+}
+if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
+    apply(plugin="gwt")
+    apply(plugin="war")
+    tasks {
+        gwt {
+            gwt.modules = listOf("net.sayaya.Test")
         }
-        publications {
-            register("maven", MavenPublication::class) {
-                groupId = "net.sayaya"
-                artifactId = "ui"
-                version = "material3"
-                from(project.components["java"])
+        named<GwtDev>("gwtDev") {
+            minHeapSize = "4096M"
+            maxHeapSize = "4096M"
+            sourceLevel = "auto"
+            val lombok: File = project.configurations.annotationProcessor.get().filter { it.name.startsWith("lombok") }.single()
+            extraJvmArgs = listOf("-XX:ReservedCodeCacheSize=512M", "-javaagent:${lombok}=ECJ")
+            port = 8888
+            war = File("src/test/webapp")
+        }
+        java.sourceSets["main"].java {
+            srcDir("src/test/java")
+        }
+        withType<War> {
+            duplicatesStrategy = DuplicatesStrategy.WARN
+        }
+    }
+} else {
+    apply(plugin="gwt-base")
+    tasks {
+        jar {
+            from(sourceSets.main.get().allSource)
+        }
+        publishing {
+            repositories {
+                maven {
+                    name = "GitHubPackages"
+                    url = uri("https://maven.pkg.github.com/sayaya1090/maven")
+                }
+            }
+            publications {
+                register("maven", MavenPublication::class) {
+                    groupId = "net.sayaya"
+                    artifactId = "ui"
+                    version = "material3"
+                    from(project.components["java"])
+                }
             }
         }
     }
