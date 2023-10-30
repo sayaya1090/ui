@@ -1,9 +1,7 @@
 {
   "dependencies": {
-    "@material/button": "^14.0.0",
-    "@material/radio": "^14.0.0",
-    "@material/web": "^1.0.0-pre.15",
-    "@rollup/plugin-node-resolve": "^15.1.0",
+    "@material/web": "^1.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^3.28.0"
   },
   "devDependencies": {

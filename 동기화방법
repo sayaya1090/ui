@@ -3,4 +3,4 @@
 터미널에서
 npm install @material/web
 (npm audit fix)
-npx rollup -p @rollup/plugin-node-resolve index.js > src/main/webapp/js/bundle.js
+npx rollup -p @rollup/plugin-node-resolve index.js > src/test/webapp/js/bundle.js
