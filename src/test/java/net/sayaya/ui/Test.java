@@ -13,6 +13,7 @@ import static net.sayaya.ui.elements.CheckboxElementBuilder.checkbox;
 import static net.sayaya.ui.elements.ChipsElementBuilder.chips;
 import static net.sayaya.ui.elements.DividerElementBuilder.*;
 import static net.sayaya.ui.elements.IconElementBuilder.icon;
+import static net.sayaya.ui.elements.ListElementBuilder.list;
 import static net.sayaya.ui.elements.TabsElementBuilder.tabs;
 import static net.sayaya.ui.elements.TextFieldElementBuilder.textField;
 import static net.sayaya.ui.svg.SvgBuilder.svg;
@@ -24,6 +25,7 @@ public class Test implements EntryPoint {
 	private final HTMLContainerBuilder<HTMLDivElement> panelButton		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelTextField	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelDivider		= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelList		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelIcon		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelCheckbox	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelChip		= div().style("margin: 1em;padding: 1em;");
@@ -33,6 +35,7 @@ public class Test implements EntryPoint {
 		body().add(tabs.tab().add("Button").panel(panelButton).end()
 						.tab().add("Text Field").panel(panelTextField).end()
 						.tab().add("Divider").panel(panelDivider).end()
+						.tab().add("List").panel(panelList).end()
 						.tab().add("Icon").panel(panelIcon).end()
 						.tab().add("Checkbox").panel(panelCheckbox).end()
 						.tab().add("Chip").panel(panelChip).end()
@@ -40,6 +43,7 @@ public class Test implements EntryPoint {
 				.add(panelButton)
 				.add(panelTextField)
 				.add(panelDivider)
+				.add(panelList)
 				.add(panelIcon)
 				.add(panelCheckbox)
 				.add(panelChip)
@@ -47,6 +51,7 @@ public class Test implements EntryPoint {
 		TestButton();
 		TestTextField();
 		TestDivider();
+		TestList();
 		TestIcon();
 		TestCheckbox();
 		TestChip();
@@ -168,6 +173,60 @@ public class Test implements EntryPoint {
 						.suggestion().label("Share").elevated().end()
 						.suggestion().label("Favorite").elevated().end()
 				);
+
+		panelChip.add(h(3).add("Dates"))
+				.add(chips().ariaLabelledBy("dates-label")
+						.filter().label("Mon").ariaLabel("Monday").end()
+						.filter().label("Tue").ariaLabel("Tuesday").end()
+						.filter().label("Wed").ariaLabel("Wednesday").end()
+				);
+
+		panelChip.add(chips().ariaLabel("Actions")
+						.assist().label("Copy").enabled(false).alwaysFocusable(true).end()
+						.assist().label("Paste").enabled(false).alwaysFocusable(true).end()
+				).add(textField().outlined().type(InputType.textarea));
+
+
+		panelChip.add(h(3).add("A restaurant location"))
+				.add(chips()
+						.assist().label("Add to my itinerary").icon("calendar").end()
+						.assist().label("12 mins from hotel").icon("map").end()
+				);
+
+		panelChip.add(h(3).add("Choose where to share"))
+				.add(chips()
+						.filter().label("Docs").end()
+						.filter().label("Slides").selected().end()
+						.filter().label("Sheets").selected().end()
+						.filter().label("Images").end()
+				);
+
+		panelChip.add(h(3).add("Colors"))
+				.add(chips()
+						.filter().label("Red").removable().selected(true).end()
+						.filter().label("Yellow").removable().end()
+						.filter().label("Blue").removable().end()
+						.filter().label("Green").removable().end()
+				);
+
+		panelChip.add(textField().outlined().label("Attendees").type(InputType.email))
+				.add(chips()
+						.input().label("John Doe").avatar().icon(img("...")).end()
+						.input().label("Jane Doe").avatar().icon(img("...")).end()
+				);
+
+		panelChip.add(h(3).add("Favorite movies"))
+				.add(chips()
+						.input().label("Star Wars").removeOnly().end()
+						.input().label("Star Trek").removeOnly().end()
+				);
+
+		panelChip.add(h(3).add("Suggested reply"))
+				.add(chips()
+						.suggestion().label("I agree").end()
+						.suggestion().label("Looks good to me").end()
+						.suggestion().label("Thank you").end()
+				);
 	}
 	void TestDivider() {
 		var section1 = section()
@@ -198,6 +257,18 @@ public class Test implements EntryPoint {
 				.add(section2)
 				.add(section3)
 				.add(section4);
+	}
+	void TestList() {
+		panelList.add(list()
+				.item().add("Fruits").end()
+				.divider()
+				.item().add("Apple").end()
+				.item().add("Banana").end()
+				.item().headline("Cucumber")
+					   .supportingText("Cucumbers are long green fruits that are just as long as this multi-line description").end()
+				.item().headline("Shop for Kiwis")
+					   .supportingText("This will link you out in a new tab").end(icon("open_in_new"))
+		);
 	}
 	void TestIcon() {
 		panelIcon.add(icon("settings"));

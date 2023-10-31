@@ -1,6 +1,5 @@
 package net.sayaya.ui.elements;
 
-import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
 import net.sayaya.ui.dom.MdChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdAssistChipElement;
@@ -8,7 +7,10 @@ import net.sayaya.ui.dom.MdChipElement.MdFilterChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdInputChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdSuggestionChipElement;
 import net.sayaya.ui.dom.MdChipSetElement;
-import org.jboss.elemento.*;
+import org.jboss.elemento.HTMLContainerBuilder;
+import org.jboss.elemento.HTMLElementBuilder;
+import org.jboss.elemento.HasElement;
+import org.jboss.elemento.HasHTMLElement;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -36,11 +38,14 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
     public SuggestionChipElementBuilder suggestion() {
         return new SuggestionChipElementBuilder(this);
     }
+    public ChipsElementBuilder ariaLabelledBy(String ariaLabelledBy) {
+        element().setAttribute("aria-labelledby", ariaLabelledBy);
+        return that();
+    }
     @Override
     public ChipsElementBuilder that() {
         return this;
     }
-
 
     interface ChipElementBuilder<E extends MdChipElement, SELF extends ChipsElementBuilder.ChipElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, HasAriaLabel<E, SELF>, HasIcon<E, SELF> {
         default SELF label(String label) {
@@ -53,6 +58,14 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         default SELF icon(HTMLImageElement icon) {
             this.add(icon);
             icon.setAttribute("slot", "icon");
+            return that();
+        }
+        default SELF enabled(boolean enabled) {
+            this.element().disabled = !enabled;
+            return that();
+        }
+        default SELF alwaysFocusable(boolean alwaysFocusable) {
+            this.element().alwaysFocusable = alwaysFocusable;
             return that();
         }
         ChipsElementBuilder end();
@@ -75,12 +88,12 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         @Override public AssistChipElementBuilder that() {
             return this;
         }
-        @Override public AssistChipElementBuilder elevated() {
-            element().elevated = true;
+        @Override public AssistChipElementBuilder elevated(boolean elevated) {
+            element().elevated = elevated;
             return that();
         }
     }
-    public final static class FilterChipElementBuilder implements ChipElementBuilder<MdFilterChipElement, FilterChipElementBuilder>, Elevatable<MdFilterChipElement, FilterChipElementBuilder> {
+    public final static class FilterChipElementBuilder implements ChipElementBuilder<MdFilterChipElement, FilterChipElementBuilder>, Elevatable<MdFilterChipElement, FilterChipElementBuilder>, Selectable<MdFilterChipElement, FilterChipElementBuilder> {
         private final HTMLContainerBuilder<MdFilterChipElement> that;
         private final ChipsElementBuilder parent;
         private FilterChipElementBuilder(ChipsElementBuilder parent) {
@@ -97,12 +110,23 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         @Override public FilterChipElementBuilder that() {
             return this;
         }
-        @Override public FilterChipElementBuilder elevated() {
-            element().elevated = true;
+        @Override public FilterChipElementBuilder elevated(boolean elevated) {
+            element().elevated = elevated;
             return that();
         }
+        @Override public FilterChipElementBuilder selected(boolean selected) {
+            element().selected = selected;
+            return that();
+        }
+        public FilterChipElementBuilder removable(boolean removable) {
+            element().removable = removable;
+            return that();
+        }
+        public FilterChipElementBuilder removable() {
+            return removable(true);
+        }
     }
-    public final static class InputChipElementBuilder implements ChipElementBuilder<MdInputChipElement, InputChipElementBuilder> {
+    public final static class InputChipElementBuilder implements ChipElementBuilder<MdInputChipElement, InputChipElementBuilder>, Selectable<MdInputChipElement, InputChipElementBuilder> {
         private final HTMLContainerBuilder<MdInputChipElement> that;
         private final ChipsElementBuilder parent;
         private InputChipElementBuilder(ChipsElementBuilder parent) {
@@ -123,6 +147,17 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         @Override public InputChipElementBuilder that() {
             return this;
         }
+        @Override public InputChipElementBuilder selected(boolean selected) {
+            element().selected = selected;
+            return that();
+        }
+        public InputChipElementBuilder removeOnly(boolean removeOnly) {
+            element().removeOnly = removeOnly;
+            return that();
+        }
+        public InputChipElementBuilder removeOnly() {
+            return removeOnly(true);
+        }
     }
     public final static class SuggestionChipElementBuilder implements ChipElementBuilder<MdSuggestionChipElement, SuggestionChipElementBuilder>, Elevatable<MdSuggestionChipElement, SuggestionChipElementBuilder> {
         private final HTMLContainerBuilder<MdSuggestionChipElement> that;
@@ -141,13 +176,9 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         @Override public SuggestionChipElementBuilder that() {
             return this;
         }
-        @Override public SuggestionChipElementBuilder elevated() {
-            element().elevated = true;
+        @Override public SuggestionChipElementBuilder elevated(boolean elevated) {
+            element().elevated = elevated;
             return that();
         }
-    }
-
-    public interface Elevatable<E extends HTMLElement, SELF extends Elevatable<E, SELF>> extends Container<E, SELF> {
-        SELF elevated();
     }
 }
