@@ -40,7 +40,8 @@ public class ListElementBuilder implements HasHTMLElement<MdListElement, ListEle
         return this;
     }
 
-    public final static class ListItemElementBuilder implements HasHTMLElement<MdListItemElement, ListItemElementBuilder>, HasElement<MdListItemElement, ListItemElementBuilder>, HasIcon<MdListItemElement, ListItemElementBuilder> {
+    public final static class ListItemElementBuilder implements HasHTMLElement<MdListItemElement, ListItemElementBuilder>, HasElement<MdListItemElement, ListItemElementBuilder>, HasIconSlot<MdListItemElement, ListItemElementBuilder>,
+            HasHeadlineSlot<MdListItemElement, ListItemElementBuilder>, HasSupportingTextSlot<MdListItemElement, ListItemElementBuilder>, HasStartSlot<MdListItemElement, ListItemElementBuilder>, HasEndSlot<MdListItemElement, ListItemElementBuilder>  {
         private final HTMLContainerBuilder<MdListItemElement> that;
         private final ListElementBuilder parent;
         private ListItemElementBuilder(ListElementBuilder parent) {
@@ -48,50 +49,21 @@ public class ListElementBuilder implements HasHTMLElement<MdListElement, ListEle
             this.parent = parent;
             parent.that.add(this);
     	}
-        public ListElementBuilder start(String start) {
-            return start(div().add(start));
-        }
-        public ListElementBuilder start(IsElement<? extends HTMLElement> element) {
-            return start(element.element());
-        }
-        public ListElementBuilder start(HTMLElement element) {
-            element.setAttribute("slot", "start");
-            add(element);
-            return end();
+        public ListItemElementBuilder type(String type) {
+            element().type = type;
+            return that();
         }
         public ListElementBuilder end() {
             return parent;
         }
-        public ListElementBuilder end(String end) {
-            return end(div().add(end));
+        public ListItemElementBuilder trailingSupportingText(String supportingText) {
+            return trailingSupportingText(div().add(supportingText));
         }
-        public ListElementBuilder end(IsElement<? extends HTMLElement> element) {
-            return end(element.element());
+        public ListItemElementBuilder trailingSupportingText(IsElement<? extends HTMLElement> element) {
+            return trailingSupportingText(element.element());
         }
-        public ListElementBuilder end(HTMLElement element) {
-            element.setAttribute("slot", "end");
-            add(element);
-            return end();
-        }
-        public ListItemElementBuilder headline(String headline) {
-            return headline(div().add(headline));
-        }
-        public ListItemElementBuilder headline(IsElement<? extends HTMLElement> element) {
-            return headline(element.element());
-        }
-        public ListItemElementBuilder headline(HTMLElement element) {
-            element.setAttribute("slot", "headline");
-            add(element);
-            return that();
-        }
-        public ListItemElementBuilder supportingText(String supportingText) {
-            return supportingText(div().add(supportingText));
-        }
-        public ListItemElementBuilder supportingText(IsElement<? extends HTMLElement> element) {
-            return supportingText(element.element());
-        }
-        public ListItemElementBuilder supportingText(HTMLElement element) {
-            element.setAttribute("slot", "supporting-text");
+        public ListItemElementBuilder trailingSupportingText(HTMLElement element) {
+            element.setAttribute("slot", "trailing-supporting-text");
             add(element);
             return that();
         }

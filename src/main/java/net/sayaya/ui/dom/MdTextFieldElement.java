@@ -34,7 +34,7 @@ public class MdTextFieldElement extends HTMLElement {
     public String type;
     public String autocomplete;
     public HTMLFormElement form;
-    public NodeList<?> labels;
+    public NodeList<HTMLLabelElement> labels;
     public String name;
     public String selectionDirection;
     public int selectionEnd;

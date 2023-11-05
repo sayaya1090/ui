@@ -2,6 +2,7 @@ package net.sayaya.ui.dom;
 
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLFormElement;
+import elemental2.dom.HTMLLabelElement;
 import elemental2.dom.NodeList;
 import jsinterop.annotations.JsType;
 
@@ -18,7 +19,7 @@ public class MdIconButtonElement extends HTMLElement {
     public String value;
     public String name;
     public HTMLFormElement form;
-    public NodeList<?> labels;
+    public NodeList<HTMLLabelElement> labels;
 
     @JsType(isNative = true, namespace = "mdc", name="MdFilledIconButton")
     public static class MdFilledIconButtonElement extends MdIconButtonElement {

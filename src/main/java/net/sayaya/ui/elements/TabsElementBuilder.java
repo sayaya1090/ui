@@ -69,7 +69,7 @@ public abstract class TabsElementBuilder<SELF extends TabsElementBuilder<SELF>> 
         }
     }
 
-    private interface TabElementBuilder<E extends MdTabElement, P extends TabsElementBuilder<?>, SELF extends TabElementBuilder<E, P, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, HasAriaLabel<E, SELF>, HasIcon<E, SELF> {
+    private interface TabElementBuilder<E extends MdTabElement, P extends TabsElementBuilder<?>, SELF extends TabElementBuilder<E, P, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, HasAriaLabel<E, SELF>, HasIconSlot<E, SELF> {
         P end();
         default SELF active(boolean active) {
             element().active = active;

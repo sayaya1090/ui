@@ -4,6 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
 import net.sayaya.ui.elements.TabsElementBuilder.TabsPrimaryElementBuilder;
+import net.sayaya.ui.util.ElementUtil;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.InputType;
@@ -14,47 +15,68 @@ import static net.sayaya.ui.elements.ChipsElementBuilder.chips;
 import static net.sayaya.ui.elements.DividerElementBuilder.*;
 import static net.sayaya.ui.elements.IconElementBuilder.icon;
 import static net.sayaya.ui.elements.ListElementBuilder.list;
+import static net.sayaya.ui.elements.MenuElementBuilder.menu;
+import static net.sayaya.ui.elements.ProgressElementBuilder.progress;
+import static net.sayaya.ui.elements.RadioElementBuilder.radio;
+import static net.sayaya.ui.elements.SelectElementBuilder.select;
 import static net.sayaya.ui.elements.TabsElementBuilder.tabs;
 import static net.sayaya.ui.elements.TextFieldElementBuilder.textField;
 import static net.sayaya.ui.svg.SvgBuilder.svg;
 import static net.sayaya.ui.svg.SvgPathBuilder.path;
+import static net.sayaya.ui.svg.SvgPolygonBuilder.polygon;
 import static org.jboss.elemento.Elements.*;
 
 public class Test implements EntryPoint {
 	private final TabsPrimaryElementBuilder tabs						= tabs().primary();
 	private final HTMLContainerBuilder<HTMLDivElement> panelButton		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelTextField	= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelSelect		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelDivider		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelList		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelIcon		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelCheckbox	= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelRadio		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelChip		= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelMenu		= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelProgress	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelTab			= div().style("margin: 1em;padding: 1em;");
 	@Override
 	public void onModuleLoad() {
 		body().add(tabs.tab().add("Button").panel(panelButton).end()
 						.tab().add("Text Field").panel(panelTextField).end()
+						.tab().add("Select").panel(panelSelect).end()
 						.tab().add("Divider").panel(panelDivider).end()
 						.tab().add("List").panel(panelList).end()
 						.tab().add("Icon").panel(panelIcon).end()
 						.tab().add("Checkbox").panel(panelCheckbox).end()
+						.tab().add("Radio").panel(panelRadio).end()
 						.tab().add("Chip").panel(panelChip).end()
+						.tab().add("Menu").panel(panelMenu).end()
+						.tab().add("Progress").panel(panelProgress).end()
 						.tab().add("Tab").panel(panelTab).active(true).end())
 				.add(panelButton)
 				.add(panelTextField)
+				.add(panelSelect)
 				.add(panelDivider)
 				.add(panelList)
 				.add(panelIcon)
 				.add(panelCheckbox)
+				.add(panelRadio)
 				.add(panelChip)
+				.add(panelMenu)
+				.add(panelProgress)
 				.add(panelTab);
 		TestButton();
 		TestTextField();
+		TestSelect();
 		TestDivider();
 		TestList();
 		TestIcon();
 		TestCheckbox();
+		TestRadio();
 		TestChip();
+		TestMenu();
+		TestProgress();
 		TestTab();
 
 		panelButton.element().removeAttribute("hidden");
@@ -117,13 +139,13 @@ public class Test implements EntryPoint {
 		panelTextField.add(textField().outlined().type(InputType.textarea).label("Vertical resize").style("resize: vertical;").rows(3));
 
 		panelTextField.add(textField().outlined().placeholder("Search for messages")
-				.icon("search"));
+				.iconLeading("search"));
 		panelTextField.add(textField().outlined().label("Password").type(InputType.password)
-				.icon(button().icon().add(icon("visibility")).toggle("visibility_off"), true));
+				.iconTrailing(button().icon().add(icon("visibility")).toggle("visibility_off")));
 		panelTextField.add(textField().outlined()
 				.label("Username").value("jdoe")
 				.error("Username not available")
-				.icon("error", true));
+				.iconTrailing("error"));
 
 		panelTextField.add(textField().outlined()
 				.label("Dollar amount").type(InputType.number).value("0")
@@ -149,6 +171,128 @@ public class Test implements EntryPoint {
 				.add(textField().filled().label("First").ariaLabel("First name"));
 
 	}
+	void TestSelect() {
+		panelSelect.add(
+				select().outlined()
+						.option().ariaLabel("blank").end()
+						.option().value("apple").headline("Apple").selected().end()
+						.option().value("apricot").headline("Apricot").end());
+		panelSelect.add(
+				select().filled()
+						.option().ariaLabel("blank").end()
+						.option().value("apple").headline("Apple").selected().end()
+						.option().value("apricot").headline("Apricot").end());
+
+		panelSelect.add(
+				select().filled().required().supportingText("A")
+						.option().value("one").headline("One").end()
+						.option().value("two").headline("Two").end());
+	}
+	void TestDivider() {
+		var section1 = section()
+				.add(p().add("Lorem ipsum..."))
+				.add(divider())
+				.add(p().add("Lorem ipsum..."));
+
+		var section2 = section()
+				.add(p().add("Material 2"))
+				.add(dividerInset())
+				.add(p().add("Material 3"));
+
+		var section3 = section()
+				.add(p().add("Material 2"))
+				.add(dividerInsetStart())
+				.add(p().add("Material 3"));
+
+		var section4 = ul()
+				.add(li().add("Item one"))
+				.add(dividerInset())
+				.add(li().add("Item two"))
+				.add(divider().separator())
+				.add(li().add("Item three"))
+				.add(dividerInset())
+				.add(li().add("Item four"))
+				;
+		panelDivider.add(section1)
+				.add(section2)
+				.add(section3)
+				.add(section4);
+	}
+	void TestList() {
+		panelList.add(list()
+				.item().add("Fruits").end()
+				.divider()
+				.item().add("Apple").end()
+				.item().add("Banana").end()
+				.item().headline("Cucumber")
+					   .supportingText("Cucumbers are long green fruits that are just as long as this multi-line description").end()
+				.item().headline("Shop for Kiwis")
+					   .supportingText("This will link you out in a new tab").end(icon("open_in_new"))
+		);
+
+		panelList.add(list()
+				.item().add("Lit").start(svg().style("height: 24px;").viewBox(0, 0, 160, 200)
+						.add(path().fill("currentColor").d("m160 80v80l-40-40zm-40 40v80l40-40zm0-80v80l-40-40zm-40 40v80l40-40zm-40-40v80l40-40zm40-40v80l-40-40zm-40 120v80l-40-40zm-40-40v80l40-40z"))).end()
+				.item().add("Polymer").start(icon("polymer")).end()
+				.item().add("Angular").start(svg().style("height: 24px;").viewBox(0, 0, 250, 250)
+						.add(polygon().points("108,135.4 125,135.4 125,135.4 125,135.4 142,135.4 125,94.5"))
+						.add(path().d("M125,30L125,30L125,30L31.9,63.2l14.2,123.1L125,230l0,0l0,0l78.9-43.7l14.2-123.1L125,30z M183.1,182.6h-21.7h0\n" +
+								"l-11.7-29.2H125h0h0h-24.7l-11.7,29.2h0H66.9h0L125,52.1l0,0l0,0l0,0l0,0L183.1,182.6L183.1,182.6z"))).end()
+		);
+
+		panelList.add(list()
+				.item().add("Cat").start(img("https://placekitten.com/112/112").style("width: 56px;")).end()
+				.divider()
+				.item().add("Kitty Cat").start(img("https://placekitten.com/114/114").style("width: 56px;")).end()
+				.divider()
+				.item().add("Cate").start(img("https://placekitten.com/116/116").style("width: 56px;")).end()
+		);
+
+		panelList.add(list()
+				.item().type("button").headline(div().add("Apple"))
+					.supportingText(div().add("In stock"))
+					.trailingSupportingText(div().add("+100")).end()
+				.item().type("button").headline(div().add("Banana"))
+					.supportingText(div().add("In stock"))
+					.trailingSupportingText(div().add("56")).end()
+				.item().type("button").headline(div().add("Cucumber"))
+					.supportingText(div().add("Low stock"))
+					.trailingSupportingText(div().add("5")).end()
+		);
+
+		panelList.add(list()
+				.item().headline(div().add("Eggs"))
+						.start(icon("egg")).end(icon("recommend")).end()
+				.item().headline(div().add("Ice Cream"))
+					.start(icon("icecream")).end(icon("dangerous")).end()
+				.item().headline(div().add("Orange"))
+					.start(icon("nutrition")).end(icon("recommend")).end()
+		);
+	}
+	void TestIcon() {
+		panelIcon.add(icon("settings"));
+		//panelIcon.add(icon("&#xe834"));
+		panelIcon.add(icon(svg().viewBox(0, 0, 48, 48)
+				.add(path().d("M10 40V24H4L24 6l10 8.85V9h4v9.55L44 24h-6v16H26.5V28h-5v12Zm3-3h5.5V25h11v12H35V19.95l-11-10-11 10Zm5.5-12h11-11Zm1.25-5.5h8.5q0-1.65-1.275-2.725Q25.7 15.7 24 15.7q-1.7 0-2.975 1.075Q19.75 17.85 19.75 19.5Z"))));
+	}
+	void TestFocus() {
+
+	}
+	void TestField() {
+
+	}
+	void TestCheckbox() {
+		panelCheckbox.add(checkbox());
+		panelCheckbox.add(checkbox().checked(true));
+		panelCheckbox.add(checkbox().indeterminate());
+	}
+	void TestRadio() {
+		panelRadio.add(form()
+				.add(radio().name("animals").value("cats"))
+				.add(radio().name("animals").value("dogs"))
+				.add(radio().name("animals").value("birds").checked())
+		);
+	}
 	void TestChip() {
 		panelChip.add(chips()
 				.assist().label("Assist").end()
@@ -164,9 +308,9 @@ public class Test implements EntryPoint {
 				);
 
 		panelChip.add(chips()
-						.assist().label("Add to calendar").icon("event").end()
-						.input().label("John Doe").avatar().icon(img("...")).end()
-				);
+				.assist().label("Add to calendar").icon("event").end()
+				.input().label("John Doe").avatar().icon(img("...")).end()
+		);
 
 		panelChip.add(img("..."))
 				.add(chips()
@@ -182,9 +326,9 @@ public class Test implements EntryPoint {
 				);
 
 		panelChip.add(chips().ariaLabel("Actions")
-						.assist().label("Copy").enabled(false).alwaysFocusable(true).end()
-						.assist().label("Paste").enabled(false).alwaysFocusable(true).end()
-				).add(textField().outlined().type(InputType.textarea));
+				.assist().label("Copy").enabled(false).alwaysFocusable(true).end()
+				.assist().label("Paste").enabled(false).alwaysFocusable(true).end()
+		).add(textField().outlined().type(InputType.textarea));
 
 
 		panelChip.add(h(3).add("A restaurant location"))
@@ -228,74 +372,74 @@ public class Test implements EntryPoint {
 						.suggestion().label("Thank you").end()
 				);
 	}
-	void TestDivider() {
-		var section1 = section()
-				.add(p().add("Lorem ipsum..."))
-				.add(divider())
-				.add(p().add("Lorem ipsum..."));
+	void TestMenu() {
+		var button = button().filled().id(ElementUtil.uniqueId()).add("Set with idref");
+		var menu = menu();
+		panelMenu.add(span().style("position: relative;")
+				.add(button)
+				.add(menu.anchor(button.element().id)
+						.item().headline("Apple").end()
+						.item().headline("Banana").end()
+						.item().headline("Cucumber").end()));
+		button.on(EventType.click, evt->menu.toggle());
 
-		var section2 = section()
-				.add(p().add("Material 2"))
-				.add(dividerInset())
-				.add(p().add("Material 3"));
+		var button2 = button().filled().add("Set with element ref");
+		panelMenu.add(span().style("position: relative;")
+				.add(button2)
+				.add(menu().anchorElement(button2)
+						.item().headline("Apple").end()
+						.item().headline("Banana").end()
+						.item().headline("Cucumber").end()));
 
-		var section3 = section()
-				.add(p().add("Material 2"))
-				.add(dividerInsetStart())
-				.add(p().add("Material 3"));
+		var button3 = button().filled().add("Menu with Submenus");
+		panelMenu.add(span().style("position: relative;")
+				.add(button3)
+				.add(menu().anchorElement(button3).overflow()
+						.sub()
+							.item().headline("Fruits with A").end(icon("arrow_right")).end()
+							.menu()
+								.item().headline("Apricot").end()
+								.item().headline("Avocado").end()
+								.sub().menuCorner("start-end").anchorCorner("start-start")
+									.item().headline("Apples").start(icon("arrow_left")).end()
+									.menu()
+										.item().headline("Fuji").end()
+										.item().headline(div().style("white-space: nowrap;").add("Granny Smith")).end()
+										.item().headline(div().style("white-space: nowrap;").add("Red Delicious")).end()
+									.end()
+								.end()
+							.end()
+						.item().headline("Banana").end()
+						.item().headline("Cucumber").end()
+						.end()));
 
-		var section4 = ul()
-				.add(li().add("Item one"))
-				.add(dividerInset())
-				.add(li().add("Item two"))
-				.add(divider().separator())
-				.add(li().add("Item three"))
-				.add(dividerInset())
-				.add(li().add("Item four"))
-				;
-		panelDivider.add(section1)
-				.add(section2)
-				.add(section3)
-				.add(section4);
-	}
-	void TestList() {
-		panelList.add(list()
-				.item().add("Fruits").end()
-				.divider()
-				.item().add("Apple").end()
-				.item().add("Banana").end()
-				.item().headline("Cucumber")
-					   .supportingText("Cucumbers are long green fruits that are just as long as this multi-line description").end()
-				.item().headline("Shop for Kiwis")
-					   .supportingText("This will link you out in a new tab").end(icon("open_in_new"))
-		);
-	}
-	void TestIcon() {
-		panelIcon.add(icon("settings"));
-		//panelIcon.add(icon("&#xe834"));
-		panelIcon.add(icon(svg().viewBox(0, 0, 48, 48)
-				.add(path().d("M10 40V24H4L24 6l10 8.85V9h4v9.55L44 24h-6v16H26.5V28h-5v12Zm3-3h5.5V25h11v12H35V19.95l-11-10-11 10Zm5.5-12h11-11Zm1.25-5.5h8.5q0-1.65-1.275-2.725Q25.7 15.7 24 15.7q-1.7 0-2.975 1.075Q19.75 17.85 19.75 19.5Z"))));
-	}
-	void TestFocus() {
 
-	}
-	void TestField() {
-
-	}
-	void TestCheckbox() {
-		panelCheckbox.add(checkbox());
-		panelCheckbox.add(checkbox().checked(true));
-		panelCheckbox.add(checkbox().indeterminate());
+		var button4 = button().filled().add("Menu with Submenus");
+		panelMenu.add(div().style("margin: 16px;").add(button4))
+				.add(menu().positioning("fixed").anchorElement(button4)
+						.item().headline("Apple").end()
+						.item().headline("Banana").end()
+						.item().headline("Cucumber").end());
 	}
 	void TestProgress() {
+		panelProgress.add(progress().circular().value(0.75));
+		panelProgress.add(progress().circular().indeterminate());
+		panelProgress.add(progress().linear().indeterminate());
+		panelProgress.add(progress().linear().value(0.5));
 
+		panelProgress.add(progress().circular().fourColor().indeterminate());
+		panelProgress.add(progress().linear().fourColor().indeterminate());
+
+		panelProgress.add(progress().circular().value(0.5).ariaLabel("Page refresh progress"));
+		panelProgress.add(progress().linear().value(0.5).ariaLabel("Download progress"));
+
+		panelProgress.add(progress().linear().value(0.5).buffer(0.8));
 	}
 
 	void TestDialog() {
 
 
 	}
-
 	void TestTab() {
 		var tab1 = tabs().primary().ariaLabel("Test")
 				.tab().add("Video").end()

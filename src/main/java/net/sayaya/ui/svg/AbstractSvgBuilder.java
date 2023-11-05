@@ -3,7 +3,6 @@ package net.sayaya.ui.svg;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
-import elemental2.svg.SVGElement;
 import org.jboss.elemento.*;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.function.Supplier;
 import static java.util.Arrays.asList;
 import static org.jboss.elemento.EventType.bind;
 
-public abstract class AbstractSvgBuilder<E extends SVGElement, B extends AbstractSvgBuilder<E, B>> implements TypedBuilder<E, AbstractSvgBuilder<E, B>>, IsSvgElement<E> {
+public abstract class AbstractSvgBuilder<E extends SVGElement, B extends AbstractSvgBuilder<E, B>> implements TypedBuilder<E, AbstractSvgBuilder<E, B>>, IsSvgElement<E, B> {
     private final static String SVG_NAMESPACE = "http://www.w3.org/2000/svg";
     private final E element;
     protected AbstractSvgBuilder(String tag) {
@@ -22,10 +21,6 @@ public abstract class AbstractSvgBuilder<E extends SVGElement, B extends Abstrac
     }
     private AbstractSvgBuilder(E element) {
         this.element = element;
-    }
-    @Override
-    public B that() {
-        return (B) this;
     }
     @Override
     public E element() {
@@ -38,7 +33,6 @@ public abstract class AbstractSvgBuilder<E extends SVGElement, B extends Abstrac
         element().id = id;
         return that();
     }
-    /** Adds the specified CSS classes to the class list of the element. */
     public B css(String... classes) {
         if (classes != null) {
             List<String> failSafeClasses = new ArrayList<>();

@@ -1,7 +1,5 @@
 package net.sayaya.ui.elements;
 
-import net.sayaya.ui.dom.MdIconButtonElement;
-import net.sayaya.ui.dom.MdIconElement;
 import net.sayaya.ui.dom.MdTextFieldElement;
 import net.sayaya.ui.dom.MdTextFieldElement.MdFilledTextFieldElement;
 import net.sayaya.ui.dom.MdTextFieldElement.MdOutlinedTextFieldElement;
@@ -11,7 +9,8 @@ import org.jboss.elemento.InputType;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
-public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF extends TextFieldElementBuilder<E, SELF>> extends HasElement<E, SELF>, HasIcon<E, SELF>, HasAriaLabel<E, SELF> {
+public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF extends TextFieldElementBuilder<E, SELF>> extends HasElement<E, SELF>,
+        HasLeadingIconSlot<E, SELF>, HasTrailingIconSlot<E, SELF>, HasAriaLabel<E, SELF>, HasSupportingTextSlot<E, SELF> {
     static TextFieldPrepareElementBuilder textField() {
         return new TextFieldPrepareElementBuilder();
     }
@@ -40,40 +39,6 @@ public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF exte
         element().placeholder = placeholder;
         return that();
     }
-    default SELF icon(String icon) {
-        return icon(icon, false);
-    }
-    default SELF icon(String icon, boolean trailing) {
-        return icon(IconElementBuilder.icon(icon), trailing);
-    }
-    default SELF icon(IconElementBuilder icon) {
-        return icon(icon.element(), false);
-    }
-    default SELF icon(IconElementBuilder icon, boolean trailing) {
-        return icon(icon.element(), trailing);
-    }
-    default SELF icon(MdIconElement icon) {
-        return icon(icon, false);
-    }
-    default SELF icon(MdIconElement icon, boolean trailing) {
-        this.add(icon);
-        icon.setAttribute("slot", trailing?"trailing-icon":"leading-icon");
-        return that();
-    }
-    default SELF icon(IconButtonElementBuilder<?, ?> icon) {
-        return icon(icon.element(), false);
-    }
-    default SELF icon(IconButtonElementBuilder<?, ?> icon, boolean trailing) {
-        return icon(icon.element(), trailing);
-    }
-    default SELF icon(MdIconButtonElement icon) {
-        return icon(icon, false);
-    }
-    default SELF icon(MdIconButtonElement icon, boolean trailing) {
-        this.add(icon);
-        icon.setAttribute("slot", trailing?"trailing-icon":"leading-icon");
-        return that();
-    }
     default SELF rows(int rows) {
         element().rows = rows;
         return that();
@@ -84,10 +49,6 @@ public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF exte
     }
     default SELF required(boolean required) {
         element().required = required;
-        return that();
-    }
-    default SELF supportingText(String supportingText) {
-        element().supportingText = supportingText;
         return that();
     }
     default SELF pattern(String pattern) {

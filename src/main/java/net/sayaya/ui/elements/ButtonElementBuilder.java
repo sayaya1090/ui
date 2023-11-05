@@ -9,7 +9,7 @@ import org.jboss.elemento.HasHTMLElement;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
-public interface ButtonElementBuilder<E extends MdButtonElement, SELF extends ButtonElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, HasIcon<E, SELF> , HasAriaLabel<E, SELF> {
+public interface ButtonElementBuilder<E extends MdButtonElement, SELF extends ButtonElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, HasIconSlot<E, SELF>, HasAriaLabel<E, SELF> {
     static ButtonPrepareElementBuilder button() {
         return new ButtonPrepareElementBuilder();
     }

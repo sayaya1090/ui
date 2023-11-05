@@ -1,7 +1,5 @@
 package net.sayaya.ui.svg;
 
-import elemental2.svg.SVGPathElement;
-
 public class SvgPathBuilder extends AbstractSvgBuilder<SVGPathElement, SvgPathBuilder> {
     public static SvgPathBuilder path() {
         return new SvgPathBuilder();
@@ -10,15 +8,20 @@ public class SvgPathBuilder extends AbstractSvgBuilder<SVGPathElement, SvgPathBu
         super("path");
     }
     public SvgPathBuilder d(String param) {
-        element().setAttribute("d", param);
+        attr("d", param);
         return that();
     }
     public SvgPathBuilder fill(String param) {
-        element().setAttribute("fill", param);
+        attr("fill", param);
         return that();
     }
     public SvgPathBuilder stroke(String param) {
-        element().setAttribute("stroke", param);
+        attr("stroke", param);
         return that();
+    }
+
+    @Override
+    public SvgPathBuilder that() {
+        return this;
     }
 }

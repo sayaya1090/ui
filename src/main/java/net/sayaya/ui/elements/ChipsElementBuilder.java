@@ -1,6 +1,5 @@
 package net.sayaya.ui.elements;
 
-import elemental2.dom.HTMLImageElement;
 import net.sayaya.ui.dom.MdChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdAssistChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdFilterChipElement;
@@ -8,7 +7,6 @@ import net.sayaya.ui.dom.MdChipElement.MdInputChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdSuggestionChipElement;
 import net.sayaya.ui.dom.MdChipSetElement;
 import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HTMLElementBuilder;
 import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;
 
@@ -47,17 +45,10 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         return this;
     }
 
-    interface ChipElementBuilder<E extends MdChipElement, SELF extends ChipsElementBuilder.ChipElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, HasAriaLabel<E, SELF>, HasIcon<E, SELF> {
+    interface ChipElementBuilder<E extends MdChipElement, SELF extends ChipsElementBuilder.ChipElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>,
+            HasAriaLabel<E, SELF>, HasIconSlot<E, SELF> {
         default SELF label(String label) {
             element().label = label;
-            return that();
-        }
-        default SELF icon(HTMLElementBuilder<HTMLImageElement> icon) {
-            return icon(icon.element());
-        }
-        default SELF icon(HTMLImageElement icon) {
-            this.add(icon);
-            icon.setAttribute("slot", "icon");
             return that();
         }
         default SELF enabled(boolean enabled) {

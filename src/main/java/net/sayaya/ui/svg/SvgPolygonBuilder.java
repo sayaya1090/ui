@@ -1,7 +1,5 @@
 package net.sayaya.ui.svg;
 
-import elemental2.svg.SVGPolygonElement;
-
 public class SvgPolygonBuilder extends AbstractSvgBuilder<SVGPolygonElement, SvgPolygonBuilder> {
     public static SvgPolygonBuilder polygon() {
         return new SvgPolygonBuilder();
@@ -10,15 +8,19 @@ public class SvgPolygonBuilder extends AbstractSvgBuilder<SVGPolygonElement, Svg
         super("polygon");
     }
     public SvgPolygonBuilder points(String param) {
-        element().setAttribute("points", param);
+        attr("points", param);
         return that();
     }
     public SvgPolygonBuilder stroke(String param) {
-        element().setAttribute("stroke", param);
+        attr("stroke", param);
         return that();
     }
     public SvgPolygonBuilder fillRule(String param) {
-        element().setAttribute("fill-rule", param);
+        attr("fill-rule", param);
         return that();
+    }
+    @Override
+    public SvgPolygonBuilder that() {
+        return this;
     }
 }

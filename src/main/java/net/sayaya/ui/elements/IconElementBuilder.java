@@ -14,7 +14,7 @@ public class IconElementBuilder implements HasHTMLElement<MdIconElement, IconEle
     public static IconElementBuilder icon(String icon) {
         return new IconElementBuilder().add(icon);
     }
-    public static IconElementBuilder icon(IsSvgElement<?> icon) {
+    public static IconElementBuilder icon(IsSvgElement<?, ?> icon) {
         return new IconElementBuilder().add(icon);
     }
 
@@ -23,7 +23,7 @@ public class IconElementBuilder implements HasHTMLElement<MdIconElement, IconEle
         that.add(icon);
         return that();
     }
-    public IconElementBuilder add(IsSvgElement<?> icon) {
+    public IconElementBuilder add(IsSvgElement<?, ?> icon) {
         element().append(icon.element());
         return that();
     }

@@ -2,9 +2,6 @@
 <module>
 	<inherits name="com.google.gwt.user.User"/>
 	<inherits name="org.jboss.elemento.Core"/>
-	<inherits name="elemental2.svg.Svg"/>
 	<source path="ui"/>
-	<source path="java.beans" />
 	<collapse-all-properties/>
-	<set-configuration-property name="CssResource.enableGss" value="TRUE" />
 </module>
