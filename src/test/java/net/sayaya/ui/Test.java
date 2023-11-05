@@ -5,6 +5,7 @@ import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
 import net.sayaya.ui.elements.TabsElementBuilder.TabsPrimaryElementBuilder;
 import net.sayaya.ui.util.ElementUtil;
+import org.jboss.elemento.Elements;
 import org.jboss.elemento.EventType;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.InputType;
@@ -13,12 +14,14 @@ import static net.sayaya.ui.elements.ButtonElementBuilder.button;
 import static net.sayaya.ui.elements.CheckboxElementBuilder.checkbox;
 import static net.sayaya.ui.elements.ChipsElementBuilder.chips;
 import static net.sayaya.ui.elements.DividerElementBuilder.*;
+import static net.sayaya.ui.elements.FocusRingElementBuilder.focusRing;
 import static net.sayaya.ui.elements.IconElementBuilder.icon;
 import static net.sayaya.ui.elements.ListElementBuilder.list;
 import static net.sayaya.ui.elements.MenuElementBuilder.menu;
 import static net.sayaya.ui.elements.ProgressElementBuilder.progress;
 import static net.sayaya.ui.elements.RadioElementBuilder.radio;
 import static net.sayaya.ui.elements.SelectElementBuilder.select;
+import static net.sayaya.ui.elements.SliderElementBuilder.slider;
 import static net.sayaya.ui.elements.TabsElementBuilder.tabs;
 import static net.sayaya.ui.elements.TextFieldElementBuilder.textField;
 import static net.sayaya.ui.svg.SvgBuilder.svg;
@@ -31,6 +34,7 @@ public class Test implements EntryPoint {
 	private final HTMLContainerBuilder<HTMLDivElement> panelButton		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelTextField	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelSelect		= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelSlider		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelDivider		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelList		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelIcon		= div().style("margin: 1em;padding: 1em;");
@@ -40,11 +44,13 @@ public class Test implements EntryPoint {
 	private final HTMLContainerBuilder<HTMLDivElement> panelMenu		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelProgress	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelTab			= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelFocusRing	= div().style("margin: 1em;padding: 1em;");
 	@Override
 	public void onModuleLoad() {
-		body().add(tabs.tab().add("Button").panel(panelButton).end()
+		body().add(tabs.tab().add("Button").panel(panelButton).active(true).end()
 						.tab().add("Text Field").panel(panelTextField).end()
 						.tab().add("Select").panel(panelSelect).end()
+						.tab().add("Slider").panel(panelSlider).end()
 						.tab().add("Divider").panel(panelDivider).end()
 						.tab().add("List").panel(panelList).end()
 						.tab().add("Icon").panel(panelIcon).end()
@@ -53,10 +59,12 @@ public class Test implements EntryPoint {
 						.tab().add("Chip").panel(panelChip).end()
 						.tab().add("Menu").panel(panelMenu).end()
 						.tab().add("Progress").panel(panelProgress).end()
-						.tab().add("Tab").panel(panelTab).active(true).end())
+						.tab().add("Tab").panel(panelTab).end()
+						.tab().add("Focus Ring").panel(panelFocusRing).end())
 				.add(panelButton)
 				.add(panelTextField)
 				.add(panelSelect)
+				.add(panelSlider)
 				.add(panelDivider)
 				.add(panelList)
 				.add(panelIcon)
@@ -65,10 +73,12 @@ public class Test implements EntryPoint {
 				.add(panelChip)
 				.add(panelMenu)
 				.add(panelProgress)
-				.add(panelTab);
+				.add(panelTab)
+				.add(panelFocusRing);
 		TestButton();
 		TestTextField();
 		TestSelect();
+		TestSlider();
 		TestDivider();
 		TestList();
 		TestIcon();
@@ -78,7 +88,7 @@ public class Test implements EntryPoint {
 		TestMenu();
 		TestProgress();
 		TestTab();
-
+		TestFocusRing();
 		panelButton.element().removeAttribute("hidden");
 	}
 	void TestButton() {
@@ -187,6 +197,17 @@ public class Test implements EntryPoint {
 				select().filled().required().supportingText("A")
 						.option().value("one").headline("One").end()
 						.option().value("two").headline("Two").end());
+	}
+	void TestSlider() {
+		panelSlider.add(slider());
+		panelSlider.add(slider().ticks(5).value(50));
+		panelSlider.add(slider().range(25, 50).valueStart(25).valueEnd(75));
+
+		panelSlider.add(slider().min(0).max(100).value(50));
+		panelSlider.add(slider().ticks(5).min(0).max(20));
+		panelSlider.add(slider().range(25, 50));
+
+		panelSlider.add(slider().labeled());
 	}
 	void TestDivider() {
 		var section1 = section()
@@ -471,5 +492,26 @@ public class Test implements EntryPoint {
 				.tab().ariaLabel("Videos").add(icon("videocam")).end()
 				.tab().ariaLabel("Music").add(icon("audiotrack")).end()
 		);
+	}
+	void TestFocusRing() {
+		var button = Elements.button().style("position: relative; width: 40px; height: 40px;").element();
+		button.append(focusRing().element());
+		panelFocusRing.add(button);
+
+		var button2 = Elements.button().style("width: 40px; height: 40px;").element();
+		panelFocusRing.add(div().style("position: relative;")
+				.add(focusRing().control(button2))
+				.add(button2));
+
+		var button3 = Elements.button().style("width: 40px; height: 40px;").element();
+		var focusRing = focusRing();
+		focusRing.element().attach(button3);
+		panelFocusRing.add(div().style("position: relative;")
+				.add(focusRing)
+				.add(button3));
+
+		var button4 = Elements.button().style("position: relative; width: 40px; height: 40px;").element();
+		button4.append(focusRing().inward().element());
+		panelFocusRing.add(button4);
 	}
 }
