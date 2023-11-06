@@ -1,7 +1,9 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
+import net.sayaya.ui.svg.IsSvgElement;
 import org.jboss.elemento.Container;
 import org.jboss.elemento.HTMLElementBuilder;
 
@@ -18,7 +20,11 @@ public interface HasIconSlot<E extends HTMLElement, SELF extends HasIconSlot<E, 
     default SELF icon(HTMLElementBuilder<HTMLImageElement> icon) {
         return icon(icon.element());
     }
-    default SELF icon(HTMLElement icon) {
+    default SELF icon(IsSvgElement<?, ?> element) {
+        return icon(element.element());
+    }
+
+    default SELF icon(Element icon) {
         this.add(icon);
         icon.setAttribute("slot", "icon");
         return that();

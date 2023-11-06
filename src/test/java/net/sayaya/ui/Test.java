@@ -4,6 +4,7 @@ import com.google.gwt.core.client.EntryPoint;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
 import net.sayaya.ui.elements.DialogElementBuilder;
+import net.sayaya.ui.elements.FabElementBuilder;
 import net.sayaya.ui.elements.TabsElementBuilder.TabsPrimaryElementBuilder;
 import net.sayaya.ui.util.ElementUtil;
 import org.jboss.elemento.Elements;
@@ -17,6 +18,7 @@ import static net.sayaya.ui.elements.CheckboxElementBuilder.checkbox;
 import static net.sayaya.ui.elements.ChipsElementBuilder.chips;
 import static net.sayaya.ui.elements.DialogElementBuilder.dialog;
 import static net.sayaya.ui.elements.DividerElementBuilder.*;
+import static net.sayaya.ui.elements.FabElementBuilder.Variant.*;
 import static net.sayaya.ui.elements.FocusRingElementBuilder.focusRing;
 import static net.sayaya.ui.elements.IconElementBuilder.icon;
 import static net.sayaya.ui.elements.ListElementBuilder.list;
@@ -147,8 +149,47 @@ public class Test implements EntryPoint {
 
 		panelButton.add(button().fab().ariaLabel("Edit").icon("edit"));
 		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").lowered());
+
 		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").label("Edit"));
+
 		panelButton.add(button().fab().label("Reroute"));
+
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").variant(Primary));
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").variant(Secondary));
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").variant(Tertiary));
+
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").touchTarget("none").size(FabElementBuilder.PlainFabElementBuilder.Size.Small));
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").size(FabElementBuilder.PlainFabElementBuilder.Size.Small));
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit"));
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").size(FabElementBuilder.PlainFabElementBuilder.Size.Large));
+
+		panelButton.add(button().fab().branded().ariaLabel("Add")
+				.icon(svg().viewBox(0, 0, 36, 36)
+						.add(path().fill("#34A853").d("M16 16v14h4V20z"))
+						.add(path().fill("#4285F4").d("M30 16H20l-4 4h14z"))
+						.add(path().fill("#FBBC05").d("M6 16v4h10l4-4z"))
+						.add(path().fill("#EA4335").d("M20 16V6h-4v14z"))
+						.add(path().fill("none").d("M0 0h36v36H0z"))
+				));
+
+		panelButton.add(button().fab().branded().label("Add")
+				.icon(svg().viewBox(0, 0, 36, 36)
+						.add(path().fill("#34A853").d("M16 16v14h4V20z"))
+						.add(path().fill("#4285F4").d("M30 16H20l-4 4h14z"))
+						.add(path().fill("#FBBC05").d("M6 16v4h10l4-4z"))
+						.add(path().fill("#EA4335").d("M20 16V6h-4v14z"))
+						.add(path().fill("none").d("M0 0h36v36H0z"))
+				));
+
+		panelButton.add(button().fab().branded().ariaLabel("Add").size(FabElementBuilder.BrandedFabElementBuilder.Size.Large)
+				.icon(svg().viewBox(0, 0, 36, 36)
+						.add(path().fill("#34A853").d("M16 16v14h4V20z"))
+						.add(path().fill("#4285F4").d("M30 16H20l-4 4h14z"))
+						.add(path().fill("#FBBC05").d("M6 16v4h10l4-4z"))
+						.add(path().fill("#EA4335").d("M20 16V6h-4v14z"))
+						.add(path().fill("none").d("M0 0h36v36H0z"))
+				));
+
 	}
 	void TestTextField() {
 		panelTextField.add(textField().filled().label("Label").value("Value"));

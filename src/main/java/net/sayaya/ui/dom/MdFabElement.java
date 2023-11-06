@@ -6,6 +6,7 @@ import jsinterop.annotations.JsType;
 @JsType(isNative = true)
 public class MdFabElement extends HTMLElement {
     public String variant;
+    public String touchTarget;
     public String size;
     public String label;
     public boolean lowered;
