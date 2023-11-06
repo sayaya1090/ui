@@ -3,6 +3,7 @@ package net.sayaya.ui;
 import com.google.gwt.core.client.EntryPoint;
 import elemental2.dom.DomGlobal;
 import elemental2.dom.HTMLDivElement;
+import net.sayaya.ui.elements.DialogElementBuilder;
 import net.sayaya.ui.elements.TabsElementBuilder.TabsPrimaryElementBuilder;
 import net.sayaya.ui.util.ElementUtil;
 import org.jboss.elemento.Elements;
@@ -10,9 +11,11 @@ import org.jboss.elemento.EventType;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.InputType;
 
+import static com.google.gwt.user.client.Window.alert;
 import static net.sayaya.ui.elements.ButtonElementBuilder.button;
 import static net.sayaya.ui.elements.CheckboxElementBuilder.checkbox;
 import static net.sayaya.ui.elements.ChipsElementBuilder.chips;
+import static net.sayaya.ui.elements.DialogElementBuilder.dialog;
 import static net.sayaya.ui.elements.DividerElementBuilder.*;
 import static net.sayaya.ui.elements.FocusRingElementBuilder.focusRing;
 import static net.sayaya.ui.elements.IconElementBuilder.icon;
@@ -20,8 +23,10 @@ import static net.sayaya.ui.elements.ListElementBuilder.list;
 import static net.sayaya.ui.elements.MenuElementBuilder.menu;
 import static net.sayaya.ui.elements.ProgressElementBuilder.progress;
 import static net.sayaya.ui.elements.RadioElementBuilder.radio;
+import static net.sayaya.ui.elements.RippleElementBuilder.ripple;
 import static net.sayaya.ui.elements.SelectElementBuilder.select;
 import static net.sayaya.ui.elements.SliderElementBuilder.slider;
+import static net.sayaya.ui.elements.SwitchElementBuilder.sw;
 import static net.sayaya.ui.elements.TabsElementBuilder.tabs;
 import static net.sayaya.ui.elements.TextFieldElementBuilder.textField;
 import static net.sayaya.ui.svg.SvgBuilder.svg;
@@ -35,6 +40,7 @@ public class Test implements EntryPoint {
 	private final HTMLContainerBuilder<HTMLDivElement> panelTextField	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelSelect		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelSlider		= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelSwitch		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelDivider		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelList		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelIcon		= div().style("margin: 1em;padding: 1em;");
@@ -44,6 +50,8 @@ public class Test implements EntryPoint {
 	private final HTMLContainerBuilder<HTMLDivElement> panelMenu		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelProgress	= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelTab			= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelDialog		= div().style("margin: 1em;padding: 1em;");
+	private final HTMLContainerBuilder<HTMLDivElement> panelRipple		= div().style("margin: 1em;padding: 1em;");
 	private final HTMLContainerBuilder<HTMLDivElement> panelFocusRing	= div().style("margin: 1em;padding: 1em;");
 	@Override
 	public void onModuleLoad() {
@@ -51,6 +59,7 @@ public class Test implements EntryPoint {
 						.tab().add("Text Field").panel(panelTextField).end()
 						.tab().add("Select").panel(panelSelect).end()
 						.tab().add("Slider").panel(panelSlider).end()
+						.tab().add("Switch").panel(panelSwitch).end()
 						.tab().add("Divider").panel(panelDivider).end()
 						.tab().add("List").panel(panelList).end()
 						.tab().add("Icon").panel(panelIcon).end()
@@ -60,11 +69,14 @@ public class Test implements EntryPoint {
 						.tab().add("Menu").panel(panelMenu).end()
 						.tab().add("Progress").panel(panelProgress).end()
 						.tab().add("Tab").panel(panelTab).end()
+						.tab().add("Dialog").panel(panelDialog).end()
+						.tab().add("Ripple").panel(panelRipple).end()
 						.tab().add("Focus Ring").panel(panelFocusRing).end())
 				.add(panelButton)
 				.add(panelTextField)
 				.add(panelSelect)
 				.add(panelSlider)
+				.add(panelSwitch)
 				.add(panelDivider)
 				.add(panelList)
 				.add(panelIcon)
@@ -74,11 +86,14 @@ public class Test implements EntryPoint {
 				.add(panelMenu)
 				.add(panelProgress)
 				.add(panelTab)
+				.add(panelDialog)
+				.add(panelRipple)
 				.add(panelFocusRing);
 		TestButton();
 		TestTextField();
 		TestSelect();
 		TestSlider();
+		TestSwitch();
 		TestDivider();
 		TestList();
 		TestIcon();
@@ -88,6 +103,8 @@ public class Test implements EntryPoint {
 		TestMenu();
 		TestProgress();
 		TestTab();
+		TestDialog();
+		TestRipple();
 		TestFocusRing();
 		panelButton.element().removeAttribute("hidden");
 	}
@@ -127,6 +144,11 @@ public class Test implements EntryPoint {
 				.add(button().icon().filledTonal().add(icon("close")).toggle("check", true))
 				.add(button().icon().outlined().add(icon("close")).toggle("check", true))
 		);
+
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit"));
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").lowered());
+		panelButton.add(button().fab().ariaLabel("Edit").icon("edit").label("Edit"));
+		panelButton.add(button().fab().label("Reroute"));
 	}
 	void TestTextField() {
 		panelTextField.add(textField().filled().label("Label").value("Value"));
@@ -208,6 +230,23 @@ public class Test implements EntryPoint {
 		panelSlider.add(slider().range(25, 50));
 
 		panelSlider.add(slider().labeled());
+	}
+	void TestSwitch() {
+	    panelSwitch.add(sw());
+		panelSwitch.add(sw().selected());
+
+		panelSwitch.add(sw().icons());
+		panelSwitch.add(sw().icons().selected());
+		panelSwitch.add(sw().showOnlySelectedIcon());
+		panelSwitch.add(sw().showOnlySelectedIcon().selected());
+
+		panelSwitch.add(sw().disabled());
+		panelSwitch.add(sw().required());
+
+		panelSwitch.add(label().add("Wi-Fi").add(sw().selected()));
+
+		panelSwitch.add(sw().ariaLabel("Lights"));
+		panelSwitch.add(label().add("All").add(sw().ariaLabel("All notifications")));
 	}
 	void TestDivider() {
 		var section1 = section()
@@ -456,11 +495,6 @@ public class Test implements EntryPoint {
 
 		panelProgress.add(progress().linear().value(0.5).buffer(0.8));
 	}
-
-	void TestDialog() {
-
-
-	}
 	void TestTab() {
 		var tab1 = tabs().primary().ariaLabel("Test")
 				.tab().add("Video").end()
@@ -492,6 +526,60 @@ public class Test implements EntryPoint {
 				.tab().ariaLabel("Videos").add(icon("videocam")).end()
 				.tab().ariaLabel("Music").add(icon("audiotrack")).end()
 		);
+	}
+	void TestDialog() {
+		var form1 = form().id().add("A simple dialog with free-form content.");
+		var dialog1 = dialog()
+				.headline("Dialog title")
+				.content(form1);
+		dialog1.actions(div().add(button().text().form(form1).add("OK").value("ok")
+				.on(EventType.click, evt->dialog1.close().then(msg->{
+			alert(msg);
+			alert(dialog1.element().returnValue);
+			return null;
+		}))));
+		panelDialog.add(button().outlined().add("Dialog1").on(EventType.click, evt->dialog1.open()))
+				.add(dialog1);
+
+		var dialog2 = dialog().open().content("A dialog that is opened by default.");
+		panelDialog.add(button().outlined().add("Dialog2").on(EventType.click, evt->panelDialog.add(dialog2)));
+
+		var form3 = form().id().add("...");
+		var dialog3 = dialog()
+				.content(form3);
+		dialog3.actions(div()
+				.add(button().text().form(form3).add("Cancel").value("cancel"))
+				.add(button().text().form(form3).add("OK").value("ok")))
+				.element().addEventListener("closed", evt-> alert(dialog3.element().returnValue));
+		panelDialog.add(button().outlined().add("Dialog3").on(EventType.click, evt->dialog3.open()))
+				.add(dialog3);
+
+
+		var form4 = form().add("An error occurred, details ...");
+		var dialog4 = dialog().ariaLabel("Error message").content(form4);
+		panelDialog.add(button().outlined().add("Dialog4").on(EventType.click, evt->dialog4.open()))
+				.add(dialog4);
+
+
+		var form5 = form().id().add("Are you sure you wish to delete this item?");
+		var dialog5 = DialogElementBuilder.alert()
+				.headline("Confirm deletion")
+				.content(form5);
+		dialog5.actions(div()
+						.add(button().text().form(form5).add("Cancel").value("cancel"))
+						.add(button().text().form(form5).add("OK").value("ok")))
+				.element().addEventListener("closed", evt-> alert(dialog5.element().returnValue));
+		panelDialog.add(button().outlined().add("Dialog5").on(EventType.click, evt->dialog5.open()))
+				.add(dialog5);
+	}
+	void TestRipple() {
+		panelRipple.add(Elements.button().style("position: relative; width: 40px; height: 40px;")
+				.add(ripple()));
+
+		var btn2 = Elements.input("button").id().style("width: 40px; height: 40px;");
+		var ripple2 = ripple();
+		panelRipple.add(div().style("position: relative;").add(ripple2).add(btn2));
+		ripple2.control(btn2);
 	}
 	void TestFocusRing() {
 		var button = Elements.button().style("position: relative; width: 40px; height: 40px;").element();

@@ -1,0 +1,21 @@
+package net.sayaya.ui.elements;
+
+import elemental2.dom.HTMLElement;
+import org.jboss.elemento.Container;
+import org.jboss.elemento.IsElement;
+
+import static org.jboss.elemento.Elements.div;
+
+public interface HasContentSlot<E extends HTMLElement, SELF extends HasContentSlot<E, SELF>> extends Container<E, SELF> {
+    default SELF content(String content) {
+        return content(div().add(content));
+    }
+    default SELF content(IsElement<? extends HTMLElement> element) {
+        return content(element.element());
+    }
+    default SELF content(HTMLElement element) {
+        element.setAttribute("slot", "content");
+        add(element);
+        return that();
+    }
+}

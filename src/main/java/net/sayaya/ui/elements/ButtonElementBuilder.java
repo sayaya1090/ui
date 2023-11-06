@@ -1,11 +1,13 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.HTMLFormElement;
 import net.sayaya.ui.dom.MdButtonElement;
 import net.sayaya.ui.dom.MdButtonElement.*;
 import net.sayaya.ui.dom.MdIconElement;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;
+import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -34,6 +36,19 @@ public interface ButtonElementBuilder<E extends MdButtonElement, SELF extends Bu
         element().trailingIcon = trailing;
         return that();
     }
+    default SELF form(IsElement<HTMLFormElement> form) {
+        return form(form.element());
+    }
+    default SELF form(HTMLFormElement form) {
+        element().form = form;
+        element().setAttribute("form", form.id);
+        return that();
+    }
+    default SELF value(String value) {
+        element().value = value;
+        element().setAttribute("value", value);
+        return that();
+    }
     E element();
     final class ButtonPrepareElementBuilder {
         public ElevatedButtonElementBuilder elevated() {
@@ -53,6 +68,9 @@ public interface ButtonElementBuilder<E extends MdButtonElement, SELF extends Bu
         }
         public IconButtonElementBuilder.PlainIconButtonElementBuilder icon() {
             return new IconButtonElementBuilder.PlainIconButtonElementBuilder();
+        }
+        public FabElementBuilder.PlainFabElementBuilder fab() {
+            return new FabElementBuilder.PlainFabElementBuilder();
         }
     }
     final class ElevatedButtonElementBuilder implements ButtonElementBuilder<MdElevatedButtonElement, ElevatedButtonElementBuilder> {
