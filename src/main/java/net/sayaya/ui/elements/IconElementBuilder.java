@@ -3,11 +3,12 @@ package net.sayaya.ui.elements;
 import net.sayaya.ui.dom.MdIconElement;
 import net.sayaya.ui.svg.IsSvgElement;
 import org.jboss.elemento.HTMLElementBuilder;
+import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;
 
 import static org.jboss.elemento.Elements.htmlElement;
 
-public class IconElementBuilder implements HasHTMLElement<MdIconElement, IconElementBuilder> {
+public class IconElementBuilder implements HasHTMLElement<MdIconElement, IconElementBuilder>, HasElement<MdIconElement, IconElementBuilder> {
     public static IconElementBuilder icon() {
         return new IconElementBuilder();
     }
