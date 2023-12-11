@@ -32,6 +32,13 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
         element().disabled = disabled;
         return that();
     }
+    default String value() {
+        return element().value;
+    }
+    default SELF removeAllOptions() {
+        element().innerHTML = "";
+        return that();
+    }
     default SELF supportingText(String supportingText) {
         element().supportingText = supportingText;
         return that();

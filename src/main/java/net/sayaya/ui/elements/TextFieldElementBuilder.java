@@ -31,6 +31,9 @@ public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF exte
         element().value = value;
         return that();
     }
+    default String value() {
+        return element().value;
+    }
     default SELF type(InputType type) {
         element().type = type!=null?type.name():InputType.text.name();
         return that();
