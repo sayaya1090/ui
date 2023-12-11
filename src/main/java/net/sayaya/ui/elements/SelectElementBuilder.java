@@ -36,6 +36,17 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
         element().supportingText = supportingText;
         return that();
     }
+    default SELF label(String label) {
+        element().label = label;
+        return that();
+    }
+    default SELF menuPosition(MenuPosition position) {
+        element().menuPositioning = position.name().toLowerCase();
+        return that();
+    }
+    default void reset() {
+        element().reset();
+    }
     E element();
     final class SelectPrepareElementBuilder {
         public FilledSelectElementBuilder filled() {
@@ -96,5 +107,8 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
         public MdOutlinedSelectElement element() {
             return that.element();
         }
+    }
+    enum MenuPosition {
+        ABSOLUTE, FIXED
     }
 }

@@ -47,8 +47,18 @@ public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF exte
         element().cols = cols;
         return that();
     }
+    default SELF required() {
+        return required(true);
+    }
     default SELF required(boolean required) {
         element().required = required;
+        return that();
+    }
+    default SELF disabled() {
+        return disabled(true);
+    }
+    default SELF disabled(boolean disabled) {
+        element().disabled = disabled;
         return that();
     }
     default SELF pattern(String pattern) {

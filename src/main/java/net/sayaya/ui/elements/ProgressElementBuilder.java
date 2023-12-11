@@ -1,13 +1,16 @@
 package net.sayaya.ui.elements;
 
+import net.sayaya.ui.dom.MdIconElement;
 import net.sayaya.ui.dom.MdProgressElement;
 import net.sayaya.ui.dom.MdProgressElement.MdCircularProgressElement;
 import net.sayaya.ui.dom.MdProgressElement.MdLinearProgressElement;
 import org.jboss.elemento.HTMLContainerBuilder;
+import org.jboss.elemento.HasElement;
+import org.jboss.elemento.HasHTMLElement;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
-public interface ProgressElementBuilder <E extends MdProgressElement, SELF extends ProgressElementBuilder<E, SELF>> extends HasAriaLabel<E, SELF> {
+public interface ProgressElementBuilder <E extends MdProgressElement, SELF extends ProgressElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasAriaLabel<E, SELF> {
     static ProgressPrepareElementBuilder progress() {
         return new ProgressPrepareElementBuilder();
     }
