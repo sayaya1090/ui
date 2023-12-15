@@ -10,7 +10,7 @@ repositories {
     mavenLocal()
 }
 group = "net.sayaya"
-version = "material3"
+version = "material3-1.1.1"
 java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
