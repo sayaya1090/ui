@@ -47,8 +47,8 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
         element().label = label;
         return that();
     }
-    default SELF menuPosition(MenuPosition position) {
-        element().menuPositioning = position.name().toLowerCase();
+    default SELF menuPositioning(MenuElementBuilder.Position position) {
+        element().menuPositioning = position.toString();
         return that();
     }
     default void reset() {
@@ -114,8 +114,5 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
         public MdOutlinedSelectElement element() {
             return that.element();
         }
-    }
-    enum MenuPosition {
-        ABSOLUTE, FIXED
     }
 }

@@ -22,6 +22,7 @@ import static net.sayaya.ui.elements.FabElementBuilder.Variant.*;
 import static net.sayaya.ui.elements.FocusRingElementBuilder.focusRing;
 import static net.sayaya.ui.elements.IconElementBuilder.icon;
 import static net.sayaya.ui.elements.ListElementBuilder.list;
+import static net.sayaya.ui.elements.MenuElementBuilder.Position.*;
 import static net.sayaya.ui.elements.MenuElementBuilder.menu;
 import static net.sayaya.ui.elements.ProgressElementBuilder.progress;
 import static net.sayaya.ui.elements.RadioElementBuilder.radio;
@@ -515,9 +516,23 @@ public class Test implements EntryPoint {
 						.end()));
 
 
-		var button4 = button().filled().add("Menu with Submenus");
+		var button4 = button().filled().add("Open popover menu");
 		panelMenu.add(div().style("margin: 16px;").add(button4))
-				.add(menu().positioning("fixed").anchorElement(button4)
+				.add(menu().positioning(Popover).anchorElement(button4)
+						.item().headline("Apple").end()
+						.item().headline("Banana").end()
+						.item().headline("Cucumber").end());
+
+		var button5 = button().filled().add("Open fixed menu");
+		panelMenu.add(div().style("margin: 16px;").add(button5))
+				.add(menu().positioning(Fixed).anchorElement(button5)
+						.item().headline("Apple").end()
+						.item().headline("Banana").end()
+						.item().headline("Cucumber").end());
+
+		var button6 = button().filled().add("Open document menu");
+		panelMenu.add(div().style("margin: 16px;").add(button6))
+				.add(menu().positioning(Document).anchorElement(button6)
 						.item().headline("Apple").end()
 						.item().headline("Banana").end()
 						.item().headline("Cucumber").end());

@@ -40,8 +40,9 @@ public abstract class MenuElementBuilder<E extends HTMLElement, SELF extends Men
             anchor.addEventListener(event, evt->toggle());
             return that();
         }
-        public TopMenuElementBuilder positioning(String position) {
-            that.element().positioning = position;
+        public TopMenuElementBuilder positioning(Position position) {
+            if(position==null)  that.element().positioning = Position.Absolute.value;
+            else that.element().positioning = position.value;
             return that();
         }
         public void toggle() {
@@ -56,6 +57,16 @@ public abstract class MenuElementBuilder<E extends HTMLElement, SELF extends Men
         }
         @Override public MdMenuElement element() {return that.element();}
         @Override public TopMenuElementBuilder that() {return this;}
+    }
+    public enum Position {
+        Absolute("absolute"), Fixed("fixed"), Popover("popover"), Document("document");
+        private final String value;
+        Position(String value) {
+            this.value = value;
+        }
+        public String toString() {
+            return value;
+        }
     }
     public static class SubMenuGroupBuilder<P extends MenuElementBuilder<?, P>> implements HasMenuItemElementBuilder<MdSubMenuElement, SubMenuGroupBuilder<P>> {
         private final HTMLContainerBuilder<MdSubMenuElement> that = htmlContainer("md-sub-menu", MdSubMenuElement.class);

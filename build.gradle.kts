@@ -82,7 +82,7 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
                 register("maven", MavenPublication::class) {
                     groupId = "net.sayaya"
                     artifactId = "ui"
-                    version = "material3"
+                    version = "material3-1.1.1"
                     from(project.components["java"])
                 }
             }
