@@ -1,11 +1,13 @@
 {
+  "type": "module",
   "dependencies": {
-    "@material/web": "^1.1.1",
+    "@material/web": "^1.2.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^3.28.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.5",
+    "@rollup/plugin-terser": "^0.4.4",
     "babel-loader": "^9.1.2",
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.4"
