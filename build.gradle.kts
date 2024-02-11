@@ -15,9 +15,9 @@ java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
 dependencies {
-    implementation("org.jboss.elemento:elemento-core:1.2.6")
-    implementation("org.gwtproject:gwt-user:2.10.0")
-    compileOnly("org.gwtproject:gwt-dev:2.10.0")
+    implementation("org.jboss.elemento:elemento-core:1.2.13")
+    implementation("org.gwtproject:gwt-user:2.11.0")
+    compileOnly("org.gwtproject:gwt-dev:2.11.0")
     implementation("org.projectlombok:lombok:1.18.30")
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
