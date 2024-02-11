@@ -1,13 +1,11 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
 import net.sayaya.ui.dom.MdMenuElement;
 import net.sayaya.ui.dom.MdMenuItemElement;
 import net.sayaya.ui.dom.MdSubMenuElement;
-import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HasElement;
-import org.jboss.elemento.HasHTMLElement;
-import org.jboss.elemento.IsElement;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -43,6 +41,20 @@ public abstract class MenuElementBuilder<E extends HTMLElement, SELF extends Men
         public TopMenuElementBuilder positioning(Position position) {
             if(position==null)  that.element().positioning = Position.Absolute.value;
             else that.element().positioning = position.value;
+            return that();
+        }
+        public void open() {
+            open(true);
+        }
+        public void open(boolean opened) {
+            element().open = opened;
+        }
+        public void close() {
+            open(false);
+        }
+        public TopMenuElementBuilder offset(int x, int y) {
+            that.element().xOffset = x;
+            that.element().yOffset = y;
             return that();
         }
         public void toggle() {
@@ -114,6 +126,10 @@ public abstract class MenuElementBuilder<E extends HTMLElement, SELF extends Men
         private final P parent;
         MenuItemElementBuilder(P parent) {
             this.parent = parent;
+        }
+        public <V extends Event> MenuItemElementBuilder<P> on(EventType<V, ?> type, EventCallbackFn<V> callback) {
+            EventType.bind(this.element(), type, callback);
+            return this.that();
         }
         public P end() { return parent; }
         @Override public MdMenuItemElement element() {return that.element();}
