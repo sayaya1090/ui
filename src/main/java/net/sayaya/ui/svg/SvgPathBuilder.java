@@ -19,7 +19,21 @@ public class SvgPathBuilder extends AbstractSvgBuilder<SVGPathElement, SvgPathBu
         attr("stroke", param);
         return that();
     }
-
+    public SvgPathBuilder width(int width) {
+        attr("stroke-width", String.valueOf(width));
+        return that();
+    }
+    public SvgPathBuilder mask(SvgMaskBuilder mask) {
+        return mask(mask.id());
+    }
+    public SvgPathBuilder mask(String id) {
+        attr("mask", "url(#" + id + ")");
+        return that();
+    }
+    public SvgPathBuilder transform(String transform) {
+        attr("transform", transform);
+        return that();
+    }
     @Override
     public SvgPathBuilder that() {
         return this;

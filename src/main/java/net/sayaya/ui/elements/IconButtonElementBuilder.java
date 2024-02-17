@@ -1,14 +1,13 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Element;
+import elemental2.dom.HTMLElement;
 import net.sayaya.ui.dom.MdIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdFilledIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdFilledTonalIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdOutlinedIconButtonElement;
-import net.sayaya.ui.dom.MdIconElement;
-import org.jboss.elemento.Container;
-import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HasElement;
-import org.jboss.elemento.HasHTMLElement;
+import net.sayaya.ui.svg.IsSvgElement;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -27,18 +26,24 @@ public interface IconButtonElementBuilder<E extends MdIconButtonElement, SELF ex
     default SELF toggle(String icon, boolean selected) {
         return toggle(IconElementBuilder.icon(icon), selected);
     }
-    default SELF toggle(IconElementBuilder icon) {
-        return toggle(icon.element(), false);
+    default SELF toggle(IsElement<? extends HTMLElement> elem) {
+        return toggle(elem, false);
     }
-    default SELF toggle(IconElementBuilder icon, boolean selected) {
-        return toggle(icon.element(), selected);
+    default SELF toggle(IsElement<? extends HTMLElement> elem, boolean selected) {
+        return toggle(elem.element(), selected);
     }
-    default SELF toggle(MdIconElement icon) {
-        return toggle(icon, false);
+    default SELF toggle(HTMLElement elem) {
+        return toggle(elem, false);
     }
-    default SELF toggle(MdIconElement icon, boolean selected) {
-        this.add(icon);
-        icon.setAttribute("slot", "selected");
+    default SELF toggle(IsSvgElement<?, ?> elem) {
+        return toggle(elem, false);
+    }
+    default SELF toggle(IsSvgElement<?, ?> elem, boolean selected) {
+        return toggle(elem.element(), selected);
+    }
+    default SELF toggle(Element elem, boolean selected) {
+        this.add(elem);
+        elem.setAttribute("slot", "selected");
         element().selected = selected;
         return that();
     }
