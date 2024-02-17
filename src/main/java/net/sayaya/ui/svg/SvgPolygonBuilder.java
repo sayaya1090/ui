@@ -19,6 +19,14 @@ public class SvgPolygonBuilder extends AbstractSvgBuilder<SVGPolygonElement, Svg
         attr("fill-rule", param);
         return that();
     }
+    public SvgPolygonBuilder mask(SvgMaskBuilder mask) {
+        attr("mask", "url(#" + mask.id() + ")");
+        return that();
+    }
+    public SvgPolygonBuilder transform(String transform) {
+        attr("transform", transform);
+        return that();
+    }
     @Override
     public SvgPolygonBuilder that() {
         return this;
