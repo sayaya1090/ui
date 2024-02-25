@@ -1,12 +1,12 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdCheckboxElement;
-import org.jboss.elemento.HTMLElementBuilder;
-import org.jboss.elemento.HasHTMLElement;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlElement;
 
-public class CheckboxElementBuilder implements HasHTMLElement<MdCheckboxElement, CheckboxElementBuilder>, HasAriaLabel<MdCheckboxElement, CheckboxElementBuilder> {
+public class CheckboxElementBuilder implements HasElement<MdCheckboxElement, CheckboxElementBuilder>, HasHTMLElement<MdCheckboxElement, CheckboxElementBuilder>, HasAriaLabel<MdCheckboxElement, CheckboxElementBuilder> {
     public static CheckboxElementBuilder checkbox() {
         return new CheckboxElementBuilder();
     }
@@ -39,7 +39,9 @@ public class CheckboxElementBuilder implements HasHTMLElement<MdCheckboxElement,
         }
         return this;
     }
-
+    public CheckboxElementBuilder onChange(EventCallbackFn<Event> callback) {
+        return on(EventType.change, callback);
+    }
     private enum CheckboxState {
         UNCHECKED, CHECKED, INDETERMINATE
     }

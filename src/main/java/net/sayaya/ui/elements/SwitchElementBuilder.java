@@ -1,12 +1,12 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdSwitchElement;
-import org.jboss.elemento.HTMLElementBuilder;
-import org.jboss.elemento.HasHTMLElement;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlElement;
 
-public class SwitchElementBuilder implements HasHTMLElement<MdSwitchElement, SwitchElementBuilder>, HasAriaLabel<MdSwitchElement, SwitchElementBuilder> {
+public class SwitchElementBuilder implements HasElement<MdSwitchElement, SwitchElementBuilder>, HasHTMLElement<MdSwitchElement, SwitchElementBuilder>, HasAriaLabel<MdSwitchElement, SwitchElementBuilder> {
     public static SwitchElementBuilder sw() {
         return new SwitchElementBuilder();
     }
@@ -53,6 +53,9 @@ public class SwitchElementBuilder implements HasHTMLElement<MdSwitchElement, Swi
     public SwitchElementBuilder showOnlySelectedIcon(boolean showOnlySelectedIcon) {
         element().showOnlySelectedIcon = showOnlySelectedIcon;
         return icons();
+    }
+    public SwitchElementBuilder onChange(EventCallbackFn<Event> callback) {
+        return on(EventType.change, callback);
     }
     @Override public MdSwitchElement element() {
         return that.element();

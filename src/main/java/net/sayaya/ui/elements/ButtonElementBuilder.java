@@ -1,13 +1,11 @@
 package net.sayaya.ui.elements;
 
 import elemental2.dom.HTMLFormElement;
+import elemental2.dom.MouseEvent;
 import net.sayaya.ui.dom.MdButtonElement;
 import net.sayaya.ui.dom.MdButtonElement.*;
 import net.sayaya.ui.dom.MdIconElement;
-import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HasElement;
-import org.jboss.elemento.HasHTMLElement;
-import org.jboss.elemento.IsElement;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -48,6 +46,9 @@ public interface ButtonElementBuilder<E extends MdButtonElement, SELF extends Bu
         element().value = value;
         element().setAttribute("value", value);
         return that();
+    }
+    default SELF onClick(EventCallbackFn<MouseEvent> callback) {
+        return on(EventType.click, callback);
     }
     E element();
     final class ButtonPrepareElementBuilder {

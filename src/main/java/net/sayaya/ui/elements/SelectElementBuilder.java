@@ -1,13 +1,11 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdSelectElement;
 import net.sayaya.ui.dom.MdSelectElement.MdFilledSelectElement;
 import net.sayaya.ui.dom.MdSelectElement.MdOutlinedSelectElement;
 import net.sayaya.ui.dom.MdSelectOptionElement;
-import org.jboss.elemento.Container;
-import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HasElement;
-import org.jboss.elemento.HasHTMLElement;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -53,6 +51,9 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
     }
     default void reset() {
         element().reset();
+    }
+    default SELF onChange(EventCallbackFn<Event> callback) {
+        return on(EventType.change, callback);
     }
     E element();
     final class SelectPrepareElementBuilder {

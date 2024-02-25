@@ -1,11 +1,10 @@
 package net.sayaya.ui.elements;
 
+import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdTextFieldElement;
 import net.sayaya.ui.dom.MdTextFieldElement.MdFilledTextFieldElement;
 import net.sayaya.ui.dom.MdTextFieldElement.MdOutlinedTextFieldElement;
-import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HasElement;
-import org.jboss.elemento.InputType;
+import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
@@ -102,6 +101,9 @@ public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF exte
     default SELF minLength(int minLength) {
         element().minLength = minLength;
         return that();
+    }
+    default SELF onChange(EventCallbackFn<Event> callback) {
+        return on(EventType.change, callback);
     }
     E element();
     final class TextFieldPrepareElementBuilder {

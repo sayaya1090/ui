@@ -2,6 +2,7 @@ package net.sayaya.ui.elements;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
+import elemental2.dom.MouseEvent;
 import net.sayaya.ui.dom.MdIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdFilledIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdFilledTonalIconButtonElement;
@@ -50,6 +51,9 @@ public interface IconButtonElementBuilder<E extends MdIconButtonElement, SELF ex
     default SELF ariaLabelSelected(String label) {
         element().setAttribute("aria-label-selected", label);
         return that();
+    }
+    default SELF onClick(EventCallbackFn<MouseEvent> callback) {
+        return on(EventType.click, callback);
     }
     E element();
 
