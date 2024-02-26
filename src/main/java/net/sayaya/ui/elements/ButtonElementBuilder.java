@@ -5,6 +5,8 @@ import elemental2.dom.MouseEvent;
 import net.sayaya.ui.dom.MdButtonElement;
 import net.sayaya.ui.dom.MdButtonElement.*;
 import net.sayaya.ui.dom.MdIconElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
+import net.sayaya.ui.elements.interfaces.HasIconSlot;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;

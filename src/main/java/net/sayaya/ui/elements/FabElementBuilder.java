@@ -1,7 +1,10 @@
 package net.sayaya.ui.elements;
 
 import net.sayaya.ui.dom.MdFabElement;
-import net.sayaya.ui.dom.MdFabElement.*;
+import net.sayaya.ui.dom.MdFabElement.MdBrandedFabElement;
+import net.sayaya.ui.dom.MdFabElement.MdPlainFabElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
+import net.sayaya.ui.elements.interfaces.HasIconSlot;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;

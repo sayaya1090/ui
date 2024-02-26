@@ -249,12 +249,12 @@ public class Test implements EntryPoint {
 		panelSelect.add(
 				select().outlined()
 						.option().ariaLabel("blank").end()
-						.option().value("apple").headline("Apple").selected().end()
+						.option().value("apple").headline("Apple").select().end()
 						.option().value("apricot").headline("Apricot").end());
 		panelSelect.add(
 				select().filled()
 						.option().ariaLabel("blank").end()
-						.option().value("apple").headline("Apple").selected().end()
+						.option().value("apple").headline("Apple").select().end()
 						.option().value("apricot").headline("Apricot").end());
 
 		panelSelect.add(
@@ -275,17 +275,17 @@ public class Test implements EntryPoint {
 	}
 	void TestSwitch() {
 	    panelSwitch.add(sw());
-		panelSwitch.add(sw().selected());
+		panelSwitch.add(sw().select());
 
 		panelSwitch.add(sw().icons());
-		panelSwitch.add(sw().icons().selected());
+		panelSwitch.add(sw().icons().select());
 		panelSwitch.add(sw().showOnlySelectedIcon());
-		panelSwitch.add(sw().showOnlySelectedIcon().selected());
+		panelSwitch.add(sw().showOnlySelectedIcon().select());
 
-		panelSwitch.add(sw().disabled());
+		panelSwitch.add(sw().disable());
 		panelSwitch.add(sw().required());
 
-		panelSwitch.add(label().add("Wi-Fi").add(sw().selected()));
+		panelSwitch.add(label().add("Wi-Fi").add(sw().select()));
 
 		panelSwitch.add(sw().ariaLabel("Lights"));
 		panelSwitch.add(label().add("All").add(sw().ariaLabel("All notifications")));
@@ -385,14 +385,14 @@ public class Test implements EntryPoint {
 	}
 	void TestCheckbox() {
 		panelCheckbox.add(checkbox());
-		panelCheckbox.add(checkbox().checked(true));
+		panelCheckbox.add(checkbox().select());
 		panelCheckbox.add(checkbox().indeterminate());
 	}
 	void TestRadio() {
 		panelRadio.add(form()
 				.add(radio().name("animals").value("cats"))
 				.add(radio().name("animals").value("dogs"))
-				.add(radio().name("animals").value("birds").checked())
+				.add(radio().name("animals").value("birds").select())
 		);
 	}
 	void TestChip() {
@@ -428,8 +428,8 @@ public class Test implements EntryPoint {
 				);
 
 		panelChip.add(chips().ariaLabel("Actions")
-				.assist().label("Copy").enabled(false).alwaysFocusable(true).end()
-				.assist().label("Paste").enabled(false).alwaysFocusable(true).end()
+				.assist().label("Copy").disable().alwaysFocusable(true).end()
+				.assist().label("Paste").disable().alwaysFocusable(true).end()
 		).add(textField().outlined().type(InputType.textarea));
 
 
@@ -442,14 +442,14 @@ public class Test implements EntryPoint {
 		panelChip.add(h(3).add("Choose where to share"))
 				.add(chips()
 						.filter().label("Docs").end()
-						.filter().label("Slides").selected().end()
-						.filter().label("Sheets").selected().end()
+						.filter().label("Slides").select().end()
+						.filter().label("Sheets").select().end()
 						.filter().label("Images").end()
 				);
 
 		panelChip.add(h(3).add("Colors"))
 				.add(chips()
-						.filter().label("Red").removable().selected(true).end()
+						.filter().label("Red").removable().select(true).end()
 						.filter().label("Yellow").removable().end()
 						.filter().label("Blue").removable().end()
 						.filter().label("Green").removable().end()

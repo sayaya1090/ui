@@ -1,8 +1,10 @@
-package net.sayaya.ui.elements;
+package net.sayaya.ui.elements.interfaces;
 
 import elemental2.dom.Element;
 import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
+import net.sayaya.ui.elements.IconButtonElementBuilder;
+import net.sayaya.ui.elements.IconElementBuilder;
 import net.sayaya.ui.svg.IsSvgElement;
 import org.jboss.elemento.Container;
 import org.jboss.elemento.HTMLElementBuilder;

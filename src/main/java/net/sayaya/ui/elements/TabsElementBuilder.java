@@ -6,6 +6,8 @@ import net.sayaya.ui.dom.MdTabElement;
 import net.sayaya.ui.dom.MdTabElement.MdPrimaryTabElement;
 import net.sayaya.ui.dom.MdTabElement.MdSecondaryTabElement;
 import net.sayaya.ui.dom.MdTabsElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
+import net.sayaya.ui.elements.interfaces.HasIconSlot;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;

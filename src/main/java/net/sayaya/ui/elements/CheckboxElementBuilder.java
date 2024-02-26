@@ -2,11 +2,14 @@ package net.sayaya.ui.elements;
 
 import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdCheckboxElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
+import net.sayaya.ui.elements.interfaces.Selectable;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlElement;
 
-public class CheckboxElementBuilder implements HasElement<MdCheckboxElement, CheckboxElementBuilder>, HasHTMLElement<MdCheckboxElement, CheckboxElementBuilder>, HasAriaLabel<MdCheckboxElement, CheckboxElementBuilder> {
+public class CheckboxElementBuilder implements HasElement<MdCheckboxElement, CheckboxElementBuilder>, HasHTMLElement<MdCheckboxElement, CheckboxElementBuilder>,
+        HasAriaLabel<MdCheckboxElement, CheckboxElementBuilder>, Selectable<MdCheckboxElement, CheckboxElementBuilder> {
     public static CheckboxElementBuilder checkbox() {
         return new CheckboxElementBuilder();
     }
@@ -20,8 +23,16 @@ public class CheckboxElementBuilder implements HasElement<MdCheckboxElement, Che
     public CheckboxElementBuilder that() {
         return this;
     }
-    public CheckboxElementBuilder checked(boolean checked) {
+    @Override public CheckboxElementBuilder select(boolean checked) {
         return state(checked?CheckboxState.CHECKED:CheckboxState.UNCHECKED);
+    }
+    @Override public boolean isSelected() {
+        var elem = element();
+        if(elem.indeterminate) return false;
+        return elem.checked;
+    }
+    public boolean isIndeterminate() {
+        return element().indeterminate;
     }
     public CheckboxElementBuilder indeterminate() {
         return state(CheckboxState.INDETERMINATE);

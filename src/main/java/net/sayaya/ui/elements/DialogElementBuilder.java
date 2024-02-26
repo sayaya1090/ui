@@ -3,6 +3,9 @@ package net.sayaya.ui.elements;
 import elemental2.dom.HTMLElement;
 import elemental2.promise.Promise;
 import net.sayaya.ui.dom.MdDialogElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
+import net.sayaya.ui.elements.interfaces.HasContentSlot;
+import net.sayaya.ui.elements.interfaces.HasHeadlineSlot;
 import org.jboss.elemento.HTMLElementBuilder;
 import org.jboss.elemento.HasHTMLElement;
 import org.jboss.elemento.IsElement;
@@ -32,7 +35,7 @@ public class DialogElementBuilder implements HasHTMLElement<MdDialogElement, Dia
         element().open = open;
         return that();
     }
-    public DialogElementBuilder content(HTMLElement element) {
+    @Override public DialogElementBuilder content(HTMLElement element) {
         if(element.tagName.equalsIgnoreCase("form")) element.setAttribute("method", "dialog");
         element.setAttribute("slot", "content");
         add(element);

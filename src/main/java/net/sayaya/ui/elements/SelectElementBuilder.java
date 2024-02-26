@@ -5,28 +5,24 @@ import net.sayaya.ui.dom.MdSelectElement;
 import net.sayaya.ui.dom.MdSelectElement.MdFilledSelectElement;
 import net.sayaya.ui.dom.MdSelectElement.MdOutlinedSelectElement;
 import net.sayaya.ui.dom.MdSelectOptionElement;
+import net.sayaya.ui.elements.interfaces.*;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
-public interface SelectElementBuilder<E extends MdSelectElement, SELF extends SelectElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, Container<E, SELF> {
+public interface SelectElementBuilder<E extends MdSelectElement, SELF extends SelectElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>, Container<E, SELF>,
+        Requireable<E, SELF>, Inactivatable<E, SELF> {
     static SelectPrepareElementBuilder select() {
         return new SelectPrepareElementBuilder();
     }
     default SelectOptionElementBuilder<SELF> option() {
         return new SelectOptionElementBuilder<>(this);
     }
-    default SELF required() {
-        return required(true);
-    }
-    default SELF required(boolean required) {
+    @Override default SELF required(boolean required) {
         element().required = required;
         return that();
     }
-    default SELF disabled() {
-        return disabled(true);
-    }
-    default SELF disabled(boolean disabled) {
+    @Override default SELF disable(boolean disabled) {
         element().disabled = disabled;
         return that();
     }
@@ -65,7 +61,8 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
         }
     }
     final class SelectOptionElementBuilder<P extends SelectElementBuilder<?, P>> implements HasHTMLElement<MdSelectOptionElement, SelectOptionElementBuilder<P>>, HasElement<MdSelectOptionElement, SelectOptionElementBuilder<P>>,
-            HasAriaLabel<MdSelectOptionElement, SelectOptionElementBuilder<P>>, HasHeadlineSlot<MdSelectOptionElement, SelectOptionElementBuilder<P>>, HasSupportingTextSlot<MdSelectOptionElement, SelectOptionElementBuilder<P>> {
+            HasAriaLabel<MdSelectOptionElement, SelectOptionElementBuilder<P>>, HasHeadlineSlot<MdSelectOptionElement, SelectOptionElementBuilder<P>>, HasSupportingTextSlot<MdSelectOptionElement, SelectOptionElementBuilder<P>>,
+            Selectable<MdSelectOptionElement, SelectOptionElementBuilder<P>> {
         private final HTMLContainerBuilder<MdSelectOptionElement> that;
         private final SelectElementBuilder<?, P> parent;
         private SelectOptionElementBuilder(SelectElementBuilder<?, P> parent) {
@@ -80,12 +77,12 @@ public interface SelectElementBuilder<E extends MdSelectElement, SELF extends Se
             element().value = value;
             return that();
         }
-        public SelectOptionElementBuilder<P> selected() {
-            return selected(true);
-        }
-        public SelectOptionElementBuilder<P> selected(boolean selected) {
+        @Override public SelectOptionElementBuilder<P> select(boolean selected) {
             element().selected = selected;
             return that();
+        }
+        @Override public boolean isSelected() {
+            return element().selected;
         }
         @Override public MdSelectOptionElement element() {
             return that.element();

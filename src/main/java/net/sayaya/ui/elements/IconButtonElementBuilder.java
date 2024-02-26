@@ -7,6 +7,7 @@ import net.sayaya.ui.dom.MdIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdFilledIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdFilledTonalIconButtonElement;
 import net.sayaya.ui.dom.MdIconButtonElement.MdOutlinedIconButtonElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
 import net.sayaya.ui.svg.IsSvgElement;
 import org.jboss.elemento.*;
 

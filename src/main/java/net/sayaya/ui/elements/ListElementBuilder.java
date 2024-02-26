@@ -3,6 +3,7 @@ package net.sayaya.ui.elements;
 import elemental2.dom.HTMLElement;
 import net.sayaya.ui.dom.MdListElement;
 import net.sayaya.ui.dom.MdListItemElement;
+import net.sayaya.ui.elements.interfaces.*;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.div;
@@ -41,7 +42,7 @@ public class ListElementBuilder implements HasHTMLElement<MdListElement, ListEle
     }
 
     public final static class ListItemElementBuilder implements HasHTMLElement<MdListItemElement, ListItemElementBuilder>, HasElement<MdListItemElement, ListItemElementBuilder>, HasIconSlot<MdListItemElement, ListItemElementBuilder>,
-            HasHeadlineSlot<MdListItemElement, ListItemElementBuilder>, HasSupportingTextSlot<MdListItemElement, ListItemElementBuilder>, HasStartSlot<MdListItemElement, ListItemElementBuilder>, HasEndSlot<MdListItemElement, ListItemElementBuilder>  {
+            HasHeadlineSlot<MdListItemElement, ListItemElementBuilder>, HasSupportingTextSlot<MdListItemElement, ListItemElementBuilder>, HasStartSlot<MdListItemElement, ListItemElementBuilder>, HasEndSlot<MdListItemElement, ListItemElementBuilder> {
         private final HTMLContainerBuilder<MdListItemElement> that;
         private final ListElementBuilder parent;
         private ListItemElementBuilder(ListElementBuilder parent) {

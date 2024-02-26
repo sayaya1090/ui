@@ -5,6 +5,9 @@ import elemental2.dom.HTMLElement;
 import net.sayaya.ui.dom.MdMenuElement;
 import net.sayaya.ui.dom.MdMenuItemElement;
 import net.sayaya.ui.dom.MdSubMenuElement;
+import net.sayaya.ui.elements.interfaces.HasEndSlot;
+import net.sayaya.ui.elements.interfaces.HasHeadlineSlot;
+import net.sayaya.ui.elements.interfaces.HasStartSlot;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;

@@ -1,11 +1,10 @@
 package net.sayaya.ui.elements;
 
-import net.sayaya.ui.dom.MdIconElement;
 import net.sayaya.ui.dom.MdProgressElement;
 import net.sayaya.ui.dom.MdProgressElement.MdCircularProgressElement;
 import net.sayaya.ui.dom.MdProgressElement.MdLinearProgressElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
 import org.jboss.elemento.HTMLContainerBuilder;
-import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;
 
 import static org.jboss.elemento.Elements.htmlContainer;

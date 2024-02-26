@@ -6,6 +6,7 @@ import net.sayaya.ui.dom.MdChipElement.MdFilterChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdInputChipElement;
 import net.sayaya.ui.dom.MdChipElement.MdSuggestionChipElement;
 import net.sayaya.ui.dom.MdChipSetElement;
+import net.sayaya.ui.elements.interfaces.*;
 import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;
@@ -46,13 +47,13 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
     }
 
     interface ChipElementBuilder<E extends MdChipElement, SELF extends ChipsElementBuilder.ChipElementBuilder<E, SELF>> extends HasHTMLElement<E, SELF>, HasElement<E, SELF>,
-            HasAriaLabel<E, SELF>, HasIconSlot<E, SELF> {
+            HasAriaLabel<E, SELF>, HasIconSlot<E, SELF>, Inactivatable<E, SELF> {
         default SELF label(String label) {
             element().label = label;
             return that();
         }
-        default SELF enabled(boolean enabled) {
-            this.element().disabled = !enabled;
+        @Override default SELF disable(boolean disabled) {
+            this.element().disabled = disabled;
             return that();
         }
         default SELF alwaysFocusable(boolean alwaysFocusable) {
@@ -105,9 +106,12 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
             element().elevated = elevated;
             return that();
         }
-        @Override public FilterChipElementBuilder selected(boolean selected) {
+        @Override public FilterChipElementBuilder select(boolean selected) {
             element().selected = selected;
             return that();
+        }
+        @Override public boolean isSelected() {
+            return element().selected;
         }
         public FilterChipElementBuilder removable(boolean removable) {
             element().removable = removable;
@@ -138,9 +142,12 @@ public class ChipsElementBuilder implements HasHTMLElement<MdChipSetElement, Chi
         @Override public InputChipElementBuilder that() {
             return this;
         }
-        @Override public InputChipElementBuilder selected(boolean selected) {
+        @Override public InputChipElementBuilder select(boolean selected) {
             element().selected = selected;
             return that();
+        }
+        @Override public boolean isSelected() {
+            return element().selected;
         }
         public InputChipElementBuilder removeOnly(boolean removeOnly) {
             element().removeOnly = removeOnly;

@@ -4,12 +4,14 @@ import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdTextFieldElement;
 import net.sayaya.ui.dom.MdTextFieldElement.MdFilledTextFieldElement;
 import net.sayaya.ui.dom.MdTextFieldElement.MdOutlinedTextFieldElement;
+import net.sayaya.ui.elements.interfaces.*;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlContainer;
 
 public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF extends TextFieldElementBuilder<E, SELF>> extends HasElement<E, SELF>,
-        HasLeadingIconSlot<E, SELF>, HasTrailingIconSlot<E, SELF>, HasAriaLabel<E, SELF>, HasSupportingTextSlot<E, SELF> {
+        HasLeadingIconSlot<E, SELF>, HasTrailingIconSlot<E, SELF>, HasAriaLabel<E, SELF>, HasSupportingTextSlot<E, SELF>,
+        Requireable<E, SELF>, Inactivatable<E, SELF> {
     static TextFieldPrepareElementBuilder textField() {
         return new TextFieldPrepareElementBuilder();
     }
@@ -49,17 +51,11 @@ public interface TextFieldElementBuilder<E extends MdTextFieldElement, SELF exte
         element().cols = cols;
         return that();
     }
-    default SELF required() {
-        return required(true);
-    }
-    default SELF required(boolean required) {
+    @Override default SELF required(boolean required) {
         element().required = required;
         return that();
     }
-    default SELF disabled() {
-        return disabled(true);
-    }
-    default SELF disabled(boolean disabled) {
+    @Override default SELF disable(boolean disabled) {
         element().disabled = disabled;
         return that();
     }

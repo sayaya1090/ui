@@ -2,33 +2,32 @@ package net.sayaya.ui.elements;
 
 import elemental2.dom.Event;
 import net.sayaya.ui.dom.MdSwitchElement;
+import net.sayaya.ui.elements.interfaces.HasAriaLabel;
+import net.sayaya.ui.elements.interfaces.Inactivatable;
+import net.sayaya.ui.elements.interfaces.Requireable;
+import net.sayaya.ui.elements.interfaces.Selectable;
 import org.jboss.elemento.*;
 
 import static org.jboss.elemento.Elements.htmlElement;
 
-public class SwitchElementBuilder implements HasElement<MdSwitchElement, SwitchElementBuilder>, HasHTMLElement<MdSwitchElement, SwitchElementBuilder>, HasAriaLabel<MdSwitchElement, SwitchElementBuilder> {
+public class SwitchElementBuilder implements HasElement<MdSwitchElement, SwitchElementBuilder>, HasHTMLElement<MdSwitchElement, SwitchElementBuilder>, HasAriaLabel<MdSwitchElement, SwitchElementBuilder>,
+        Selectable<MdSwitchElement, SwitchElementBuilder>, Requireable<MdSwitchElement, SwitchElementBuilder>, Inactivatable<MdSwitchElement, SwitchElementBuilder> {
     public static SwitchElementBuilder sw() {
         return new SwitchElementBuilder();
     }
     private final HTMLElementBuilder<MdSwitchElement> that = htmlElement("md-switch", MdSwitchElement.class);
-    public SwitchElementBuilder selected() {
-        return selected(true);
-    }
-    public SwitchElementBuilder selected(boolean selected) {
+    @Override public SwitchElementBuilder select(boolean selected) {
         element().selected = selected;
         return that();
     }
-    public SwitchElementBuilder disabled() {
-        return disabled(true);
+    @Override public boolean isSelected() {
+        return element().selected;
     }
-    public SwitchElementBuilder disabled(boolean disabled) {
+    @Override public SwitchElementBuilder disable(boolean disabled) {
         element().disabled = disabled;
         return that();
     }
-    public SwitchElementBuilder required() {
-        return required(true);
-    }
-    public SwitchElementBuilder required(boolean required) {
+    @Override public SwitchElementBuilder required(boolean required) {
         element().required = required;
         return that();
     }

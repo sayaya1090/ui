@@ -1,4 +1,4 @@
-package net.sayaya.ui.elements;
+package net.sayaya.ui.elements.interfaces;
 
 import elemental2.dom.Element;
 import org.jboss.elemento.IsElement;
