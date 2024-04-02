@@ -1,9 +1,8 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import org.jboss.elemento.ElementBuilder;
 import org.jboss.elemento.EventType;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.a;
 import static org.jboss.elemento.Elements.div;
@@ -12,9 +11,9 @@ public class BreadcrumbElement extends HTMLElementBuilder<HTMLDivElement, Breadc
 	public static BreadcrumbElement home(IconElement iconElement, EventListener listener) {
 		return new BreadcrumbElement(div().style("display: flex; margin-top: 5px; margin-bottom: 5px;"), iconElement, listener);
 	}
-	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private final HTMLContainerBuilder<HTMLDivElement> _this;
 	private Element splitter;
-	private BreadcrumbElement(HtmlContentBuilder<HTMLDivElement> e, IconElement iconElement, EventListener listener) {
+	private BreadcrumbElement(HTMLContainerBuilder<HTMLDivElement> e, IconElement iconElement, EventListener listener) {
 		super(e);
 		_this = e.add(wrap(iconElement, listener));
 		splitter(IconElement.icon("double_arrow").element());
@@ -41,7 +40,7 @@ public class BreadcrumbElement extends HTMLElementBuilder<HTMLDivElement, Breadc
 		style.setProperty("-webkit-font-smoothing", "subpixel-antialiased");
 		return that();
 	}
-	public <E extends ElementBuilder<?, ?>> E wrap(E elem, EventListener listener) {
+	public <E extends HTMLContainerBuilder<?>> E wrap(E elem, EventListener listener) {
 		elem.on(EventType.click, listener::handleEvent);
 		CSSStyleDeclaration style = elem.element().style;
 		style.cursor = "pointer";

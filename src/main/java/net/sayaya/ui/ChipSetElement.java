@@ -6,7 +6,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -29,9 +29,9 @@ public class ChipSetElement extends HTMLElementBuilder<HTMLDivElement, ChipSetEl
 	}
 	private final Set<ValueChangeEventListener<ChipElement[]>> listeners = new HashSet<>();
 	private final Set<ChipElement> chips = new HashSet<>();
-	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private final HTMLContainerBuilder<HTMLDivElement> _this;
 	private final MDCChipSet _mdc;
-	private ChipSetElement(HtmlContentBuilder<HTMLDivElement> element) {
+	private ChipSetElement(HTMLContainerBuilder<HTMLDivElement> element) {
 		super(element);
 		_this = element.css("mdc-chip-set").attr("role", "grid");
 		_mdc = new MDCChipSet(element());

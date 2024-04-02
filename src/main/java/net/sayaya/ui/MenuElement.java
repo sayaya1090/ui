@@ -5,7 +5,7 @@ import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.div;
@@ -17,7 +17,7 @@ public class MenuElement extends HTMLElementBuilder<HTMLDivElement, MenuElement>
 	}
 	private final ListElement<?> listElement;
 	private MDCMenu _mdc;
-	private MenuElement(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
+	private MenuElement(HTMLContainerBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 		super(e.css("mdc-menu", "mdc-menu-surface"));
 		this.listElement = listElement;
 		e.add(listElement);

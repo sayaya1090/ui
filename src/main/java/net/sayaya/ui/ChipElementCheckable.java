@@ -11,7 +11,7 @@ import net.sayaya.ui.event.HasDetachHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -22,14 +22,14 @@ import static net.sayaya.ui.svg.SvgPathBuilder.path;
 import static org.jboss.elemento.Elements.span;
 
 public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElement, ChipElementCheckable> implements HasAttachHandlers, HasDetachHandlers, HasValueChangeHandlers<Boolean> {
-	private final HtmlContentBuilder<HTMLElement> ripple = span();
-	private final HtmlContentBuilder<HTMLElement> graphic = span();
-	private final HtmlContentBuilder<HTMLElement> check = span();
-	private final HtmlContentBuilder<HTMLElement> label = span();
-	private final HtmlContentBuilder<HTMLElement> btn = span();
-	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private final HTMLContainerBuilder<HTMLElement> ripple = span();
+	private final HTMLContainerBuilder<HTMLElement> graphic = span();
+	private final HTMLContainerBuilder<HTMLElement> check = span();
+	private final HTMLContainerBuilder<HTMLElement> label = span();
+	private final HTMLContainerBuilder<HTMLElement> btn = span();
+	private final HTMLContainerBuilder<HTMLDivElement> _this;
 	private ChipElement.MDCChip _mdc;
-	ChipElementCheckable(HtmlContentBuilder<HTMLDivElement> e) {
+	ChipElementCheckable(HTMLContainerBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e.css("mdc-chip")
 				.add(btn.css("mdc-chip__action", "mdc-chip__action--primary").attr("role", "option").attr("tabindex", "0")

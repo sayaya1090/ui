@@ -8,8 +8,8 @@ import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import net.sayaya.ui.svg.SvgBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.InputBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
+import org.jboss.elemento.InputElementBuilder;
 import org.jboss.elemento.InputType;
 
 import static net.sayaya.ui.svg.SvgBuilder.svg;
@@ -25,13 +25,13 @@ public class SwitchElement extends HTMLElementBuilder<HTMLButtonElement, SwitchE
 		elem.checkbox.checked(init);
 		return elem;
 	}
-	private final InputBuilder<HTMLInputElement> checkbox = input(InputType.checkbox);
-	private final HtmlContentBuilder<elemental2.dom.HTMLLabelElement> label = label();
-	private final HtmlContentBuilder<HTMLDivElement> track = div();
+	private final InputElementBuilder<HTMLInputElement> checkbox = input(InputType.checkbox);
+	private final HTMLContainerBuilder<elemental2.dom.HTMLLabelElement> label = label();
+	private final HTMLContainerBuilder<HTMLDivElement> track = div();
 	private final SvgBuilder on = svg();
 	private final SvgBuilder off = svg();
-	private final HtmlContentBuilder<HTMLDivElement> underlay = div();
-	public SwitchElement(HtmlContentBuilder<HTMLButtonElement> e) {
+	private final HTMLContainerBuilder<HTMLDivElement> underlay = div();
+	public SwitchElement(HTMLContainerBuilder<HTMLButtonElement> e) {
 		super(e);
 		e.css("mdc-switch", "mdc-switch--unselected").attr("role", "switch").aria("checked", "false")
 				.add(track.css("mdc-switch__track").add(label))

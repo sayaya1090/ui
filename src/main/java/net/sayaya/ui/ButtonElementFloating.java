@@ -5,14 +5,14 @@ import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLElement;
 import net.sayaya.ui.mdc.MDCRipple;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementFloating extends HTMLElementBuilder<HTMLButtonElement, ButtonElementFloating> implements ButtonElement {
-	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	ButtonElementFloating(HtmlContentBuilder<HTMLButtonElement> e, IconElement iconElement) {
+	private final HTMLContainerBuilder<HTMLButtonElement> _this;
+	ButtonElementFloating(HTMLContainerBuilder<HTMLButtonElement> e, IconElement iconElement) {
 		super(e);
 		_this = e;
 		var icon = span().add(iconElement.element().textContent);

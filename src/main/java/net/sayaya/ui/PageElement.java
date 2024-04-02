@@ -4,7 +4,7 @@ import com.google.gwt.core.client.Scheduler;
 import elemental2.dom.*;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,21 +23,22 @@ public class PageElement extends HTMLElementBuilder<HTMLDivElement, PageElement>
 	private long idx;
 	private int show;
 	private Boolean isAsc;
-	private final HtmlContentBuilder<HTMLLabelElement> lblTotal = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: auto;");
-	private final HtmlContentBuilder<HTMLLabelElement> lblPageMax = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
-	private final HtmlContentBuilder<HTMLLabelElement> lblIdxFirst = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; ");
-	private final HtmlContentBuilder<HTMLLabelElement> lblIdxLast = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
+	private final HTMLContainerBuilder<HTMLLabelElement> lblTotal = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: auto;");
+	private final HTMLContainerBuilder<HTMLLabelElement> lblPageMax = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
+	private final HTMLContainerBuilder<HTMLLabelElement> lblIdxFirst = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; ");
+	private final HTMLContainerBuilder<HTMLLabelElement> lblIdxLast = label().style("display: inline-block; margin-top: auto; margin-bottom: auto; margin-right: 5px;");
 	private final ButtonElement btnPrevious = ButtonElement.icon("chevron_left");
 	private final ButtonElement btnNext = ButtonElement.icon("chevron_right");
 	private final ButtonElement btnFirst = ButtonElement.icon("first_page");
 	private final ButtonElement btnLast = ButtonElement.icon("last_page");
-	private final HtmlContentBuilder<HTMLDivElement> sort = div();
+	private final HTMLContainerBuilder<HTMLDivElement> sort = div();
 	private DropDownElement iptSort = null;
-	private final DropDownElement iptAsc = DropDownElement.outlined(ListElement.singleLineList().add(ListElement.singleLine().label("Asc")).add(ListElement.singleLine().label("Desc"))).style("width: 120px;")
-			.text("Order");
+	private final DropDownElement iptAsc = DropDownElement.outlined(ListElement.singleLineList().add(ListElement.singleLine().label("Asc"))
+			.add(ListElement.singleLine().label("Desc"))
+	).style("width: 120px;").textContent("Order");
 	private final TextFieldElement.TextFieldOutlined<Double> iptPage = TextFieldElement.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; font-size: 13px !important;").attr("min", "1");
-	private final HtmlContentBuilder<HTMLDivElement> _this;
-	public PageElement(HtmlContentBuilder<HTMLDivElement> e) {
+	private final HTMLContainerBuilder<HTMLDivElement> _this;
+	public PageElement(HTMLContainerBuilder<HTMLDivElement> e) {
 		super(e.css("page"));
 		_this = e.add(lblIdxFirst)
 				 .add(lblIdxLast)

@@ -4,7 +4,7 @@ import elemental2.dom.*;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import net.sayaya.ui.mdc.MDCRipple;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
 
 import java.util.HashSet;
@@ -14,13 +14,13 @@ import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementToggle extends HTMLElementBuilder<HTMLButtonElement, ButtonElementToggle> implements ButtonElement, HasValueChangeHandlers<Boolean> {
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div().css("mdc-button__ripple");
+	private final HTMLContainerBuilder<HTMLDivElement> ripple = div().css("mdc-button__ripple");
 	private IsElement<?> iconBefore;
-	private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-button__label");
+	private final HTMLContainerBuilder<HTMLElement> label = span().css("mdc-button__label");
 	private IsElement<?> iconTrailing;
 	private boolean value;
-	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	ButtonElementToggle(HtmlContentBuilder<HTMLButtonElement> e) {
+	private final HTMLContainerBuilder<HTMLButtonElement> _this;
+	ButtonElementToggle(HTMLContainerBuilder<HTMLButtonElement> e) {
 		super(e);
 		_this = e;
 		layout();

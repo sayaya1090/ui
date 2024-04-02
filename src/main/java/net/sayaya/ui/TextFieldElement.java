@@ -14,8 +14,8 @@ import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.InputBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
+import org.jboss.elemento.InputElementBuilder;
 import org.jboss.elemento.InputType;
 
 import java.util.Date;
@@ -29,7 +29,7 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 	@Setter
 	@Accessors(fluent = true)
 	public final static class TextFieldBuilder<V> {
-		private InputBuilder<HTMLInputElement> input;
+		private InputElementBuilder<HTMLInputElement> input;
 		@Setter(AccessLevel.PRIVATE)
 		private Supplier<V> getter;
 		@Setter(AccessLevel.PRIVATE)
@@ -44,26 +44,26 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 		}
 	}
 	public static TextFieldBuilder<String> textBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.text).css("mdc-text-field__input");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.text).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
 											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<Double> numberBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input").style("text-align: right; padding-right: 0px;");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.number).css("mdc-text-field__input").style("text-align: right; padding-right: 0px;");
 		return new TextFieldBuilder<Double>().input(input)
 											 .setter(v->v!=null?String.valueOf(v):"")
 											 .getter(()->input.element().valueAsNumber);
 	}
 	public static TextFieldBuilder<String> emailBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.email).css("mdc-text-field__input");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.email).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
 											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	private final static DateTimeFormat DTF = DateTimeFormat.getFormat("yyyy-MM-dd");
 	public static TextFieldBuilder<JsDate> dateBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.date).css("mdc-text-field__input");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.date).css("mdc-text-field__input");
 		return new TextFieldBuilder<JsDate>().input(input)
 											 .setter(v->{
 											 	if(v==null) return "";
@@ -72,7 +72,7 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 	}
 	private final static DateTimeFormat DTF2 = DateTimeFormat.getFormat("yyyy-MM-dd'T'HH:mm");
 	public static TextFieldBuilder<JsDate> datetimeBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input").attr("type", "datetime-local");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.datetime).css("mdc-text-field__input").attr("type", "datetime-local");
 		return new TextFieldBuilder<JsDate>().input(input)
 				.setter(v->{
 					if(v==null) return "";
@@ -82,24 +82,24 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 				} catch(Exception e) {return null;}});
 	}
 	public static TextFieldBuilder<String> fileBox() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.file).css("mdc-text-field__input").style("position: relative; top: calc(50% - 15px);");
 		return new TextFieldBuilder<String>().input(input)
 											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
 	public static TextFieldBuilder<String> password() {
-		InputBuilder<HTMLInputElement> input = Elements.input(InputType.password).css("mdc-text-field__input");
+		InputElementBuilder<HTMLInputElement> input = Elements.input(InputType.password).css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
 											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
 	}
-	protected final HtmlContentBuilder<HTMLLabelElement> _this;
-	protected final InputBuilder<HTMLInputElement> input;
-	protected final HtmlContentBuilder<HTMLElement> label;
+	protected final HTMLContainerBuilder<HTMLLabelElement> _this;
+	protected final InputElementBuilder<HTMLInputElement> input;
+	protected final HTMLContainerBuilder<HTMLElement> label;
 	private final Supplier<V> getter;
 	private final Function<V, String> setter;
 	@Delegate protected MDCTextField _mdc;
-	public TextFieldElement(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> input, Supplier<V> getter, Function<V, String> setter) {
+	public TextFieldElement(HTMLContainerBuilder<HTMLLabelElement> e, InputElementBuilder<HTMLInputElement> input, Supplier<V> getter, Function<V, String> setter) {
 		super(e);
 		this._this = e.css("mdc-text-field");
 		this.input = input;
@@ -111,7 +111,7 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 		_mdc = new MDCTextField(element());
 	}
 	protected abstract void layout();
-	public final InputBuilder<HTMLInputElement> input() {
+	public final InputElementBuilder<HTMLInputElement> input() {
 		return input;
 	}
 	@Override
@@ -216,8 +216,8 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 	}
 
 	public static class TextFieldHelper extends HTMLElementBuilder<HTMLDivElement, TextFieldHelper> {
-		private HtmlContentBuilder<HTMLDivElement> text = div().css("mdc-text-field-helper-text").aria("hidden", "true");
-		private TextFieldHelper(HtmlContentBuilder<HTMLDivElement> elem) {
+		private HTMLContainerBuilder<HTMLDivElement> text = div().css("mdc-text-field-helper-text").aria("hidden", "true");
+		private TextFieldHelper(HTMLContainerBuilder<HTMLDivElement> elem) {
 			super(elem);
 			elem.css("mdc-text-field-helper-line").add(text.id());
 			new MDCTextFieldHelperText(text.element());
@@ -240,7 +240,7 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 		}
 	}
 	public static final class TextFieldFilled<V> extends TextFieldElement<V, TextFieldFilled<V>> {
-		public TextFieldFilled(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
+		public TextFieldFilled(HTMLContainerBuilder<HTMLLabelElement> e, InputElementBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, i, getter, setter);
 		}
 		@Override
@@ -256,8 +256,8 @@ public abstract class TextFieldElement<V, B extends TextFieldElement<V, B>> exte
 		}
 	}
 	public static final class TextFieldOutlined<V> extends TextFieldElement<V, TextFieldOutlined<V>> {
-		private HtmlContentBuilder<HTMLElement> outline;
-		public TextFieldOutlined(HtmlContentBuilder<HTMLLabelElement> e, InputBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
+		private HTMLContainerBuilder<HTMLElement> outline;
+		public TextFieldOutlined(HTMLContainerBuilder<HTMLLabelElement> e, InputElementBuilder<HTMLInputElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, i, getter, setter);
 		}
 		@Override

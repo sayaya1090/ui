@@ -3,7 +3,7 @@ package net.sayaya.ui;
 import elemental2.dom.HTMLButtonElement;
 import elemental2.dom.HTMLDivElement;
 import net.sayaya.ui.event.HasClickHandlers;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.*;
@@ -28,7 +28,7 @@ public interface ButtonElement extends IsElement<HTMLButtonElement>, HasClickHan
 	static ButtonElementToggle toggle() {
 		return new ButtonElementToggle(button());
 	}
-	default HtmlContentBuilder<HTMLDivElement> touchable() {
+	default HTMLContainerBuilder<HTMLDivElement> touchable() {
 		this.element().classList.add("mdc-button--touch");
 		element().appendChild(span().css("mdc-button__touch").element());
 		return div().css("mdc-touch-target-wrapper").add(this);

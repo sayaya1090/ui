@@ -4,13 +4,13 @@ import elemental2.dom.EventListener;
 import elemental2.dom.HTMLButtonElement;
 import net.sayaya.ui.mdc.MDCRipple;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.div;
 
 public class ButtonElementIcon extends HTMLElementBuilder<HTMLButtonElement, ButtonElementIcon> implements ButtonElement {
-	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	ButtonElementIcon(HtmlContentBuilder<HTMLButtonElement> e, String icon) {
+	private final HTMLContainerBuilder<HTMLButtonElement> _this;
+	ButtonElementIcon(HTMLContainerBuilder<HTMLButtonElement> e, String icon) {
 		super(e);
 		_this = e.css("mdc-icon-button", "material-icons")
 				.add(div().css("mdc-icon-button__ripple"))
