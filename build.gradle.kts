@@ -10,16 +10,16 @@ repositories {
     mavenLocal()
 }
 group = "net.sayaya"
-version = "material3-1.2.0"
+version = "material3-1.4.0"
 java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
 dependencies {
-    implementation("org.jboss.elemento:elemento-core:1.2.13")
+    implementation("org.jboss.elemento:elemento-core:1.4.2")
     implementation("org.gwtproject:gwt-user:2.11.0")
     compileOnly("org.gwtproject:gwt-dev:2.11.0")
-    implementation("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
+    implementation("org.projectlombok:lombok:1.18.32")
+    annotationProcessor("org.projectlombok:lombok:1.18.32")
 }
 
 
@@ -82,7 +82,7 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
                 register("maven", MavenPublication::class) {
                     groupId = "net.sayaya"
                     artifactId = "ui"
-                    version = "material3-1.2.0"
+                    version = "material3-1.4.0"
                     from(project.components["java"])
                 }
             }
