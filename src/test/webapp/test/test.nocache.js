@@ -20,7 +20,7 @@
 (function($wnd, $doc){
   // Compute some codeserver urls so as the user does not need bookmarklets
   var hostName = $wnd.location.hostname;
-  var serverUrl = 'http://' + hostName + ':9876';
+  var serverUrl = 'http://' + hostName + ':19204';
   var module = 'test';
   var nocacheUrl = serverUrl + '/recompile-requester/' + module;
 
