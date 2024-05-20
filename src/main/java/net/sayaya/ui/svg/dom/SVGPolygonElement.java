@@ -1,4 +1,4 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.dom;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;

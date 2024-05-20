@@ -5,7 +5,7 @@ import elemental2.dom.HTMLElement;
 import elemental2.dom.HTMLImageElement;
 import net.sayaya.ui.elements.IconButtonElementBuilder;
 import net.sayaya.ui.elements.IconElementBuilder;
-import net.sayaya.ui.svg.IsSvgElement;
+import net.sayaya.ui.svg.elements.IsSvgElement;
 import org.jboss.elemento.Container;
 import org.jboss.elemento.HTMLElementBuilder;
 

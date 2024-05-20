@@ -1,8 +1,9 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.elements;
 
 import elemental2.dom.DomGlobal;
 import elemental2.dom.Event;
 import elemental2.dom.HTMLElement;
+import net.sayaya.ui.svg.dom.SVGElement;
 import org.jboss.elemento.*;
 
 import java.util.ArrayList;

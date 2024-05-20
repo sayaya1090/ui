@@ -1,7 +1,7 @@
 package net.sayaya.ui.elements;
 
 import net.sayaya.ui.dom.MdIconElement;
-import net.sayaya.ui.svg.IsSvgElement;
+import net.sayaya.ui.svg.elements.IsSvgElement;
 import org.jboss.elemento.HTMLElementBuilder;
 import org.jboss.elemento.HasElement;
 import org.jboss.elemento.HasHTMLElement;

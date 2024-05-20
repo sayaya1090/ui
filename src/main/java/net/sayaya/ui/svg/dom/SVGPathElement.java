@@ -1,10 +1,11 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.dom;
 
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsType;
 
 @JsType(isNative = true, namespace = JsPackage.GLOBAL)
-public class SVGMaskElement extends SVGElement {
+public class SVGPathElement extends SVGElement {
     public String xmllang;
     public String xmlspace;
 }
+

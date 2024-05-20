@@ -1,4 +1,6 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.elements;
+
+import net.sayaya.ui.svg.dom.SVGElement;
 
 public class SvgBuilder extends AbstractSvgBuilder<SVGElement, SvgBuilder> {
     public static SvgBuilder svg() {

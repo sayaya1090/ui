@@ -1,4 +1,6 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.elements;
+
+import net.sayaya.ui.svg.dom.SVGMaskElement;
 
 public class SvgMaskBuilder extends AbstractSvgBuilder<SVGMaskElement, SvgMaskBuilder> {
     public static SvgMaskBuilder mask(String id) {

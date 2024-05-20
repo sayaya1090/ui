@@ -1,4 +1,4 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.dom;
 
 import elemental2.dom.CSSStyleDeclaration;
 import elemental2.dom.Element;

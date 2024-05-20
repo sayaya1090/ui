@@ -1,4 +1,6 @@
-package net.sayaya.ui.svg;
+package net.sayaya.ui.svg.elements;
+
+import net.sayaya.ui.svg.dom.SVGElement;
 
 public interface IsSvgElement<E extends SVGElement, B> {
     E element();

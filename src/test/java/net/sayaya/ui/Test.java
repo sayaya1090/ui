@@ -34,9 +34,9 @@ import static net.sayaya.ui.elements.SliderElementBuilder.slider;
 import static net.sayaya.ui.elements.SwitchElementBuilder.sw;
 import static net.sayaya.ui.elements.TabsElementBuilder.tabs;
 import static net.sayaya.ui.elements.TextFieldElementBuilder.textField;
-import static net.sayaya.ui.svg.SvgBuilder.svg;
-import static net.sayaya.ui.svg.SvgPathBuilder.path;
-import static net.sayaya.ui.svg.SvgPolygonBuilder.polygon;
+import static net.sayaya.ui.svg.elements.SvgBuilder.svg;
+import static net.sayaya.ui.svg.elements.SvgPathBuilder.path;
+import static net.sayaya.ui.svg.elements.SvgPolygonBuilder.polygon;
 import static org.jboss.elemento.Elements.*;
 
 public class Test implements EntryPoint {
