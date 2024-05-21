@@ -9,5 +9,4 @@ import jsinterop.annotations.JsType;
 public class SVGElement extends Element {
     public int tabIndex;
     public CSSStyleDeclaration style;
-    public String xmlbase;
 }

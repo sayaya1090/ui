@@ -11,6 +11,9 @@ public class SvgGroupBuilder extends AbstractSvgBuilder<SVGGroupElement, SvgGrou
     private SvgGroupBuilder() {
         super("g");
     }
+    protected SvgGroupBuilder(String tag) {
+        super(tag);
+    }
     @Override
     public SvgGroupBuilder that() {
         return this;

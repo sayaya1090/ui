@@ -4,8 +4,8 @@ import net.sayaya.ui.svg.dom.SVGPolygonElement;
 
 public class SvgPolygonBuilder extends AbstractSvgBuilder<SVGPolygonElement, SvgPolygonBuilder> implements
         HasFill<SVGPolygonElement, SvgPolygonBuilder>, HasStroke<SVGPolygonElement, SvgPolygonBuilder>,
-        HasPosition<SVGPolygonElement, SvgPolygonBuilder>, Transformable<SVGPolygonElement, SvgPolygonBuilder>,
-        Maskable<SVGPolygonElement, SvgPolygonBuilder> {
+        HasPosition<SVGPolygonElement, SvgPolygonBuilder>, Rotatable<SVGPolygonElement, SvgPolygonBuilder>,
+        Transformable<SVGPolygonElement, SvgPolygonBuilder>, Maskable<SVGPolygonElement, SvgPolygonBuilder> {
     public static SvgPolygonBuilder polygon() {
         return new SvgPolygonBuilder();
     }
