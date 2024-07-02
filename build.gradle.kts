@@ -10,7 +10,7 @@ repositories {
     mavenLocal()
 }
 group = "net.sayaya"
-version = "material3-1.5.0"
+version = "material3-1.5.1"
 java.sourceCompatibility = JavaVersion.VERSION_21
 java.targetCompatibility = JavaVersion.VERSION_21
 
@@ -78,7 +78,7 @@ if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
                 register("maven", MavenPublication::class) {
                     groupId = "net.sayaya"
                     artifactId = "ui"
-                    version = "material3-1.5.0"
+                    version = "material3-1.5.1"
                     from(project.components["java"])
                 }
             }
