@@ -7,7 +7,7 @@ import elemental2.dom.Node;
 import jsinterop.annotations.JsFunction;
 import jsinterop.annotations.JsType;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.div;
@@ -28,13 +28,13 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 	public static Dialog confirmation(String title, ButtonElementText action1, ButtonElementText action2) {
 		return new Dialog().title(title).action(action1).action(action2);
 	}
-	private final HtmlContentBuilder<HTMLDivElement> content = div().id();
-	private final HtmlContentBuilder<HTMLDivElement> surface = div();
+	private final HTMLContainerBuilder<HTMLDivElement> content = div().id();
+	private final HTMLContainerBuilder<HTMLDivElement> surface = div();
 	private final MDCDialog mdc;
 	private Dialog() {
 		this(div());
 	}
-	private Dialog(HtmlContentBuilder<HTMLDivElement> e) {
+	private Dialog(HTMLContainerBuilder<HTMLDivElement> e) {
 		super(e);
 		e.css("mdc-dialog")
 			.add(div().css("mdc-dialog__container")

@@ -8,8 +8,8 @@ import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
-import org.jboss.elemento.InputBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
+import org.jboss.elemento.InputElementBuilder;
 import org.jboss.elemento.InputType;
 
 import static org.jboss.elemento.Elements.div;
@@ -19,10 +19,10 @@ public class RadioElement<V> extends HTMLElementBuilder<HTMLDivElement, RadioEle
 	public static <V> RadioElement<V> radio(String group, V value) {
 		return new RadioElement<>(div(), group, value);
 	}
-	private final InputBuilder<HTMLInputElement> input = input(InputType.radio);
+	private final InputElementBuilder<HTMLInputElement> input = input(InputType.radio);
 	private final V value;
 	private final MDCRadio _mdc;
-	private RadioElement(HtmlContentBuilder<HTMLDivElement> e, String group, V value) {
+	private RadioElement(HTMLContainerBuilder<HTMLDivElement> e, String group, V value) {
 		super(e);
 		e.css("mdc-radio")
 		 .add(input.attr("name", group).css("mdc-radio__native-control"))

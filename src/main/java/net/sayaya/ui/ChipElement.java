@@ -12,7 +12,7 @@ import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.EventType;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static net.sayaya.ui.Animation.animate;
 import static org.jboss.elemento.Elements.div;
@@ -25,13 +25,13 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 	public static ChipElementCheckable check(String text) {
 		return new ChipElementCheckable(div()).text(text);
 	}
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
-	private final HtmlContentBuilder<HTMLElement> label = span();
-	private final HtmlContentBuilder<HTMLElement> btn = span();
-	private final HtmlContentBuilder<HTMLElement> cell = span();
-	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private final HTMLContainerBuilder<HTMLDivElement> ripple = div();
+	private final HTMLContainerBuilder<HTMLElement> label = span();
+	private final HTMLContainerBuilder<HTMLElement> btn = span();
+	private final HTMLContainerBuilder<HTMLElement> cell = span();
+	private final HTMLContainerBuilder<HTMLDivElement> _this;
 	private final MDCChip _mdc;
-	private ChipElement(HtmlContentBuilder<HTMLDivElement> e) {
+	private ChipElement(HTMLContainerBuilder<HTMLDivElement> e) {
 		super(e);
 		_this = e;
 		_this.css("mdc-chip").attr("role", "row")

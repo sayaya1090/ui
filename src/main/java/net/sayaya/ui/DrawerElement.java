@@ -6,8 +6,7 @@ import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasAttachHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.EmptyContentBuilder;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.*;
 
@@ -18,10 +17,10 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 	public static DrawerHeader header() {
 		return new DrawerHeader(div().css("mdc-drawer__header"));
 	}
-	public static HtmlContentBuilder<HTMLLabelElement> subheader(String label) {
+	public static HTMLContainerBuilder<HTMLLabelElement> subheader(String label) {
 		return label().css("mdc-list-group__subheader").add(label);
 	}
-	public static EmptyContentBuilder<HTMLHRElement> subdivider() {
+	public static org.jboss.elemento.HTMLElementBuilder<HTMLHRElement> subdivider() {
 		return hr().css("mdc-list-divider");
 	}
 	public static DrawerContent content() {
@@ -31,14 +30,21 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		return new DrawerListItem(a().css("mdc-list-item").attr("href", "#"));
 	}
 	private MDCDrawer _mdc;
-	private final HtmlContentBuilder<HTMLElement> _this;
+	private final HTMLContainerBuilder<HTMLElement> _this;
 	private DrawerHeader header;
 	private DrawerContent content;
-	private DrawerElement(HtmlContentBuilder<HTMLElement> e) {
+	private DrawerElement(HTMLContainerBuilder<HTMLElement> e) {
 		super(e);
 		_this = e;
 		layout();
-		onAttach(evt->Scheduler.get().scheduleDeferred(()->_mdc = new MDCDrawer(element())));
+		DomGlobal.console.log("!");
+		onAttach(evt-> {
+			DomGlobal.console.log("1");
+			Scheduler.get().scheduleDeferred(()->{
+				DomGlobal.console.log("2");
+				_mdc = new MDCDrawer(element());
+			});
+		});
 	}
 	private void layout() {
 		clear();
@@ -55,7 +61,7 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		layout();
 		return this;
 	}
-	public DrawerElement target(HtmlContentBuilder<?> elem) {
+	public DrawerElement target(HTMLContainerBuilder<?> elem) {
 		elem.css("mdc-drawer-app-content");
 		return this;
 	}
@@ -94,8 +100,8 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		public MDCDrawer(Element elem){}
 	}
 	public static class DrawerHeader extends HTMLElementBuilder<HTMLDivElement, DrawerHeader> {
-		private final HtmlContentBuilder<HTMLDivElement> _this;
-		private DrawerHeader(HtmlContentBuilder<HTMLDivElement> e) {
+		private final HTMLContainerBuilder<HTMLDivElement> _this;
+		private DrawerHeader(HTMLContainerBuilder<HTMLDivElement> e) {
 			super(e);
 			_this = e;
 			layout();
@@ -103,12 +109,12 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		private void layout() {
 
 		}
-		public DrawerHeader title(HtmlContentBuilder<?> element) {
+		public DrawerHeader title(HTMLContainerBuilder<?> element) {
 			element.css("mdc-drawer__title");
 			_this.add(element);
 			return this;
 		}
-		public DrawerHeader subtitle(HtmlContentBuilder<?> element) {
+		public DrawerHeader subtitle(HTMLContainerBuilder<?> element) {
 			element.css("mdc-drawer__subtitle");
 			_this.add(element);
 			return this;
@@ -119,9 +125,9 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		}
 	}
 	public static class DrawerContent extends HTMLElementBuilder<HTMLDivElement, DrawerContent> {
-		private final HtmlContentBuilder<HTMLElement> list = nav().css("mdc-list");
-		private final HtmlContentBuilder<HTMLDivElement> _this;
-		private DrawerContent(HtmlContentBuilder<HTMLDivElement> e) {
+		private final HTMLContainerBuilder<HTMLElement> list = nav().css("mdc-list");
+		private final HTMLContainerBuilder<HTMLDivElement> _this;
+		private DrawerContent(HTMLContainerBuilder<HTMLDivElement> e) {
 			super(e);
 			_this = e;
 			layout();
@@ -132,7 +138,7 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		public DrawerContent header(String header) {
 			return header(subheader(header));
 		}
-		public DrawerContent header(HtmlContentBuilder<HTMLLabelElement> header) {
+		public DrawerContent header(HTMLContainerBuilder<HTMLLabelElement> header) {
 			list.add(header);
 			return this;
 		}
@@ -143,7 +149,7 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		public DrawerContent divider() {
 			return divider(subdivider());
 		}
-		public DrawerContent divider(EmptyContentBuilder<HTMLHRElement> divider) {
+		public DrawerContent divider(org.jboss.elemento.HTMLElementBuilder<HTMLHRElement> divider) {
 			list.add(divider);
 			return this;
 		}
@@ -154,10 +160,10 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 	}
 
 	public static class DrawerListItem extends HTMLElementBuilder<HTMLAnchorElement, DrawerListItem> {
-		private final HtmlContentBuilder<HTMLAnchorElement> _this;
+		private final HTMLContainerBuilder<HTMLAnchorElement> _this;
 		private IconElement iconElement;
 		private String label;
-		private DrawerListItem(HtmlContentBuilder<HTMLAnchorElement> e) {
+		private DrawerListItem(HTMLContainerBuilder<HTMLAnchorElement> e) {
 			super(e);
 			_this = e;
 			layout();

@@ -12,7 +12,7 @@ import net.sayaya.ui.event.HasValueChangeHandlers;
 import net.sayaya.ui.svg.SvgBuilder;
 import net.sayaya.ui.svg.SvgPolygonBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static net.sayaya.ui.svg.SvgBuilder.svg;
 import static net.sayaya.ui.svg.SvgPolygonBuilder.polygon;
@@ -29,15 +29,15 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	}
 	protected MDCDropdown _mdc;
 	protected MDCDropdownFoundation _foundation;
-	protected final HtmlContentBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
-	protected final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
-	protected final HtmlContentBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
+	protected final HTMLContainerBuilder<HTMLDivElement> anchor = div().css("mdc-select__anchor");
+	protected final HTMLContainerBuilder<HTMLElement> label = span().css("mdc-floating-label");
+	protected final HTMLContainerBuilder<HTMLElement> value = span().css("mdc-select__selected-text");
 	private final SvgPolygonBuilder inactive = polygon().css("mdc-select__dropdown-icon-inactive").points("7 10 12 15 17 10").stroke("none").fillRule("evenodd");
 	private final SvgPolygonBuilder active = polygon().css("mdc-select__dropdown-icon-active").points("7 15 12 10 17 15").stroke("none").fillRule("evenodd");
 	private final SvgBuilder svg = svg().viewBox(7,10,10,5).css("mdc-select__dropdown-icon-graphic").add(inactive).add(active);
-	protected final HtmlContentBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg.element());
+	protected final HTMLContainerBuilder<HTMLElement> arrow = span().css("mdc-select__dropdown-icon").add(svg.element());
 	protected final ListElement<?> listElement;
-	protected DropDownElement(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
+	protected DropDownElement(HTMLContainerBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 		super(e);
 		this.listElement = listElement;
 		String id = DOM.createUniqueId();
@@ -90,11 +90,11 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	}
 
 	private final static class DropDownFilled extends DropDownElement {
-		private final HtmlContentBuilder<HTMLElement> ripple = span();
-		private final HtmlContentBuilder<HTMLElement> ripple2 = span();
-		private final HtmlContentBuilder<HTMLDivElement> menu = div();
-		private final HtmlContentBuilder<HTMLDivElement> _this;
-		public DropDownFilled(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
+		private final HTMLContainerBuilder<HTMLElement> ripple = span();
+		private final HTMLContainerBuilder<HTMLElement> ripple2 = span();
+		private final HTMLContainerBuilder<HTMLDivElement> menu = div();
+		private final HTMLContainerBuilder<HTMLDivElement> _this;
+		public DropDownFilled(HTMLContainerBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 			super(e, listElement);
 			_this = e;
 			layout();
@@ -119,13 +119,13 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 		}
 	}
 	private final static class DropDownOutlined extends DropDownElement {
-		private final HtmlContentBuilder<HTMLElement> outline = span();
-		private final HtmlContentBuilder<HTMLElement> outlineLeading = span();
-		private final HtmlContentBuilder<HTMLElement> outlineNotch = span();
-		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span();
-		private final HtmlContentBuilder<HTMLDivElement> menu = div();
-		private final HtmlContentBuilder<HTMLDivElement> _this;
-		public DropDownOutlined(HtmlContentBuilder<HTMLDivElement> e, ListElement<?> listElement) {
+		private final HTMLContainerBuilder<HTMLElement> outline = span();
+		private final HTMLContainerBuilder<HTMLElement> outlineLeading = span();
+		private final HTMLContainerBuilder<HTMLElement> outlineNotch = span();
+		private final HTMLContainerBuilder<HTMLElement> outlineTrailing = span();
+		private final HTMLContainerBuilder<HTMLDivElement> menu = div();
+		private final HTMLContainerBuilder<HTMLDivElement> _this;
+		public DropDownOutlined(HTMLContainerBuilder<HTMLDivElement> e, ListElement<?> listElement) {
 			super(e, listElement);
 			_this = e;
 			layout();

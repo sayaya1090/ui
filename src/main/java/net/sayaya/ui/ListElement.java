@@ -6,7 +6,7 @@ import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.util.ElementUtil;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
 
 import java.util.ArrayList;
@@ -28,9 +28,9 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 	public static DoubleLineItem doubleLine() {
 		return new DoubleLineItem(li());
 	}
-	private final HtmlContentBuilder<HTMLUListElement> _this;
+	private final HTMLContainerBuilder<HTMLUListElement> _this;
 	private final java.util.List<ListItem> children = new ArrayList<>();
-	private ListElement(HtmlContentBuilder<HTMLUListElement> e) {
+	private ListElement(HTMLContainerBuilder<HTMLUListElement> e) {
 		super(e);
 		_this = e.css("mdc-list").attr("role", "listbox");
 		onAttach(evt->new MDCList(element()));
@@ -70,10 +70,10 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 	}
 
 	static abstract class AbstractListItem<L extends AbstractListItem<L>> extends HTMLElementBuilder<HTMLLIElement, L> implements HasClickHandlers {
-		private final HtmlContentBuilder<HTMLElement> ripple = span();
-		protected final HtmlContentBuilder<HTMLElement> text = span();
-		protected final HtmlContentBuilder<HTMLLIElement> _this;
-		public AbstractListItem(HtmlContentBuilder<HTMLLIElement> e) {
+		private final HTMLContainerBuilder<HTMLElement> ripple = span();
+		protected final HTMLContainerBuilder<HTMLElement> text = span();
+		protected final HTMLContainerBuilder<HTMLLIElement> _this;
+		public AbstractListItem(HTMLContainerBuilder<HTMLLIElement> e) {
 			super(e);
 			_this = e.css("mdc-list-item").attr("role", "option")
 					.add(ripple.css("mdc-list-item__ripple"))
@@ -107,11 +107,11 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		}
 		@Override
 		public final HandlerRegistration onClick(EventListener listener) {
-			return onClick(that().element, listener);
+			return onClick(that().element(), listener);
 		}
 	}
 	public static class SingleLineItem extends AbstractListItem<SingleLineItem> {
-		private SingleLineItem(HtmlContentBuilder<HTMLLIElement> e) {
+		private SingleLineItem(HTMLContainerBuilder<HTMLLIElement> e) {
 			super(e);
 		}
 		public SingleLineItem label(String msg) {
@@ -125,9 +125,9 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		}
 	}
 	public static class DoubleLineItem extends AbstractListItem<DoubleLineItem> {
-		private final HtmlContentBuilder<HTMLElement> primary = span();
-		private final HtmlContentBuilder<HTMLElement> secondary = span();
-		public DoubleLineItem(HtmlContentBuilder<HTMLLIElement> e) {
+		private final HTMLContainerBuilder<HTMLElement> primary = span();
+		private final HTMLContainerBuilder<HTMLElement> secondary = span();
+		public DoubleLineItem(HTMLContainerBuilder<HTMLLIElement> e) {
 			super(e);
 			text.add(primary.css("mdc-list-item__primary-text"))
 					.add(secondary.css("mdc-list-item__secondary-text"));
@@ -147,7 +147,7 @@ public class ListElement<ListItem extends ListElement.AbstractListItem<ListItem>
 		}
 	}
 	public static class Divider extends AbstractListItem<Divider> {
-		public Divider(HtmlContentBuilder<HTMLLIElement> e) {
+		public Divider(HTMLContainerBuilder<HTMLLIElement> e) {
 			super(e);
 		}
 		@Override

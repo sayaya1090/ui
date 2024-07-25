@@ -10,11 +10,11 @@ import lombok.experimental.Accessors;
 import lombok.experimental.Delegate;
 import net.sayaya.ui.event.HasClickHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
+import net.sayaya.ui.util.OnAttachEvent;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
-import org.jboss.elemento.TextContentBuilder;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -27,7 +27,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 	@Setter
 	@Accessors(fluent = true)
 	public final static class TextFieldBuilder<V> {
-		private TextContentBuilder<HTMLTextAreaElement> input;
+		private org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input;
 		@Setter(AccessLevel.PRIVATE)
 		private Supplier<V> getter;
 		@Setter(AccessLevel.PRIVATE)
@@ -36,7 +36,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 		public TextAreaElement<V> filled() {
 			TextFieldFilled<V> elem = new TextFieldFilled<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--textarea", "mdc-text-field--filled");
-			bind(elem, "DOMNodeInserted", evt->elem.initialize());
+			OnAttachEvent.observe(elem.element(), evt->elem.initialize());
 			return elem;
 		}
 
@@ -44,12 +44,12 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 			new TextFieldBuilder<String>();
 			TextFieldOutlined<V> elem = new TextFieldOutlined<>(Elements.label(), input, getter, setter);
 			elem.css("mdc-text-field", "mdc-text-field--textarea", "mdc-text-field--outlined");
-			bind(elem, "DOMNodeInserted", evt->elem.initialize());
+			OnAttachEvent.observe(elem.element(), evt->elem.initialize());
 			return elem;
 		}
 	}
 	public static TextFieldBuilder<String> textBox() {
-		TextContentBuilder<HTMLTextAreaElement> input = Elements.textarea().css("mdc-text-field__input");
+		org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input = Elements.textarea().css("mdc-text-field__input");
 		return new TextFieldBuilder<String>().input(input)
 											 .setter(v->v!=null?v:"")
 											 .getter(()->input.element().value);
@@ -66,7 +66,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 	private static native MDCTextFieldHelperTextFoundation foundation(MDCTextFieldHelperText mdc) /*-{
         return mdc.foundation.adapter;
     }-*/;
-	private final HtmlContentBuilder<HTMLLabelElement> _this;
+	private final HTMLContainerBuilder<HTMLLabelElement> _this;
 	protected IsElement<?> iconBefore;
 	protected IsElement<?> iconTrailing;
 	private final Supplier<V> getter;
@@ -74,7 +74,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 	@Delegate
 	protected MDCTextField _mdc;
 	protected MDCTextFieldFoundation _foundation;
-	public TextAreaElement(HtmlContentBuilder<HTMLLabelElement> e, Supplier<V> getter, Function<V, String> setter) {
+	public TextAreaElement(HTMLContainerBuilder<HTMLLabelElement> e, Supplier<V> getter, Function<V, String> setter) {
 		super(e);
 		_this = e;
 		this.getter = getter;
@@ -86,7 +86,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 		return that();
 	}
 	protected abstract void layout();
-	public abstract TextContentBuilder<HTMLTextAreaElement> input();
+	public abstract org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input();
 	@Override
 	public final HandlerRegistration onClick(EventListener listener) {
 		return onClick(input().element(), listener);
@@ -175,13 +175,13 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 	}
 
 	public static class TextFieldHelper extends HTMLElementBuilder<HTMLDivElement, TextFieldHelper> {
-		private HtmlContentBuilder<HTMLDivElement> text = div().css("mdc-text-field-helper-text").aria("hidden", "true");
+		private HTMLContainerBuilder<HTMLDivElement> text = div().css("mdc-text-field-helper-text").aria("hidden", "true");
 		private MDCTextFieldHelperText _mdc;
 		private MDCTextFieldHelperTextFoundation _foundation;
-		private TextFieldHelper(String id, HtmlContentBuilder<HTMLDivElement> elem) {
+		private TextFieldHelper(String id, HTMLContainerBuilder<HTMLDivElement> elem) {
 			super(elem);
 			elem.css("mdc-text-field-helper-line").add(text.id(id));
-			bind(text,"DOMNodeInserted", evt->{
+			OnAttachEvent.observe(text.element(), evt->{
 				_mdc = inject2(text.element());
 				_foundation = foundation(_mdc);
 			});
@@ -204,13 +204,13 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 		}
 	}
 	private static class TextFieldFilled<V> extends TextAreaElement<V> {
-		private final HtmlContentBuilder<HTMLLabelElement> _this;
-		private final TextContentBuilder<HTMLTextAreaElement> input;
-		private final HtmlContentBuilder<HTMLElement> resizer = span().css("mdc-text-field__resizer");
-		private final HtmlContentBuilder<HTMLElement> rippleInput = span().css("mdc-text-field__ripple");
-		private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
-		private final HtmlContentBuilder<HTMLElement> rippleLine = span().css("mdc-line-ripple");
-		public TextFieldFilled(HtmlContentBuilder<HTMLLabelElement> e, TextContentBuilder<HTMLTextAreaElement> i, Supplier<V> getter, Function<V, String> setter) {
+		private final HTMLContainerBuilder<HTMLLabelElement> _this;
+		private final org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input;
+		private final HTMLContainerBuilder<HTMLElement> resizer = span().css("mdc-text-field__resizer");
+		private final HTMLContainerBuilder<HTMLElement> rippleInput = span().css("mdc-text-field__ripple");
+		private final HTMLContainerBuilder<HTMLElement> label = span().css("mdc-floating-label");
+		private final HTMLContainerBuilder<HTMLElement> rippleLine = span().css("mdc-line-ripple");
+		public TextFieldFilled(HTMLContainerBuilder<HTMLLabelElement> e, org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, getter, setter);
 			_this = e;
 			this.input = i;
@@ -241,7 +241,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 			return that();
 		}
 		@Override
-		public TextContentBuilder<HTMLTextAreaElement> input() {
+		public org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input() {
 			return input;
 		}
 
@@ -251,15 +251,15 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 		}
 	}
 	private static class TextFieldOutlined<V> extends TextAreaElement<V> {
-		private final HtmlContentBuilder<HTMLLabelElement> _this;
-		private final TextContentBuilder<HTMLTextAreaElement> input;
-		private final HtmlContentBuilder<HTMLElement> resizer = span().css("mdc-text-field__resizer");
-		private final HtmlContentBuilder<HTMLElement> label = span().css("mdc-floating-label");
-		private final HtmlContentBuilder<HTMLElement> outline = span().css("mdc-notched-outline");
-		private final HtmlContentBuilder<HTMLElement> outlineLeading = span().css("mdc-notched-outline__leading");
-		private final HtmlContentBuilder<HTMLElement> outlineNotch = span().css("mdc-notched-outline__notch");
-		private final HtmlContentBuilder<HTMLElement> outlineTrailing = span().css("mdc-notched-outline__trailing");
-		public TextFieldOutlined(HtmlContentBuilder<HTMLLabelElement> e, TextContentBuilder<HTMLTextAreaElement> i, Supplier<V> getter, Function<V, String> setter) {
+		private final HTMLContainerBuilder<HTMLLabelElement> _this;
+		private final org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input;
+		private final HTMLContainerBuilder<HTMLElement> resizer = span().css("mdc-text-field__resizer");
+		private final HTMLContainerBuilder<HTMLElement> label = span().css("mdc-floating-label");
+		private final HTMLContainerBuilder<HTMLElement> outline = span().css("mdc-notched-outline");
+		private final HTMLContainerBuilder<HTMLElement> outlineLeading = span().css("mdc-notched-outline__leading");
+		private final HTMLContainerBuilder<HTMLElement> outlineNotch = span().css("mdc-notched-outline__notch");
+		private final HTMLContainerBuilder<HTMLElement> outlineTrailing = span().css("mdc-notched-outline__trailing");
+		public TextFieldOutlined(HTMLContainerBuilder<HTMLLabelElement> e, org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> i, Supplier<V> getter, Function<V, String> setter) {
 			super(e, getter, setter);
 			_this = e;
 			this.input = i;
@@ -295,7 +295,7 @@ public abstract class TextAreaElement<V> extends HTMLElementBuilder<HTMLLabelEle
 			return that();
 		}
 		@Override
-		public TextContentBuilder<HTMLTextAreaElement> input() {
+		public org.jboss.elemento.HTMLElementBuilder<HTMLTextAreaElement> input() {
 			return input;
 		}
 		@Override

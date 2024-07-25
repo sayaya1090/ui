@@ -1,7 +1,7 @@
 package net.sayaya.ui;
 
 import elemental2.dom.HTMLElement;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.i;
 
@@ -9,8 +9,8 @@ public class IconElement extends HTMLElementBuilder<HTMLElement, IconElement> {
 	public static IconElement icon(String icon) {
 		return new IconElement(i().aria("hidden", "true").css("material-icons")).value(icon);
 	}
-	private final HtmlContentBuilder<? extends HTMLElement> _this;
-	protected IconElement(HtmlContentBuilder<HTMLElement> e) {
+	private final HTMLContainerBuilder<? extends HTMLElement> _this;
+	protected IconElement(HTMLContainerBuilder<HTMLElement> e) {
 		super(e);
 		_this = e;
 	}

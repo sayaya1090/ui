@@ -7,7 +7,7 @@ import jsinterop.annotations.JsType;
 import jsinterop.base.Js;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +23,7 @@ public class TabBarElement extends HTMLElementBuilder<HTMLDivElement, TabBarElem
 	}
 	private final MDCTabBar _mdc;
 	private final Set<ValueChangeEventListener<Integer>> listeners = new HashSet<>();
-	private TabBarElement(HtmlContentBuilder<HTMLDivElement> e, Tab... tabs) {
+	private TabBarElement(HTMLContainerBuilder<HTMLDivElement> e, Tab... tabs) {
 		super(e);
 		var content = div();
 		e.css("mdc-tab-bar").attr("role", "tablist")
@@ -61,8 +61,8 @@ public class TabBarElement extends HTMLElementBuilder<HTMLDivElement, TabBarElem
 	}
 
 	public final static class Tab extends HTMLElementBuilder<HTMLButtonElement, Tab> {
-		private HtmlContentBuilder<HTMLElement> content = span();
-		public Tab(HtmlContentBuilder<HTMLButtonElement> e) {
+		private HTMLContainerBuilder<HTMLElement> content = span();
+		public Tab(HTMLContainerBuilder<HTMLButtonElement> e) {
 			super(e);
 			e.css("mdc-tab").attr("role", "tab").attr("tabindex", "0")
 					.add(content.css("mdc-tab__content"))

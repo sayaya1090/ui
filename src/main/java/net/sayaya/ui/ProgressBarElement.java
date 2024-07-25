@@ -4,7 +4,7 @@ import elemental2.dom.Element;
 import elemental2.dom.HTMLDivElement;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
@@ -14,7 +14,7 @@ public class ProgressBarElement extends HTMLElementBuilder<HTMLDivElement, Progr
 		return new ProgressBarElement(div());
 	}
 	private MDCProgressBar _mdc;
-	private ProgressBarElement(HtmlContentBuilder<HTMLDivElement> e) {
+	private ProgressBarElement(HTMLContainerBuilder<HTMLDivElement> e) {
 		super(e);
 		e.css("mdc-linear-progress")
 		.aria("valuemin", "0").aria("valuemax", "1").aria("valuenow", "0")

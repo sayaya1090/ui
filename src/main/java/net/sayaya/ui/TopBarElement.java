@@ -3,9 +3,10 @@ package net.sayaya.ui;
 import elemental2.dom.*;
 import jsinterop.annotations.JsType;
 import net.sayaya.ui.event.HasClickHandlers;
+import net.sayaya.ui.util.OnAttachEvent;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.IsElement;
 
 import static org.jboss.elemento.Elements.div;
@@ -34,7 +35,7 @@ public class TopBarElement extends HTMLElementBuilder<HTMLElement, TopBarElement
 	public static TopBarElement topBarDense() {
 		TopBarElement elem = new TopBarElement(header());
 		elem.css("mdc-top-app-bar", "mdc-top-app-bar--dense");
-		bind(elem, "DOMNodeInserted", evt->elem._mdc=inject(elem.element()));
+		OnAttachEvent.observe(elem.element(), evt->elem._mdc=inject(elem.element()));
 		return elem;
 	}
 	public static TopBarSection section() {
@@ -55,10 +56,10 @@ public class TopBarElement extends HTMLElementBuilder<HTMLElement, TopBarElement
 	private native static MDCTopAppBar inject(Element elem) /*-{
         return $wnd.mdc.topAppBar.MDCTopAppBar.attachTo(elem);
     }-*/;
-	private final HtmlContentBuilder<HTMLDivElement> row = div().css("mdc-top-app-bar__row");
-	private final HtmlContentBuilder<HTMLElement> _this;
+	private final HTMLContainerBuilder<HTMLDivElement> row = div().css("mdc-top-app-bar__row");
+	private final HTMLContainerBuilder<HTMLElement> _this;
 	private MDCTopAppBar _mdc;
-	private TopBarElement(HtmlContentBuilder<HTMLElement> e) {
+	private TopBarElement(HTMLContainerBuilder<HTMLElement> e) {
 		super(e);
 		_this = e;
 		layout();
@@ -70,7 +71,7 @@ public class TopBarElement extends HTMLElementBuilder<HTMLElement, TopBarElement
 		row.add(section);
 		return this;
 	}
-	public TopBarElement target(HtmlContentBuilder<?> elem) {
+	public TopBarElement target(HTMLContainerBuilder<?> elem) {
 		elem.css("mdc-top-app-bar--fixed-adjust");
 		_mdc.setScrollTarget(elem.element());
 		return this;
@@ -89,8 +90,8 @@ public class TopBarElement extends HTMLElementBuilder<HTMLElement, TopBarElement
 		public native void setScrollTarget(Element target);
 	}
 	public static class TopBarSection extends HTMLElementBuilder<HTMLElement, TopBarSection> {
-		private final HtmlContentBuilder<HTMLElement> _this;
-		private TopBarSection(HtmlContentBuilder<HTMLElement> e) {
+		private final HTMLContainerBuilder<HTMLElement> _this;
+		private TopBarSection(HTMLContainerBuilder<HTMLElement> e) {
 			super(e);
 			_this = e;
 			layout();
@@ -122,8 +123,8 @@ public class TopBarElement extends HTMLElementBuilder<HTMLElement, TopBarElement
 		}
 	}
 	public static class TopBarButton extends HTMLElementBuilder<HTMLButtonElement, TopBarButton> implements HasClickHandlers {
-		private final HtmlContentBuilder<HTMLButtonElement> _this;
-		private TopBarButton(HtmlContentBuilder<HTMLButtonElement> e) {
+		private final HTMLContainerBuilder<HTMLButtonElement> _this;
+		private TopBarButton(HTMLContainerBuilder<HTMLButtonElement> e) {
 			super(e);
 			_this = e;
 		}

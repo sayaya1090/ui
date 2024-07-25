@@ -6,15 +6,15 @@ import elemental2.dom.HTMLElement;
 import net.sayaya.ui.mdc.MDCRipple;
 import net.sayaya.ui.util.ElementUtil;
 import org.gwtproject.event.shared.HandlerRegistration;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.div;
 import static org.jboss.elemento.Elements.span;
 
 public class ButtonElementText extends HTMLElementBuilder<HTMLButtonElement, ButtonElementText> implements ButtonElement {
-	private final HtmlContentBuilder<HTMLElement> label;
-	private final HtmlContentBuilder<HTMLButtonElement> _this;
-	ButtonElementText(HtmlContentBuilder<HTMLButtonElement> e) {
+	private final HTMLContainerBuilder<HTMLElement> label;
+	private final HTMLContainerBuilder<HTMLButtonElement> _this;
+	ButtonElementText(HTMLContainerBuilder<HTMLButtonElement> e) {
 		super(e);
 		_this = e;
 		label = span();

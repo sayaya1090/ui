@@ -1,10 +1,10 @@
 package net.sayaya.ui;
 
 import elemental2.dom.*;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 public class ButtonElementTextContained extends ButtonElementText {
-	ButtonElementTextContained(HtmlContentBuilder<HTMLButtonElement> e) {
+	ButtonElementTextContained(HTMLContainerBuilder<HTMLButtonElement> e) {
 		super(e);
 	}
 	public ButtonElementTextContained rise() {

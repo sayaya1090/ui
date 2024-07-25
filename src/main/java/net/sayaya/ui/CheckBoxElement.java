@@ -12,7 +12,7 @@ import net.sayaya.ui.svg.SvgBuilder;
 import net.sayaya.ui.svg.SvgPathBuilder;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.Elements;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 import org.jboss.elemento.InputType;
 
 import static net.sayaya.ui.svg.SvgBuilder.svg;
@@ -30,14 +30,14 @@ public class CheckBoxElement extends HTMLElementBuilder<HTMLDivElement, CheckBox
 	private final HTMLInputElement input = Elements.input(InputType.checkbox).css("mdc-checkbox__native-control").id().element();
 	private final SvgPathBuilder path = path();
 	private final SvgBuilder svg = svg();
-	private final HtmlContentBuilder<HTMLDivElement> mixedmark = div();
-	private final HtmlContentBuilder<HTMLDivElement> background = div();
-	private final HtmlContentBuilder<HTMLDivElement> ripple = div();
-	private final HtmlContentBuilder<HTMLDivElement> checkbox = div();
-	private final HtmlContentBuilder<HTMLLabelElement> label = label().attr("for", input.id);
-	private final HtmlContentBuilder<HTMLDivElement> _this;
+	private final HTMLContainerBuilder<HTMLDivElement> mixedmark = div();
+	private final HTMLContainerBuilder<HTMLDivElement> background = div();
+	private final HTMLContainerBuilder<HTMLDivElement> ripple = div();
+	private final HTMLContainerBuilder<HTMLDivElement> checkbox = div();
+	private final HTMLContainerBuilder<HTMLLabelElement> label = label().attr("for", input.id);
+	private final HTMLContainerBuilder<HTMLDivElement> _this;
 	private final MDCCheckbox _mdc;
-	private CheckBoxElement(HtmlContentBuilder<HTMLDivElement> e, boolean initValue) {
+	private CheckBoxElement(HTMLContainerBuilder<HTMLDivElement> e, boolean initValue) {
 		super(e);
 		input.checked = initValue;
 		_this = e;

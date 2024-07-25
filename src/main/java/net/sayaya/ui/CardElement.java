@@ -1,7 +1,7 @@
 package net.sayaya.ui;
 
 import elemental2.dom.HTMLDivElement;
-import org.jboss.elemento.HtmlContentBuilder;
+import org.jboss.elemento.HTMLContainerBuilder;
 
 import static org.jboss.elemento.Elements.div;
 
@@ -10,7 +10,7 @@ public class CardElement extends HTMLElementBuilder<HTMLDivElement, CardElement>
         CardElement elem = new CardElement(div());
         return elem;
     }
-    private CardElement(HtmlContentBuilder<HTMLDivElement> e) {
+    private CardElement(HTMLContainerBuilder<HTMLDivElement> e) {
         super(e.css("mdc-card"));
     }
     @Override
