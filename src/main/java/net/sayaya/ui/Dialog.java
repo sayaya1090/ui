@@ -67,8 +67,6 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 				var elemAction = div().css("mdc-dialog__actions").add(btn.css("mdc-dialog__button"));
 				surface.add(elemAction);
 			} else elemActions.getAt(0).append(btn.css("mdc-dialog__button").element());
-		} else {
-			if(elemActions!=null) for(var e: elemActions.asList()) e.remove();
 		}
 		return that();
 	}
