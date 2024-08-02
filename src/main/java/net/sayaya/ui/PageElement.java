@@ -35,7 +35,7 @@ public class PageElement extends HTMLElementBuilder<HTMLDivElement, PageElement>
 	private DropDownElement iptSort = null;
 	private final DropDownElement iptAsc = DropDownElement.outlined(ListElement.singleLineList().add(ListElement.singleLine().label("Asc"))
 			.add(ListElement.singleLine().label("Desc"))
-	).style("width: 120px;").textContent("Order");
+	).style("width: 120px;");
 	private final TextFieldElement.TextFieldOutlined<Double> iptPage = TextFieldElement.numberBox().outlined().style("display: inline-block; margin-top: auto; margin-bottom: auto; padding-right: 2px; width: 60px;height: 28px; background-color: #FFFFFF; font-size: 13px !important;").attr("min", "1");
 	private final HTMLContainerBuilder<HTMLDivElement> _this;
 	public PageElement(HTMLContainerBuilder<HTMLDivElement> e) {
