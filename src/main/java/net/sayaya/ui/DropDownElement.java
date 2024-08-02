@@ -11,6 +11,8 @@ import net.sayaya.ui.event.HasSelectionChangeHandlers;
 import net.sayaya.ui.event.HasValueChangeHandlers;
 import net.sayaya.ui.svg.SvgBuilder;
 import net.sayaya.ui.svg.SvgPolygonBuilder;
+import net.sayaya.ui.util.OnAttachEvent;
+import net.sayaya.ui.util.OnChangeEvent;
 import org.gwtproject.event.shared.HandlerRegistration;
 import org.jboss.elemento.HTMLContainerBuilder;
 
@@ -76,7 +78,8 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	@Override
 	public HandlerRegistration onSelectionChange(SelectionChangeEventListener<Integer> listener) {
 		EventListener wrapper = evt->Scheduler.get().scheduleDeferred(()->listener.handle(SelectionChangeEvent.event(evt, selection())));
-		return bind(value.element(), "DOMSubtreeModified", wrapper);
+		var obs = OnChangeEvent.observe(value.element(), wrapper);
+		return obs::disconnect;
 	}
 
 	@Override
@@ -86,7 +89,8 @@ public abstract class DropDownElement extends HTMLElementBuilder<HTMLDivElement,
 	@Override
 	public HandlerRegistration onValueChange(ValueChangeEventListener<String> listener) {
 		EventListener wrapper = evt->Scheduler.get().scheduleDeferred(()->listener.handle(ValueChangeEvent.event(evt, value())));
-		return bind(value.element(), "DOMSubtreeModified", wrapper);
+		var obs = OnChangeEvent.observe(value.element(), wrapper);
+		return obs::disconnect;
 	}
 
 	private final static class DropDownFilled extends DropDownElement {

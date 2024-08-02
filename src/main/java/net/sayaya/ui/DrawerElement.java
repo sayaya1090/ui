@@ -37,11 +37,8 @@ public class DrawerElement extends HTMLElementBuilder<HTMLElement, DrawerElement
 		super(e);
 		_this = e;
 		layout();
-		DomGlobal.console.log("!");
 		onAttach(evt-> {
-			DomGlobal.console.log("1");
 			Scheduler.get().scheduleDeferred(()->{
-				DomGlobal.console.log("2");
 				_mdc = new MDCDrawer(element());
 			});
 		});

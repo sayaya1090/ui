@@ -23,10 +23,10 @@ public class Dialog extends HTMLElementBuilder<HTMLDivElement, Dialog> {
 		return new Dialog().title(title);
 	}
 	public static Dialog confirmation(String title, ButtonElementText action1) {
-		return confirmation(title, action1, null);
+		return simple(title).action(action1);
 	}
 	public static Dialog confirmation(String title, ButtonElementText action1, ButtonElementText action2) {
-		return new Dialog().title(title).action(action1).action(action2);
+		return simple(title).action(action1).action(action2);
 	}
 	private final HTMLContainerBuilder<HTMLDivElement> content = div().id();
 	private final HTMLContainerBuilder<HTMLDivElement> surface = div();
