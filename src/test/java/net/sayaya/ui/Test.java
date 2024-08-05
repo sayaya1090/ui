@@ -594,7 +594,7 @@ public class Test implements EntryPoint {
 		);
 	}
 	void TestDialog() {
-		var form1 = form().id().add("A simple dialog with free-form content.");
+		var form1 = form().id("id1").add("A simple dialog with free-form content.");
 		var dialog1 = dialog()
 				.headline("Dialog title")
 				.content(form1);
@@ -610,7 +610,7 @@ public class Test implements EntryPoint {
 		var dialog2 = dialog().open().content("A dialog that is opened by default.");
 		panelDialog.add(button().outlined().add("Dialog2").on(EventType.click, evt->panelDialog.add(dialog2)));
 
-		var form3 = form().id().add("...");
+		var form3 = form().id("id2").add("...");
 		var dialog3 = dialog()
 				.content(form3);
 		dialog3.actions(div()
@@ -627,7 +627,7 @@ public class Test implements EntryPoint {
 				.add(dialog4);
 
 
-		var form5 = form().id().add("Are you sure you wish to delete this item?");
+		var form5 = form().id("id3").add("Are you sure you wish to delete this item?");
 		var dialog5 = DialogElementBuilder.alert()
 				.headline("Confirm deletion")
 				.content(form5);
@@ -641,7 +641,7 @@ public class Test implements EntryPoint {
 	void TestRipple() {
 		panelRipple.add(Elements.button().style("position: relative; width: 40px; height: 40px;").add(ripple()));
 
-		var btn2 = Elements.input("button").id().style("width: 40px; height: 40px;");
+		var btn2 = Elements.input("button").id("button1").style("width: 40px; height: 40px;");
 		var ripple2 = ripple();
 		panelRipple.add(div().style("position: relative;").add(ripple2).add(btn2));
 		ripple2.control(btn2);
