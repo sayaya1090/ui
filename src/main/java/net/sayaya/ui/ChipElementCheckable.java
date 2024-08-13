@@ -41,7 +41,7 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 														.d("M1.73,12.91 8.1,19.28 22.79,4.59")
 														.fill("none").stroke("black")).element())))
 						.add(label.css("mdc-chip__text-label").style("line-height: 2em;")));
-		onAttach(evt->_mdc = new ChipElement.MDCChip(element()));
+		_mdc = new ChipElement.MDCChip(element());
 		on(EventType.click, evt-> Scheduler.get().scheduleDeferred(this::fire));
 	}
 	public ChipElementCheckable text(String text) {

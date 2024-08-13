@@ -1,9 +1,6 @@
 package net.sayaya.ui;
 
-import elemental2.dom.Element;
-import elemental2.dom.EventListener;
-import elemental2.dom.HTMLDivElement;
-import elemental2.dom.HTMLElement;
+import elemental2.dom.*;
 import jsinterop.annotations.JsPackage;
 import jsinterop.annotations.JsProperty;
 import jsinterop.annotations.JsType;
@@ -40,6 +37,7 @@ public class ChipElement extends HTMLElementBuilder<HTMLDivElement, ChipElement>
 				.add(btn.css("mdc-chip__primary-action").attr("role", "button").attr("tabindex", "0")
 						.add(label.css("mdc-chip__text"))));
 		_mdc = new MDCChip(element());
+		DomGlobal.console.log(_mdc);
 	}
 	public ChipElement text(String text) {
 		label.textContent(text);
