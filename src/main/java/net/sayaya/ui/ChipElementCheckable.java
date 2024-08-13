@@ -1,10 +1,7 @@
 package net.sayaya.ui;
 
 import com.google.gwt.core.client.Scheduler;
-import elemental2.dom.CustomEvent;
-import elemental2.dom.EventListener;
-import elemental2.dom.HTMLDivElement;
-import elemental2.dom.HTMLElement;
+import elemental2.dom.*;
 import jsinterop.base.JsPropertyMap;
 import net.sayaya.ui.event.HasAttachHandlers;
 import net.sayaya.ui.event.HasDetachHandlers;
@@ -42,7 +39,10 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 														.fill("none").stroke("black")).element())))
 						.add(label.css("mdc-chip__text-label").style("line-height: 2em;")));
 		_mdc = new ChipElement.MDCChip(element());
-		on(EventType.click, evt->value(!value()));
+		on(EventType.click, evt->{
+			DomGlobal.console.log("click");
+			value(!value());
+		});
 	}
 	public ChipElementCheckable text(String text) {
 		label.textContent(text);
@@ -78,6 +78,7 @@ public final class ChipElementCheckable extends HTMLElementBuilder<HTMLDivElemen
 		return this;
 	}
 	public ChipElementCheckable value(boolean value) {
+		_mdc.selected = value;
 		Scheduler.get().scheduleDeferred(()->{
 			_mdc.foundation.setSelected(value);
 			fire();
