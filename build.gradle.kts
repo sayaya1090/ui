@@ -1,33 +1,30 @@
-import org.docstr.gradle.plugins.gwt.GwtDev
-
 plugins {
     id("java")
-    id("org.docstr.gwt") version "1.1.30"
+    id("war")
+    id("dev.sayaya.gwt") version "2.1.6"
     id("maven-publish")
 }
 repositories {
     mavenCentral()
     mavenLocal()
 }
-group = "net.sayaya"
-version = "material3-2.0.0"
-java.sourceCompatibility = JavaVersion.VERSION_21
-java.targetCompatibility = JavaVersion.VERSION_21
+group = "dev.sayaya"
+version = "material3-2.2.0"
 
 dependencies {
-    implementation("org.jboss.elemento:elemento-core:1.6.7")
-    implementation("org.gwtproject:gwt-user:2.11.0")
-    compileOnly("org.gwtproject:gwt-dev:2.11.0")
-    implementation("org.projectlombok:lombok:1.18.34")
-    annotationProcessor("org.projectlombok:lombok:1.18.34")
+    implementation("org.jboss.elemento:elemento-core:1.7.0")
+    implementation("org.gwtproject:gwt-user:2.12.2")
+    compileOnly("org.gwtproject:gwt-dev:2.12.2")
+    implementation("org.projectlombok:lombok:1.18.36")
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
 }
 
 gwt {
     minHeapSize = "1024M"
     maxHeapSize = "2048M"
     sourceLevel = "auto"
-    val lombok: File = project.configurations.annotationProcessor.get().filter { it.name.startsWith("lombok") }.single()
-    extraJvmArgs = listOf("-XX:ReservedCodeCacheSize=512M", "-javaagent:${lombok}=ECJ")
+    modules = listOf("dev.sayaya.Test")
+    war = file("src/test/webapp")
 }
 
 tasks {
@@ -35,52 +32,28 @@ tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
     }
-}
-if(project.gradle.startParameter.taskNames.contains("gwtDev")) {
-    apply(plugin="gwt")
-    apply(plugin="war")
-    gwt {
-        gwt.modules = listOf("net.sayaya.Test")
+    jar {
+        from(sourceSets.main.get().allSource)
+        enabled = true
+        duplicatesStrategy = DuplicatesStrategy.WARN
     }
-    tasks {
-        named<GwtDev>("gwtDev") {
-            minHeapSize = "4096M"
-            maxHeapSize = "4096M"
-            codeServerPort = 19204
-            port = 8888
-            war = File("src/test/webapp")
-        }
-        java.sourceSets["main"].java {
-            srcDir("src/test/java")
-        }
-        withType<War> {
-            duplicatesStrategy = DuplicatesStrategy.WARN
-        }
-    }
-} else {
-    apply(plugin="gwt-base")
-    tasks {
-        jar {
-            from(sourceSets.main.get().allSource)
-        }
-        publishing {
-            repositories {
-                maven {
-                    name = "GitHubPackages"
-                    url = uri("https://maven.pkg.github.com/sayaya1090/maven")
-                    credentials {
-                        username = project.findProperty("github_username") as String
-                        password = project.findProperty("github_password") as String
-                    }
+    publishing {
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/sayaya1090/maven")
+                credentials {
+                    username = project.findProperty("github_username") as String
+                    password = project.findProperty("github_password") as String
                 }
             }
-            publications {
-                register("maven", MavenPublication::class) {
-                    groupId = "net.sayaya"
-                    artifactId = "ui"
-                    version = "material3-2.0.0"
-                    from(project.components["java"])
-                }
+        }
+        publications {
+            register("maven", MavenPublication::class) {
+                groupId = "${project.group}"
+                artifactId = "ui"
+                version = "${project.version}"
+                from(project.components["java"])
             }
         }
     }
