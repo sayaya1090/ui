@@ -9,7 +9,7 @@ repositories {
     mavenLocal()
 }
 group = "dev.sayaya"
-version = "material3-2.2.0"
+version = "material3-2.2.1"
 
 dependencies {
     implementation("org.jboss.elemento:elemento-core:1.7.0")
